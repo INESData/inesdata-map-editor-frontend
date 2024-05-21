@@ -12,7 +12,6 @@ runtimeEnvLoaderPromise.then((runtimeEnv) => {
 
 	if (environment.logging.disableWindowConsoleLogging) {
 		window.console.log = () => {};
-		window.console.error = () => {};
 		window.console.trace = () => {};
 		window.console.debug = () => {};
 	}
