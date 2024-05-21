@@ -12,4 +12,4 @@
 !tsconfig.app.json
 !tsconfig.json
 !tsconfig.spec.json
-!tslint.json
+!.eslintrc.json
