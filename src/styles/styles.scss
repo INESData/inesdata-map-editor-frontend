@@ -1,0 +1,59 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "settings/colors";
+@import "settings/triumph";
+@import "settings/spacings";
+@import "settings/typography";
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	color: #272525;
+	background: #ffffff;
+	border: 0 none;
+	font-size: 1.125em;
+	line-height: 1.4;
+	font-family: Helvetica, Arial, sans-serif;
+}
+
+.container {
+	margin: 1em 1em 100px 1em;
+}
+
+.loading {
+	position: fixed;
+	z-index: 999;
+	overflow: visible;
+	margin: auto;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	width: 50px;
+	height: 50px;
+}
+
+/* Transparent Overlay */
+.loading:before {
+	content: "";
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.loadint__text {
+	text-indent: -9999px;
+}
+
+button {
+	min-width: 100px;
+	height: 25px;
+}

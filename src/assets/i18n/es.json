@@ -1,0 +1,25 @@
+{
+  "header": {
+    "home": "Mapper Frontend"
+  },
+  "home": {
+    "body": "Este es un proyecto que sirve como base.",
+    "welcome": "Bienvenido al Mapper Frontend"
+  },
+  "labels": {
+    "no": "No",
+    "yes": "Sí"
+  },
+  "messages": {
+    "errors": {
+      "generic": "Ha ocurrido un error procesando la operación",
+      "internet": {
+        "connection": "No hay conexión a internet"
+      },
+      "login": "Error al acceder",
+      "required": "El campo es requerido",
+      "title": "Error"
+    },
+    "success": "Éxito"
+  }
+}
