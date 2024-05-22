@@ -1,3 +1,3 @@
 # Mapper-frontend
 
-Aplicación web que mapea fuentes de datos y ontologías para generar un fichero RML / R2RML.
+Web application that creates a mapping file in RML / R2RML between different data sources and an ontology.
