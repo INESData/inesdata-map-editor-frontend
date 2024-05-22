@@ -18,7 +18,7 @@ ENV NGINX_HOME=/usr/share/nginx
 ENV DOCUMENT_ROOT=${NGINX_HOME}/html
 
 # copy static contents of project to nginx html
-COPY --from=builder /app/dist/angular-quickstart ${DOCUMENT_ROOT}
+COPY --from=builder /app/dist/mapper-frontend ${DOCUMENT_ROOT}
 
 COPY ./docker/assets/scripts/docker-entrypoint.sh ${NGINX_HOME}
 
