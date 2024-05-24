@@ -1,0 +1,4 @@
+/* sidebar.component.css */
+.nav-link:hover {
+  background-color: #0056b3; /* Un azul más oscuro para hover */
+}

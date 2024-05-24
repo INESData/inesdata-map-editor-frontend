@@ -20,3 +20,6 @@ export const MESSAGES_ERRORS_REQUIRED: string = translate('messages.errors.requi
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
 export const LABELS_NO: string = translate('labels.no');
+
+// Routes
+export const HOME: string = '/home';
