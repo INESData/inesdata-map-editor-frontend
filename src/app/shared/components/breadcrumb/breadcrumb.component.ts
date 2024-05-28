@@ -64,8 +64,9 @@ export class BreadcrumbComponent implements OnInit {
 		if (this.router.url === HOME) {
 			return;
 		}
-		// Get routes in routing and check if is valid
+		// Get routes in routing
 		const definedRoutes = this.router.config.map(route => route.path);
+		// Check if first part of current URL  is in routing
 		const isValidRoute = definedRoutes.includes(this.router.url.split('/')[1]);
 
 		if (isValidRoute) {
