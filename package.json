@@ -25,7 +25,6 @@
     "@angular/router": "^17.3.1",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
-    "bootstrap": "^4.6.2",
     "ngx-logger": "^5.0.12",
     "primeicons": "^7.0.0",
     "primeng": "^17.12.0",

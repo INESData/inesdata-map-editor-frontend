@@ -23,6 +23,7 @@ import { MessagesModule } from 'primeng/messages';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { PaginatorModule } from 'primeng/paginator';
+import { PanelMenuModule } from 'primeng/panelmenu';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { TabMenuModule } from 'primeng/tabmenu';
@@ -83,7 +84,8 @@ import { SideBarComponent } from './components/sidebar/sidebar.component';
 		InputNumberModule,
 		PaginatorModule,
 		TreeModule,
-		BreadcrumbModule
+		BreadcrumbModule,
+		PanelMenuModule
 	],
 	declarations: [HeaderComponent, FooterComponent, NotificationComponent, SideBarComponent, BreadcrumbComponent],
 	providers: [DialogService, ConfirmationService, MessageService],

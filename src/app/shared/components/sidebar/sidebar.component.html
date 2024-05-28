@@ -1,9 +1,1 @@
-<div class="d-flex flex-column vh-100 bg-dark text-white p-3" style="width: 200px;">
-  <ul class="nav flex-column">
-    <li class="nav-item" *ngFor="let item of menuItems">
-      <a class="nav-link text-white" [routerLink]="item.routerLink">
-        <i class="{{ item.icon }}"></i> {{ item.label }}
-      </a>
-    </li>
-  </ul>
-</div>
+<p-panelMenu [model]="menuItems" styleClass="sidebar-menu"></p-panelMenu>
