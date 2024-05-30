@@ -3,7 +3,7 @@ import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 
 import { LanguageService } from '../../services/language.service';
-import { NotificationService } from '../../services/notifications.service';
+import { NotificationService } from '../../services/notification.service';
 
 /**
  * Component: Notification component
