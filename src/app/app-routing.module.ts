@@ -20,11 +20,11 @@ const routes: Routes = [
 		path: 'ontology',
 		component: OntologyComponent,
 	},
-  {
+	{
 		path: 'data',
 		component: DataSourceComponent,
 	},
-  {
+	{
 		path: 'mappings',
 		component: MappingsListComponent,
 	},
@@ -45,4 +45,4 @@ const routes: Routes = [
 	imports: [RouterModule.forRoot(routes, {})],
 	exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

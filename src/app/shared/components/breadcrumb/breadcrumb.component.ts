@@ -5,59 +5,82 @@ import { filter, map } from 'rxjs';
 
 import { HOME } from '../../utils/app.constants';
 
-
+/**
+ * BreadcrumbComponent is responsible for displaying breadcrumb navigation in the application.
+ * It listens to router events and updates the breadcrumb items accordingly.
+ */
 @Component({
-  selector: 'app-breadcrumb',
-  templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.scss']
+	selector: 'app-breadcrumb',
+	templateUrl: './breadcrumb.component.html',
+	styleUrls: ['./breadcrumb.component.scss']
 })
+
 export class BreadcrumbComponent implements OnInit {
-  items: MenuItem[] = [];
-  home: MenuItem = {
+	items: MenuItem[] = [];
+	home: MenuItem = {
 		icon: 'pi pi-home',
 		routerLink: HOME
 	};
 
-  constructor( private router: Router, private activatedRoute: ActivatedRoute ) {}
+	constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
 
-  ngOnInit(): void {
-    this.router.events.pipe(
+	/**
+	 * Initializes the component and sets up the breadcrumb navigation on router events.
+	 *
+	 * @returns {void}
+	 */
+	ngOnInit(): void {
+		this.router.events.pipe(
 			// Filter only NavigationEnd events
-      filter(event => event instanceof NavigationEnd),
+			filter(event => event instanceof NavigationEnd),
 			// Build breadcrumb from activated route
-      map(() => this.buildBreadcrumb(this.activatedRoute.root))
-    ).subscribe(breadcrumbs => {
+			map(() => this.buildBreadcrumb(this.activatedRoute.root))
+		).subscribe(breadcrumbs => {
 			// Check if route is valid
 			this.setBreadcrumbIfValidRoute(breadcrumbs);
-    });
-  }
+		});
+	}
 
-  private buildBreadcrumb( route: ActivatedRoute, url: string = '', breadcrumbs: MenuItem[] = [] ): MenuItem[] {
+	/**
+	 * Build the breadcrumb navigation items for the given route.
+	 *
+	 * @param {ActivatedRoute} route - The currently activated route.
+	 * @param {string} [url=''] - The base URL to be appended with each route segment.
+	 * @param {MenuItem[]} [breadcrumbs=[]] - The array of breadcrumb items to be updated.
+	 * @returns {MenuItem[]} - The updated array of breadcrumb items.
+	 */
+	private buildBreadcrumb(route: ActivatedRoute, url: string = '', breadcrumbs: MenuItem[] = []): MenuItem[] {
 		// Get activated route
-    const children: ActivatedRoute[] = route.children;
+		const children: ActivatedRoute[] = route.children;
 
-    if (children.length === 0) {
-      return breadcrumbs;
-    }
+		if (children.length === 0) {
+			return breadcrumbs;
+		}
 		// If children
-    for (const child of children) {
+		for (const child of children) {
 			// Build route
-      const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
-      if (routeURL !== '') {
-        url += `/${routeURL}`;
+			const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
+			if (routeURL !== '') {
+				url += `/${routeURL}`;
 				//Add children to route
-        breadcrumbs.push({
-          label: routeURL.charAt(0).toUpperCase() + routeURL.slice(1),
-          routerLink: url
-        });
-      }
+				breadcrumbs.push({
+					label: routeURL.charAt(0).toUpperCase() + routeURL.slice(1),
+					routerLink: url
+				});
+			}
 
-      return this.buildBreadcrumb(child, url, breadcrumbs);
-    }
+			return this.buildBreadcrumb(child, url, breadcrumbs);
+		}
 
-    return breadcrumbs;
-  }
+		return breadcrumbs;
+	}
 
+	/**
+ * Sets the breadcrumb items if the current route is valid.
+ *
+ * @param {MenuItem[]} breadcrumbs - The array of breadcrumb items to be set.
+ * @returns {void}
+ */
 	private setBreadcrumbIfValidRoute(breadcrumbs: MenuItem[]): void {
 		this.items = [];
 		// If route is home leave empty
