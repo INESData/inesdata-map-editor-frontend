@@ -61,6 +61,7 @@
     "karma-coverage": "^2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
+    "ngx-translate-testing": "7.0.0",
     "prettier": "3.2.5",
     "ts-node": "~7.0.0",
     "typescript": "5.4.5",
