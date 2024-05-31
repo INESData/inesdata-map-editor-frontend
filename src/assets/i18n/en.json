@@ -1,32 +1,28 @@
 {
-  "header": {
-    "home": "Mapper Frontend"
-  },
-  "home": {
-    "body": "This is a project base.",
-    "welcome": "INESData"
-  },
-  "labels": {
-    "no": "No",
-    "yes": "Yes"
-  },
-  "messages": {
-    "errors": {
-      "generic": "An error occurred while processing your operation",
-      "internet": {
-        "connection": "No internet connection"
-      },
-      "login": "Login error",
-      "required": "The value field is required",
-      "title": "Error"
-    },
-    "success": "Success"
-  },
-  "sidebar": {
-    "labels": {
-      "ontologies": "Ontologies",
-      "data-sources": "Data sources",
-      "mappings": "Mappings"
-    }
-  }
+	"home": {
+		"welcome": "INESData"
+	},
+	"labels": {
+		"no": "No",
+		"yes": "Yes"
+	},
+	"messages": {
+		"errors": {
+			"generic": "An error occurred while processing your operation",
+			"internet": {
+				"connection": "No internet connection"
+			},
+			"login": "Login error",
+			"required": "The value field is required",
+			"title": "Error"
+		},
+		"success": "Success"
+	},
+	"sidebar": {
+		"labels": {
+			"data-sources": "Data sources",
+			"mappings": "Mappings",
+			"ontologies": "Ontologies"
+		}
+	}
 }

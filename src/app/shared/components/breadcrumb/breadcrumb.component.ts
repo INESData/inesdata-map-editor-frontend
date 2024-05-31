@@ -3,6 +3,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { filter, map } from 'rxjs';
 
+import { LanguageService } from '../../services/language.service';
 import { HOME } from '../../utils/app.constants';
 
 /**
@@ -22,7 +23,7 @@ export class BreadcrumbComponent implements OnInit {
 		routerLink: HOME
 	};
 
-	constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+	constructor(private router: Router, private activatedRoute: ActivatedRoute, private languageService: LanguageService) { }
 
 	/**
 	 * Initializes the component and sets up the breadcrumb navigation on router events.
@@ -64,7 +65,7 @@ export class BreadcrumbComponent implements OnInit {
 				url += `/${routeURL}`;
 				//Add children to route
 				breadcrumbs.push({
-					label: routeURL.charAt(0).toUpperCase() + routeURL.slice(1),
+					label: this.languageService.translateValue('sidebar.labels.' + routeURL),
 					routerLink: url
 				});
 			}

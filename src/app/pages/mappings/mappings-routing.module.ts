@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { MappingsComponent } from './mappings.component';
-import { MappingsConfigComponent } from './mappings-config/mappings-config.component';
+import { MappingsConfigurationComponent } from './mappings-configuration/mappings-configuration.component';
 
 const routes: Routes = [
 	{
@@ -10,12 +10,8 @@ const routes: Routes = [
 		component: MappingsComponent,
 		children: [
 			{
-				path: 'config',
-				component: MappingsConfigComponent
-			},
-			{
-				path: '**',
-				loadChildren: () => import('./../../pages/error/error404/error404.module').then((m) => m.Error404Module)
+				path: 'configuration',
+				component: MappingsConfigurationComponent
 			}
 		]
 	}

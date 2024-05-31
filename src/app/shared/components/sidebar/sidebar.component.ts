@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 
+import { LanguageService } from '../../services/language.service';
+
 /**
  * SideBarComponent is responsible for displaying the sidebar navigation menu.
  * It initializes the menu items used for navigation within the application.
@@ -15,6 +17,8 @@ export class SideBarComponent implements OnInit {
 
 	menuItems: MenuItem[];
 
+	constructor(private languageService: LanguageService) { }
+
 	/**
 	 * Initializes the component and sets up the sidebar menu items.
 	 *
@@ -23,17 +27,17 @@ export class SideBarComponent implements OnInit {
 	ngOnInit() {
 		this.menuItems = [
 			{
-				label: 'Ontology',
+				label: this.languageService.translateValue('sidebar.labels.ontologies'),
 				icon: 'pi pi-folder',
-				routerLink: '/ontology'
+				routerLink: '/ontologies'
 			},
 			{
-				label: 'Data',
+				label: this.languageService.translateValue('sidebar.labels.data-sources'),
 				icon: 'pi pi-file',
-				routerLink: '/data'
+				routerLink: '/data-sources'
 			},
 			{
-				label: 'Mappings',
+				label: this.languageService.translateValue('sidebar.labels.mappings'),
 				icon: 'pi pi-list',
 				routerLink: '/mappings'
 			}

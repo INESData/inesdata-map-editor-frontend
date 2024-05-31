@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-	selector: 'app-mappings-config',
+	selector: 'app-mappings-configuration',
 	templateUrl: './../mappings.component.html'
 })
-export class MappingsConfigComponent { }
+export class MappingsConfigurationComponent { }
