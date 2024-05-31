@@ -1,10 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DataSourceComponent } from './pages/data-source/data-source.component';
-import { MappingsListComponent } from './pages/mappings-list/mappings-list.component';
-import { OntologyComponent } from './pages/ontology/ontology.component';
-
 // Application routes
 const routes: Routes = [
 	{
@@ -17,16 +13,16 @@ const routes: Routes = [
 		loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule),
 	},
 	{
-		path: 'ontology',
-		component: OntologyComponent,
+		path: 'ontologies',
+		loadChildren: () => import('./pages/ontologies/ontologies.module').then(m => m.OntologiesModule)
 	},
 	{
-		path: 'data',
-		component: DataSourceComponent,
+		path: 'data-sources',
+		loadChildren: () => import('./pages/data-sources/data-sources.module').then(m => m.DataSourcesModule)
 	},
 	{
 		path: 'mappings',
-		component: MappingsListComponent,
+		loadChildren: () => import('./pages/mappings/mappings.module').then(m => m.MappingsModule)
 	},
 	{
 		path: '403',

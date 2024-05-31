@@ -11,6 +11,8 @@ import { environment } from 'src/environments/environment';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { DataSourcesModule } from './pages/data-sources/data-sources.module';
+import { OntologiesModule } from './pages/ontologies/ontologies.module';
 import { GlobalErrorHandlerService } from './shared/handlers/general-error-handler.service';
 import { ServerErrorInterceptor } from './shared/interceptors/server-error.interceptor';
 import { ServerLoggerService } from './shared/logger/server.logger.service';
@@ -29,6 +31,8 @@ import { SharedModule } from './shared/shared.module';
 		BrowserModule,
 		HttpClientModule,
 		SharedModule,
+		OntologiesModule,
+		DataSourcesModule,
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,
@@ -70,4 +74,4 @@ import { SharedModule } from './shared/shared.module';
 	],
 	bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
