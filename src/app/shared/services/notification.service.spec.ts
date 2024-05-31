@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LoggerTestingModule } from 'ngx-logger/testing';
 
-import { NotificationService } from './notifications.service';
+import { NotificationService } from './notification.service';
 
 describe('NotificationService', () => {
 	let service: NotificationService;

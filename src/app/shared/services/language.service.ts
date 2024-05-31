@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { NGXLogger } from 'ngx-logger';
 
-import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANGUAGE_STORAGE_NAME } from '../utils/app.constants';
+import { LANGUAGE_STORAGE_NAME } from '../utils/app.constants';
 
 /**
  * Language service management
@@ -16,24 +15,7 @@ export class LanguageService {
 	 *
 	 * @param translateService Translate service
 	 */
-	constructor(
-		private translateService: TranslateService,
-		private logger: NGXLogger
-	) {
-		this.logger.info('START translateService');
-		translateService.addLangs(AVAILABLE_LANGUAGES);
-
-		if (localStorage.getItem(LANGUAGE_STORAGE_NAME)) {
-			// Get language stored in localStorage and use it
-			translateService.setDefaultLang(localStorage.getItem(LANGUAGE_STORAGE_NAME));
-			translateService.use(localStorage.getItem(LANGUAGE_STORAGE_NAME));
-		} else {
-			// Use default language
-			translateService.setDefaultLang(DEFAULT_LANGUAGE);
-			translateService.use(DEFAULT_LANGUAGE);
-			localStorage.setItem(LANGUAGE_STORAGE_NAME, DEFAULT_LANGUAGE);
-		}
-	}
+	constructor(private translateService: TranslateService) {}
 
 	/**
 	 * Gets the list of available languages
