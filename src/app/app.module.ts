@@ -1,12 +1,13 @@
+import { LOCATION_INITIALIZED } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //Translation
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // Logger
-import { LoggerModule } from 'ngx-logger';
+import { LoggerModule, NGXLogger } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
 
 import { AppComponent } from './app.component';
@@ -19,6 +20,7 @@ import { ServerLoggerService } from './shared/logger/server.logger.service';
 import { WriteLoggerService } from './shared/logger/writer.logger.service';
 import { SpinnerService } from './shared/services/spinner.service';
 import { SharedModule } from './shared/shared.module';
+import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANGUAGE_STORAGE_NAME } from './shared/utils/app.constants';
 
 /**
  * Ng module: App module
@@ -70,8 +72,46 @@ import { SharedModule } from './shared/shared.module';
 			useClass: ServerErrorInterceptor,
 			multi: true
 		},
+		{
+			provide: APP_INITIALIZER,
+			useFactory: appInitializerFactory,
+			deps: [TranslateService, Injector, NGXLogger],
+			multi: true
+		},
 		{ provide: ErrorHandler, useClass: GlobalErrorHandlerService }
 	],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+/**
+ * App initialization factory function
+ *
+ * @param translateService the translate service
+ * @param injector the injector
+ * @param logger the logger
+ * @returns a promise that resolves to null when localization is completed
+ */
+export function appInitializerFactory(translateService: TranslateService, injector: Injector, logger: NGXLogger) {
+	return () =>
+		new Promise<unknown>((resolve) => {
+			const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
+			locationInitialized.then(() => {
+				translateService.addLangs(AVAILABLE_LANGUAGES);
+
+				const lang = localStorage.getItem(LANGUAGE_STORAGE_NAME) ? localStorage.getItem(LANGUAGE_STORAGE_NAME) : DEFAULT_LANGUAGE;
+
+				translateService.setDefaultLang(lang);
+				translateService.use(lang).subscribe({
+					next: () => {
+						localStorage.setItem(LANGUAGE_STORAGE_NAME, lang);
+					},
+					error: (e) => {
+						logger.error(e);
+						logger.error(`Problem with '${lang}' language initialization.'`);
+					},
+					complete: () => resolve(null)
+				});
+			});
+		});
+}

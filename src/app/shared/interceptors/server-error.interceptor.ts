@@ -4,7 +4,7 @@ import { NGXLogger } from 'ngx-logger';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { NotificationService } from '../services/notifications.service';
+import { NotificationService } from '../services/notification.service';
 
 /**
  * Injectable: Server error interceptor

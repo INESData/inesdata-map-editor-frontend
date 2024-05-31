@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
 import { LanguageService } from 'src/app/shared/services/language.service';
 
-import { NotificationService } from '../services/notifications.service';
+import { NotificationService } from '../services/notification.service';
 import { SpinnerService } from '../services/spinner.service';
 import { MESSAGES_ERRORS_GENERIC, MESSAGES_ERRORS_INTERNET_CONNECTION } from '../utils/app.constants';
 
