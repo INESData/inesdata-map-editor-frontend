@@ -20,3 +20,12 @@ export const MESSAGES_ERRORS_REQUIRED: string = translate('messages.errors.requi
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
 export const LABELS_NO: string = translate('labels.no');
+
+// Routes
+export const HOME: string = '/home';
+
+// Sidebar
+export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontologies');
+export const SIDEBAR_LABELS_DATASOURCES: string = translate('sidebar.labels.data-sources');
+export const SIDEBAR_LABELS_MAPPINGS: string = translate('sidebar.labels.mappings');
+

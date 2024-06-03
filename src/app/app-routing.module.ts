@@ -10,7 +10,19 @@ const routes: Routes = [
 	},
 	{
 		path: 'home',
-		loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule)
+		loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule),
+	},
+	{
+		path: 'ontologies',
+		loadChildren: () => import('./pages/ontologies/ontologies.module').then(m => m.OntologiesModule)
+	},
+	{
+		path: 'data-sources',
+		loadChildren: () => import('./pages/data-sources/data-sources.module').then(m => m.DataSourcesModule)
+	},
+	{
+		path: 'mappings',
+		loadChildren: () => import('./pages/mappings/mappings.module').then(m => m.MappingsModule)
 	},
 	{
 		path: '403',
@@ -29,4 +41,4 @@ const routes: Routes = [
 	imports: [RouterModule.forRoot(routes, {})],
 	exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

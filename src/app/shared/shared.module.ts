@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AccordionModule } from 'primeng/accordion';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
@@ -22,6 +23,7 @@ import { MessagesModule } from 'primeng/messages';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { PaginatorModule } from 'primeng/paginator';
+import { PanelMenuModule } from 'primeng/panelmenu';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { TableModule } from 'primeng/table';
 import { TabMenuModule } from 'primeng/tabmenu';
@@ -29,9 +31,11 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { TreeModule } from 'primeng/tree';
 
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { SideBarComponent } from './components/sidebar/sidebar.component';
 
 /**
  * Shared feature module (https://angular.io/guide/styleguide#shared-feature-module)
@@ -80,9 +84,10 @@ import { NotificationComponent } from './components/notification/notification.co
 		InputNumberModule,
 		PaginatorModule,
 		TreeModule,
-		MenubarModule
+		BreadcrumbModule,
+		PanelMenuModule
 	],
-	declarations: [HeaderComponent, FooterComponent, NotificationComponent],
+	declarations: [HeaderComponent, FooterComponent, NotificationComponent, SideBarComponent, BreadcrumbComponent],
 	providers: [DialogService, ConfirmationService, MessageService],
 	exports: [
 		CommonModule,
@@ -91,6 +96,8 @@ import { NotificationComponent } from './components/notification/notification.co
 		HeaderComponent,
 		FooterComponent,
 		NotificationComponent,
+		SideBarComponent,
+		BreadcrumbComponent,
 		TranslateModule,
 		// Prime NG
 		TabMenuModule,
