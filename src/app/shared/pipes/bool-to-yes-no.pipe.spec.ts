@@ -1,33 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateStore } from '@ngx-translate/core';
 import { LoggerTestingModule } from 'ngx-logger/testing';
-import { Observable, of } from 'rxjs';
+import { TranslateTestingModule } from 'ngx-translate-testing';
 
+import enTranslations from '../../../assets/i18n/en.json';
 import { LanguageService } from '../services/language.service';
 import { BoolToYesNoPipe } from './bool-to-yes-no.pipe';
-
-const translations = {
-	labels: {
-		yes: 'yes',
-		no: 'no'
-	}
-};
-class FakeLoader implements TranslateLoader {
-	getTranslation(): Observable<unknown> {
-		return of(translations);
-	}
-}
 
 describe('BoolToYesNoPipe', () => {
 	beforeEach(() =>
 		TestBed.configureTestingModule({
-			imports: [
-				TranslateModule.forRoot({
-					loader: { provide: TranslateLoader, useClass: FakeLoader }
-				}),
-				LoggerTestingModule
-			],
-			providers: [TranslateService]
+			imports: [TranslateTestingModule.withTranslations('en', enTranslations), LoggerTestingModule],
+			providers: [TranslateStore]
 		})
 	);
 
@@ -38,11 +22,11 @@ describe('BoolToYesNoPipe', () => {
 
 	it('return yes', () => {
 		const pipe: BoolToYesNoPipe = new BoolToYesNoPipe(TestBed.inject(LanguageService));
-		expect(pipe.transform(true)).toEqual('yes');
+		expect(pipe.transform(true)).toEqual('Yes');
 	});
 
 	it('return no', () => {
 		const pipe: BoolToYesNoPipe = new BoolToYesNoPipe(TestBed.inject(LanguageService));
-		expect(pipe.transform(false)).toEqual('no');
+		expect(pipe.transform(false)).toEqual('No');
 	});
 });
