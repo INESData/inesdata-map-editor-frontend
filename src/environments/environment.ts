@@ -32,7 +32,7 @@ export const environment: Environment = {
 	logging: {
 		disableWindowConsoleLogging: true,
 		disableNgxLogging: false,
-		apiUrl: 'http://localhost:8080/calendar/logs',
+		apiUrl: '',
 		logLevel: NgxLoggerLevel.DEBUG,
 		serverLogLevel: NgxLoggerLevel.OFF,
 		enableSourceMaps: true

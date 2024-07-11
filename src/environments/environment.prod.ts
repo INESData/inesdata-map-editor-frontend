@@ -29,7 +29,7 @@ export const environment: Environment = {
 	logging: {
 		disableWindowConsoleLogging: true,
 		disableNgxLogging: false,
-		apiUrl: 'http://localhost:68552/api/logs',
+		apiUrl: '',
 		logLevel: NgxLoggerLevel.ERROR,
 		serverLogLevel: NgxLoggerLevel.ERROR,
 		enableSourceMaps: false
