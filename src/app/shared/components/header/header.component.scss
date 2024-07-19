@@ -1,6 +1,11 @@
 /* Custom HEADER component styles */
 
 .header {
+	z-index: 10;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
 	background-color: #e0dfdf;
 	display: flex;
 	flex-direction: row;

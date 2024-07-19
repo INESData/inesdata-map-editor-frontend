@@ -1,3 +1,33 @@
-<div>
-	<h1>Ontologies</h1>
+<div class="whiteContainer">
+	<h1 class="mb-3">Lista de Ontologías</h1>
+	<p-button class="btn btn__primary" label="Añadir ontología" />
+	<p-table class="mt-2 block" [value]="ontologies">
+		<ng-template pTemplate="header">
+				<tr>
+						<th>Nombre</th>
+						<th>Título</th>
+						<th>URL</th>
+						<th>Autor</th>
+						<th>Versión</th>
+						<th>Fecha</th>
+						<th></th>
+				</tr>
+		</ng-template>
+		<ng-template pTemplate="body" let-ontology>
+				<tr>
+						<td>{{ ontology.nombre }}</td>
+						<td>{{ ontology.titulo }}</td>
+						<td>{{ ontology.url }}</td>
+						<td>{{ ontology.autor }}</td>
+						<td>{{ ontology.version }}</td>
+						<td>{{ ontology.fecha }}</td>
+						<td>
+							<div class="flex flex-justify flex-justify-right">
+								<p-button class="btn btn__icon icon-lapiz mr-1" />
+								<p-button class="btn btn__icon icon-papelera" />
+							</div>
+						</td>
+				</tr>
+		</ng-template>
+	</p-table>
 </div>

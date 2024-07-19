@@ -8,6 +8,7 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // Logger
 import { LoggerModule, NGXLogger } from 'ngx-logger';
+import { ButtonModule } from 'primeng/button';
 import { environment } from 'src/environments/environment';
 
 import { AppComponent } from './app.component';
@@ -35,6 +36,7 @@ import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANGUAGE_STORAGE_NAME } from './
 		SharedModule,
 		OntologiesModule,
 		DataSourcesModule,
+		ButtonModule,
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,
