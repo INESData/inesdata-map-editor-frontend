@@ -3,31 +3,31 @@
 	<p-button class="btn btn__primary" label="Añadir ontología" />
 	<p-table class="mt-2 block" [value]="ontologies">
 		<ng-template pTemplate="header">
-				<tr>
-						<th>Nombre</th>
-						<th>Título</th>
-						<th>URL</th>
-						<th>Autor</th>
-						<th>Versión</th>
-						<th>Fecha</th>
-						<th></th>
-				</tr>
+			<tr>
+				<th scope="col">Nombre</th>
+				<th scope="col">Título</th>
+				<th scope="col">URL</th>
+				<th scope="col">Autor</th>
+				<th scope="col">Versión</th>
+				<th scope="col">Fecha</th>
+				<th scope="col"></th>
+			</tr>
 		</ng-template>
 		<ng-template pTemplate="body" let-ontology>
-				<tr>
-						<td>{{ ontology.nombre }}</td>
-						<td>{{ ontology.titulo }}</td>
-						<td>{{ ontology.url }}</td>
-						<td>{{ ontology.autor }}</td>
-						<td>{{ ontology.version }}</td>
-						<td>{{ ontology.fecha }}</td>
-						<td>
-							<div class="flex flex-justify flex-justify-right">
-								<p-button class="btn btn__icon icon-lapiz mr-1" />
-								<p-button class="btn btn__icon icon-papelera" />
-							</div>
-						</td>
-				</tr>
+			<tr>
+				<td>{{ ontology.nombre }}</td>
+				<td>{{ ontology.titulo }}</td>
+				<td>{{ ontology.url }}</td>
+				<td>{{ ontology.autor }}</td>
+				<td>{{ ontology.version }}</td>
+				<td>{{ ontology.fecha }}</td>
+				<td>
+					<div class="flex flex-justify flex-justify-right">
+						<p-button class="btn btn__icon icon-lapiz mr-1" />
+						<p-button class="btn btn__icon icon-papelera" />
+					</div>
+				</td>
+			</tr>
 		</ng-template>
 	</p-table>
 </div>
