@@ -15,4 +15,9 @@ export class OntologiesComponent {
 		{ nombre: 'Education', titulo: 'Te example ontology', url: 'https://w3id.org/example', autor: 'Juan Carlos Pérez Bolsón', version: '17 . 13', fecha: '30 / 04 / 2024' },
 		{ nombre: 'Education', titulo: 'Te example ontology', url: 'https://w3id.org/example', autor: 'Juan Carlos Pérez Bolsón', version: '17 . 13', fecha: '30 / 04 / 2024' }
   ];
+	visible: boolean = false;
+
+  showDialog() {
+      this.visible = true;
+  }
 }

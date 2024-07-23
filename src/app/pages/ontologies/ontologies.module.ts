@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 
 import { OntologiesComponent } from './ontologies.component';
@@ -18,6 +20,8 @@ import { OntologiesRoutingModule } from './ontologies-routing.module';
 	imports: [
 		CommonModule,
 		ButtonModule,
+		DialogModule,
+		InputTextModule,
 		TableModule,
 		FormsModule,
 		OntologiesRoutingModule

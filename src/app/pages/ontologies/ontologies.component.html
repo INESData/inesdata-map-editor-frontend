@@ -1,6 +1,6 @@
 <div class="whiteContainer">
 	<h1 class="mb-3">Lista de Ontologías</h1>
-	<p-button class="btn btn__primary" label="Añadir ontología" />
+	<p-button (onClick)="showDialog()" class="btn btn__secondary" label="Añadir ontología" />
 	<p-table class="mt-2 block" [value]="ontologies">
 		<ng-template pTemplate="header">
 				<tr>
@@ -31,3 +31,36 @@
 		</ng-template>
 	</p-table>
 </div>
+<p-dialog header="Añadir ontología" [modal]="true" [draggable]="false" [(visible)]="visible" [style]="{ width: '40rem' }">
+	<div class="grid">
+		<div class="col-6">
+			<div>
+        <label for="Nombre">Nombre</label>
+				<input type="text" pInputText />
+			</div>
+		</div>
+		<div class="col-6">
+			<div>
+        <label for="Título">Título</label>
+				<input type="text" pInputText />
+			</div>
+		</div>
+	</div>
+	<div class="grid">
+		<div class="col-9">
+			<div>
+        <label for="URL">URL</label>
+				<input type="text" pInputText />
+			</div>
+		</div>
+		<div class="col-3">
+			<div>
+				<label for="Versión">Versión</label>
+				<input type="text" pInputText />
+			</div>
+		</div>
+	</div>
+	<div class="flex justify-content-end gap-2 mt-2">
+			<p-button class="btn btn__primary" label="Añadir ontología" (onClick)="visible = false" />
+	</div>
+</p-dialog>
