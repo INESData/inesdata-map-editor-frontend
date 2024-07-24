@@ -27,12 +27,18 @@
 						color: $white;
 						background-color: transparent;
 						transition: background-color 0.2s;
+						span {
+							color: $white;
+						}
 						&.p-menuitem-link-active {
 							cursor: default;
 							font-weight: 800;
 							color: $primary;
 							background-color: $white;
 							transition: background-color 0.2s;
+							span {
+								color: $primary;
+							}
 							&:hover {
 								background-color: $white;
 							}

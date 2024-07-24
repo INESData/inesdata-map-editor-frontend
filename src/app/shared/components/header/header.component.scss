@@ -4,10 +4,13 @@
 
 .header {
 	z-index: 10;
+	display: flex;
+  justify-content: space-between;
+  align-items: center;
 	position: fixed;
 	top: 0px;
 	left: 0px;
-	padding: 1rem;
+	padding: 2rem;
 	height: 100px;
 	width: 100%;
 	background-color: $primary;
@@ -21,6 +24,16 @@
 			width: 100%;
 		}
 	}
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
 }
 
 .header__logo {

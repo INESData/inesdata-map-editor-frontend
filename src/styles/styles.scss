@@ -14,7 +14,7 @@ body, * {
 }
 
 body {
-	color: $grey800;
+	color: $darkblue;
   background-color: $grey200;
   margin: 0;
   padding: 0;
@@ -22,15 +22,35 @@ body {
 	padding-left: 200px;
 }
 
+label,
+span,
+div {
+	color: $darkblue;
+}
+
 h1 {
 	margin: 0;
 	font-size: 24px;
 	font-weight: 500;
-	color: $primary;
+	color: $darkblue;
 }
 
 .whiteContainer {
 	padding: 18px;
 	background-color: $white;
 	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
+}
+
+
+.menu-button {
+	border: 0px;
+	background: none;
+	.p-button-icon {
+		&::before {
+			content: "\e90c";
+			font-family: 'icomoon';
+			font-size: 32px;
+			color: $white;
+		}
+	}
 }

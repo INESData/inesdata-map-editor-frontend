@@ -19,7 +19,7 @@ import { HOME } from '../../utils/app.constants';
 export class BreadcrumbComponent implements OnInit {
 	items: MenuItem[] = [];
 	home: MenuItem = {
-		icon: 'pi pi-home',
+		label: 'Inicio',
 		routerLink: HOME
 	};
 
