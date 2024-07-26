@@ -62,6 +62,12 @@
 	}
 }
 
+.menu-button {
+	p {
+		display: none;
+	}
+}
+
 // TABLE
 
 .p-datatable {
@@ -118,7 +124,7 @@
 				.p-dialog-header-close {
 					&::before {
 						content: "\e905";
-						font-family: 'icomoon';
+						font-family: "icomoon", sans-serif;
 						font-size: 32px;
 						color: $primary;
 						transition: color 0.2s;
