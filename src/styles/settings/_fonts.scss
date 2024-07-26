@@ -25,68 +25,70 @@
 // ICOMOON
 
 @font-face {
-  font-family: 'icomoon';
-  src:  url('../../assets/fonts/Icons/icomoon.eot?mm0jbw');
-  src:  url('../../assets/fonts/Icons/icomoon.eot?mm0jbw#iefix') format('embedded-opentype'),
-    url('../../assets/fonts/Icons/icomoon.ttf?mm0jbw') format('truetype'),
-    url('../../assets/fonts/Icons/icomoon.woff?mm0jbw') format('woff'),
-    url('../../assets/fonts/Icons/icomoon.svg?mm0jbw#icomoon') format('svg');
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
+	font-family: "icomoon";
+	src: url("../../assets/fonts/Icons/icomoon.eot?mm0jbw");
+	src:
+		url("../../assets/fonts/Icons/icomoon.eot?mm0jbw#iefix") format("embedded-opentype"),
+		url("../../assets/fonts/Icons/icomoon.ttf?mm0jbw") format("truetype"),
+		url("../../assets/fonts/Icons/icomoon.woff?mm0jbw") format("woff"),
+		url("../../assets/fonts/Icons/icomoon.svg?mm0jbw#icomoon") format("svg");
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
 }
 
-[class^="icon-"], [class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon', serif !important;
-  speak: never;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
+[class^="icon-"],
+[class*=" icon-"] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: "icomoon", serif !important;
+	speak: never;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
 
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 .icon-query:before {
-  content: "\e900";
+	content: "\e900";
 }
 .icon-mas:before {
-  content: "\e901";
+	content: "\e901";
 }
 .icon-ojo:before {
-  content: "\e902";
+	content: "\e902";
 }
 .icon-play:before {
-  content: "\e903";
+	content: "\e903";
 }
 .icon-ordenar:before {
-  content: "\e904";
+	content: "\e904";
 }
 .icon-cruz:before {
-  content: "\e905";
+	content: "\e905";
 }
 .icon-papelera:before {
-  content: "\e906";
+	content: "\e906";
 }
 .icon-lapiz:before {
-  content: "\e907";
+	content: "\e907";
 }
 .icon-ajustes:before {
-  content: "\e908";
+	content: "\e908";
 }
 .icon-mapeos:before {
-  content: "\e909";
+	content: "\e909";
 }
 .icon-datos:before {
-  content: "\e90a";
+	content: "\e90a";
 }
 .icon-ontologia:before {
-  content: "\e90b";
+	content: "\e90b";
 }
 .icon-usuario:before {
-  content: "\e90c";
+	content: "\e90c";
 }

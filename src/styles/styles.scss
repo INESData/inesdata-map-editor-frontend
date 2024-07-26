@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeflex/primeflex.css";
 
 @import "settings/colors";
 @import "settings/triumph";
@@ -7,29 +8,49 @@
 @import "settings/fonts";
 @import "settings/override";
 
-body, * {
-  font-family: 'Baloo 2', sans-serif;
+body,
+* {
+	font-family: "Baloo 2", sans-serif;
 	letter-spacing: -0.5px;
 }
 
 body {
-	color: $grey800;
-  background-color: $grey200;
-  margin: 0;
-  padding: 0;
+	color: $darkblue;
+	background-color: $grey200;
+	margin: 0;
+	padding: 0;
 	padding-top: 100px;
 	padding-left: 200px;
+}
+
+label,
+span,
+div {
+	color: $darkblue;
 }
 
 h1 {
 	margin: 0;
 	font-size: 24px;
 	font-weight: 500;
-	color: $primary;
+	color: $darkblue;
 }
 
 .whiteContainer {
 	padding: 18px;
 	background-color: $white;
 	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
+}
+
+.menu-button {
+	border: 0px;
+	background: none;
+	.p-button-icon {
+		&::before {
+			content: "\e90c";
+			font-family: "icomoon", sans-serif;
+			font-size: 32px;
+			color: $white;
+		}
+	}
 }

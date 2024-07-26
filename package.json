@@ -26,6 +26,7 @@
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
     "ngx-logger": "^5.0.12",
+    "primeflex": "^3.3.1",
     "primeicons": "^7.0.0",
     "primeng": "^17.12.0",
     "rxjs": "~7.8.1",

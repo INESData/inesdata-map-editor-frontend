@@ -18,6 +18,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { MenuModule } from 'primeng/menu';
 import { MenubarModule } from 'primeng/menubar';
 import { MessagesModule } from 'primeng/messages';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -85,7 +86,8 @@ import { SideBarComponent } from './components/sidebar/sidebar.component';
 		PaginatorModule,
 		TreeModule,
 		BreadcrumbModule,
-		PanelMenuModule
+		PanelMenuModule,
+		MenuModule
 	],
 	declarations: [HeaderComponent, FooterComponent, NotificationComponent, SideBarComponent, BreadcrumbComponent],
 	providers: [DialogService, ConfirmationService, MessageService],

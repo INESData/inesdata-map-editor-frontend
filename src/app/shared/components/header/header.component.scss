@@ -1,16 +1,39 @@
+@import "../../../../styles/styles.scss";
+
 /* Custom HEADER component styles */
 
 .header {
 	z-index: 10;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	position: fixed;
 	top: 0px;
 	left: 0px;
+	padding: 2rem;
+	height: 100px;
 	width: 100%;
-	background-color: #e0dfdf;
+	background-color: $primary;
 	display: flex;
-	flex-direction: row;
 	align-items: center;
-	justify-content: space-between;
+	a {
+		display: block;
+		width: 400px;
+		margin-right: 1rem;
+		img {
+			width: 100%;
+		}
+	}
+}
+
+.left-section {
+	display: flex;
+	align-items: center;
+}
+
+.right-section {
+	display: flex;
+	align-items: center;
 }
 
 .header__logo {
