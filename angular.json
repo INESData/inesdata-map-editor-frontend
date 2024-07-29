@@ -148,12 +148,6 @@
             }
           },
           "defaultConfiguration": "production"
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": ["projects/mapper-api-client/**/*.ts", "projects/mapper-api-client/**/*.html"]
-          }
         }
       }
     }

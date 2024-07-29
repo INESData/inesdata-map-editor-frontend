@@ -5,7 +5,9 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run lint && ng serve",
-    "build": "ng build",
+    "build": "npm run lint && npm run build:libs && ng build",
+    "build:libs": "npm run build:mapper-api-client",
+    "build:mapper-api-client": "npm run openapi-generator && ng build mapper-api-client",
     "test": "ng test --browsers=Chrome",
     "test:ci": "ng test --watch=false --code-coverage --browsers=ChromeHeadless",
     "lint": "ng lint",
