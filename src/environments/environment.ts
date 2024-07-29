@@ -26,7 +26,7 @@ export const environment: Environment = {
 	},
 	runtime: {
 		api: {
-			baseUrl: ''
+			baseUrl: 'http://localhost:8080'
 		}
 	},
 	logging: {
