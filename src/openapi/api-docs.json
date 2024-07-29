@@ -1,0 +1,245 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "description": "Service responsible for saving a data source mapping and generating the corresponding R2RML / RML mapping file",
+    "title": "com.inesdata-map:mapper-backend",
+    "version": "1.0.0-SNAPSHOT"
+  },
+  "servers": [{ "url": "http://localhost:8080", "description": "Generated server url" }],
+  "tags": [
+    { "description": "Manage database sources", "name": "DataBaseSource" },
+    {
+      "description": "Monitor and interact",
+      "externalDocs": {
+        "description": "Spring Boot Actuator Web API Documentation",
+        "url": "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
+      },
+      "name": "Actuator"
+    }
+  ],
+  "paths": {
+    "/actuator": {
+      "get": {
+        "operationId": "links",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": { "type": "object", "additionalProperties": { "$ref": "#/components/schemas/Link" } }
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": { "type": "object", "additionalProperties": { "$ref": "#/components/schemas/Link" } }
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": { "type": "object", "additionalProperties": { "$ref": "#/components/schemas/Link" } }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator root web endpoint",
+        "tags": ["Actuator"]
+      }
+    },
+    "/actuator/health": {
+      "get": {
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator web endpoint 'health'",
+        "tags": ["Actuator"]
+      }
+    },
+    "/actuator/health/**": {
+      "get": {
+        "operationId": "health-path",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator web endpoint 'health-path'",
+        "tags": ["Actuator"]
+      }
+    },
+    "/actuator/info": {
+      "get": {
+        "operationId": "info",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator web endpoint 'info'",
+        "tags": ["Actuator"]
+      }
+    },
+    "/actuator/loggers": {
+      "get": {
+        "operationId": "loggers",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator web endpoint 'loggers'",
+        "tags": ["Actuator"]
+      }
+    },
+    "/actuator/loggers/{name}": {
+      "get": {
+        "operationId": "loggers-name",
+        "parameters": [{ "in": "path", "name": "name", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator web endpoint 'loggers-name'",
+        "tags": ["Actuator"]
+      },
+      "post": {
+        "operationId": "loggers-name_2",
+        "parameters": [{ "in": "path", "name": "name", "required": true, "schema": { "type": "string" } }],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "type": "string", "enum": ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF"] } }
+          }
+        },
+        "responses": { "200": { "content": { "*/*": { "schema": { "type": "object" } } }, "description": "OK" } },
+        "summary": "Actuator web endpoint 'loggers-name'",
+        "tags": ["Actuator"]
+      }
+    },
+    "/actuator/metrics": {
+      "get": {
+        "operationId": "metrics",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator web endpoint 'metrics'",
+        "tags": ["Actuator"]
+      }
+    },
+    "/actuator/metrics/{requiredMetricName}": {
+      "get": {
+        "operationId": "metrics-requiredMetricName",
+        "parameters": [{ "in": "path", "name": "requiredMetricName", "required": true, "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
+              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator web endpoint 'metrics-requiredMetricName'",
+        "tags": ["Actuator"]
+      }
+    },
+    "/actuator/prometheus": {
+      "get": {
+        "operationId": "prometheus",
+        "responses": {
+          "200": {
+            "content": {
+              "application/openmetrics-text;version=1.0.0;charset=utf-8": { "schema": { "type": "object" } },
+              "application/vnd.google.protobuf;proto=io.prometheus.client.MetricFamily;encoding=delimited": {
+                "schema": { "type": "object" }
+              },
+              "text/plain;version=0.0.4;charset=utf-8": { "schema": { "type": "object" } }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Actuator web endpoint 'prometheus'",
+        "tags": ["Actuator"]
+      }
+    },
+    "/database-sources/{id}/table-column-names": {
+      "get": {
+        "description": "Retrieves a list of column names for the specified table name and a data source ID.",
+        "operationId": "getColumnNames",
+        "parameters": [
+          { "in": "path", "name": "id", "required": true, "schema": { "type": "integer", "format": "int64" } },
+          { "in": "query", "name": "table", "required": true, "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "content": { "*/*": { "schema": { "type": "array", "items": { "type": "string" } } } }, "description": "OK" }
+        },
+        "summary": "Get column names for a database table",
+        "tags": ["DataBaseSource"]
+      }
+    },
+    "/database-sources/{id}/table-names": {
+      "get": {
+        "description": "Retrieves a list of table names for the specified data source ID.",
+        "operationId": "getTableNames",
+        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer", "format": "int64" } }],
+        "responses": {
+          "200": { "content": { "*/*": { "schema": { "type": "array", "items": { "type": "string" } } } }, "description": "OK" }
+        },
+        "summary": "Get table names for a database source",
+        "tags": ["DataBaseSource"]
+      }
+    },
+    "/python": {
+      "get": {
+        "operationId": "run",
+        "responses": {
+          "200": { "content": { "*/*": { "schema": { "type": "array", "items": { "type": "string" } } } }, "description": "OK" }
+        },
+        "tags": ["python-controller"]
+      }
+    }
+  },
+  "components": {
+    "schemas": { "Link": { "type": "object", "properties": { "href": { "type": "string" }, "templated": { "type": "boolean" } } } }
+  }
+}
