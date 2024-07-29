@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { OntologiesComponent } from './ontologies.component';
+import { OntologiesListComponent } from './ontologies-list/ontologies-list.component';
 
 const routes: Routes = [
 	{
 		path: '',
-		component: OntologiesComponent,
+		component: OntologiesListComponent
 	}
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
 	imports: [RouterModule.forChild(routes)],
 	exports: [RouterModule]
 })
-export class OntologiesRoutingModule { }
+export class OntologiesRoutingModule {}

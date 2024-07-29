@@ -1,0 +1,39 @@
+<div class="whiteContainer">
+	<h1 class="mb-3">Lista de Ontologías</h1>
+	<p-button (onClick)="showDialog()" class="btn btn__secondary" label="Añadir ontología" />
+	<p-table class="mt-2 block" [value]="ontologies">
+		<ng-template pTemplate="header">
+			<tr>
+				<th scope="col">Nombre</th>
+				<th scope="col">Título</th>
+				<th scope="col">URL</th>
+				<th scope="col">Autor</th>
+				<th scope="col">Versión</th>
+				<th scope="col">Fecha</th>
+				<th scope="col"></th>
+			</tr>
+		</ng-template>
+		<ng-template pTemplate="body" let-ontology>
+			<tr>
+				<td>{{ ontology.nombre }}</td>
+				<td>{{ ontology.titulo }}</td>
+				<td>{{ ontology.url }}</td>
+				<td>{{ ontology.autor }}</td>
+				<td>{{ ontology.version }}</td>
+				<td>{{ ontology.fecha }}</td>
+				<td>
+					<div class="flex flex-justify flex-justify-right">
+						<p-button class="btn btn__icon icon-lapiz mr-1" />
+						<p-button class="btn btn__icon icon-papelera" />
+					</div>
+				</td>
+			</tr>
+		</ng-template>
+	</p-table>
+</div>
+<p-dialog header="Añadir ontología" [modal]="true" [draggable]="false" [(visible)]="visible" [style]="{ width: '40rem' }">
+	<app-ontologies-form></app-ontologies-form>
+	<div class="flex justify-content-end gap-2 mt-2">
+		<p-button class="btn btn__primary" label="Añadir ontología" (onClick)="visible = false" />
+	</div>
+</p-dialog>
