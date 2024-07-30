@@ -30,7 +30,7 @@ export const environment: Environment = {
 		}
 	},
 	logging: {
-		disableWindowConsoleLogging: true,
+		disableWindowConsoleLogging: false,
 		disableNgxLogging: false,
 		apiUrl: '',
 		logLevel: NgxLoggerLevel.DEBUG,

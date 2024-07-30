@@ -7,6 +7,7 @@
   },
   "servers": [{ "url": "http://localhost:8080", "description": "Generated server url" }],
   "tags": [
+    { "description": "Manage ontologies", "name": "Ontology" },
     { "description": "Manage database sources", "name": "DataBaseSource" },
     {
       "description": "Monitor and interact",
@@ -229,6 +230,51 @@
         "tags": ["DataBaseSource"]
       }
     },
+    "/ontologies": {
+      "get": {
+        "operationId": "listOntologies",
+        "parameters": [
+          { "in": "query", "name": "page", "required": true, "schema": { "type": "integer", "format": "int32" } },
+          { "in": "query", "name": "size", "required": true, "schema": { "type": "integer", "format": "int32" } }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/SearchOntologyDTO" } } }
+            },
+            "description": "Succes"
+          }
+        },
+        "summary": "List all ontologies",
+        "tags": ["Ontology"]
+      }
+    },
+    "/ontologies/{id}": {
+      "put": {
+        "operationId": "updateOntology",
+        "parameters": [
+          {
+            "description": "Ontology identifier to update",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "integer", "format": "int64" }
+          }
+        ],
+        "requestBody": {
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OntologyDTO" } } },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OntologyDTO" } } },
+            "description": "Sucess"
+          }
+        },
+        "summary": "Update given ontology",
+        "tags": ["Ontology"]
+      }
+    },
     "/python": {
       "get": {
         "operationId": "run",
@@ -240,6 +286,31 @@
     }
   },
   "components": {
-    "schemas": { "Link": { "type": "object", "properties": { "href": { "type": "string" }, "templated": { "type": "boolean" } } } }
+    "schemas": {
+      "Link": { "type": "object", "properties": { "href": { "type": "string" }, "templated": { "type": "boolean" } } },
+      "OntologyDTO": {
+        "type": "object",
+        "properties": {
+          "content": { "type": "string" },
+          "id": { "type": "integer", "format": "int64" },
+          "name": { "type": "string" },
+          "title": { "type": "string" },
+          "uploadDate": { "type": "string", "format": "date-time" },
+          "url": { "type": "string" },
+          "version": { "type": "integer", "format": "int64" },
+          "versionName": { "type": "string" }
+        }
+      },
+      "SearchOntologyDTO": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "title": { "type": "string" },
+          "uploadDate": { "type": "string", "format": "date-time" },
+          "url": { "type": "string" },
+          "versionName": { "type": "string" }
+        }
+      }
+    }
   }
 }
