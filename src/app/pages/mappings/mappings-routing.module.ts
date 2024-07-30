@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { MappingsComponent } from './mappings.component';
-import { MappingsConfigurationComponent } from './mappings-configuration/mappings-configuration.component';
+import { MappingsFormComponent } from './mappings-form/mappings-form.component';
 
 const routes: Routes = [
 	{
@@ -10,8 +10,8 @@ const routes: Routes = [
 		component: MappingsComponent,
 		children: [
 			{
-				path: 'configuration',
-				component: MappingsConfigurationComponent
+				path: 'new',
+				component: MappingsFormComponent
 			}
 		]
 	}
@@ -21,4 +21,4 @@ const routes: Routes = [
 	imports: [RouterModule.forChild(routes)],
 	exports: [RouterModule]
 })
-export class MappingsRoutingModule { }
+export class MappingsRoutingModule {}
