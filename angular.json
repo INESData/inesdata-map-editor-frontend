@@ -127,6 +127,29 @@
           }
         }
       }
+    },
+    "mapper-api-client": {
+      "projectType": "library",
+      "root": "projects/mapper-api-client",
+      "sourceRoot": "projects/mapper-api-client/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/mapper-api-client/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/mapper-api-client/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/mapper-api-client/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
     }
   }
 }

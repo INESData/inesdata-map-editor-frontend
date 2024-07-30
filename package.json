@@ -5,12 +5,15 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run lint && ng serve",
-    "build": "ng build",
+    "build": "npm run lint && npm run build:libs && ng build",
+    "build:libs": "npm run build:mapper-api-client",
+    "build:mapper-api-client": "npm run openapi-generator && ng build mapper-api-client",
     "test": "ng test --browsers=Chrome",
     "test:ci": "ng test --watch=false --code-coverage --browsers=ChromeHeadless",
     "lint": "ng lint",
     "i18n:extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/en.json --output ./src/assets/i18n/es.json --clean --sort --format namespaced-json",
-    "postinstall": ""
+    "postinstall": "",
+    "openapi-generator": "openapi-generator-cli generate -g typescript-angular -i src/openapi/api-docs.json -o projects/mapper-api-client --additional-properties=ngVersion=17.3.1,npmName=mapper-api-client,withInterfaces=true"
   },
   "private": true,
   "dependencies": {
@@ -45,6 +48,7 @@
     "@angular/compiler-cli": "^17.3.1",
     "@angular/language-service": "^17.3.1",
     "@colsen1991/ngx-translate-extract-marker": "2.0.8",
+    "@openapitools/openapi-generator-cli": "2.13.4",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^20.11.1",
@@ -62,6 +66,7 @@
     "karma-coverage": "^2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "^2.1.0",
+    "ng-packagr": "^17.3.0",
     "ngx-translate-testing": "7.0.0",
     "prettier": "3.2.5",
     "ts-node": "~7.0.0",

@@ -10,6 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoggerModule, NGXLogger } from 'ngx-logger';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { ApiModule, Configuration, ConfigurationParameters } from 'projects/mapper-api-client';
 import { environment } from 'src/environments/environment';
 
 import { AppComponent } from './app.component';
@@ -30,6 +31,7 @@ import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANGUAGE_STORAGE_NAME } from './
 @NgModule({
 	declarations: [AppComponent],
 	imports: [
+		ApiModule.forRoot(apiConfigFactory),
 		AppRoutingModule,
 		BrowserAnimationsModule,
 		BrowserModule,
@@ -86,7 +88,7 @@ import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANGUAGE_STORAGE_NAME } from './
 	],
 	bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
 
 /**
  * App initialization factory function
@@ -118,4 +120,17 @@ export function appInitializerFactory(translateService: TranslateService, inject
 				});
 			});
 		});
+}
+
+/**
+ * Mapper backend API configuration
+ *
+ * @returns the configuration
+ */
+export function apiConfigFactory(): Configuration {
+	const params: ConfigurationParameters = {
+		// set configuration parameters here.
+		basePath: environment.runtime.api.baseUrl
+	};
+	return new Configuration(params);
 }

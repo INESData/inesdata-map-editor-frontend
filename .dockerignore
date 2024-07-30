@@ -13,3 +13,4 @@
 !tsconfig.json
 !tsconfig.spec.json
 !.eslintrc.json
+!projects/**
