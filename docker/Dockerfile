@@ -1,6 +1,9 @@
 # node base image
 FROM node:20.11-alpine AS builder
 
+# Java needed for openapi-generator
+RUN apk --no-cache add openjdk17
+
 # working directory
 WORKDIR /app
 
