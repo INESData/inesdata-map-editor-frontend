@@ -150,6 +150,29 @@
           "defaultConfiguration": "production"
         }
       }
+    },
+    "mapper-forms": {
+      "projectType": "library",
+      "root": "projects/mapper-forms",
+      "sourceRoot": "projects/mapper-forms/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/mapper-forms/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/mapper-forms/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/mapper-forms/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
     }
   }
 }
