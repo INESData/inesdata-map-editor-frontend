@@ -11,6 +11,9 @@
     "paths": {
       "mapper-api-client": [
         "./dist/mapper-api-client"
+      ],
+      "mapper-forms": [
+        "./dist/mapper-forms"
       ]
     },
     "moduleResolution": "node",
