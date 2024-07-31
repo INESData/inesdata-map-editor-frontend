@@ -30,6 +30,7 @@ export class GlobalErrorHandlerService implements ErrorHandler {
 	 * @param error Error
 	 */
 	handleError(error: Error | HttpErrorResponse) {
+		console.error(error);
 		if (error instanceof HttpErrorResponse) {
 			if (!navigator.onLine) {
 				// Offline error
