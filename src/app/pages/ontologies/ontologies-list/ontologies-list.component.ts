@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OntologyService, PageSearchOntologyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { catchError, of } from 'rxjs';
 import { PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
