@@ -33,7 +33,7 @@ export class OntologiesListComponent implements OnInit {
 					return of({ content: [] });
 				})
 			)
-			.subscribe((data: PageSearchOntologyDTO) => {
+			.subscribe((data) => {
 				this.ontologies = data.content;
 			});
 	}
