@@ -19,7 +19,7 @@ import { HOME } from '../../utils/app.constants';
 export class BreadcrumbComponent implements OnInit {
 	items: MenuItem[] = [];
 	home: MenuItem = {
-		label: 'Inicio',
+		label: this.languageService.translateValue('labels.home'),
 		routerLink: HOME
 	};
 
