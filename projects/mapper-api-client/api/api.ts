@@ -1,0 +1,13 @@
+export * from './actuator.service';
+import { ActuatorService } from './actuator.service';
+export * from './actuator.serviceInterface';
+export * from './dataBaseSource.service';
+import { DataBaseSourceService } from './dataBaseSource.service';
+export * from './dataBaseSource.serviceInterface';
+export * from './ontology.service';
+import { OntologyService } from './ontology.service';
+export * from './ontology.serviceInterface';
+export * from './pythonController.service';
+import { PythonControllerService } from './pythonController.service';
+export * from './pythonController.serviceInterface';
+export const APIS = [ActuatorService, DataBaseSourceService, OntologyService, PythonControllerService];

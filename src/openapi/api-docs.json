@@ -5,10 +5,21 @@
     "title": "com.inesdata-map:mapper-backend",
     "version": "1.0.0-SNAPSHOT"
   },
-  "servers": [{ "url": "http://localhost:8080", "description": "Generated server url" }],
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Generated server url"
+    }
+  ],
   "tags": [
-    { "description": "Manage ontologies", "name": "Ontology" },
-    { "description": "Manage database sources", "name": "DataBaseSource" },
+    {
+      "description": "Manage ontologies",
+      "name": "Ontology"
+    },
+    {
+      "description": "Manage database sources",
+      "name": "DataBaseSource"
+    },
     {
       "description": "Monitor and interact",
       "externalDocs": {
@@ -28,19 +39,34 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": { "type": "object", "additionalProperties": { "$ref": "#/components/schemas/Link" } }
+                  "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/Link"
+                    }
+                  }
                 }
               },
               "application/vnd.spring-boot.actuator.v2+json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": { "type": "object", "additionalProperties": { "$ref": "#/components/schemas/Link" } }
+                  "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/Link"
+                    }
+                  }
                 }
               },
               "application/vnd.spring-boot.actuator.v3+json": {
                 "schema": {
                   "type": "object",
-                  "additionalProperties": { "type": "object", "additionalProperties": { "$ref": "#/components/schemas/Link" } }
+                  "additionalProperties": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "$ref": "#/components/schemas/Link"
+                    }
+                  }
                 }
               }
             },
@@ -48,7 +74,9 @@
           }
         },
         "summary": "Actuator root web endpoint",
-        "tags": ["Actuator"]
+        "tags": [
+          "Actuator"
+        ]
       }
     },
     "/actuator/health": {
@@ -57,15 +85,29 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             },
             "description": "OK"
           }
         },
         "summary": "Actuator web endpoint 'health'",
-        "tags": ["Actuator"]
+        "tags": [
+          "Actuator"
+        ]
       }
     },
     "/actuator/health/**": {
@@ -74,15 +116,29 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             },
             "description": "OK"
           }
         },
         "summary": "Actuator web endpoint 'health-path'",
-        "tags": ["Actuator"]
+        "tags": [
+          "Actuator"
+        ]
       }
     },
     "/actuator/info": {
@@ -91,15 +147,29 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             },
             "description": "OK"
           }
         },
         "summary": "Actuator web endpoint 'info'",
-        "tags": ["Actuator"]
+        "tags": [
+          "Actuator"
+        ]
       }
     },
     "/actuator/loggers": {
@@ -108,45 +178,117 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             },
             "description": "OK"
           }
         },
         "summary": "Actuator web endpoint 'loggers'",
-        "tags": ["Actuator"]
+        "tags": [
+          "Actuator"
+        ]
       }
     },
     "/actuator/loggers/{name}": {
       "get": {
         "operationId": "loggers-name",
-        "parameters": [{ "in": "path", "name": "name", "required": true, "schema": { "type": "string" } }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
-              "application/json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             },
             "description": "OK"
           }
         },
         "summary": "Actuator web endpoint 'loggers-name'",
-        "tags": ["Actuator"]
+        "tags": [
+          "Actuator"
+        ]
       },
       "post": {
         "operationId": "loggers-name_2",
-        "parameters": [{ "in": "path", "name": "name", "required": true, "schema": { "type": "string" } }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
-            "application/json": { "schema": { "type": "string", "enum": ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL", "OFF"] } }
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "TRACE",
+                  "DEBUG",
+                  "INFO",
+                  "WARN",
+                  "ERROR",
+                  "FATAL",
+                  "OFF"
+                ]
+              }
+            }
           }
         },
-        "responses": { "200": { "content": { "*/*": { "schema": { "type": "object" } } }, "description": "OK" } },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
         "summary": "Actuator web endpoint 'loggers-name'",
-        "tags": ["Actuator"]
+        "tags": [
+          "Actuator"
+        ]
       }
     },
     "/actuator/metrics": {
@@ -155,33 +297,70 @@
         "responses": {
           "200": {
             "content": {
-              "application/json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             },
             "description": "OK"
           }
         },
         "summary": "Actuator web endpoint 'metrics'",
-        "tags": ["Actuator"]
+        "tags": [
+          "Actuator"
+        ]
       }
     },
     "/actuator/metrics/{requiredMetricName}": {
       "get": {
         "operationId": "metrics-requiredMetricName",
-        "parameters": [{ "in": "path", "name": "requiredMetricName", "required": true, "schema": { "type": "string" } }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "requiredMetricName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
-              "application/json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v2+json": { "schema": { "type": "object" } },
-              "application/vnd.spring-boot.actuator.v3+json": { "schema": { "type": "object" } }
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v2+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/vnd.spring-boot.actuator.v3+json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             },
             "description": "OK"
           }
         },
         "summary": "Actuator web endpoint 'metrics-requiredMetricName'",
-        "tags": ["Actuator"]
+        "tags": [
+          "Actuator"
+        ]
       }
     },
     "/actuator/prometheus": {
@@ -190,17 +369,29 @@
         "responses": {
           "200": {
             "content": {
-              "application/openmetrics-text;version=1.0.0;charset=utf-8": { "schema": { "type": "object" } },
-              "application/vnd.google.protobuf;proto=io.prometheus.client.MetricFamily;encoding=delimited": {
-                "schema": { "type": "object" }
+              "application/openmetrics-text;version=1.0.0;charset=utf-8": {
+                "schema": {
+                  "type": "object"
+                }
               },
-              "text/plain;version=0.0.4;charset=utf-8": { "schema": { "type": "object" } }
+              "application/vnd.google.protobuf;proto=io.prometheus.client.MetricFamily;encoding=delimited": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "text/plain;version=0.0.4;charset=utf-8": {
+                "schema": {
+                  "type": "object"
+                }
+              }
             },
             "description": "OK"
           }
         },
         "summary": "Actuator web endpoint 'prometheus'",
-        "tags": ["Actuator"]
+        "tags": [
+          "Actuator"
+        ]
       }
     },
     "/database-sources/{id}/table-column-names": {
@@ -208,48 +399,150 @@
         "description": "Retrieves a list of column names for the specified table name and a data source ID.",
         "operationId": "getColumnNames",
         "parameters": [
-          { "in": "path", "name": "id", "required": true, "schema": { "type": "integer", "format": "int64" } },
-          { "in": "query", "name": "table", "required": true, "schema": { "type": "string" } }
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "in": "query",
+            "name": "table",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
-          "200": { "content": { "*/*": { "schema": { "type": "array", "items": { "type": "string" } } } }, "description": "OK" }
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
         },
         "summary": "Get column names for a database table",
-        "tags": ["DataBaseSource"]
+        "tags": [
+          "DataBaseSource"
+        ]
       }
     },
     "/database-sources/{id}/table-names": {
       "get": {
         "description": "Retrieves a list of table names for the specified data source ID.",
         "operationId": "getTableNames",
-        "parameters": [{ "in": "path", "name": "id", "required": true, "schema": { "type": "integer", "format": "int64" } }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
         "responses": {
-          "200": { "content": { "*/*": { "schema": { "type": "array", "items": { "type": "string" } } } }, "description": "OK" }
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
         },
         "summary": "Get table names for a database source",
-        "tags": ["DataBaseSource"]
+        "tags": [
+          "DataBaseSource"
+        ]
       }
     },
     "/ontologies": {
       "get": {
         "operationId": "listOntologies",
         "parameters": [
-          { "in": "query", "name": "page", "required": true, "schema": { "type": "integer", "format": "int32" } },
-          { "in": "query", "name": "size", "required": true, "schema": { "type": "integer", "format": "int32" } }
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "responses": {
           "200": {
             "content": {
-              "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/SearchOntologyDTO" } } }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageSearchOntologyDTO"
+                }
+              }
             },
-            "description": "Succes"
+            "description": "OK"
           }
         },
         "summary": "List all ontologies",
-        "tags": ["Ontology"]
+        "tags": [
+          "Ontology"
+        ]
       }
     },
     "/ontologies/{id}": {
+      "delete": {
+        "operationId": "deleteOntology",
+        "parameters": [
+          {
+            "description": "Ontology identifier to delete",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Deleted"
+          }
+        },
+        "summary": "Delete ontology",
+        "tags": [
+          "Ontology"
+        ]
+      },
       "put": {
         "operationId": "updateOntology",
         "parameters": [
@@ -258,57 +551,218 @@
             "in": "path",
             "name": "id",
             "required": true,
-            "schema": { "type": "integer", "format": "int64" }
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
         ],
         "requestBody": {
-          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OntologyDTO" } } },
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OntologyDTO"
+              }
+            }
+          },
           "required": true
         },
         "responses": {
           "200": {
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OntologyDTO" } } },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OntologyDTO"
+                }
+              }
+            },
             "description": "Sucess"
           }
         },
         "summary": "Update given ontology",
-        "tags": ["Ontology"]
+        "tags": [
+          "Ontology"
+        ]
       }
     },
     "/python": {
       "get": {
         "operationId": "run",
         "responses": {
-          "200": { "content": { "*/*": { "schema": { "type": "array", "items": { "type": "string" } } } }, "description": "OK" }
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
         },
-        "tags": ["python-controller"]
+        "tags": [
+          "python-controller"
+        ]
       }
     }
   },
   "components": {
     "schemas": {
-      "Link": { "type": "object", "properties": { "href": { "type": "string" }, "templated": { "type": "boolean" } } },
+      "Link": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string"
+          },
+          "templated": {
+            "type": "boolean"
+          }
+        }
+      },
       "OntologyDTO": {
         "type": "object",
         "properties": {
-          "content": { "type": "string" },
-          "id": { "type": "integer", "format": "int64" },
-          "name": { "type": "string" },
-          "title": { "type": "string" },
-          "uploadDate": { "type": "string", "format": "date-time" },
-          "url": { "type": "string" },
-          "version": { "type": "integer", "format": "int64" },
-          "versionName": { "type": "string" }
+          "content": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "uploadDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "url": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "versionName": {
+            "type": "string"
+          }
+        }
+      },
+      "PageSearchOntologyDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchOntologyDTO"
+            }
+          },
+          "empty": {
+            "type": "boolean"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "PageableObject": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "paged": {
+            "type": "boolean"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "unpaged": {
+            "type": "boolean"
+          }
         }
       },
       "SearchOntologyDTO": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "title": { "type": "string" },
-          "uploadDate": { "type": "string", "format": "date-time" },
-          "url": { "type": "string" },
-          "versionName": { "type": "string" }
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "uploadDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "url": {
+            "type": "string"
+          },
+          "versionName": {
+            "type": "string"
+          }
+        }
+      },
+      "SortObject": {
+        "type": "object",
+        "properties": {
+          "empty": {
+            "type": "boolean"
+          },
+          "sorted": {
+            "type": "boolean"
+          },
+          "unsorted": {
+            "type": "boolean"
+          }
         }
       }
     }
