@@ -25,16 +25,6 @@ export const MESSAGES_ERRORS_REQUIRED: string = translate('messages.errors.requi
 export const LABELS_YES: string = translate('labels.yes');
 export const LABELS_NO: string = translate('labels.no');
 export const LABELS_HOME: string = translate('labels.home');
-export const LABELS_NAME: string = translate('labels.name');
-export const LABELS_TITLE: string = translate('labels.title');
-export const LABELS_URL: string = translate('labels.url');
-export const LABELS_VERSION_NAME: string = translate('labels.version_name');
-export const LABELS_DATE: string = translate('labels.date');
-
-// Ontologies
-export const ONTOLOGIES_ONTOLOGY_LIST: string = translate('ontologies.ontology.list');
-export const ONTOLOGIES_ONTOLOGY_ADD: string = translate('ontologies.ontology.add');
-
 
 // Routes
 export const HOME: string = '/home';
