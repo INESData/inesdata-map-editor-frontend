@@ -285,6 +285,7 @@
             "description": "OK"
           }
         },
+        "responses": { "200": { "content": { "application/json": { "schema": { "type": "object" } } }, "description": "OK" } },
         "summary": "Actuator web endpoint 'loggers-name'",
         "tags": [
           "Actuator"
@@ -419,16 +420,7 @@
         ],
         "responses": {
           "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
+            "content": { "application/json": { "schema": { "type": "array", "items": { "type": "string" } } } },
             "description": "OK"
           }
         },
@@ -455,16 +447,7 @@
         ],
         "responses": {
           "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
+            "content": { "application/json": { "schema": { "type": "array", "items": { "type": "string" } } } },
             "description": "OK"
           }
         },
@@ -590,16 +573,7 @@
         "operationId": "run",
         "responses": {
           "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
+            "content": { "application/json": { "schema": { "type": "array", "items": { "type": "string" } } } },
             "description": "OK"
           }
         },
