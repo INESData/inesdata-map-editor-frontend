@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { OntologyService, PageSearchOntologyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { catchError, of } from 'rxjs';
 import { PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
@@ -33,8 +33,8 @@ export class OntologiesListComponent implements OnInit {
 					return of({ content: [] });
 				})
 			)
-			.subscribe((data) => {
-				this.ontologies = data.content;
+			.subscribe((data: PageSearchOntologyDTO) => {
+				this.ontologies = data.content ?? [];
 			});
 	}
 
