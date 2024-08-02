@@ -3,9 +3,8 @@
     "welcome": "INESData"
   },
   "labels": {
-    "date": "Fecha",
-    "home": "Inicio",
     "name": "Nombre",
+    "date": "Fecha",
     "no": "No",
     "title": "Título",
     "url": "URL",
@@ -27,6 +26,7 @@
   "ontologies": {
     "ontology": {
       "add": "Añadir ontología",
+      "edit": "Editar ontología",
       "list": "Lista de Ontologías"
     }
   },
