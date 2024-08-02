@@ -15,7 +15,7 @@ export class OntologiesListComponent implements OnInit {
 	constructor(private ontologyService: OntologyService, private languageService: LanguageService) { }
 
 	ontologies: SearchOntologyDTO[];
-	selectedOntology: SearchOntologyDTO | null = null;
+	selectedOntology: SearchOntologyDTO = null;
 	header: string = '';
 	isEditMode: boolean = false;
 	visible: boolean = false;
@@ -52,8 +52,8 @@ export class OntologiesListComponent implements OnInit {
 	}
 
 	/**
- * Called when a form is successfully submitted
- */
+	 * Called when a form is successfully submitted
+	 */
 	onFormSubmitted() {
 		this.visible = false;
 		this.loadOntologies();
