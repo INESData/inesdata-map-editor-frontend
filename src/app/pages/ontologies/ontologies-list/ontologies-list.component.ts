@@ -1,7 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OntologyService, PageSearchOntologyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
-import { catchError, of } from 'rxjs';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { ONTOLOGIES_ADD_ONTOLOGY, ONTOLOGIES_EDIT_ONTOLOGY, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
@@ -45,14 +44,19 @@ export class OntologiesListComponent implements OnInit {
 		this.ontologyService
 			.listOntologies(PAGE, SIZE)
 			.pipe(
-				catchError(error => {
-					console.error('Error loading ontologies:', error);
-					return of({ content: [] } as PageSearchOntologyDTO);
-				}),
 				//TODO: pagination and show success/error popup
 				takeUntilDestroyed(this.destroyRef))
 			.subscribe((data: PageSearchOntologyDTO) => {
 				this.ontologies = data.content ?? [];
 			});
+	}
+
+	/**
+ * Called when a form is successfully submitted
+ */
+	onFormSubmitted() {
+		this.visible = false;
+		this.loadOntologies();
+		this.selectedOntology = null;
 	}
 }

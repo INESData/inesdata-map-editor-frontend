@@ -30,5 +30,5 @@
 	</p-table>
 </div>
 <p-dialog [header]="header" [modal]="true" [draggable]="false" [(visible)]="visible" [style]="{ width: '40rem' }">
-	<app-ontologies-form [isEditMode]="isEditMode" [ontology]="selectedOntology" (formSubmitted)="visible = false"></app-ontologies-form>
+	<app-ontologies-form [isEditMode]="isEditMode" [ontology]="selectedOntology" (formSubmitted)="onFormSubmitted()"></app-ontologies-form>
 </p-dialog>

@@ -513,6 +513,46 @@
         "tags": [
           "Ontology"
         ]
+      },
+      "post": {
+        "operationId": "createOntology",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "$ref": "#/components/schemas/OntologyDTO"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "body"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OntologyDTO"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "summary": "Create given ontology",
+        "tags": [
+          "Ontology"
+        ]
       }
     },
     "/ontologies/{id}": {
@@ -556,13 +596,24 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/OntologyDTO"
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "$ref": "#/components/schemas/OntologyDTO"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "body"
+                ]
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
@@ -573,7 +624,7 @@
                 }
               }
             },
-            "description": "Sucess"
+            "description": "OK"
           }
         },
         "summary": "Update given ontology",
@@ -623,7 +674,11 @@
         "type": "object",
         "properties": {
           "content": {
-            "type": "string"
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "byte"
+            }
           },
           "id": {
             "type": "integer",
@@ -649,7 +704,8 @@
           "versionName": {
             "type": "string"
           }
-        }
+        },
+        "description": "The ontology to save"
       },
       "PageSearchOntologyDTO": {
         "type": "object",
