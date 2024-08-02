@@ -1,26 +1,24 @@
 <div class="whiteContainer">
-	<h1 class="mb-3">Lista de Ontologías</h1>
-	<p-button (onClick)="showDialog()" class="btn btn__secondary" label="Añadir ontología" />
+	<h1 class="mb-3">{{ "ontologies.ontology.list" | translate }}</h1>
+	<p-button (onClick)="showDialog()" class="btn btn__secondary" [label]="'ontologies.ontology.add' | translate" />
 	<p-table class="mt-2 block" [value]="ontologies">
 		<ng-template pTemplate="header">
 			<tr>
-				<th scope="col">Nombre</th>
-				<th scope="col">Título</th>
-				<th scope="col">URL</th>
-				<th scope="col">Autor</th>
-				<th scope="col">Versión</th>
-				<th scope="col">Fecha</th>
+				<th scope="col">{{ "labels.name" | translate }}</th>
+				<th scope="col">{{ "labels.title" | translate }}</th>
+				<th scope="col">{{ "labels.url" | translate }}</th>
+				<th scope="col">{{ "labels.version_name" | translate }}</th>
+				<th scope="col">{{ "labels.date" | translate }}</th>
 				<th scope="col"></th>
 			</tr>
 		</ng-template>
 		<ng-template pTemplate="body" let-ontology>
 			<tr>
-				<td>{{ ontology.nombre }}</td>
-				<td>{{ ontology.titulo }}</td>
+				<td>{{ ontology.name }}</td>
+				<td>{{ ontology.title }}</td>
 				<td>{{ ontology.url }}</td>
-				<td>{{ ontology.autor }}</td>
-				<td>{{ ontology.version }}</td>
-				<td>{{ ontology.fecha }}</td>
+				<td>{{ ontology.versionName }}</td>
+				<td>{{ ontology.uploadDate | date: "dd-MM-yyyy" }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
 						<p-button class="btn btn__icon icon-lapiz mr-1" />
