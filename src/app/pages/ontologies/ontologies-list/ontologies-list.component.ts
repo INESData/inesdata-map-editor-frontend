@@ -52,6 +52,21 @@ export class OntologiesListComponent implements OnInit {
 	}
 
 	/**
+	 * Delete ontology by its id.
+	 */
+	deleteOntology(id: number): void {
+		this.ontologyService.deleteOntology(id)
+			.pipe(
+				//TODO: action confirmation popup
+				takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => {
+				this.ontologies = this.ontologies.filter(ontology => ontology.id !== id);
+				console.log('Ontology deleted');
+			},
+			);
+	}
+
+	/**
 	 * Called when a form is successfully submitted
 	 */
 	onFormSubmitted() {
