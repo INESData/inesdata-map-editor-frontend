@@ -1,5 +1,21 @@
 <form [formGroup]="ontologyForm">
-	<div class="grid">
+	<p class="mb-0">Seleccione el archivo de ontología</p>
+	<p-toast />
+	<p-fileUpload
+		url="https://www.primefaces.org/cdn/api/upload.php"
+		(onUpload)="onUpload($event)"
+		[multiple]="true"
+		accept="image/*"
+		maxFileSize="1000000"
+		chooseLabel="Importar desde local"
+	>
+		<ng-template pTemplate="content">
+			<ul *ngIf="uploadedFiles.length">
+				<li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+			</ul>
+		</ng-template>
+	</p-fileUpload>
+	<div class="grid mt-1">
 		<div class="col-6">
 			<div>
 				<label for="Nombre">Nombre</label>

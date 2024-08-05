@@ -182,3 +182,77 @@
 		padding: 1rem;
 	}
 }
+
+// FILE UPLOADER
+
+.p-fileupload {
+	display: flex;
+	.p-fileupload-buttonbar {
+		padding: 0;
+		width: auto;
+		background: unset;
+		border: 0;
+		.p-fileupload-choose {
+			border-radius: 0px;
+			border-color: $primary;
+			padding-right: 30px;
+			padding-left: 25px;
+			background: unset;
+			.p-button-label {
+				color: $primary;
+			}
+			.p-button-icon {
+				display: none;
+			}
+			&:focus,
+			&:focus-visible,
+			&:active {
+				box-shadow: 0 0 0 0.2rem $primaryfade;
+			}
+		}
+		p-button {
+			display: none;
+		}
+	}
+	.p-fileupload-content {
+		padding: 0;
+		width: min-content;
+		border: 0;
+		border-radius: 0;
+		.p-progressbar {
+			display: none;
+		}
+		.p-fileupload-files {
+			.p-fileupload-row {
+				height: 43px;
+				width: 100%;
+				max-width: 300px;
+				background-color: $primary;
+				img {
+					display: none;
+				}
+				.p-fileupload-filename {
+					width: 100%;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+					color: $white;
+				}
+				.p-button-icon-only {
+					padding: 0;
+					margin: 0;
+					background: unset;
+					border: 0px;
+				}
+				div:first-child {
+					display: none;
+					padding: 0px;
+				}
+				div:nth-child(3) {
+					display: none;
+					padding: 0px;
+				}
+			}
+		}
+	}
+}

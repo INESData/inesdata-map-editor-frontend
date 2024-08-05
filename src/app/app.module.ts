@@ -10,6 +10,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoggerModule, NGXLogger } from 'ngx-logger';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
 import { ApiModule, Configuration, ConfigurationParameters } from 'projects/mapper-api-client';
 import { environment } from 'src/environments/environment';
 
@@ -40,6 +42,8 @@ import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANGUAGE_STORAGE_NAME } from './
 		OntologiesModule,
 		DataSourcesModule,
 		ButtonModule,
+		DropdownModule,
+		FileUploadModule,
 		DialogModule,
 		TranslateModule.forRoot({
 			loader: {

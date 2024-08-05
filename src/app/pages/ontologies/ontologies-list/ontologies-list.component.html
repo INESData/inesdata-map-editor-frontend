@@ -23,14 +23,26 @@
 				<td>{{ ontology.fecha }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
-						<p-button class="btn btn__icon icon-lapiz mr-1" />
-						<p-button class="btn btn__icon icon-papelera" />
+						<p-button (onClick)="showDialog()" class="btn btn__icon icon-lapiz mr-1" />
+						<p-button (onClick)="showDialogDelete()" class="btn btn__icon icon-papelera" />
 					</div>
 				</td>
 			</tr>
 		</ng-template>
 	</p-table>
 </div>
-<p-dialog header="Añadir ontología" [modal]="true" [draggable]="false" [(visible)]="visible" [style]="{ width: '40rem' }">
-	<app-ontologies-form (formSubmitted)="visible = false"></app-ontologies-form>
+<p-dialog header="Añadir ontología" [modal]="true" [draggable]="false" [(visible)]="addDialogVisible" [style]="{ width: '40rem' }">
+	<app-ontologies-form (formSubmitted)="addDialogVisible = false"></app-ontologies-form>
+</p-dialog>
+<p-dialog
+	header="¿Seguro que quieres eliminar esta ontología?"
+	[modal]="true"
+	[draggable]="false"
+	[(visible)]="deleteDialogVisible"
+	[style]="{ width: '40rem' }"
+>
+	<div class="flex flex-justify-right w-full">
+		<p-button class="btn btn__primary mr-2" label="Eliminar" type="button" />
+		<p-button class="btn btn__secondary" label="Cancelar" type="button" />
+	</div>
 </p-dialog>

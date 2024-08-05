@@ -6,17 +6,71 @@ import { Component } from '@angular/core';
 })
 export class OntologiesListComponent {
 	ontologies = [
-		{ nombre: 'Education', titulo: 'Te example ontology', url: 'https://w3id.org/example', autor: 'Juan Carlos Pérez Bolsón', version: '17 . 13', fecha: '30 / 04 / 2024' },
-		{ nombre: 'Education', titulo: 'Te example ontology', url: 'https://w3id.org/example', autor: 'Juan Carlos Pérez Bolsón', version: '17 . 13', fecha: '30 / 04 / 2024' },
-		{ nombre: 'Education', titulo: 'Te example ontology', url: 'https://w3id.org/example', autor: 'Juan Carlos Pérez Bolsón', version: '17 . 13', fecha: '30 / 04 / 2024' },
-		{ nombre: 'Education', titulo: 'Te example ontology', url: 'https://w3id.org/example', autor: 'Juan Carlos Pérez Bolsón', version: '17 . 13', fecha: '30 / 04 / 2024' },
-		{ nombre: 'Education', titulo: 'Te example ontology', url: 'https://w3id.org/example', autor: 'Juan Carlos Pérez Bolsón', version: '17 . 13', fecha: '30 / 04 / 2024' },
-		{ nombre: 'Education', titulo: 'Te example ontology', url: 'https://w3id.org/example', autor: 'Juan Carlos Pérez Bolsón', version: '17 . 13', fecha: '30 / 04 / 2024' },
-		{ nombre: 'Education', titulo: 'Te example ontology', url: 'https://w3id.org/example', autor: 'Juan Carlos Pérez Bolsón', version: '17 . 13', fecha: '30 / 04 / 2024' }
+		{
+			nombre: 'Education',
+			titulo: 'Te example ontology',
+			url: 'https://w3id.org/example',
+			autor: 'Juan Carlos Pérez Bolsón',
+			version: '17 . 13',
+			fecha: '30 / 04 / 2024'
+		},
+		{
+			nombre: 'Education',
+			titulo: 'Te example ontology',
+			url: 'https://w3id.org/example',
+			autor: 'Juan Carlos Pérez Bolsón',
+			version: '17 . 13',
+			fecha: '30 / 04 / 2024'
+		},
+		{
+			nombre: 'Education',
+			titulo: 'Te example ontology',
+			url: 'https://w3id.org/example',
+			autor: 'Juan Carlos Pérez Bolsón',
+			version: '17 . 13',
+			fecha: '30 / 04 / 2024'
+		},
+		{
+			nombre: 'Education',
+			titulo: 'Te example ontology',
+			url: 'https://w3id.org/example',
+			autor: 'Juan Carlos Pérez Bolsón',
+			version: '17 . 13',
+			fecha: '30 / 04 / 2024'
+		},
+		{
+			nombre: 'Education',
+			titulo: 'Te example ontology',
+			url: 'https://w3id.org/example',
+			autor: 'Juan Carlos Pérez Bolsón',
+			version: '17 . 13',
+			fecha: '30 / 04 / 2024'
+		},
+		{
+			nombre: 'Education',
+			titulo: 'Te example ontology',
+			url: 'https://w3id.org/example',
+			autor: 'Juan Carlos Pérez Bolsón',
+			version: '17 . 13',
+			fecha: '30 / 04 / 2024'
+		},
+		{
+			nombre: 'Education',
+			titulo: 'Te example ontology',
+			url: 'https://w3id.org/example',
+			autor: 'Juan Carlos Pérez Bolsón',
+			version: '17 . 13',
+			fecha: '30 / 04 / 2024'
+		}
 	];
-	visible: boolean = false;
+	addDialogVisible: boolean = false;
+	deleteDialogVisible: boolean = false;
 
 	showDialog() {
-		this.visible = true;
+		this.addDialogVisible = true;
+	}
+
+	showDialogDelete() {
+		this.deleteDialogVisible = true;
 	}
 }
