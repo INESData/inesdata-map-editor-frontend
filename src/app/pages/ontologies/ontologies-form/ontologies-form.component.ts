@@ -1,4 +1,4 @@
-import { Component, DestroyRef, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { OntologyDTO, OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
@@ -9,16 +9,32 @@ import { createDtoForm } from 'src/app/shared/utils/form.utils';
 	selector: 'app-ontologies-form',
 	templateUrl: './ontologies-form.component.html'
 })
-export class OntologiesFormComponent implements OnInit, OnChanges {
+export class OntologiesFormComponent implements OnInit {
 
 	destroyRef = inject(DestroyRef);
 
 	@Output() formSubmitted = new EventEmitter<void>();
-	@Input() ontology: SearchOntologyDTO;
 	@Input() isEditMode: boolean = false;
 
 	file: File;
 	ontologyForm: FormGroup = null;
+	private _ontology: SearchOntologyDTO = null;
+
+	/**
+	 * This setter updates the _ontology property
+	 * whenever a new value is passed from the parent component.
+	 */
+	@Input() set ontology(value: SearchOntologyDTO) {
+		this._ontology = value;
+		if (this.ontologyForm) {
+			if (value) {
+				this.ontologyForm.patchValue(value);
+			} else {
+				this.ontologyForm.reset();
+			}
+		}
+	}
+
 
 	/**
 	 * Constructor
@@ -31,16 +47,6 @@ export class OntologiesFormComponent implements OnInit, OnChanges {
 	 */
 	ngOnInit() {
 		this.ontologyForm = createDtoForm(this.fb, ontologyDtoForm);
-	}
-
-	/**
-	 * Detect changes to the ontology input and updates form
-	 */
-	ngOnChanges(changes: SimpleChanges) {
-		if (changes.ontology && this.ontologyForm) {
-			const ontology = changes.ontology.currentValue;
-			ontology ? this.ontologyForm.patchValue(ontology) : this.ontologyForm.reset();
-		}
 	}
 
 	/**
