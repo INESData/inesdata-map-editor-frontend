@@ -21,7 +21,7 @@
 				<td>{{ ontology.uploadDate | date: "dd-MM-yyyy" }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
-						<p-button class="btn btn__icon icon-lapiz mr-1" />
+						<p-button class="btn btn__icon icon-lapiz mr-1" (click)="showDialog(ontology)" />
 						<p-button class="btn btn__icon icon-papelera" />
 					</div>
 				</td>
@@ -29,6 +29,6 @@
 		</ng-template>
 	</p-table>
 </div>
-<p-dialog header="Añadir ontología" [modal]="true" [draggable]="false" [(visible)]="visible" [style]="{ width: '40rem' }">
-	<app-ontologies-form (formSubmitted)="visible = false"></app-ontologies-form>
+<p-dialog [header]="header" [modal]="true" [draggable]="false" [(visible)]="visible" [style]="{ width: '40rem' }">
+	<app-ontologies-form [isEditMode]="isEditMode" [ontology]="selectedOntology" (formSubmitted)="onFormSubmitted()"></app-ontologies-form>
 </p-dialog>

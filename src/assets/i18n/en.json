@@ -4,6 +4,7 @@
   },
   "labels": {
     "date": "Date",
+    "file": "File",
     "home": "Home",
     "name": "Name",
     "no": "No",
@@ -27,6 +28,7 @@
   "ontologies": {
     "ontology": {
       "add": "Add ontology",
+      "edit": "Edit ontology",
       "list": "Ontologies list"
     }
   },

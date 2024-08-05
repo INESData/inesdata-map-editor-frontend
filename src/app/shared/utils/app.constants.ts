@@ -26,6 +26,11 @@ export const LABELS_YES: string = translate('labels.yes');
 export const LABELS_NO: string = translate('labels.no');
 export const LABELS_HOME: string = translate('labels.home');
 
+//Ontologies
+export const ONTOLOGIES_ADD_ONTOLOGY: string = translate('ontologies.ontology.add');
+export const ONTOLOGIES_EDIT_ONTOLOGY: string = translate('ontologies.ontology.edit');
+
+
 // Routes
 export const HOME: string = '/home';
 
