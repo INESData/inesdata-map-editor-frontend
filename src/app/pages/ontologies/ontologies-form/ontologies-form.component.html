@@ -1,30 +1,15 @@
 <form [formGroup]="ontologyForm">
 	<p class="mb-0">Seleccione el archivo de ontología</p>
-	<p-toast />
-	<p-fileUpload
-		url="https://www.primefaces.org/cdn/api/upload.php"
-		(onUpload)="onUpload($event)"
-		[multiple]="true"
-		accept="image/*"
-		maxFileSize="1000000"
-		chooseLabel="Importar desde local"
-	>
-		<ng-template pTemplate="content">
-			<ul *ngIf="uploadedFiles.length">
-				<li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
-			</ul>
-		</ng-template>
-	</p-fileUpload>
 	<div class="grid mt-1">
 		<div class="col-6">
 			<div>
-				<label for="Nombre">Nombre</label>
+				<label for="Nombre">{{ "labels.name" | translate }}</label>
 				<input type="text" pInputText formControlName="name" />
 			</div>
 		</div>
 		<div class="col-6">
 			<div>
-				<label for="Título">Título</label>
+				<label for="Título">{{ "labels.title" | translate }}</label>
 				<input type="text" pInputText formControlName="title" />
 			</div>
 		</div>
@@ -32,18 +17,32 @@
 	<div class="grid">
 		<div class="col-9">
 			<div>
-				<label for="URL">URL</label>
-				<input type="text" pInputText />
+				<label for="URL">{{ "labels.url" | translate }}</label>
+				<input type="text" pInputText formControlName="url" />
 			</div>
 		</div>
 		<div class="col-3">
 			<div>
-				<label for="Versión">Versión</label>
-				<input type="text" pInputText />
+				<label for="Versión">{{ "labels.version_name" | translate }}</label>
+				<input type="text" pInputText formControlName="versionName" />
+			</div>
+		</div>
+	</div>
+	<div class="grid">
+		<div class="col-12">
+			<div>
+				<label for="File">{{ "labels.file" | translate }}</label>
+				<input type="file" pInputText (change)="onFileSelected($event)" />
 			</div>
 		</div>
 	</div>
 	<div class="flex justify-content-end gap-2 mt-2">
-		<p-button class="btn btn__primary" label="Añadir ontología" type="button" (click)="onSubmit()" />
+		<p-button
+			class="btn btn__primary"
+			[label]="isEditMode ? ('ontologies.ontology.edit' | translate) : ('ontologies.ontology.add' | translate)"
+			type="button"
+			(click)="onSubmit()"
+			(keydown.enter)="onSubmit()"
+		/>
 	</div>
 </form>

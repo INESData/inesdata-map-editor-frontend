@@ -1,48 +1,34 @@
 <div class="whiteContainer">
-	<h1 class="mb-3">Lista de Ontologías</h1>
-	<p-button (onClick)="showDialog()" class="btn btn__secondary" label="Añadir ontología" />
+	<h1 class="mb-3">{{ "ontologies.ontology.list" | translate }}</h1>
+	<p-button (onClick)="showDialog()" class="btn btn__secondary" [label]="'ontologies.ontology.add' | translate" />
 	<p-table class="mt-2 block" [value]="ontologies">
 		<ng-template pTemplate="header">
 			<tr>
-				<th scope="col">Nombre</th>
-				<th scope="col">Título</th>
-				<th scope="col">URL</th>
-				<th scope="col">Autor</th>
-				<th scope="col">Versión</th>
-				<th scope="col">Fecha</th>
+				<th scope="col">{{ "labels.name" | translate }}</th>
+				<th scope="col">{{ "labels.title" | translate }}</th>
+				<th scope="col">{{ "labels.url" | translate }}</th>
+				<th scope="col">{{ "labels.version_name" | translate }}</th>
+				<th scope="col">{{ "labels.date" | translate }}</th>
 				<th scope="col"></th>
 			</tr>
 		</ng-template>
 		<ng-template pTemplate="body" let-ontology>
 			<tr>
-				<td>{{ ontology.nombre }}</td>
-				<td>{{ ontology.titulo }}</td>
+				<td>{{ ontology.name }}</td>
+				<td>{{ ontology.title }}</td>
 				<td>{{ ontology.url }}</td>
-				<td>{{ ontology.autor }}</td>
-				<td>{{ ontology.version }}</td>
-				<td>{{ ontology.fecha }}</td>
+				<td>{{ ontology.versionName }}</td>
+				<td>{{ ontology.uploadDate | date: "dd-MM-yyyy" }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
-						<p-button (onClick)="showDialog()" class="btn btn__icon icon-lapiz mr-1" />
-						<p-button (onClick)="showDialogDelete()" class="btn btn__icon icon-papelera" />
+						<p-button class="btn btn__icon icon-lapiz mr-1" (click)="showDialog(ontology)" />
+						<p-button class="btn btn__icon icon-papelera" (click)="deleteOntology(ontology.id)" />
 					</div>
 				</td>
 			</tr>
 		</ng-template>
 	</p-table>
 </div>
-<p-dialog header="Añadir ontología" [modal]="true" [draggable]="false" [(visible)]="addDialogVisible" [style]="{ width: '40rem' }">
-	<app-ontologies-form (formSubmitted)="addDialogVisible = false"></app-ontologies-form>
-</p-dialog>
-<p-dialog
-	header="¿Seguro que quieres eliminar esta ontología?"
-	[modal]="true"
-	[draggable]="false"
-	[(visible)]="deleteDialogVisible"
-	[style]="{ width: '40rem' }"
->
-	<div class="flex flex-justify-right w-full">
-		<p-button class="btn btn__primary mr-2" label="Eliminar" type="button" />
-		<p-button class="btn btn__secondary" label="Cancelar" type="button" />
-	</div>
+<p-dialog [header]="header" [modal]="true" [draggable]="false" [(visible)]="visible" [style]="{ width: '40rem' }">
+	<app-ontologies-form [isEditMode]="isEditMode" [ontology]="selectedOntology" (formSubmitted)="onFormSubmitted()"></app-ontologies-form>
 </p-dialog>

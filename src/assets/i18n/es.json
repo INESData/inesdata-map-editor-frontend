@@ -1,28 +1,42 @@
 {
-	"home": {
-		"welcome": "INESData"
-	},
-	"labels": {
-		"no": "No",
-		"yes": "Sí"
-	},
-	"messages": {
-		"errors": {
-			"generic": "Ha ocurrido un error procesando la operación",
-			"internet": {
-				"connection": "No hay conexión a internet"
-			},
-			"login": "Error al acceder",
-			"required": "El campo es requerido",
-			"title": "Error"
-		},
-		"success": "Éxito"
-	},
-	"sidebar": {
-		"labels": {
-			"data-sources": "Fuentes de datos",
-			"mappings": "Mapeos",
-			"ontologies": "Ontologías"
-		}
-	}
+  "home": {
+    "welcome": "INESData"
+  },
+  "labels": {
+    "date": "Fecha",
+    "file": "Fichero",
+    "home": "Inicio",
+    "name": "Nombre",
+    "no": "No",
+    "title": "Título",
+    "url": "URL",
+    "version_name": "Versión",
+    "yes": "Sí"
+  },
+  "messages": {
+    "errors": {
+      "generic": "Ha ocurrido un error procesando la operación",
+      "internet": {
+        "connection": "No hay conexión a internet"
+      },
+      "login": "Error al acceder",
+      "required": "El campo es requerido",
+      "title": "Error"
+    },
+    "success": "Éxito"
+  },
+  "ontologies": {
+    "ontology": {
+      "add": "Añadir ontología",
+      "edit": "Editar ontología",
+      "list": "Lista de Ontologías"
+    }
+  },
+  "sidebar": {
+    "labels": {
+      "data-sources": "Fuentes de datos",
+      "mappings": "Mapeos",
+      "ontologies": "Ontologías"
+    }
+  }
 }

@@ -4,7 +4,7 @@ import { MenuItem } from 'primeng/api';
 import { filter, map } from 'rxjs';
 
 import { LanguageService } from '../../services/language.service';
-import { HOME } from '../../utils/app.constants';
+import { HOME, LABELS_HOME } from '../../utils/app.constants';
 
 /**
  * BreadcrumbComponent is responsible for displaying breadcrumb navigation in the application.
@@ -19,7 +19,7 @@ import { HOME } from '../../utils/app.constants';
 export class BreadcrumbComponent implements OnInit {
 	items: MenuItem[] = [];
 	home: MenuItem = {
-		label: 'Inicio',
+		label: this.languageService.translateValue(LABELS_HOME),
 		routerLink: HOME
 	};
 

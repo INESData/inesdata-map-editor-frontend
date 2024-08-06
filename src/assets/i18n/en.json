@@ -1,28 +1,42 @@
 {
-	"home": {
-		"welcome": "INESData"
-	},
-	"labels": {
-		"no": "No",
-		"yes": "Yes"
-	},
-	"messages": {
-		"errors": {
-			"generic": "An error occurred while processing your operation",
-			"internet": {
-				"connection": "No internet connection"
-			},
-			"login": "Login error",
-			"required": "The value field is required",
-			"title": "Error"
-		},
-		"success": "Success"
-	},
-	"sidebar": {
-		"labels": {
-			"data-sources": "Data sources",
-			"mappings": "Mappings",
-			"ontologies": "Ontologies"
-		}
-	}
+  "home": {
+    "welcome": "INESData"
+  },
+  "labels": {
+    "date": "Date",
+    "file": "File",
+    "home": "Home",
+    "name": "Name",
+    "no": "No",
+    "title": "Title",
+    "url": "URL",
+    "version_name": "Version",
+    "yes": "Yes"
+  },
+  "messages": {
+    "errors": {
+      "generic": "An error occurred while processing your operation",
+      "internet": {
+        "connection": "No internet connection"
+      },
+      "login": "Login error",
+      "required": "The value field is required",
+      "title": "Error"
+    },
+    "success": "Success"
+  },
+  "ontologies": {
+    "ontology": {
+      "add": "Add ontology",
+      "edit": "Edit ontology",
+      "list": "Ontologies list"
+    }
+  },
+  "sidebar": {
+    "labels": {
+      "data-sources": "Data sources",
+      "mappings": "Mappings",
+      "ontologies": "Ontologies"
+    }
+  }
 }

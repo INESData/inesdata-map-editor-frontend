@@ -9,6 +9,10 @@ export const DEFAULT_LANGUAGE: string = 'es';
 export const AVAILABLE_LANGUAGES: Array<string> = ['es', 'en'];
 export const LANGUAGE_STORAGE_NAME: string = 'language';
 
+// Numbers
+export const PAGE: number = 0;
+export const SIZE: number = 10;
+
 // Messages
 export const MESSAGES_SUCCESS: string = translate('messages.success');
 export const MESSAGES_ERRORS: string = translate('messages.errors.title');
@@ -20,6 +24,12 @@ export const MESSAGES_ERRORS_REQUIRED: string = translate('messages.errors.requi
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
 export const LABELS_NO: string = translate('labels.no');
+export const LABELS_HOME: string = translate('labels.home');
+
+//Ontologies
+export const ONTOLOGIES_ADD_ONTOLOGY: string = translate('ontologies.ontology.add');
+export const ONTOLOGIES_EDIT_ONTOLOGY: string = translate('ontologies.ontology.edit');
+
 
 // Routes
 export const HOME: string = '/home';
