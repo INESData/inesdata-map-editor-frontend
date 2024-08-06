@@ -11,6 +11,8 @@ import { createDtoForm } from 'src/app/shared/utils/form.utils';
 })
 export class OntologiesFormComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
+	fileName: string = 'Ningún archivo seleccionado';
+	fileSelected: boolean = false;
 
 	@Output() formSubmitted = new EventEmitter<void>();
 	@Input() isEditMode: boolean = false;
@@ -82,6 +84,13 @@ export class OntologiesFormComponent implements OnInit {
 	 */
 	onFileSelected(event) {
 		this.file = event.target.files[0];
+		if (this.file) {
+			this.fileName = this.file.name;
+			this.fileSelected = true; // Archivo seleccionado
+		} else {
+			this.fileName = 'Ningún archivo seleccionado';
+			this.fileSelected = false; // No hay archivo seleccionado
+		}
 	}
 
 	/**
