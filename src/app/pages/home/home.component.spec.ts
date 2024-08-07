@@ -36,9 +36,8 @@ describe('HomeComponent', () => {
 		expect(component).toBeTruthy();
 	});
 
-	it('footer should contain the year ', () => {
-		fixture.detectChanges();
-		const compiled = fixture.debugElement.nativeElement;
-		expect(compiled.querySelector('h2').textContent).toContain('home.welcome');
+	it('should contain an image with the correct src', () => {
+		const imgElement = fixture.debugElement.nativeElement.querySelector('img');
+		expect(imgElement.src).toContain('assets/images/home.svg');
 	});
 });
