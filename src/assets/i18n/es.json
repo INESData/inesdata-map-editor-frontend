@@ -1,13 +1,23 @@
 {
-  "home": {
-    "welcome": "INESData"
+  "data-sources": {
+    "data-source": {
+      "add": "Añadir fuente de datos",
+      "confirmation": "¿Seguro que quieres eliminar esta fuente de datos?",
+      "edit": "Editar fuente de datos",
+      "list": "Lista de Fuentes de datos"
+    }
   },
   "labels": {
+    "cancel": "Cancelar",
+    "data-source": "Fuente de datos",
     "date": "Fecha",
-    "file": "Fichero",
+    "delete": "Eliminar",
+    "file-name": "Ningún archivo seleccionado",
+    "format": "Formato",
     "home": "Inicio",
     "name": "Nombre",
     "no": "No",
+    "ontology-file": "Seleccione el archivo de ontología",
     "title": "Título",
     "url": "URL",
     "version_name": "Versión",

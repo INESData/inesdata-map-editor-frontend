@@ -13,6 +13,10 @@
   ],
   "tags": [
     {
+      "description": "Manage data sources",
+      "name": "DataSource"
+    },
+    {
       "description": "Manage ontologies",
       "name": "Ontology"
     },
@@ -394,6 +398,113 @@
         ]
       }
     },
+    "/data-sources": {
+      "get": {
+        "operationId": "listDataSources",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageDataSourceDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "List all data sources",
+        "tags": [
+          "DataSource"
+        ]
+      },
+      "post": {
+        "operationId": "createDataSource",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "$ref": "#/components/schemas/DataSourceDTO"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "body"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataSourceDTO"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "summary": "Create given data source",
+        "tags": [
+          "DataSource"
+        ]
+      }
+    },
+    "/data-sources/{id}": {
+      "delete": {
+        "operationId": "deleteDataSource",
+        "parameters": [
+          {
+            "description": "Data source identifier to delete",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "summary": "Delete data source",
+        "tags": [
+          "DataSource"
+        ]
+      }
+    },
     "/database-sources/{id}/table-column-names": {
       "get": {
         "description": "Retrieves a list of column names for the specified table name and a data source ID.",
@@ -659,6 +770,51 @@
   },
   "components": {
     "schemas": {
+      "DataSourceDTO": {
+        "type": "object",
+        "properties": {
+          "connectionString": {
+            "type": "string"
+          },
+          "databaseType": {
+            "type": "string",
+            "enum": [
+              "POSTGRESQL",
+              "MYSQL",
+              "H2",
+              "MONGO"
+            ]
+          },
+          "fileName": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "DATABASE",
+              "FILE"
+            ]
+          },
+          "user": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "The data source to save"
+      },
       "Link": {
         "type": "object",
         "properties": {
@@ -706,6 +862,52 @@
           }
         },
         "description": "The ontology to save"
+      },
+      "PageDataSourceDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataSourceDTO"
+            }
+          },
+          "empty": {
+            "type": "boolean"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
       },
       "PageSearchOntologyDTO": {
         "type": "object",
