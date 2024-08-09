@@ -1,22 +1,22 @@
 <div class="whiteContainer w-500">
-	<h1 class="mb-3">Lista de Fuentes de datos</h1>
-	<p-button (onClick)="showDialog()" class="btn btn__secondary" label="Añadir fuente de datos" />
-	<p-table class="mt-2 block" [value]="datasources">
+	<h1 class="mb-3">{{ "data-sources.data-source.list" | translate }}</h1>
+	<p-button (onClick)="showDialog()" class="btn btn__secondary" [label]="'data-sources.data-source.add' | translate" />
+	<p-table class="mt-2 block" [value]="dataSources">
 		<ng-template pTemplate="header">
 			<tr>
-				<th scope="col">Fuente de datos</th>
-				<th scope="col">Formato</th>
+				<th scope="col">{{ "labels.data-source" | translate }}</th>
+				<th scope="col">{{ "labels.format" | translate }}</th>
 				<th scope="col"></th>
 			</tr>
 		</ng-template>
 		<ng-template pTemplate="body" let-datasource>
 			<tr>
-				<td>{{ datasource.fuente }}</td>
-				<td>{{ datasource.formato }}</td>
+				<td>{{ datasource.name }}</td>
+				<td>{{ datasource.type }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
 						<p-button (onClick)="showDialog()" class="btn btn__icon icon-lapiz mr-1" />
-						<p-button (onClick)="showDialogDelete()" class="btn btn__icon icon-papelera" />
+						<p-button (onClick)="showDialogDelete(datasource)" class="btn btn__icon icon-papelera" />
 					</div>
 				</td>
 			</tr>
@@ -24,19 +24,31 @@
 	</p-table>
 </div>
 
-<p-dialog header="Añadir fuente de datos" [modal]="true" [draggable]="false" [(visible)]="addDialogVisible" [style]="{ width: '40rem' }">
+<p-dialog [header]="header" [modal]="true" [draggable]="false" [(visible)]="addDialogVisible" [style]="{ width: '40rem' }">
 	<app-data-sources-form (formSubmitted)="addDialogVisible = false"></app-data-sources-form>
 </p-dialog>
 
 <p-dialog
-	header="¿Seguro que quieres eliminar esta fuente de datos?"
+	[header]="'data-sources.data-source.confirmation' | translate"
 	[modal]="true"
 	[draggable]="false"
 	[(visible)]="deleteDialogVisible"
 	[style]="{ width: '40rem' }"
 >
 	<div class="flex flex-justify-right w-full">
-		<p-button class="btn btn__primary mr-2" label="Eliminar" type="button" />
-		<p-button class="btn btn__secondary" label="Cancelar" type="button" />
+		<p-button
+			class="btn btn__primary mr-2"
+			[label]="'labels.delete' | translate"
+			type="button"
+			(click)="deleteDataSource(selectedDataSource?.id)"
+			(keydown.enter)="deleteDataSource(selectedDataSource?.id)"
+		/>
+		<p-button
+			class="btn btn__secondary"
+			[label]="'labels.cancel' | translate"
+			type="button"
+			(click)="cancelDelete()"
+			(keydown.enter)="cancelDelete()"
+		/>
 	</div>
 </p-dialog>

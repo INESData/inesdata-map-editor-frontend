@@ -1,55 +1,52 @@
 {
-	"data-sources": {
-		"data-source": {
-			"add": "Add data source",
-			"edit": "Edit data source",
-			"list": "Data Sources list"
-		}
-	},
-	"labels": {
-		"connection-url": "Connection URL",
-		"data-source": "Data Source",
-		"data-source-file": "Select file",
-		"data-source-format": "Select data source format",
-		"database-type": "Database type",
-		"date": "Date",
-		"file-name": "No file selected",
-		"format": "Format",
-		"home": "Home",
-		"name": "Name",
-		"no": "No",
-		"ontology-file": "Select ontology file",
-		"password": "Password",
-		"title": "Title",
-		"url": "URL",
-		"user": "User",
-		"version_name": "Version",
-		"yes": "Yes"
-	},
-	"messages": {
-		"errors": {
-			"generic": "An error occurred while processing your operation",
-			"internet": {
-				"connection": "No internet connection"
-			},
-			"login": "Login error",
-			"required": "The value field is required",
-			"title": "Error"
-		},
-		"success": "Success"
-	},
-	"ontologies": {
-		"ontology": {
-			"add": "Add ontology",
-			"edit": "Edit ontology",
-			"list": "Ontologies list"
-		}
-	},
-	"sidebar": {
-		"labels": {
-			"data-sources": "Data sources",
-			"mappings": "Mappings",
-			"ontologies": "Ontologies"
-		}
-	}
+  "data-sources": {
+    "data-source": {
+      "add": "Add data source",
+      "confirmation": "Are you sure you want to delete this data source?",
+      "edit": "Edit data source",
+      "list": "Data Sources list"
+    }
+  },
+  "labels": {
+    "cancel": "Cancel",
+    "data-source": "Data Source",
+    "date": "Date",
+    "delete": "Delete",
+    "file-name": "No file selected",
+    "format": "Format",
+    "home": "Home",
+    "name": "Name",
+    "no": "No",
+    "ontology-file": "Select ontology file",
+    "title": "Title",
+    "url": "URL",
+    "version_name": "Version",
+    "yes": "Yes"
+  },
+  "messages": {
+    "errors": {
+      "generic": "An error occurred while processing your operation",
+      "internet": {
+        "connection": "No internet connection"
+      },
+      "login": "Login error",
+      "required": "The value field is required",
+      "title": "Error"
+    },
+    "success": "Success"
+  },
+  "ontologies": {
+    "ontology": {
+      "add": "Add ontology",
+      "edit": "Edit ontology",
+      "list": "Ontologies list"
+    }
+  },
+  "sidebar": {
+    "labels": {
+      "data-sources": "Data sources",
+      "mappings": "Mappings",
+      "ontologies": "Ontologies"
+    }
+  }
 }
