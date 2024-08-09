@@ -107,5 +107,6 @@ export class OntologiesFormComponent implements OnInit {
 		} else {
 			this.addOntology(ontology);
 		}
+		this.ontologyForm.reset();
 	}
 }
