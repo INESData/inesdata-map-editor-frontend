@@ -2,7 +2,7 @@
 	<p class="mb-1">Seleccione el formato de los archivos</p>
 	<div class="grid">
 		<div class="col-12">
-			<p-dropdown [options]="formatos" [(ngModel)]="selectedFormato" optionLabel="name" placeholder="Formato" />
+			<p-dropdown [options]="formats" [(ngModel)]="selectedFormato" optionLabel="name" placeholder="Format" />
 		</div>
 	</div>
 	<p class="mb-1">Seleccione el archivo de fuentes de datos</p>
@@ -13,7 +13,6 @@
 					Importar de local
 					<input class="fileUploader" type="file" pInputText (change)="onFileSelected($event)" />
 				</label>
-				<!-- Añade la clase 'selected' condicionalmente -->
 				<span class="fileName" [class.selected]="fileSelected">{{ fileName }}</span>
 			</div>
 		</div>

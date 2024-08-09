@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-interface Formato {
+interface Format {
 	name: string;
 }
 
@@ -9,8 +9,8 @@ interface Formato {
 	templateUrl: './data-sources-form.component.html'
 })
 export class DataSourcesFormComponent implements OnInit {
-	formatos: Formato[] | undefined;
-	selectedFormato: Formato | undefined;
+	formats: Format[] | undefined;
+	selectedFormato: Format | undefined;
 	fileName: string = 'Ningún archivo seleccionado';
 	fileSelected: boolean = false;
 	file: File;
@@ -22,14 +22,14 @@ export class DataSourcesFormComponent implements OnInit {
 		this.file = event.target.files[0];
 		if (this.file) {
 			this.fileName = this.file.name;
-			this.fileSelected = true; // Archivo seleccionado
+			this.fileSelected = true; // File selected
 		} else {
 			this.fileName = 'Ningún archivo seleccionado';
-			this.fileSelected = false; // No hay archivo seleccionado
+			this.fileSelected = false; // No file selected
 		}
 	}
 
 	ngOnInit() {
-		this.formatos = [{ name: 'CSV' }, { name: 'JSON' }, { name: 'BBDD' }];
+		this.formats = [{ name: 'CSV' }, { name: 'JSON' }, { name: 'BBDD' }];
 	}
 }

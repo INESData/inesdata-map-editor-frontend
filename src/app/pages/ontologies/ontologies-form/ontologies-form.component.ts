@@ -86,10 +86,10 @@ export class OntologiesFormComponent implements OnInit {
 		this.file = event.target.files[0];
 		if (this.file) {
 			this.fileName = this.file.name;
-			this.fileSelected = true; // Archivo seleccionado
+			this.fileSelected = true; // Selected file
 		} else {
 			this.fileName = 'Ningún archivo seleccionado';
-			this.fileSelected = false; // No hay archivo seleccionado
+			this.fileSelected = false; // No file selected
 		}
 	}
 
