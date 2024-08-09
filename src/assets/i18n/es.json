@@ -1,42 +1,55 @@
 {
-  "home": {
-    "welcome": "INESData"
-  },
-  "labels": {
-    "date": "Fecha",
-    "file": "Fichero",
-    "home": "Inicio",
-    "name": "Nombre",
-    "no": "No",
-    "title": "Título",
-    "url": "URL",
-    "version_name": "Versión",
-    "yes": "Sí"
-  },
-  "messages": {
-    "errors": {
-      "generic": "Ha ocurrido un error procesando la operación",
-      "internet": {
-        "connection": "No hay conexión a internet"
-      },
-      "login": "Error al acceder",
-      "required": "El campo es requerido",
-      "title": "Error"
-    },
-    "success": "Éxito"
-  },
-  "ontologies": {
-    "ontology": {
-      "add": "Añadir ontología",
-      "edit": "Editar ontología",
-      "list": "Lista de Ontologías"
-    }
-  },
-  "sidebar": {
-    "labels": {
-      "data-sources": "Fuentes de datos",
-      "mappings": "Mapeos",
-      "ontologies": "Ontologías"
-    }
-  }
+	"data-sources": {
+		"data-source": {
+			"add": "Añadir fuente de datos",
+			"edit": "Editar fuente de datos",
+			"list": "Lista de Fuentes de datos"
+		}
+	},
+	"labels": {
+		"connection-url": "URL de conexión",
+		"data-source": "Fuente de datos",
+		"data-source-file": "Selecciona el archivo",
+		"data-source-format": "Selecciona el formato de la fuente de datos",
+		"database-type": "Tipo de base de datos",
+		"date": "Fecha",
+		"file-name": "Ningún archivo seleccionado",
+		"format": "Formato",
+		"home": "Inicio",
+		"name": "Nombre",
+		"no": "No",
+		"ontology-file": "Seleccione el archivo de ontología",
+		"password": "Contraseña",
+		"title": "Título",
+		"url": "URL",
+		"user": "Usuario",
+		"version_name": "Versión",
+		"yes": "Sí"
+	},
+	"messages": {
+		"errors": {
+			"generic": "Ha ocurrido un error procesando la operación",
+			"internet": {
+				"connection": "No hay conexión a internet"
+			},
+			"login": "Error al acceder",
+			"required": "El campo es requerido",
+			"title": "Error"
+		},
+		"success": "Éxito"
+	},
+	"ontologies": {
+		"ontology": {
+			"add": "Añadir ontología",
+			"edit": "Editar ontología",
+			"list": "Lista de Ontologías"
+		}
+	},
+	"sidebar": {
+		"labels": {
+			"data-sources": "Fuentes de datos",
+			"mappings": "Mapeos",
+			"ontologies": "Ontologías"
+		}
+	}
 }
