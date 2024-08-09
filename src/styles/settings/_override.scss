@@ -182,3 +182,59 @@
 		padding: 1rem;
 	}
 }
+
+// FILE UPLOADER
+
+.fileUploader {
+	display: none;
+}
+
+.customfileUpload {
+	display: inline-block;
+	border: 1px solid $primary;
+	padding: 6px 12px;
+	cursor: pointer;
+	color: $primary;
+	text-align: center;
+	transition:
+		color 0.2s,
+		border 0.2s;
+	&:hover {
+		border: 1px solid $secondary;
+		color: $secondary;
+	}
+	& + .fileName {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0px 25px;
+		height: 39px;
+		width: fit-content;
+		&.selected {
+			margin-left: 25px;
+			color: $white;
+			background-color: $primary;
+		}
+	}
+}
+
+// SELECT
+
+.p-dropdown {
+	border-radius: 0px;
+	border-color: $secondary;
+	box-shadow: 0 0 0 0.2rem $primaryfade;
+	.p-dropdown-label {
+		border: 0px;
+		box-shadow: none !important;
+	}
+	.p-highlight.p-focus {
+		background-color: $primary !important;
+		span {
+			color: $white !important;
+		}
+	}
+	.p-dropdown-items {
+		padding: 0px;
+	}
+}

@@ -1,14 +1,26 @@
 <form [formGroup]="ontologyForm">
+	<p class="mb-0">Seleccione el archivo de ontología</p>
+	<div class="grid mt-1">
+		<div class="col-12">
+			<div class="flex">
+				<label class="customfileUpload">
+					Importar de local
+					<input class="fileUploader" type="file" pInputText (change)="onFileSelected($event)" />
+				</label>
+				<span class="fileName" [class.selected]="fileSelected">{{ fileName }}</span>
+			</div>
+		</div>
+	</div>
 	<div class="grid">
 		<div class="col-6">
 			<div>
-				<label for="Nombre">{{ "labels.name" | translate }}</label>
+				<label for="Name">{{ "labels.name" | translate }}</label>
 				<input type="text" pInputText formControlName="name" />
 			</div>
 		</div>
 		<div class="col-6">
 			<div>
-				<label for="Título">{{ "labels.title" | translate }}</label>
+				<label for="Title">{{ "labels.title" | translate }}</label>
 				<input type="text" pInputText formControlName="title" />
 			</div>
 		</div>
@@ -22,16 +34,8 @@
 		</div>
 		<div class="col-3">
 			<div>
-				<label for="Versión">{{ "labels.version_name" | translate }}</label>
+				<label for="Version">{{ "labels.version_name" | translate }}</label>
 				<input type="text" pInputText formControlName="versionName" />
-			</div>
-		</div>
-	</div>
-	<div class="grid">
-		<div class="col-12">
-			<div>
-				<label for="File">{{ "labels.file" | translate }}</label>
-				<input type="file" pInputText (change)="onFileSelected($event)" />
 			</div>
 		</div>
 	</div>

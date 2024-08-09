@@ -10,8 +10,9 @@ import { createDtoForm } from 'src/app/shared/utils/form.utils';
 	templateUrl: './ontologies-form.component.html'
 })
 export class OntologiesFormComponent implements OnInit {
-
 	destroyRef = inject(DestroyRef);
+	fileName: string = 'Ningún archivo seleccionado';
+	fileSelected: boolean = false;
 
 	@Output() formSubmitted = new EventEmitter<void>();
 	@Input() isEditMode: boolean = false;
@@ -35,12 +36,14 @@ export class OntologiesFormComponent implements OnInit {
 		}
 	}
 
-
 	/**
 	 * Constructor
 	 * @param fb the form builder
 	 */
-	constructor(private fb: FormBuilder, private ontologyService: OntologyService) { }
+	constructor(
+		private fb: FormBuilder,
+		private ontologyService: OntologyService
+	) {}
 
 	/**
 	 * On component init
@@ -54,27 +57,26 @@ export class OntologiesFormComponent implements OnInit {
 	 */
 	addOntology(ontology: OntologyDTO): void {
 		ontology.uploadDate = new Date().toISOString();
-		this.ontologyService.createOntology(ontology, this.file)
-			.pipe(
-				takeUntilDestroyed(this.destroyRef)
-			).subscribe((data: OntologyDTO) => {
+		this.ontologyService
+			.createOntology(ontology, this.file)
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe((data: OntologyDTO) => {
 				this.formSubmitted.emit();
 				console.log('Ontology created:', data);
-			})
+			});
 	}
 
 	/**
 	 * Update ontology
 	 */
 	updateOntology(id: number, ontology: OntologyDTO): void {
-
-		this.ontologyService.updateOntology(id, ontology, this.file)
-			.pipe(
-				takeUntilDestroyed(this.destroyRef)
-			).subscribe((data: OntologyDTO) => {
+		this.ontologyService
+			.updateOntology(id, ontology, this.file)
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe((data: OntologyDTO) => {
 				this.formSubmitted.emit();
 				console.log('Ontology updated:', data);
-			})
+			});
 	}
 
 	/**
@@ -82,6 +84,13 @@ export class OntologiesFormComponent implements OnInit {
 	 */
 	onFileSelected(event) {
 		this.file = event.target.files[0];
+		if (this.file) {
+			this.fileName = this.file.name;
+			this.fileSelected = true; // Selected file
+		} else {
+			this.fileName = 'Ningún archivo seleccionado';
+			this.fileSelected = false; // No file selected
+		}
 	}
 
 	/**
@@ -98,5 +107,6 @@ export class OntologiesFormComponent implements OnInit {
 		} else {
 			this.addOntology(ontology);
 		}
+		this.ontologyForm.reset();
 	}
 }

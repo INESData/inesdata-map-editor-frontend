@@ -9,10 +9,12 @@ import { ONTOLOGIES_ADD_ONTOLOGY, ONTOLOGIES_EDIT_ONTOLOGY, PAGE, SIZE } from 's
 	templateUrl: './ontologies-list.component.html'
 })
 export class OntologiesListComponent implements OnInit {
-
 	destroyRef = inject(DestroyRef);
 
-	constructor(private ontologyService: OntologyService, private languageService: LanguageService) { }
+	constructor(
+		private ontologyService: OntologyService,
+		private languageService: LanguageService
+	) {}
 
 	ontologies: SearchOntologyDTO[];
 	selectedOntology: SearchOntologyDTO = null;
@@ -33,7 +35,9 @@ export class OntologiesListComponent implements OnInit {
 	showDialog(ontology?: SearchOntologyDTO): void {
 		this.selectedOntology = ontology ? { ...ontology } : null;
 		this.isEditMode = !!ontology;
-		this.header = ontology ? this.languageService.translateValue(ONTOLOGIES_EDIT_ONTOLOGY) : this.languageService.translateValue(ONTOLOGIES_ADD_ONTOLOGY);
+		this.header = ontology
+			? this.languageService.translateValue(ONTOLOGIES_EDIT_ONTOLOGY)
+			: this.languageService.translateValue(ONTOLOGIES_ADD_ONTOLOGY);
 		this.visible = true;
 	}
 
@@ -45,7 +49,8 @@ export class OntologiesListComponent implements OnInit {
 			.listOntologies(PAGE, SIZE)
 			.pipe(
 				//TODO: pagination and show success/error popup
-				takeUntilDestroyed(this.destroyRef))
+				takeUntilDestroyed(this.destroyRef)
+			)
 			.subscribe((data: PageSearchOntologyDTO) => {
 				this.ontologies = data.content ?? [];
 			});
@@ -55,15 +60,16 @@ export class OntologiesListComponent implements OnInit {
 	 * Delete ontology by its id.
 	 */
 	deleteOntology(id: number): void {
-		this.ontologyService.deleteOntology(id)
+		this.ontologyService
+			.deleteOntology(id)
 			.pipe(
 				//TODO: action confirmation popup
-				takeUntilDestroyed(this.destroyRef))
+				takeUntilDestroyed(this.destroyRef)
+			)
 			.subscribe(() => {
-				this.ontologies = this.ontologies.filter(ontology => ontology.id !== id);
+				this.ontologies = this.ontologies.filter((ontology) => ontology.id !== id);
 				console.log('Ontology deleted');
-			},
-			);
+			});
 	}
 
 	/**
