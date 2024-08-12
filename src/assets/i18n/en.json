@@ -9,7 +9,11 @@
   },
   "labels": {
     "cancel": "Cancel",
+    "connection-url": "Connection URL",
     "data-source": "Data Source",
+    "data-source-file": "Select the data source file",
+    "data-source-format": "Select the data source type",
+    "database-type": "Database type",
     "date": "Date",
     "delete": "Delete",
     "file-name": "No file selected",
@@ -18,8 +22,10 @@
     "name": "Name",
     "no": "No",
     "ontology-file": "Select ontology file",
+    "password": "Password",
     "title": "Title",
     "url": "URL",
+    "user": "User",
     "version_name": "Version",
     "yes": "Yes"
   },

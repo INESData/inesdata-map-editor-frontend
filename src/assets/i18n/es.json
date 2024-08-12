@@ -9,7 +9,11 @@
   },
   "labels": {
     "cancel": "Cancelar",
+    "connection-url": "Connection URL",
     "data-source": "Fuente de datos",
+    "data-source-file": "Seleccione el fichero de fuente de datos",
+    "data-source-format": "Seleccione el tipo de fuente de datos",
+    "database-type": "Seleccione el tipo de base de datos",
     "date": "Fecha",
     "delete": "Eliminar",
     "file-name": "Ningún archivo seleccionado",
@@ -18,8 +22,10 @@
     "name": "Nombre",
     "no": "No",
     "ontology-file": "Seleccione el archivo de ontología",
+    "password": "Contraseña",
     "title": "Título",
     "url": "URL",
+    "user": "Usuario",
     "version_name": "Versión",
     "yes": "Sí"
   },
