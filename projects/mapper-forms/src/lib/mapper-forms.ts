@@ -3,12 +3,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 export const dataSourceDtoForm = new FormGroup({
 	connectionString: new FormControl(null, []),
 	databaseType: new FormControl(null, []),
+	fields: new FormControl(null, []),
 	fileName: new FormControl(null, []),
 	id: new FormControl(null, []),
 	name: new FormControl(null, []),
 	password: new FormControl(null, []),
 	type: new FormControl(null, []),
-	user: new FormControl(null, []),
+	userName: new FormControl(null, []),
 	version: new FormControl(null, [])
 });
 

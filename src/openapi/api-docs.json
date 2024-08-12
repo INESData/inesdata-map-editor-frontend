@@ -785,6 +785,9 @@
               "MONGO"
             ]
           },
+          "fields": {
+            "type": "string"
+          },
           "fileName": {
             "type": "string"
           },
@@ -805,7 +808,7 @@
               "FILE"
             ]
           },
-          "user": {
+          "userName": {
             "type": "string"
           },
           "version": {
