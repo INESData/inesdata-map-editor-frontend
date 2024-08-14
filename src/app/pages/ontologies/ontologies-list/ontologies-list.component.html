@@ -21,8 +21,12 @@
 				<td>{{ ontology.uploadDate | date: "dd-MM-yyyy" }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
-						<p-button class="btn btn__icon icon-lapiz mr-1" (click)="showDialog(ontology)" />
-						<p-button class="btn btn__icon icon-papelera" (click)="deleteOntology(ontology.id)" />
+						<p-button class="btn btn__icon icon-lapiz mr-1" (click)="showDialog(ontology)" (keydown.enter)="showDialog(ontology)" />
+						<p-button
+							class="btn btn__icon icon-papelera"
+							(click)="showDialogDelete(ontology)"
+							(keydown.enter)="showDialogDelete(ontology)"
+						/>
 					</div>
 				</td>
 			</tr>
@@ -31,4 +35,30 @@
 </div>
 <p-dialog [header]="header" [modal]="true" [draggable]="false" [(visible)]="visible" [style]="{ width: '40rem' }">
 	<app-ontologies-form [isEditMode]="isEditMode" [ontology]="selectedOntology" (formSubmitted)="onFormSubmitted()"></app-ontologies-form>
+</p-dialog>
+
+<!-- Delete dialog -->
+<p-dialog
+	[header]="'ontologies.ontology.confirmation' | translate"
+	[modal]="true"
+	[draggable]="false"
+	[(visible)]="deleteDialogVisible"
+	[style]="{ width: '40rem' }"
+>
+	<div class="flex flex-justify-right w-full">
+		<p-button
+			class="btn btn__primary mr-2"
+			[label]="'labels.delete' | translate"
+			type="button"
+			(click)="deleteOntology(selectedOntology.id)"
+			(keydown.enter)="deleteOntology(selectedOntology.id)"
+		/>
+		<p-button
+			class="btn btn__secondary"
+			[label]="'labels.cancel' | translate"
+			type="button"
+			(click)="cancelDelete()"
+			(keydown.enter)="cancelDelete()"
+		/>
+	</div>
 </p-dialog>

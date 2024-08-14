@@ -13,17 +13,16 @@
     "data-source": "Fuente de datos",
     "data-source-file": "Seleccione el fichero de fuente de datos",
     "data-source-format": "Seleccione el tipo de fuente de datos",
-    "database-type": "Seleccione el tipo de base de datos",
     "date": "Fecha",
     "delete": "Eliminar",
     "file-name": "Ningún archivo seleccionado",
-    "type": "Tipo",
     "home": "Inicio",
     "name": "Nombre",
     "no": "No",
     "ontology-file": "Seleccione el archivo de ontología",
     "password": "Contraseña",
     "title": "Título",
+    "type": "Tipo",
     "url": "URL",
     "user": "Usuario",
     "version_name": "Versión",
@@ -44,6 +43,7 @@
   "ontologies": {
     "ontology": {
       "add": "Añadir ontología",
+      "confirmation": "¿Seguro que quieres eliminar esta ontología?",
       "edit": "Editar ontología",
       "list": "Lista de Ontologías"
     }
