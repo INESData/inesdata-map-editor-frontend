@@ -5,18 +5,18 @@
 		<ng-template pTemplate="header">
 			<tr>
 				<th scope="col">{{ "labels.data-source" | translate }}</th>
-				<th scope="col">{{ "labels.format" | translate }}</th>
+				<th scope="col">{{ "labels.type" | translate }}</th>
 				<th scope="col"></th>
 			</tr>
 		</ng-template>
 		<ng-template pTemplate="body" let-datasource>
 			<tr>
 				<td>{{ datasource.name }}</td>
-				<td>{{ datasource.type }}</td>
+				<td>{{ datasource.fileType ? datasource.fileType : datasource.databaseType }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
-						<p-button (onClick)="showDialog()" class="btn btn__icon icon-lapiz mr-1" />
-						<p-button (onClick)="showDialogDelete(datasource)" class="btn btn__icon icon-papelera" />
+						<p-button class="btn btn__icon icon-lapiz mr-1" (onClick)="showDialog(datasource)" />
+						<p-button class="btn btn__icon icon-papelera" (onClick)="showDialogDelete(datasource)" />
 					</div>
 				</td>
 			</tr>
@@ -24,10 +24,16 @@
 	</p-table>
 </div>
 
+<!-- Add/edit dialog -->
 <p-dialog [header]="header" [modal]="true" [draggable]="false" [(visible)]="addDialogVisible" [style]="{ width: '40rem' }">
-	<app-data-sources-form (formSubmitted)="addDialogVisible = false"></app-data-sources-form>
+	<app-data-sources-form
+		[isEditMode]="isEditMode"
+		[dataSource]="selectedDataSource"
+		(formSubmitted)="onFormSubmitted()"
+	></app-data-sources-form>
 </p-dialog>
 
+<!-- Delete dialog -->
 <p-dialog
 	[header]="'data-sources.data-source.confirmation' | translate"
 	[modal]="true"

@@ -3,6 +3,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { OntologyDTO, OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { ontologyDtoForm } from 'projects/mapper-forms/src/public-api';
+import { LanguageService } from 'src/app/shared/services/language.service';
+import { LABELS_NO_FILE_SELECTED } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
@@ -11,7 +13,7 @@ import { createDtoForm } from 'src/app/shared/utils/form.utils';
 })
 export class OntologiesFormComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
-	fileName: string = 'Ningún archivo seleccionado';
+	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
 	fileSelected: boolean = false;
 
 	@Output() formSubmitted = new EventEmitter<void>();
@@ -41,9 +43,9 @@ export class OntologiesFormComponent implements OnInit {
 	 * @param fb the form builder
 	 */
 	constructor(
-		private fb: FormBuilder,
+		private fb: FormBuilder, private languageService: LanguageService,
 		private ontologyService: OntologyService
-	) {}
+	) { }
 
 	/**
 	 * On component init
@@ -86,10 +88,10 @@ export class OntologiesFormComponent implements OnInit {
 		this.file = event.target.files[0];
 		if (this.file) {
 			this.fileName = this.file.name;
-			this.fileSelected = true; // Selected file
+			this.fileSelected = true;
 		} else {
-			this.fileName = 'Ningún archivo seleccionado';
-			this.fileSelected = false; // No file selected
+			this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
+			this.fileSelected = false;
 		}
 	}
 

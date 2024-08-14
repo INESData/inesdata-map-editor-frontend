@@ -19,7 +19,6 @@ export class DataSourcesListComponent implements OnInit {
 
 	header: string = '';
 	isEditMode: boolean = false;
-	visible: boolean = false;
 	addDialogVisible: boolean = false;
 	deleteDialogVisible: boolean = false;
 
@@ -62,19 +61,37 @@ export class DataSourcesListComponent implements OnInit {
 		this.deleteDialogVisible = false;
 	}
 
+	/**
+	* Display add/edit dialog
+	*/
 	showDialog(dataSource?: DataSourceDTO): void {
-		this.header = dataSource
-			? this.languageService.translateValue(DATA_SOURCES_EDIT_DATA_SOURCE)
-			: this.languageService.translateValue(DATA_SOURCES_ADD_DATA_SOURCE);
+		this.selectedDataSource = dataSource ? { ...dataSource } : null;
+		this.isEditMode = !!dataSource;
+		this.header = dataSource ? this.languageService.translateValue(DATA_SOURCES_EDIT_DATA_SOURCE) : this.languageService.translateValue(DATA_SOURCES_ADD_DATA_SOURCE);
 		this.addDialogVisible = true;
 	}
 
+	/**
+	* Display delete dialog
+	*/
 	showDialogDelete(dataSource: DataSourceDTO): void {
 		this.selectedDataSource = dataSource;
 		this.deleteDialogVisible = true;
 	}
 
+	/**
+	* Close delete dialog
+	*/
 	cancelDelete(): void {
 		this.deleteDialogVisible = false;
+	}
+
+	/**
+	* Called when a form is successfully submitted
+	*/
+	onFormSubmitted() {
+		this.addDialogVisible = false;
+		this.loadDataSources();
+		this.selectedDataSource = null;
 	}
 }
