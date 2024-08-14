@@ -5,6 +5,7 @@ export const dataSourceDtoForm = new FormGroup({
 	databaseType: new FormControl(null, []),
 	fields: new FormControl(null, []),
 	fileName: new FormControl(null, []),
+	fileType: new FormControl(null, []),
 	id: new FormControl(null, []),
 	name: new FormControl(null, []),
 	password: new FormControl(null, []),
