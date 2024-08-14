@@ -503,6 +503,58 @@
         "tags": [
           "DataSource"
         ]
+      },
+      "put": {
+        "operationId": "updateDataSource",
+        "parameters": [
+          {
+            "description": "Data source identifier to update",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "$ref": "#/components/schemas/DataSourceDTO"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "body"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataSourceDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Update given data source",
+        "tags": [
+          "DataSource"
+        ]
       }
     },
     "/database-sources/{id}/table-column-names": {
@@ -790,6 +842,13 @@
           },
           "fileName": {
             "type": "string"
+          },
+          "fileType": {
+            "type": "string",
+            "enum": [
+              "CSV",
+              "JSON"
+            ]
           },
           "id": {
             "type": "integer",
