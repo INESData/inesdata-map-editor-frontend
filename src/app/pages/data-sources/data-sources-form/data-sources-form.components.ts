@@ -1,9 +1,10 @@
-import { Component, DestroyRef, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { DataSourceDTO, DataSourceService, OntologyDTO } from 'projects/mapper-api-client';
+import { DataSourceDTO, DataSourceService } from 'projects/mapper-api-client';
 import { dataSourceDtoForm } from 'projects/mapper-forms/src/public-api';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
+import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { LABELS_NO_FILE_SELECTED } from 'src/app/shared/utils/app.constants';
@@ -17,29 +18,43 @@ export class DataSourcesFormComponent implements OnInit {
 
 	destroyRef = inject(DestroyRef);
 
-
-	/**
- * Constructor
- * @param fb the form builder
- */
 	constructor(private fb: FormBuilder, private languageService: LanguageService, private dataSourceService: DataSourceService) { }
 
 	dataSourceForm: FormGroup = null;
+	dataSourceFormats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 
-	dataSourceFormats: string[] = Object.values(DataSourceTypeEnum);
-	dataBaseFormats: string[] = Object.values(DataBaseTypeEnum);
-
-	//selectedDataSourceFormat: Format | undefined;
-	//selectedDataBase: Format[] | undefined;
+	file: File;
 	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
 	fileSelected: boolean = false;
-	file: File;
-
 	showFileFields: boolean = false;
 	showDatabaseFields: boolean = false;
 
 	@Output() formSubmitted = new EventEmitter<void>();
+	@Input() isEditMode: boolean = false;
+	private _dataSource?: DataSourceDTO;
 
+	@Input() set dataSource(value: DataSourceDTO) {
+		this._dataSource = value;
+		if (!this.dataSourceForm) return;
+		if (value) {
+			this.dataSourceForm.patchValue(value);
+			this.updateFormVisibility(value.type);
+
+			if (value.type === DataSourceTypeEnum.FILE) {
+				this.fileName = value.fileName || this.fileName;
+				this.fileSelected = !!value.fileName;
+			}
+		} else {
+			this.dataSourceForm.reset();
+			this.showFileFields = this.showDatabaseFields = this.fileSelected = false;
+			this.fileName = null;
+		}
+
+	}
+
+	/**
+	 * On component init
+	 */
 	ngOnInit() {
 		this.dataSourceForm = createDtoForm(this.fb, dataSourceDtoForm);
 
@@ -50,19 +65,42 @@ export class DataSourcesFormComponent implements OnInit {
 	}
 
 	/**
+	 * Create new data source
+	 */
+	addDataSource(dataSource: DataSourceDTO): void {
+		console.log(dataSource)
+		this.dataSourceService
+			.createDataSource(dataSource, this.file)
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe((data: DataSourceDTO) => {
+				this.formSubmitted.emit();
+				console.log('Data source created:', data);
+			});
+	}
+
+	/**
+	 * Update data source
+	 */
+	updateDataSource(id: number, dataSource: DataSourceDTO): void {
+		this.dataSourceService
+			.updateDataSource(id, dataSource, this.file)
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe((data: DataSourceDTO) => {
+				this.formSubmitted.emit();
+				console.log('Data source updated:', data);
+			});
+	}
+
+	/**
 	 * Updates the visibility of form fields based on the selected data source type
 	 */
-	updateFormVisibility(type: DataSourceTypeEnum): void {
-		if (type === DataSourceTypeEnum.FILE) {
-			this.showFileFields = true;
-			this.showDatabaseFields = false;
-		} else if (type === DataSourceTypeEnum.DATABASE) {
-			this.showFileFields = false;
-			this.showDatabaseFields = true;
-		} else {
-			this.showFileFields = false;
-			this.showDatabaseFields = false;
+	updateFormVisibility(type: string): void {
+		if (!this.isEditMode) {
+			type = this.mapToDataSource(type);
 		}
+		this.showFileFields = type === DataSourceTypeEnum.FILE;
+		this.showDatabaseFields = type === DataSourceTypeEnum.DATABASE;
+
 	}
 
 	/**
@@ -79,31 +117,32 @@ export class DataSourcesFormComponent implements OnInit {
 		}
 	}
 
-
 	/**
-	 * Create new data source
+	 * Map database/file type to data source
 	 */
-	addDataSource(dataSource: DataSourceDTO): void {
-		this.dataSourceService
-			.createDataSource(dataSource, this.file)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((data: OntologyDTO) => {
-				this.formSubmitted.emit();
-				console.log('Data source created:', data);
-			});
+	mapToDataSource(type: string): DataSourceTypeEnum {
+		if (Object.values(DataBaseTypeEnum).includes(type as DataBaseTypeEnum)) {
+			return DataSourceTypeEnum.DATABASE;
+		} else if (Object.values(DataFileTypeEnum).includes(type as DataFileTypeEnum)) {
+			return DataSourceTypeEnum.FILE;
+		}
 	}
 
 	/**
 	 * On form submission
 	 */
 	onSubmit(): void {
-		const dataSource: DataSourceDTO = this.dataSourceForm.value;
-		console.info(dataSource);
-		//TODO: validate
+		const selectedType = this.dataSourceForm.value.type;
 
-		this.addDataSource(dataSource);
-		// Reset form and visibility after submission
+		// Assign values if not in edit mode
+		const dataSource: DataSourceDTO = this.isEditMode
+			? this.dataSourceForm.value
+			: {
+				...this.dataSourceForm.value,
+				type: this.mapToDataSource(selectedType),
+				[this.mapToDataSource(selectedType) === DataSourceTypeEnum.DATABASE ? 'databaseType' : 'fileType']: selectedType,
+			};
+		this.isEditMode ? this.updateDataSource(dataSource.id, dataSource) : this.addDataSource(dataSource);
 		this.dataSourceForm.reset();
-		this.updateFormVisibility(null);
 	}
 }

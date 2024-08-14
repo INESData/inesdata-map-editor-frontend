@@ -5,14 +5,14 @@
 		<ng-template pTemplate="header">
 			<tr>
 				<th scope="col">{{ "labels.data-source" | translate }}</th>
-				<th scope="col">{{ "labels.format" | translate }}</th>
+				<th scope="col">{{ "labels.type" | translate }}</th>
 				<th scope="col"></th>
 			</tr>
 		</ng-template>
 		<ng-template pTemplate="body" let-datasource>
 			<tr>
 				<td>{{ datasource.name }}</td>
-				<td>{{ datasource.type }}</td>
+				<td>{{ datasource.fileType ? datasource.fileType : datasource.databaseType }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
 						<p-button class="btn btn__icon icon-lapiz mr-1" (onClick)="showDialog(datasource)" />
