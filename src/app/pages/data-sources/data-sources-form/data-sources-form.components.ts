@@ -7,7 +7,7 @@ import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { LanguageService } from 'src/app/shared/services/language.service';
-import { LABELS_NO_FILE_SELECTED } from 'src/app/shared/utils/app.constants';
+import { DATA_SOURCES_DATA_BASE_TYPE, DATA_SOURCES_FILE_TYPE, LABELS_NO_FILE_SELECTED } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
@@ -140,7 +140,7 @@ export class DataSourcesFormComponent implements OnInit {
 			: {
 				...this.dataSourceForm.value,
 				type: this.mapToDataSource(selectedType),
-				[this.mapToDataSource(selectedType) === DataSourceTypeEnum.DATABASE ? 'databaseType' : 'fileType']: selectedType,
+				[this.mapToDataSource(selectedType) === DataSourceTypeEnum.DATABASE ? DATA_SOURCES_DATA_BASE_TYPE : DATA_SOURCES_FILE_TYPE]: selectedType,
 			};
 		this.isEditMode ? this.updateDataSource(dataSource.id, dataSource) : this.addDataSource(dataSource);
 		this.dataSourceForm.reset();

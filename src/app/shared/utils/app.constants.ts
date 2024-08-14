@@ -34,6 +34,9 @@ export const ONTOLOGIES_EDIT_ONTOLOGY: string = translate('ontologies.ontology.e
 //Data sources
 export const DATA_SOURCES_ADD_DATA_SOURCE: string = translate('data-sources.data-source.add');
 export const DATA_SOURCES_EDIT_DATA_SOURCE: string = translate('data-sources.data-source.edit');
+export const DATA_SOURCES_DATA_BASE_TYPE: string = 'databaseType';
+export const DATA_SOURCES_FILE_TYPE: string = 'fileType';
+
 
 
 // Routes
