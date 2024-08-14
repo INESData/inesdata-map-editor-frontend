@@ -13,17 +13,16 @@
     "data-source": "Data Source",
     "data-source-file": "Select the data source file",
     "data-source-format": "Select the data source type",
-    "database-type": "Database type",
     "date": "Date",
     "delete": "Delete",
     "file-name": "No file selected",
-    "type": "Type",
     "home": "Home",
     "name": "Name",
     "no": "No",
     "ontology-file": "Select ontology file",
     "password": "Password",
     "title": "Title",
+    "type": "Type",
     "url": "URL",
     "user": "User",
     "version_name": "Version",
@@ -44,6 +43,7 @@
   "ontologies": {
     "ontology": {
       "add": "Add ontology",
+      "confirmation": "Are you sure you want to delete this ontology?",
       "edit": "Edit ontology",
       "list": "Ontologies list"
     }

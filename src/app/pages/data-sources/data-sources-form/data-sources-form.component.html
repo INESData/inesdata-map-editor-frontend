@@ -2,7 +2,12 @@
 	<p *ngIf="!isEditMode" class="mb-1">{{ "labels.data-source-format" | translate }}</p>
 	<div *ngIf="!isEditMode" class="grid">
 		<div class="col-12">
-			<p-dropdown [options]="dataSourceFormats" formControlName="type" placeholder="Type" (change)="updateFormVisibility($event.value)">
+			<p-dropdown
+				[options]="dataSourceFormats"
+				formControlName="type"
+				[placeholder]="'labels.type' | translate"
+				(change)="updateFormVisibility($event.value)"
+			>
 			</p-dropdown>
 		</div>
 	</div>

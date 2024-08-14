@@ -14,13 +14,14 @@ export class OntologiesListComponent implements OnInit {
 	constructor(
 		private ontologyService: OntologyService,
 		private languageService: LanguageService
-	) {}
+	) { }
 
 	ontologies: SearchOntologyDTO[];
 	selectedOntology: SearchOntologyDTO = null;
 	header: string = '';
 	isEditMode: boolean = false;
 	visible: boolean = false;
+	deleteDialogVisible: boolean = false;
 
 	/**
 	 * Loads the ontologies when the component is initialized
@@ -39,6 +40,21 @@ export class OntologiesListComponent implements OnInit {
 			? this.languageService.translateValue(ONTOLOGIES_EDIT_ONTOLOGY)
 			: this.languageService.translateValue(ONTOLOGIES_ADD_ONTOLOGY);
 		this.visible = true;
+	}
+
+	/**
+	 * Display delete dialog
+	 */
+	showDialogDelete(ontology: SearchOntologyDTO): void {
+		this.selectedOntology = ontology;
+		this.deleteDialogVisible = true;
+	}
+
+	/**
+	* Close delete dialog
+	*/
+	cancelDelete(): void {
+		this.deleteDialogVisible = false;
 	}
 
 	/**
@@ -70,6 +86,7 @@ export class OntologiesListComponent implements OnInit {
 				this.ontologies = this.ontologies.filter((ontology) => ontology.id !== id);
 				console.log('Ontology deleted');
 			});
+		this.deleteDialogVisible = false;
 	}
 
 	/**
