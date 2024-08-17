@@ -2,7 +2,8 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DataSourceDTO, DataSourceService, PageDataSourceDTO } from 'projects/mapper-api-client';
 import { LanguageService } from 'src/app/shared/services/language.service';
-import { DATA_SOURCES_ADD_DATA_SOURCE, DATA_SOURCES_EDIT_DATA_SOURCE, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { DATA_SOURCES_ADD_DATA_SOURCE, DATA_SOURCES_EDIT_DATA_SOURCE, MESSAGES_DATA_SOURCES_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-data-sources-list',
@@ -12,7 +13,7 @@ export class DataSourcesListComponent implements OnInit {
 
 	destroyRef = inject(DestroyRef);
 
-	constructor(private dataSourceService: DataSourceService, private languageService: LanguageService) { }
+	constructor(private dataSourceService: DataSourceService, private languageService: LanguageService, private notificationService: NotificationService) { }
 
 	dataSources: DataSourceDTO[];
 	selectedDataSource: DataSourceDTO;
@@ -56,7 +57,7 @@ export class DataSourcesListComponent implements OnInit {
 			)
 			.subscribe(() => {
 				this.dataSources = this.dataSources.filter((dataSource) => dataSource.id !== id);
-				console.log('Data source deleted');
+				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_DELETED)
 			});
 		this.deleteDialogVisible = false;
 	}

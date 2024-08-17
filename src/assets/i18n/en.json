@@ -29,6 +29,13 @@
     "yes": "Yes"
   },
   "messages": {
+    "data-sources": {
+      "success": {
+        "created": "Data source successfully created",
+        "deleted": "Data source successfully deleted",
+        "updated": "Data source successfully updated"
+      }
+    },
     "errors": {
       "generic": "An error occurred while processing your operation",
       "internet": {
@@ -37,6 +44,13 @@
       "login": "Login error",
       "required": "The value field is required",
       "title": "Error"
+    },
+    "ontologies": {
+      "success": {
+        "created": "Ontology successfully created",
+        "deleted": "Ontology successfully deleted",
+        "updated": "Ontology successfully updated"
+      }
     },
     "success": "Success"
   },

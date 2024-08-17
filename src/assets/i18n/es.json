@@ -29,6 +29,13 @@
     "yes": "Sí"
   },
   "messages": {
+    "data-sources": {
+      "success": {
+        "created": "Fuente de datos creada correctamente",
+        "deleted": "Fuente de datos eliminada correctamente",
+        "updated": "Fuente de datos actualizada correctamente"
+      }
+    },
     "errors": {
       "generic": "Ha ocurrido un error procesando la operación",
       "internet": {
@@ -37,6 +44,13 @@
       "login": "Error al acceder",
       "required": "El campo es requerido",
       "title": "Error"
+    },
+    "ontologies": {
+      "success": {
+        "created": "Ontología creada correctamente",
+        "deleted": "Ontología eliminada correctamente",
+        "updated": "Ontología actualizada correctamente"
+      }
     },
     "success": "Éxito"
   },

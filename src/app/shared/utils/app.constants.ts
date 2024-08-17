@@ -21,6 +21,14 @@ export const MESSAGES_ERRORS_INTERNET_CONNECTION: string = translate('messages.e
 export const MESSAGES_ERRORS_LOGIN: string = translate('messages.errors.login');
 export const MESSAGES_ERRORS_REQUIRED: string = translate('messages.errors.required');
 
+export const MESSAGES_ONTOLOGIES_SUCCESS_CREATED: string = translate('messages.ontologies.success.created');
+export const MESSAGES_ONTOLOGIES_SUCCESS_UPDATED: string = translate('messages.ontologies.success.updated');
+export const MESSAGES_ONTOLOGIES_SUCCESS_DELETED: string = translate('messages.ontologies.success.deleted');
+
+export const MESSAGES_DATA_SOURCES_SUCCESS_CREATED: string = translate('messages.data-sources.success.created');
+export const MESSAGES_DATA_SOURCES_SUCCESS_UPDATED: string = translate('messages.data-sources.success.updated');
+export const MESSAGES_DATA_SOURCES_SUCCESS_DELETED: string = translate('messages.data-sources.success.deleted');
+
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
 export const LABELS_NO: string = translate('labels.no');

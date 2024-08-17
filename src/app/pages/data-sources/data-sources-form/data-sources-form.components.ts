@@ -7,8 +7,10 @@ import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { LanguageService } from 'src/app/shared/services/language.service';
-import { DATA_SOURCES_DATA_BASE_TYPE, DATA_SOURCES_FILE_TYPE, LABELS_NO_FILE_SELECTED } from 'src/app/shared/utils/app.constants';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { DATA_SOURCES_DATA_BASE_TYPE, DATA_SOURCES_FILE_TYPE, LABELS_NO_FILE_SELECTED, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_DATA_SOURCES_SUCCESS_UPDATED } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
+
 
 @Component({
 	selector: 'app-data-sources-form',
@@ -18,7 +20,7 @@ export class DataSourcesFormComponent implements OnInit {
 
 	destroyRef = inject(DestroyRef);
 
-	constructor(private fb: FormBuilder, private languageService: LanguageService, private dataSourceService: DataSourceService) { }
+	constructor(private fb: FormBuilder, private languageService: LanguageService, private dataSourceService: DataSourceService, private notificationService: NotificationService) { }
 
 	dataSourceForm: FormGroup = null;
 	dataSourceFormats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
@@ -72,9 +74,9 @@ export class DataSourcesFormComponent implements OnInit {
 		this.dataSourceService
 			.createDataSource(dataSource, this.file)
 			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((data: DataSourceDTO) => {
+			.subscribe(() => {
 				this.formSubmitted.emit();
-				console.log('Data source created:', data);
+				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED)
 			});
 	}
 
@@ -85,9 +87,9 @@ export class DataSourcesFormComponent implements OnInit {
 		this.dataSourceService
 			.updateDataSource(id, dataSource, this.file)
 			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((data: DataSourceDTO) => {
+			.subscribe(() => {
 				this.formSubmitted.emit();
-				console.log('Data source updated:', data);
+				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED)
 			});
 	}
 
