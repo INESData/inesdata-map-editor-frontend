@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { OntologyDTO, OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { ontologyDtoForm } from 'projects/mapper-forms/src/public-api';
 import { LanguageService } from 'src/app/shared/services/language.service';
-import { LABELS_NO_FILE_SELECTED } from 'src/app/shared/utils/app.constants';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { LABELS_NO_FILE_SELECTED, MESSAGES_ONTOLOGIES_SUCCESS_CREATED, MESSAGES_ONTOLOGIES_SUCCESS_UPDATED } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
@@ -44,7 +45,8 @@ export class OntologiesFormComponent implements OnInit {
 	 */
 	constructor(
 		private fb: FormBuilder, private languageService: LanguageService,
-		private ontologyService: OntologyService
+		private ontologyService: OntologyService,
+		private notificationService: NotificationService
 	) { }
 
 	/**
@@ -62,9 +64,9 @@ export class OntologiesFormComponent implements OnInit {
 		this.ontologyService
 			.createOntology(ontology, this.file)
 			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((data: OntologyDTO) => {
+			.subscribe(() => {
 				this.formSubmitted.emit();
-				console.log('Ontology created:', data);
+				this.notificationService.showSuccess(MESSAGES_ONTOLOGIES_SUCCESS_CREATED);
 			});
 	}
 
@@ -75,9 +77,9 @@ export class OntologiesFormComponent implements OnInit {
 		this.ontologyService
 			.updateOntology(id, ontology, this.file)
 			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((data: OntologyDTO) => {
+			.subscribe(() => {
 				this.formSubmitted.emit();
-				console.log('Ontology updated:', data);
+				this.notificationService.showSuccess(MESSAGES_ONTOLOGIES_SUCCESS_UPDATED);
 			});
 	}
 
