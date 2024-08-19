@@ -33,6 +33,7 @@ export class DataSourcesFormComponent implements OnInit {
 
 	@Output() formSubmitted = new EventEmitter<void>();
 	@Input() isEditMode: boolean = false;
+	@Output() dialog = new EventEmitter<void>();
 	private _dataSource?: DataSourceDTO;
 
 	@Input() set dataSource(value: DataSourceDTO) {
@@ -76,7 +77,8 @@ export class DataSourcesFormComponent implements OnInit {
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.formSubmitted.emit();
-				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED)
+				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
+				this.dataSourceForm.reset();
 			});
 	}
 
@@ -89,7 +91,8 @@ export class DataSourcesFormComponent implements OnInit {
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.formSubmitted.emit();
-				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED)
+				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
+				this.dataSourceForm.reset();
 			});
 	}
 
@@ -145,6 +148,6 @@ export class DataSourcesFormComponent implements OnInit {
 				[this.mapToDataSource(selectedType) === DataSourceTypeEnum.DATABASE ? DATA_SOURCES_DATA_BASE_TYPE : DATA_SOURCES_FILE_TYPE]: selectedType,
 			};
 		this.isEditMode ? this.updateDataSource(dataSource.id, dataSource) : this.addDataSource(dataSource);
-		this.dataSourceForm.reset();
+		this.dialog.emit();
 	}
 }
