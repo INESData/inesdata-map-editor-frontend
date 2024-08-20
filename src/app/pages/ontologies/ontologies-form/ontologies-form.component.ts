@@ -3,6 +3,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { OntologyDTO, OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { ontologyDtoForm } from 'projects/mapper-forms/src/public-api';
+import { LanguageService } from 'src/app/shared/services/language.service';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { LABELS_NO_FILE_SELECTED, MESSAGES_ONTOLOGIES_SUCCESS_CREATED, MESSAGES_ONTOLOGIES_SUCCESS_UPDATED } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
@@ -11,7 +14,7 @@ import { createDtoForm } from 'src/app/shared/utils/form.utils';
 })
 export class OntologiesFormComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
-	fileName: string = 'Ningún archivo seleccionado';
+	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
 	fileSelected: boolean = false;
 
 	@Output() formSubmitted = new EventEmitter<void>();
@@ -41,9 +44,10 @@ export class OntologiesFormComponent implements OnInit {
 	 * @param fb the form builder
 	 */
 	constructor(
-		private fb: FormBuilder,
-		private ontologyService: OntologyService
-	) {}
+		private fb: FormBuilder, private languageService: LanguageService,
+		private ontologyService: OntologyService,
+		private notificationService: NotificationService
+	) { }
 
 	/**
 	 * On component init
@@ -60,9 +64,9 @@ export class OntologiesFormComponent implements OnInit {
 		this.ontologyService
 			.createOntology(ontology, this.file)
 			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((data: OntologyDTO) => {
+			.subscribe(() => {
 				this.formSubmitted.emit();
-				console.log('Ontology created:', data);
+				this.notificationService.showSuccess(MESSAGES_ONTOLOGIES_SUCCESS_CREATED);
 			});
 	}
 
@@ -73,9 +77,9 @@ export class OntologiesFormComponent implements OnInit {
 		this.ontologyService
 			.updateOntology(id, ontology, this.file)
 			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((data: OntologyDTO) => {
+			.subscribe(() => {
 				this.formSubmitted.emit();
-				console.log('Ontology updated:', data);
+				this.notificationService.showSuccess(MESSAGES_ONTOLOGIES_SUCCESS_UPDATED);
 			});
 	}
 
@@ -86,10 +90,10 @@ export class OntologiesFormComponent implements OnInit {
 		this.file = event.target.files[0];
 		if (this.file) {
 			this.fileName = this.file.name;
-			this.fileSelected = true; // Selected file
+			this.fileSelected = true;
 		} else {
-			this.fileName = 'Ningún archivo seleccionado';
-			this.fileSelected = false; // No file selected
+			this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
+			this.fileSelected = false;
 		}
 	}
 

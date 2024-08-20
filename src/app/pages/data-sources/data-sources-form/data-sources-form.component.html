@@ -1,50 +1,68 @@
-<form>
-	<p class="mb-1">Seleccione el formato de los archivos</p>
-	<div class="grid">
+<form [formGroup]="dataSourceForm">
+	<p *ngIf="!isEditMode" class="mb-1">{{ "labels.data-source-format" | translate }}</p>
+	<div *ngIf="!isEditMode" class="grid">
 		<div class="col-12">
-			<p-dropdown [options]="formats" [(ngModel)]="selectedFormato" optionLabel="name" placeholder="Format" />
+			<p-dropdown
+				[options]="dataSourceFormats"
+				formControlName="type"
+				[placeholder]="'labels.type' | translate"
+				(change)="updateFormVisibility($event.value)"
+			>
+			</p-dropdown>
 		</div>
 	</div>
-	<p class="mb-1">Seleccione el archivo de fuentes de datos</p>
-	<div class="grid">
-		<div class="col-12">
-			<div class="flex">
-				<label class="customfileUpload">
-					Importar de local
-					<input class="fileUploader" type="file" pInputText (change)="onFileSelected($event)" />
-				</label>
-				<span class="fileName" [class.selected]="fileSelected">{{ fileName }}</span>
+
+	<!-- FILE input -->
+	<div *ngIf="showFileFields">
+		<p class="mb-1">{{ "labels.data-source-file" | translate }}</p>
+		<div class="grid">
+			<div class="col-12">
+				<div class="flex">
+					<label class="customfileUpload">
+						Importar de local
+						<input class="fileUploader" type="file" pInputText (change)="onFileSelected($event)" />
+					</label>
+					<span class="fileName" [class.selected]="fileSelected">{{ fileName }}</span>
+				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="grid">
-		<div class="col-12">
-			<div>
-				<label for="">Database</label>
-				<input type="text" pInputText />
-			</div>
-		</div>
-		<div class="col-6">
-			<div>
-				<label for="">User</label>
-				<input type="text" pInputText />
-			</div>
-		</div>
-		<div class="col-6">
-			<div>
-				<label for="">Password</label>
-				<input type="text" pInputText />
-			</div>
-		</div>
-		<div class="col-12">
-			<div>
-				<label for="">Connection URL</label>
-				<input type="text" pInputText />
+	<!-- NAME input -->
+	<div *ngIf="showFileFields || showDatabaseFields">
+		<div class="grid">
+			<div class="col-12">
+				<label for="">{{ "labels.name" | translate }}</label>
+				<input type="text" pInputText formControlName="name" />
 			</div>
 		</div>
 	</div>
+
+	<!-- DATABASE inputs -->
+	<div *ngIf="showDatabaseFields">
+		<div class="grid">
+			<div class="col-6">
+				<label for="">{{ "labels.user" | translate }}</label>
+				<input type="text" pInputText formControlName="userName" />
+			</div>
+			<div class="col-6">
+				<label for="">{{ "labels.password" | translate }}</label>
+				<input type="text" pInputText formControlName="password" />
+			</div>
+			<div class="col-12">
+				<label for="">{{ "labels.connection-url" | translate }}</label>
+				<input type="text" pInputText formControlName="connectionString" />
+			</div>
+		</div>
+	</div>
+
 	<div class="flex justify-content-end gap-2 mt-2">
-		<p-button class="btn btn__primary" [label]="" type="button" />
+		<p-button
+			class="btn btn__primary"
+			[label]="isEditMode ? ('data-sources.data-source.edit' | translate) : ('data-sources.data-source.add' | translate)"
+			type="button"
+			(click)="onSubmit()"
+			(keydown.enter)="onSubmit()"
+		/>
 	</div>
 </form>

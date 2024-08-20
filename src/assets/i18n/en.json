@@ -1,19 +1,41 @@
 {
-  "home": {
-    "welcome": "INESData"
+  "data-sources": {
+    "data-source": {
+      "add": "Add data source",
+      "confirmation": "Are you sure you want to delete this data source?",
+      "edit": "Edit data source",
+      "list": "Data Sources list"
+    }
   },
   "labels": {
+    "cancel": "Cancel",
+    "connection-url": "Connection URL",
+    "data-source": "Data Source",
+    "data-source-file": "Select the data source file",
+    "data-source-format": "Select the data source type",
     "date": "Date",
-    "file": "File",
+    "delete": "Delete",
+    "file-name": "No file selected",
     "home": "Home",
     "name": "Name",
     "no": "No",
+    "ontology-file": "Select ontology file",
+    "password": "Password",
     "title": "Title",
+    "type": "Type",
     "url": "URL",
+    "user": "User",
     "version_name": "Version",
     "yes": "Yes"
   },
   "messages": {
+    "data-sources": {
+      "success": {
+        "created": "Data source successfully created",
+        "deleted": "Data source successfully deleted",
+        "updated": "Data source successfully updated"
+      }
+    },
     "errors": {
       "generic": "An error occurred while processing your operation",
       "internet": {
@@ -23,11 +45,19 @@
       "required": "The value field is required",
       "title": "Error"
     },
+    "ontologies": {
+      "success": {
+        "created": "Ontology successfully created",
+        "deleted": "Ontology successfully deleted",
+        "updated": "Ontology successfully updated"
+      }
+    },
     "success": "Success"
   },
   "ontologies": {
     "ontology": {
       "add": "Add ontology",
+      "confirmation": "Are you sure you want to delete this ontology?",
       "edit": "Edit ontology",
       "list": "Ontologies list"
     }

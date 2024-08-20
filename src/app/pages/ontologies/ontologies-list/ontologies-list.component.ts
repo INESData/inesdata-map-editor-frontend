@@ -2,7 +2,8 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OntologyService, PageSearchOntologyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { LanguageService } from 'src/app/shared/services/language.service';
-import { ONTOLOGIES_ADD_ONTOLOGY, ONTOLOGIES_EDIT_ONTOLOGY, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { MESSAGES_ONTOLOGIES_SUCCESS_DELETED, ONTOLOGIES_ADD_ONTOLOGY, ONTOLOGIES_EDIT_ONTOLOGY, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-ontologies-list',
@@ -13,14 +14,16 @@ export class OntologiesListComponent implements OnInit {
 
 	constructor(
 		private ontologyService: OntologyService,
-		private languageService: LanguageService
-	) {}
+		private languageService: LanguageService,
+		private notificationService: NotificationService
+	) { }
 
 	ontologies: SearchOntologyDTO[];
 	selectedOntology: SearchOntologyDTO = null;
 	header: string = '';
 	isEditMode: boolean = false;
 	visible: boolean = false;
+	deleteDialogVisible: boolean = false;
 
 	/**
 	 * Loads the ontologies when the component is initialized
@@ -39,6 +42,21 @@ export class OntologiesListComponent implements OnInit {
 			? this.languageService.translateValue(ONTOLOGIES_EDIT_ONTOLOGY)
 			: this.languageService.translateValue(ONTOLOGIES_ADD_ONTOLOGY);
 		this.visible = true;
+	}
+
+	/**
+	 * Display delete dialog
+	 */
+	showDialogDelete(ontology: SearchOntologyDTO): void {
+		this.selectedOntology = ontology;
+		this.deleteDialogVisible = true;
+	}
+
+	/**
+	* Close delete dialog
+	*/
+	cancelDelete(): void {
+		this.deleteDialogVisible = false;
 	}
 
 	/**
@@ -68,8 +86,9 @@ export class OntologiesListComponent implements OnInit {
 			)
 			.subscribe(() => {
 				this.ontologies = this.ontologies.filter((ontology) => ontology.id !== id);
-				console.log('Ontology deleted');
+				this.notificationService.showSuccess(MESSAGES_ONTOLOGIES_SUCCESS_DELETED);
 			});
+		this.deleteDialogVisible = false;
 	}
 
 	/**

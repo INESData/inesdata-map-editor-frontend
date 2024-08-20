@@ -21,14 +21,30 @@ export const MESSAGES_ERRORS_INTERNET_CONNECTION: string = translate('messages.e
 export const MESSAGES_ERRORS_LOGIN: string = translate('messages.errors.login');
 export const MESSAGES_ERRORS_REQUIRED: string = translate('messages.errors.required');
 
+export const MESSAGES_ONTOLOGIES_SUCCESS_CREATED: string = translate('messages.ontologies.success.created');
+export const MESSAGES_ONTOLOGIES_SUCCESS_UPDATED: string = translate('messages.ontologies.success.updated');
+export const MESSAGES_ONTOLOGIES_SUCCESS_DELETED: string = translate('messages.ontologies.success.deleted');
+
+export const MESSAGES_DATA_SOURCES_SUCCESS_CREATED: string = translate('messages.data-sources.success.created');
+export const MESSAGES_DATA_SOURCES_SUCCESS_UPDATED: string = translate('messages.data-sources.success.updated');
+export const MESSAGES_DATA_SOURCES_SUCCESS_DELETED: string = translate('messages.data-sources.success.deleted');
+
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
 export const LABELS_NO: string = translate('labels.no');
 export const LABELS_HOME: string = translate('labels.home');
+export const LABELS_NO_FILE_SELECTED: string = translate('labels.file-name');
 
 //Ontologies
 export const ONTOLOGIES_ADD_ONTOLOGY: string = translate('ontologies.ontology.add');
 export const ONTOLOGIES_EDIT_ONTOLOGY: string = translate('ontologies.ontology.edit');
+
+//Data sources
+export const DATA_SOURCES_ADD_DATA_SOURCE: string = translate('data-sources.data-source.add');
+export const DATA_SOURCES_EDIT_DATA_SOURCE: string = translate('data-sources.data-source.edit');
+export const DATA_SOURCES_DATA_BASE_TYPE: string = 'databaseType';
+export const DATA_SOURCES_FILE_TYPE: string = 'fileType';
+
 
 
 // Routes
