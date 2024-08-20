@@ -42,6 +42,62 @@ h1 {
 	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
 }
 
+.recordContainer {
+	overflow-y: auto;
+	max-height: 400px;
+	height: 100%;
+	width: 100%;
+	&__item {
+		width: 100%;
+		.recordTitle {
+			border-bottom: 1px solid $grey500;
+		}
+		.recordFiles {
+			display: flex;
+			flex-direction: column;
+			.recordFile {
+				position: relative;
+				width: fit-content;
+				margin: 2px 50px;
+				color: $primary;
+				&::after {
+					position: absolute;
+					border-radius: 25px;
+					font-size: 12px;
+					color: white;
+					font-weight: 600;
+					padding: 2px 10px;
+					margin-left: 10px;
+				}
+				&__RML {
+					&::after {
+						content: "RML";
+						background-color: $orange;
+					}
+				}
+				&__RDF {
+					&::after {
+						content: "RDF";
+						background-color: $blue;
+					}
+				}
+				&__SPARQL {
+					&::after {
+						content: "SPARQL";
+						background-color: $green;
+					}
+				}
+				&__LOG {
+					&::after {
+						content: "LOG";
+						background-color: $grey600;
+					}
+				}
+			}
+		}
+	}
+}
+
 .menu-button {
 	border: 0px;
 	background: none;

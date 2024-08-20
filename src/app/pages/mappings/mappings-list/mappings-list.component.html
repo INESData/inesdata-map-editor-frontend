@@ -1,0 +1,53 @@
+<div class="whiteContainer w-800">
+	<h1 class="mb-3">Lista de mapeos</h1>
+	<p-button class="btn btn__secondary mr-2" label="Añadir mapeo manual" />
+	<p-button class="btn btn__secondary" label="Generar mapeo automático" />
+	<p-table class="mt-2 block" [value]="mappings">
+		<ng-template pTemplate="header">
+			<tr>
+				<th scope="col">Nombre</th>
+				<th scope="col">Ontology</th>
+				<th scope="col">Fuente de datos</th>
+				<th scope="col"></th>
+			</tr>
+		</ng-template>
+		<ng-template pTemplate="body" let-mapping>
+			<tr>
+				<td>{{ mapping.name }}</td>
+				<td>{{ mapping.ontology }}</td>
+				<td>{{ mapping.datasource }}</td>
+				<td>
+					<div class="flex flex-justify flex-justify-right">
+						<p-button (onClick)="showDialog()" class="btn btn__icon icon-ojo mr-1" />
+						<p-button class="btn btn__icon icon-play mr-1" />
+						<p-button class="btn btn__icon icon-lapiz mr-1" />
+						<p-button (onClick)="showDialogDelete()" class="btn btn__icon icon-papelera" />
+					</div>
+				</td>
+			</tr>
+		</ng-template>
+	</p-table>
+</div>
+
+<p-dialog
+	header="Histórico de materializaciones de *Nombre del mapeo"
+	[modal]="true"
+	[draggable]="false"
+	[(visible)]="addDialogVisible"
+	[style]="{ width: '60rem' }"
+>
+	<app-mappings-records (formSubmitted)="addDialogVisible = false"></app-mappings-records>
+</p-dialog>
+
+<p-dialog
+	header="¿Seguro que quieres eliminar este mapeo?"
+	[modal]="true"
+	[draggable]="false"
+	[(visible)]="deleteDialogVisible"
+	[style]="{ width: '40rem' }"
+>
+	<div class="flex flex-justify-right w-full">
+		<p-button class="btn btn__primary mr-2" label="Eliminar" type="button" />
+		<p-button class="btn btn__secondary" label="Cancelar" type="button" />
+	</div>
+</p-dialog>
