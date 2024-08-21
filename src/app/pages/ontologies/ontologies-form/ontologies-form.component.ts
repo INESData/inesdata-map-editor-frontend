@@ -5,7 +5,7 @@ import { OntologyDTO, OntologyService, SearchOntologyDTO } from 'projects/mapper
 import { ontologyDtoForm } from 'projects/mapper-forms/src/public-api';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { LABELS_NO_FILE_SELECTED, MESSAGES_ONTOLOGIES_SUCCESS_CREATED, MESSAGES_ONTOLOGIES_SUCCESS_UPDATED } from 'src/app/shared/utils/app.constants';
+import { LABELS_NO_FILE_SELECTED, MESSAGES_ERRORS_REQUIRED, MESSAGES_ONTOLOGIES_SUCCESS_CREATED, MESSAGES_ONTOLOGIES_SUCCESS_UPDATED } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
@@ -92,25 +92,57 @@ export class OntologiesFormComponent implements OnInit {
 			this.fileName = this.file.name;
 			this.fileSelected = true;
 		} else {
-			this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
-			this.fileSelected = false;
+			this.resetFile();
 		}
+	}
+
+	/**
+ * Reset file to initial state
+ */
+	resetFile(): void {
+		this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
+		this.fileSelected = false;
+		this.file = null;
+	}
+
+	/**
+	 * Get error messages
+	 */
+	getErrorMessage(controlName: string): string {
+		const control = this.ontologyForm.get(controlName);
+		if (control?.errors) {
+			if (control.errors.required) {
+				return this.languageService.translateValue(MESSAGES_ERRORS_REQUIRED);
+			}
+		}
+		return '';
+	}
+
+	/**
+	 * Check if a control has validation errors
+	 */
+	hasError(controlName: string): boolean {
+		const control = this.ontologyForm.get(controlName);
+		return control?.invalid && (control?.touched || control?.dirty);
 	}
 
 	/**
 	 * On form submission
 	 */
 	onSubmit(): void {
-		const ontology: OntologyDTO = this.ontologyForm.value;
-		console.info(ontology);
+		// Mark all fields as touched to trigger validation messages
+		this.ontologyForm.markAllAsTouched();
 
-		// TODO: validate
-
-		if (this.isEditMode) {
-			this.updateOntology(ontology.id, ontology);
-		} else {
-			this.addOntology(ontology);
+		// Check if the form is valid
+		if (this.ontologyForm.invalid) {
+			console.warn('Form is invalid. Please correct the errors before submitting.');
+			return;
 		}
+
+		// If the form is valid, proceed with the submission
+		const ontology: OntologyDTO = this.ontologyForm.value;
+		this.isEditMode ? this.updateOntology(ontology.id, ontology) : this.addOntology(ontology);
 		this.ontologyForm.reset();
+		this.resetFile();
 	}
 }
