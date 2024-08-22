@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export const dataSourceDtoForm = new FormGroup({
 	connectionString: new FormControl(null, []),
@@ -22,12 +22,26 @@ export const linkForm = new FormGroup({
 export const ontologyDtoForm = new FormGroup({
 	content: new FormControl(null, []),
 	id: new FormControl(null, []),
-	name: new FormControl(null, []),
-	title: new FormControl(null, []),
+	name: new FormControl(null, [
+		Validators.required,
+		Validators.minLength(1),
+		Validators.maxLength(255)
+	]),
+	title: new FormControl(null, [
+		Validators.minLength(0),
+		Validators.maxLength(255)
+	]),
 	uploadDate: new FormControl(null, []),
-	url: new FormControl(null, []),
+	url: new FormControl(null, [
+		Validators.minLength(0),
+		Validators.maxLength(255)
+	]),
 	version: new FormControl(null, []),
-	versionName: new FormControl(null, [])
+	versionName: new FormControl(null, [
+		Validators.required,
+		Validators.minLength(1),
+		Validators.maxLength(255)
+	])
 });
 
 export const pageDataSourceDtoForm = new FormGroup({
@@ -69,11 +83,25 @@ export const pageableObjectForm = new FormGroup({
 
 export const searchOntologyDtoForm = new FormGroup({
 	id: new FormControl(null, []),
-	name: new FormControl(null, []),
-	title: new FormControl(null, []),
+	name: new FormControl(null, [
+		Validators.required,
+		Validators.minLength(1),
+		Validators.maxLength(255)
+	]),
+	title: new FormControl(null, [
+		Validators.minLength(0),
+		Validators.maxLength(255)
+	]),
 	uploadDate: new FormControl(null, []),
-	url: new FormControl(null, []),
-	versionName: new FormControl(null, [])
+	url: new FormControl(null, [
+		Validators.minLength(0),
+		Validators.maxLength(255)
+	]),
+	versionName: new FormControl(null, [
+		Validators.required,
+		Validators.minLength(1),
+		Validators.maxLength(255)
+	])
 });
 
 export const sortObjectForm = new FormGroup({

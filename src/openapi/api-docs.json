@@ -889,6 +889,10 @@
         }
       },
       "OntologyDTO": {
+        "required": [
+          "name",
+          "versionName"
+        ],
         "type": "object",
         "properties": {
           "content": {
@@ -903,9 +907,13 @@
             "format": "int64"
           },
           "name": {
+            "maxLength": 255,
+            "minLength": 1,
             "type": "string"
           },
           "title": {
+            "maxLength": 255,
+            "minLength": 0,
             "type": "string"
           },
           "uploadDate": {
@@ -913,6 +921,8 @@
             "format": "date-time"
           },
           "url": {
+            "maxLength": 255,
+            "minLength": 0,
             "type": "string"
           },
           "version": {
@@ -920,6 +930,8 @@
             "format": "int64"
           },
           "versionName": {
+            "maxLength": 255,
+            "minLength": 1,
             "type": "string"
           }
         },
@@ -1044,6 +1056,10 @@
         }
       },
       "SearchOntologyDTO": {
+        "required": [
+          "name",
+          "versionName"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -1051,9 +1067,13 @@
             "format": "int64"
           },
           "name": {
+            "maxLength": 255,
+            "minLength": 1,
             "type": "string"
           },
           "title": {
+            "maxLength": 255,
+            "minLength": 0,
             "type": "string"
           },
           "uploadDate": {
@@ -1061,9 +1081,13 @@
             "format": "date-time"
           },
           "url": {
+            "maxLength": 255,
+            "minLength": 0,
             "type": "string"
           },
           "versionName": {
+            "maxLength": 255,
+            "minLength": 1,
             "type": "string"
           }
         }
