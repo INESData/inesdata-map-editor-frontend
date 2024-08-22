@@ -97,8 +97,8 @@ export class OntologiesFormComponent implements OnInit {
 	}
 
 	/**
- * Reset file to initial state
- */
+	 * Reset file to initial state
+	 */
 	resetFile(): void {
 		this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
 		this.fileSelected = false;
