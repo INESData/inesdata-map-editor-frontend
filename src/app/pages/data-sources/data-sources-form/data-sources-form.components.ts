@@ -8,7 +8,7 @@ import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { DATA_SOURCES_DATA_BASE_TYPE, DATA_SOURCES_FILE_TYPE, LABELS_NO_FILE_SELECTED, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_DATA_SOURCES_SUCCESS_UPDATED } from 'src/app/shared/utils/app.constants';
+import { DATA_SOURCES_DATA_BASE_TYPE, DATA_SOURCES_FILE_TYPE, LABELS_NO_FILE_SELECTED, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_DATA_SOURCES_SUCCESS_UPDATED, PLACEHOLDERS_ASTERISKS_MASK } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 
@@ -38,8 +38,11 @@ export class DataSourcesFormComponent implements OnInit {
 
 	@Input() set dataSource(value: DataSourceDTO) {
 		this._dataSource = value;
+		// Return if the form is not initialized yet
 		if (!this.dataSourceForm) return;
+
 		if (value) {
+			// Update the form with the new value
 			this.dataSourceForm.patchValue(value);
 			this.updateFormVisibility(value.type);
 
@@ -47,7 +50,14 @@ export class DataSourcesFormComponent implements OnInit {
 				this.fileName = value.fileName || this.fileName;
 				this.fileSelected = !!value.fileName;
 			}
+
+			// Set the password field to '****' if the value is null
+			const passwordControl = this.dataSourceForm.get('password');
+			if (passwordControl) {
+				passwordControl.setValue(passwordControl.value ?? PLACEHOLDERS_ASTERISKS_MASK);
+			}
 		} else {
+			// Reset the form if no value is provided, clear file and database field states
 			this.dataSourceForm.reset();
 			this.showFileFields = this.showDatabaseFields = this.fileSelected = false;
 			this.fileName = null;

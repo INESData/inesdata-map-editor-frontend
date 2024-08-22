@@ -913,7 +913,7 @@
           },
           "title": {
             "maxLength": 255,
-            "minLength": 1,
+            "minLength": 0,
             "type": "string"
           },
           "uploadDate": {
@@ -922,7 +922,7 @@
           },
           "url": {
             "maxLength": 255,
-            "minLength": 1,
+            "minLength": 0,
             "type": "string"
           },
           "version": {

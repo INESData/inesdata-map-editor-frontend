@@ -35,6 +35,9 @@ export const LABELS_NO: string = translate('labels.no');
 export const LABELS_HOME: string = translate('labels.home');
 export const LABELS_NO_FILE_SELECTED: string = translate('labels.file-name');
 
+// Placeholders
+export const PLACEHOLDERS_ASTERISKS_MASK: string = '****';
+
 //Ontologies
 export const ONTOLOGIES_ADD_ONTOLOGY: string = translate('ontologies.ontology.add');
 export const ONTOLOGIES_EDIT_ONTOLOGY: string = translate('ontologies.ontology.edit');
