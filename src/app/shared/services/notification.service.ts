@@ -46,7 +46,7 @@ export class NotificationService {
 	 * @param summary Summary message
 	 */
 	showErrorException(error: HttpErrorResponse, summary?: string) {
-		this.showErrorMessage(error.error ? error.error.message : error.message, summary);
+		this.showErrorMessage(error.error ? error.error.details : error.message, summary);
 	}
 
 	/**
