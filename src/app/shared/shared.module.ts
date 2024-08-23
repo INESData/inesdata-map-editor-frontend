@@ -36,6 +36,7 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 import { SideBarComponent } from './components/sidebar/sidebar.component';
 
 /**
@@ -91,7 +92,7 @@ import { SideBarComponent } from './components/sidebar/sidebar.component';
 		PanelMenuModule,
 		MenuModule
 	],
-	declarations: [HeaderComponent, FooterComponent, NotificationComponent, SideBarComponent, BreadcrumbComponent],
+	declarations: [HeaderComponent, FooterComponent, NotificationComponent, SideBarComponent, BreadcrumbComponent, PaginatorComponent],
 	providers: [DialogService, ConfirmationService, MessageService],
 	exports: [
 		CommonModule,
@@ -100,6 +101,7 @@ import { SideBarComponent } from './components/sidebar/sidebar.component';
 		HeaderComponent,
 		FooterComponent,
 		NotificationComponent,
+		PaginatorComponent,
 		SideBarComponent,
 		BreadcrumbComponent,
 		TranslateModule,
@@ -132,4 +134,4 @@ import { SideBarComponent } from './components/sidebar/sidebar.component';
 		MenubarModule
 	]
 })
-export class SharedModule {}
+export class SharedModule { }

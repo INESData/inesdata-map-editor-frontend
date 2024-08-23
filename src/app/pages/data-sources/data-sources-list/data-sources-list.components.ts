@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DataSourceDTO, DataSourceService, PageDataSourceDTO } from 'projects/mapper-api-client';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { DATA_SOURCES_ADD_DATA_SOURCE, DATA_SOURCES_EDIT_DATA_SOURCE, MESSAGES_DATA_SOURCES_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
+import { DATA_SOURCES_ADD_DATA_SOURCE, DATA_SOURCES_EDIT_DATA_SOURCE, MESSAGES_DATA_SOURCES_SUCCESS_DELETED, PAGE, SIZE, SORT_BY_NAME, SORT_DIR } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-data-sources-list',
@@ -15,6 +15,7 @@ export class DataSourcesListComponent implements OnInit {
 
 	constructor(private dataSourceService: DataSourceService, private languageService: LanguageService, private notificationService: NotificationService) { }
 
+	paginationInfo: PageDataSourceDTO;
 	dataSources: DataSourceDTO[];
 	selectedDataSource: DataSourceDTO;
 
@@ -27,21 +28,21 @@ export class DataSourcesListComponent implements OnInit {
 	 * Loads the data sources when the component is initialized
 	 */
 	ngOnInit(): void {
-		this.loadDataSources();
+		this.loadDataSources(PAGE, SIZE, SORT_BY_NAME, SORT_DIR);
 	}
 
 	/**
 	 * Loads the data sources list.
 	 */
-	loadDataSources(): void {
+	loadDataSources(page: number, size: number, sortBy: string, sortDir: string): void {
 		this.dataSourceService
-			.listDataSources(PAGE, SIZE)
+			.listDataSources(page, size, sortBy, sortDir)
 			.pipe(
-				//TODO: pagination and show success/error popup
 				takeUntilDestroyed(this.destroyRef)
 			)
 			.subscribe((data: PageDataSourceDTO) => {
 				this.dataSources = data.content ?? [];
+				this.paginationInfo = data;
 			});
 	}
 
@@ -52,7 +53,6 @@ export class DataSourcesListComponent implements OnInit {
 		this.dataSourceService
 			.deleteDataSource(id)
 			.pipe(
-				//TODO: action confirmation popup
 				takeUntilDestroyed(this.destroyRef)
 			)
 			.subscribe(() => {
@@ -88,11 +88,18 @@ export class DataSourcesListComponent implements OnInit {
 	}
 
 	/**
+	* Method that is called when the page number changes.
+	*/
+	onPageChange(newPage: number): void {
+		this.loadDataSources(newPage, this.paginationInfo.size, SORT_BY_NAME, SORT_DIR);
+	}
+
+	/**
 	* Called when a form is successfully submitted
 	*/
 	onFormSubmitted() {
 		this.addDialogVisible = false;
-		this.loadDataSources();
+		this.loadDataSources(PAGE, SIZE, SORT_BY_NAME, SORT_DIR);
 		this.selectedDataSource = null;
 	}
 }
