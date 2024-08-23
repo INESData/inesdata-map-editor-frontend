@@ -12,9 +12,7 @@ export const LANGUAGE_STORAGE_NAME: string = 'language';
 // Filters
 export const PAGE: number = 0;
 export const SIZE: number = 10;
-export const SORT_BY_DATE: string = 'uploadDate';
 export const SORT_BY_NAME: string = 'name';
-export const SORT_DIR: string = 'DESC';
 
 // Messages
 export const MESSAGES_SUCCESS: string = translate('messages.success');
