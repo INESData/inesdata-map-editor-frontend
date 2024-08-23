@@ -30,9 +30,9 @@ export class MappingsBuilderComponent {
 		];
 	}
 
-	selectedCategory: any = null;
+	selectedCategory: unknown = null;
 
-	categories: any[] = [
+	categories: unknown[] = [
 		{ name: 'education', key: 'A' },
 		{ name: 'ontology2', key: 'M' }
 	];
