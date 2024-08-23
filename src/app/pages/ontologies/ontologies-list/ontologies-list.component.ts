@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OntologyService, PageSearchOntologyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MESSAGES_ONTOLOGIES_SUCCESS_DELETED, ONTOLOGIES_ADD_ONTOLOGY, ONTOLOGIES_EDIT_ONTOLOGY, PAGE, SIZE, SORT_BY_NAME } from 'src/app/shared/utils/app.constants';
+import { MESSAGES_ONTOLOGIES_SUCCESS_DELETED, ONTOLOGIES_ADD_ONTOLOGY, ONTOLOGIES_EDIT_ONTOLOGY, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-ontologies-list',
@@ -30,7 +30,7 @@ export class OntologiesListComponent implements OnInit {
 	 * Loads the ontologies when the component is initialized
 	 */
 	ngOnInit(): void {
-		this.loadOntologies(PAGE, SIZE, SORT_BY_NAME);
+		this.loadOntologies(PAGE, SIZE);
 	}
 
 	/**
@@ -63,9 +63,9 @@ export class OntologiesListComponent implements OnInit {
 	/**
 	 * Loads the ontologies list.
 	 */
-	loadOntologies(page: number, size: number, sortBy: string): void {
+	loadOntologies(page: number, size: number): void {
 		this.ontologyService
-			.listOntologies(page, size, sortBy)
+			.listOntologies(page, size)
 			.pipe(
 				takeUntilDestroyed(this.destroyRef)
 			)
@@ -95,7 +95,7 @@ export class OntologiesListComponent implements OnInit {
 	 * Method that is called when the page number changes.
 	 */
 	onPageChange(newPage: number): void {
-		this.loadOntologies(newPage, this.paginationInfo.size, SORT_BY_NAME);
+		this.loadOntologies(newPage, this.paginationInfo.size);
 	}
 
 	/**
@@ -103,7 +103,7 @@ export class OntologiesListComponent implements OnInit {
 	 */
 	onFormSubmitted() {
 		this.visible = false;
-		this.loadOntologies(PAGE, SIZE, SORT_BY_NAME);
+		this.loadOntologies(PAGE, SIZE);
 		this.selectedOntology = null;
 	}
 }

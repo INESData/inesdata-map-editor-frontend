@@ -419,14 +419,6 @@
               "type": "integer",
               "format": "int32"
             }
-          },
-          {
-            "in": "query",
-            "name": "sortBy",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -665,14 +657,6 @@
             "schema": {
               "type": "integer",
               "format": "int32"
-            }
-          },
-          {
-            "in": "query",
-            "name": "sortBy",
-            "required": true,
-            "schema": {
-              "type": "string"
             }
           }
         ],

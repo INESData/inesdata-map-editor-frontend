@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DataSourceDTO, DataSourceService, PageDataSourceDTO } from 'projects/mapper-api-client';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { DATA_SOURCES_ADD_DATA_SOURCE, DATA_SOURCES_EDIT_DATA_SOURCE, MESSAGES_DATA_SOURCES_SUCCESS_DELETED, PAGE, SIZE, SORT_BY_NAME } from 'src/app/shared/utils/app.constants';
+import { DATA_SOURCES_ADD_DATA_SOURCE, DATA_SOURCES_EDIT_DATA_SOURCE, MESSAGES_DATA_SOURCES_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-data-sources-list',
@@ -28,15 +28,15 @@ export class DataSourcesListComponent implements OnInit {
 	 * Loads the data sources when the component is initialized
 	 */
 	ngOnInit(): void {
-		this.loadDataSources(PAGE, SIZE, SORT_BY_NAME);
+		this.loadDataSources(PAGE, SIZE);
 	}
 
 	/**
 	 * Loads the data sources list.
 	 */
-	loadDataSources(page: number, size: number, sortBy: string): void {
+	loadDataSources(page: number, size: number): void {
 		this.dataSourceService
-			.listDataSources(page, size, sortBy)
+			.listDataSources(page, size)
 			.pipe(
 				takeUntilDestroyed(this.destroyRef)
 			)
@@ -91,7 +91,7 @@ export class DataSourcesListComponent implements OnInit {
 	* Method that is called when the page number changes.
 	*/
 	onPageChange(newPage: number): void {
-		this.loadDataSources(newPage, this.paginationInfo.size, SORT_BY_NAME);
+		this.loadDataSources(newPage, this.paginationInfo.size);
 	}
 
 	/**
@@ -99,7 +99,7 @@ export class DataSourcesListComponent implements OnInit {
 	*/
 	onFormSubmitted() {
 		this.addDialogVisible = false;
-		this.loadDataSources(PAGE, SIZE, SORT_BY_NAME);
+		this.loadDataSources(PAGE, SIZE);
 		this.selectedDataSource = null;
 	}
 }
