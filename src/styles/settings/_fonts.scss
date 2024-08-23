@@ -52,7 +52,12 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
-
+.icon-search:before {
+	content: "\e90d";
+}
+.icon-chevron:before {
+	content: "\e90e";
+}
 .icon-query:before {
 	content: "\e900";
 }

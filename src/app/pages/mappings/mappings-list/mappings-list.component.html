@@ -1,7 +1,8 @@
-<div class="whiteContainer w-800">
+<div class="whiteContainer w-full">
 	<h1 class="mb-3">Lista de mapeos</h1>
-	<p-button class="btn btn__secondary mr-2" label="Añadir mapeo manual" />
-	<p-button class="btn btn__secondary" label="Generar mapeo automático" />
+	<p-button class="btn btn__secondary mr-2" label="Generar mapeo manual" routerLink="/mappings/builder" />
+	<p-button class="btn btn__secondary mr-2" label="Generar mapeo automático" />
+	<p-button class="btn btn__secondary" label="Importar mapeo" />
 	<p-table class="mt-2 block" [value]="mappings">
 		<ng-template pTemplate="header">
 			<tr>
@@ -18,8 +19,8 @@
 				<td>{{ mapping.datasource }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
-						<p-button (onClick)="showDialog()" class="btn btn__icon icon-ojo mr-1" />
-						<p-button class="btn btn__icon icon-play mr-1" />
+						<p-button class="btn btn__icon icon-ojo mr-1" />
+						<p-button (onClick)="showDialog()" class="btn btn__icon icon-play mr-1" />
 						<p-button class="btn btn__icon icon-lapiz mr-1" />
 						<p-button (onClick)="showDialogDelete()" class="btn btn__icon icon-papelera" />
 					</div>
