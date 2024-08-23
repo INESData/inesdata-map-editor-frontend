@@ -10,4 +10,4 @@ import { OntologiesRoutingModule } from './ontologies-routing.module';
 	declarations: [OntologiesComponent, OntologiesListComponent, OntologiesFormComponent],
 	imports: [OntologiesRoutingModule, SharedModule]
 })
-export class OntologiesModule { }
+export class OntologiesModule {}
