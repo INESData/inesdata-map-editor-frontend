@@ -34,6 +34,36 @@ h1 {
 	font-size: 24px;
 	font-weight: 500;
 	color: $darkblue;
+	&.category {
+		position: relative;
+		width: fit-content;
+		color: $primary;
+		&::after {
+			position: absolute;
+			right: -40px;
+			font-family: "icomoon";
+			font-size: 32px;
+			color: $primary;
+		}
+		&__ontologies {
+			&::after {
+				content: "\e90b";
+				top: 5px;
+			}
+		}
+		&__datasources {
+			&::after {
+				content: "\e90a";
+				top: 0px;
+			}
+		}
+		&__mapping {
+			&::after {
+				content: "\e909";
+				top: 2px;
+			}
+		}
+	}
 }
 
 .whiteContainer {
@@ -107,6 +137,66 @@ h1 {
 			font-family: "icomoon", sans-serif;
 			font-size: 32px;
 			color: $white;
+		}
+	}
+}
+
+.mappingCategory {
+	position: relative;
+	height: 250px;
+	width: 100%;
+	padding: 60px 18px 60px 18px;
+	border: 1px solid $grey300;
+	.flex-column {
+		overflow: auto;
+		height: 150px;
+	}
+	.searcher {
+		position: absolute;
+		top: 0;
+		left: 0;
+		border-top: 0px;
+		border-right: 0px;
+		border-left: 0px;
+		border-bottom: 1px solid $grey300;
+		width: 100%;
+		padding-left: 40px;
+		&::placeholder {
+			color: $grey300;
+		}
+		&::before {
+			content: "\e90d";
+			position: absolute;
+			left: 18px;
+			color: $grey300;
+			font-family: "icomoon", sans-serif;
+			font-size: 18px;
+		}
+	}
+	.addButton {
+		display: flex;
+		align-items: center;
+		cursor: pointer;
+		position: absolute;
+		left: 0px;
+		bottom: 0px;
+		padding: 0px 18px 0px 54px;
+		height: 42px;
+		width: 100%;
+		background-color: $white;
+		&__plus::before {
+			content: "\e901";
+			position: absolute;
+			left: 22px;
+			font-family: "icomoon", sans-serif;
+			font-size: 18px;
+		}
+		&__query::before {
+			content: "\e900";
+			position: absolute;
+			left: 22px;
+			font-family: "icomoon", sans-serif;
+			font-size: 18px;
 		}
 	}
 }

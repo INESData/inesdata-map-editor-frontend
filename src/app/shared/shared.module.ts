@@ -26,6 +26,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { PaginatorModule } from 'primeng/paginator';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { TableModule } from 'primeng/table';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { ToastModule } from 'primeng/toast';
@@ -65,6 +66,7 @@ import { SideBarComponent } from './components/sidebar/sidebar.component';
 		TabMenuModule,
 		TableModule,
 		ButtonModule,
+		RadioButtonModule,
 		DropdownModule,
 		FileUploadModule,
 		InputTextModule,
@@ -107,6 +109,7 @@ import { SideBarComponent } from './components/sidebar/sidebar.component';
 		TabMenuModule,
 		TableModule,
 		ButtonModule,
+		RadioButtonModule,
 		DropdownModule,
 		FileUploadModule,
 		InputTextModule,

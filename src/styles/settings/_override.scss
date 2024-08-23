@@ -141,6 +141,7 @@
 			}
 		}
 		.p-dialog-content {
+			overflow: visible;
 			padding: 1rem 2rem 2rem 2rem;
 			border-radius: 0px;
 		}
@@ -223,18 +224,61 @@
 .p-dropdown {
 	border-radius: 0px;
 	border-color: $secondary;
-	box-shadow: 0 0 0 0.2rem $primaryfade;
 	.p-dropdown-label {
 		border: 0px;
 		box-shadow: none !important;
 	}
 	.p-highlight.p-focus {
 		background-color: $primary !important;
+		box-shadow: 0 0 0 0.2rem $primaryfade;
 		span {
 			color: $white !important;
 		}
 	}
 	.p-dropdown-items {
 		padding: 0px;
+	}
+	&.p-focus {
+		box-shadow: 0 0 0 0.2rem $primaryfade;
+	}
+}
+
+// LINK
+
+a {
+	font-weight: 500;
+	color: $primary;
+	text-decoration: none;
+	&.back {
+		position: relative;
+		padding-left: 20px;
+		&::before {
+			content: "<";
+			position: absolute;
+			top: -7px;
+			left: 0px;
+			font-size: 24px;
+		}
+	}
+}
+
+// RADIO BUTTON
+
+.field-checkbox {
+	margin-bottom: 0px;
+	.p-radiobutton {
+		.p-radiobutton-box {
+			border: 1px solid $primary;
+			&.p-highlight {
+				border-color: $primary;
+				background: $primary;
+			}
+			&:not(.p-disabled).p-focus {
+				box-shadow: none;
+			}
+		}
+		.p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
+			border-color: $primary;
+		}
 	}
 }
