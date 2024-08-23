@@ -12,7 +12,6 @@ export const LANGUAGE_STORAGE_NAME: string = 'language';
 // Filters
 export const PAGE: number = 0;
 export const SIZE: number = 10;
-export const SORT_BY_NAME: string = 'name';
 
 // Messages
 export const MESSAGES_SUCCESS: string = translate('messages.success');
