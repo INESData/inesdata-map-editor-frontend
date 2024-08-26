@@ -1,14 +1,14 @@
 <div class="whiteContainer w-full">
-	<h1 class="mb-3">Lista de mapeos</h1>
-	<p-button class="btn btn__secondary mr-2" label="Generar mapeo manual" routerLink="/mappings/builder" />
-	<p-button class="btn btn__secondary mr-2" label="Generar mapeo automático" />
-	<p-button class="btn btn__secondary" label="Importar mapeo" />
+	<h1 class="mb-3">{{ "mappings.mapping.list" | translate }}</h1>
+	<p-button class="btn btn__secondary mr-2" [label]="'mappings.mapping.manual' | translate" routerLink="/mappings/builder" />
+	<p-button class="btn btn__secondary mr-2" [label]="'mappings.mapping.automatic' | translate" />
+	<p-button class="btn btn__secondary" [label]="'mappings.mapping.import' | translate" />
 	<p-table class="mt-2 block" [value]="mappings">
 		<ng-template pTemplate="header">
 			<tr>
-				<th scope="col">Nombre</th>
-				<th scope="col">Ontology</th>
-				<th scope="col">Fuente de datos</th>
+				<th scope="col">{{ "labels.name" | translate }}</th>
+				<th scope="col">{{ "labels.ontology" | translate }}</th>
+				<th scope="col">{{ "labels.data-source" | translate }}</th>
 				<th scope="col"></th>
 			</tr>
 		</ng-template>
@@ -30,8 +30,9 @@
 	</p-table>
 </div>
 
+<!-- Materialisation history dialog -->
 <p-dialog
-	header="Histórico de materializaciones de *Nombre del mapeo"
+	[header]="'mappings.mapping.records-list' | translate"
 	[modal]="true"
 	[draggable]="false"
 	[(visible)]="addDialogVisible"
@@ -40,15 +41,16 @@
 	<app-mappings-records (formSubmitted)="addDialogVisible = false"></app-mappings-records>
 </p-dialog>
 
+<!-- Delete dialog -->
 <p-dialog
-	header="¿Seguro que quieres eliminar este mapeo?"
+	[header]="'mappings.mapping.confirmation' | translate"
 	[modal]="true"
 	[draggable]="false"
 	[(visible)]="deleteDialogVisible"
 	[style]="{ width: '40rem' }"
 >
 	<div class="flex flex-justify-right w-full">
-		<p-button class="btn btn__primary mr-2" label="Eliminar" type="button" />
-		<p-button class="btn btn__secondary" label="Cancelar" type="button" />
+		<p-button class="btn btn__primary mr-2" [label]="'labels.delete' | translate" type="button" />
+		<p-button class="btn btn__secondary" [label]="'labels.cancel' | translate" type="button" />
 	</div>
 </p-dialog>
