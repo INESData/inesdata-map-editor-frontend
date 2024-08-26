@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-interface Formato {
+interface Format {
 	name: string;
 	code: string;
 }
@@ -15,12 +15,12 @@ interface Mapping {
 	templateUrl: './mappings-builder.component.html'
 })
 export class MappingsBuilderComponent {
-	formatos: Formato[];
+	formats: Format[];
 	mappings: Mapping[];
-	selectedFormato: Formato;
+	selectedFormat: Format;
 
 	constructor() {
-		this.formatos = [
+		this.formats = [
 			{ name: 'CSV', code: 'A' },
 			{ name: 'PostgreSQL', code: 'B' }
 		];

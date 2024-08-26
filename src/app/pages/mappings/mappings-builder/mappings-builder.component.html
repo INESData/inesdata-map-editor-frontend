@@ -58,12 +58,7 @@
 				<div class="col-12">
 					<h1 class="category category__datasources">Fuentes de datos</h1>
 					<p class="mt-1 mb-1">Seleccione el formato de la fuente de datos</p>
-					<p-dropdown
-						[options]="formatos"
-						[(ngModel)]="selectedFormato"
-						optionLabel="name"
-						placeholder="Selecciona un formato"
-					></p-dropdown>
+					<p-dropdown [options]="formats" [(ngModel)]="selectedFormat" optionLabel="name" placeholder="Selecciona un formato"></p-dropdown>
 
 					<div class="grid mt-0">
 						<div class="col-4">

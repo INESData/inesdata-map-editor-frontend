@@ -125,6 +125,13 @@
 	}
 }
 
+// DISABLE
+
+.disabled {
+	pointer-events: none;
+	opacity: 0.4;
+}
+
 // WIDHTS
 
 .w-full {
