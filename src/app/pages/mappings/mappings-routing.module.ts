@@ -1,19 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { MappingsComponent } from './mappings.component';
-import { MappingsFormComponent } from './mappings-form/mappings-form.component';
+import { MappingsBuilderComponent } from './mappings-builder/mappings-builder.component';
+import { MappingsListComponent } from './mappings-list/mappings-list.component';
 
 const routes: Routes = [
 	{
 		path: '',
-		component: MappingsComponent,
-		children: [
-			{
-				path: 'new',
-				component: MappingsFormComponent
-			}
-		]
+		component: MappingsListComponent
+	},
+	{
+		path: 'builder',
+		component: MappingsBuilderComponent
 	}
 ];
 

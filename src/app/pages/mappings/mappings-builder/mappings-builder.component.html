@@ -1,0 +1,136 @@
+<a class="btn btn__secondary back mb-2" routerLink="/mappings">Volver a la lista de mapeos</a>
+<div class="grid">
+	<div class="col-8">
+		<div class="whiteContainer pb-0">
+			<div class="grid">
+				<div class="col-12">
+					<h1 class="category category__ontologies">Ontologías</h1>
+					<div class="grid">
+						<div class="col-4">
+							<p class="mt-1 mb-0">Ontologías</p>
+							<div class="mappingCategory">
+								<div class="flex flex-column gap-3">
+									<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									<div *ngFor="let category of categories" class="field-checkbox">
+										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
+										<label [for]="category.key" class="ml-2">
+											{{ category.name }}
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-4">
+							<p class="mt-1 mb-0">Clases</p>
+							<div class="mappingCategory">
+								<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+								<div class="flex flex-column gap-3">
+									<div *ngFor="let category of categories" class="field-checkbox">
+										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
+										<label [for]="category.key" class="ml-2">
+											{{ category.name }}
+										</label>
+									</div>
+								</div>
+								<a class="addButton addButton__plus">Añadir elemento</a>
+							</div>
+						</div>
+						<div class="col-4">
+							<p class="mt-1 mb-0">Atributos</p>
+							<div class="mappingCategory">
+								<div class="flex flex-column gap-3">
+									<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									<div *ngFor="let category of categories" class="field-checkbox">
+										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
+										<label [for]="category.key" class="ml-2">
+											{{ category.name }}
+										</label>
+									</div>
+								</div>
+								<a class="addButton addButton__plus">Añadir elemento</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-12 flex flex-justify-right pt-0 pb-0">
+					<p-button class="btn btn__primary" label="Añadir output" />
+				</div>
+				<div class="col-12">
+					<h1 class="category category__datasources">Fuentes de datos</h1>
+					<p class="mt-1 mb-1">Seleccione el formato de la fuente de datos</p>
+					<p-dropdown [options]="formats" [(ngModel)]="selectedFormat" optionLabel="name" placeholder="Selecciona un formato"></p-dropdown>
+
+					<div class="grid mt-0">
+						<div class="col-4">
+							<p class="mt-1 mb-0">Datos</p>
+							<div class="mappingCategory">
+								<div class="flex flex-column gap-3">
+									<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									<div *ngFor="let category of categories" class="field-checkbox">
+										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
+										<label [for]="category.key" class="ml-2">
+											{{ category.name }}
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-4">
+							<p class="mt-1 mb-0">Tablas</p>
+							<div class="mappingCategory">
+								<div class="flex flex-column gap-3">
+									<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									<div *ngFor="let category of categories" class="field-checkbox">
+										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
+										<label [for]="category.key" class="ml-2">
+											{{ category.name }}
+										</label>
+									</div>
+								</div>
+								<a class="addButton addButton__query">Añadir query</a>
+							</div>
+						</div>
+						<div class="col-4">
+							<p class="mt-1 mb-0">Columnas</p>
+							<div class="mappingCategory">
+								<div class="flex flex-column gap-3">
+									<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									<div *ngFor="let category of categories" class="field-checkbox">
+										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
+										<label [for]="category.key" class="ml-2">
+											{{ category.name }}
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-4">
+		<div class="whiteContainer h-full">
+			<h1 class="category category__mapping mb-1">Mapeo</h1>
+			<label for="">Nombre del mapeo</label>
+			<input class="mb-2" type="text" pInputText />
+			<p-table [value]="mappings">
+				<ng-template pTemplate="header">
+					<tr>
+						<th>Ontología</th>
+						<th>Fuente de datos</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-mapping>
+					<tr>
+						<td>{{ mapping.ontology }}</td>
+						<td>{{ mapping.database }}</td>
+					</tr>
+				</ng-template>
+			</p-table>
+			<div class="col-12 flex flex-justify-right p-0 mt-2">
+				<p-button class="btn btn__primary" label="Generar mapeo" />
+			</div>
+		</div>
+	</div>
+</div>

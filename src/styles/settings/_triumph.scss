@@ -125,6 +125,13 @@
 	}
 }
 
+// DISABLE
+
+.disabled {
+	pointer-events: none;
+	opacity: 0.4;
+}
+
 // WIDHTS
 
 .w-full {
@@ -165,4 +172,46 @@
 
 .w-900 {
 	width: 900px;
+}
+
+// HEIGHT
+
+.h-full {
+	height: 100%;
+}
+
+.h-100 {
+	height: 100px;
+}
+
+.h-200 {
+	height: 200px;
+}
+
+.h-300 {
+	height: 300px;
+}
+
+.h-400 {
+	height: 400px;
+}
+
+.h-500 {
+	height: 500px;
+}
+
+.h-600 {
+	height: 600px;
+}
+
+.h-700 {
+	height: 700px;
+}
+
+.h-800 {
+	height: 800px;
+}
+
+.h-900 {
+	height: 900px;
 }
