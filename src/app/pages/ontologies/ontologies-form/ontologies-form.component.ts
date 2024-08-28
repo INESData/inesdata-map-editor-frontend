@@ -5,7 +5,12 @@ import { OntologyDTO, OntologyService, SearchOntologyDTO } from 'projects/mapper
 import { ontologyDtoForm } from 'projects/mapper-forms/src/public-api';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { LABELS_NO_FILE_SELECTED, MESSAGES_ERRORS_REQUIRED, MESSAGES_ONTOLOGIES_SUCCESS_CREATED, MESSAGES_ONTOLOGIES_SUCCESS_UPDATED } from 'src/app/shared/utils/app.constants';
+import {
+	LABELS_NO_FILE_SELECTED,
+	MESSAGES_ERRORS_REQUIRED,
+	MESSAGES_ONTOLOGIES_SUCCESS_CREATED,
+	MESSAGES_ONTOLOGIES_SUCCESS_UPDATED
+} from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
@@ -15,10 +20,10 @@ import { createDtoForm } from 'src/app/shared/utils/form.utils';
 export class OntologiesFormComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
-	fileSelected: boolean = false;
+	fileSelected = false;
 
 	@Output() formSubmitted = new EventEmitter<void>();
-	@Input() isEditMode: boolean = false;
+	@Input() isEditMode = false;
 
 	file: File;
 	ontologyForm: FormGroup = null;
@@ -44,10 +49,11 @@ export class OntologiesFormComponent implements OnInit {
 	 * @param fb the form builder
 	 */
 	constructor(
-		private fb: FormBuilder, private languageService: LanguageService,
+		private fb: FormBuilder,
+		private languageService: LanguageService,
 		private ontologyService: OntologyService,
 		private notificationService: NotificationService
-	) { }
+	) {}
 
 	/**
 	 * On component init
@@ -141,7 +147,11 @@ export class OntologiesFormComponent implements OnInit {
 
 		// If the form is valid, proceed with the submission
 		const ontology: OntologyDTO = this.ontologyForm.value;
-		this.isEditMode ? this.updateOntology(ontology.id, ontology) : this.addOntology(ontology);
+		if (this.isEditMode) {
+			this.updateOntology(ontology.id, ontology);
+		} else {
+			this.addOntology(ontology);
+		}
 		this.ontologyForm.reset();
 		this.resetFile();
 	}

@@ -4,9 +4,9 @@ import { RequestLoggerFormatModel } from '../../../models/logger-format.model';
  * Writer request logger format
  */
 export class WriterRequestLoggerFormat {
-	private static OPEN_BRACKET: string = '[';
-	private static CLOSE_BRACKET: string = ']';
-	private static BLANK: string = ' ';
+	private static OPEN_BRACKET = '[';
+	private static CLOSE_BRACKET = ']';
+	private static BLANK = ' ';
 
 	/**
 	 * Get the format of request metadata to display in console.

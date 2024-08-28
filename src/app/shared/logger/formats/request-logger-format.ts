@@ -6,12 +6,12 @@ import { RequestLoggerFormatModel } from '../../models/logger-format.model';
  * Request logger format
  */
 export class RequestLoggerFormat {
-	private static BLANK: string = ' ';
+	private static BLANK = ' ';
 	private static URI_REGEX = /^https?:\/\/[A-Za-z0-9:.]*([/]{1}.*\/?)$/;
-	private static URI_REGEX_POSITION: number = 1;
+	private static URI_REGEX_POSITION = 1;
 	private static HOST_REGEX = /^(?:https?:\/\/)?(?:[^@/\n]+@)?(?:www\.)?([^:/\n]+)/;
-	private static HOST_REGEX_POSITION: number = 1;
-	private static HTTP_REQUEST_METADATA_POSITION: number = 0;
+	private static HOST_REGEX_POSITION = 1;
+	private static HTTP_REQUEST_METADATA_POSITION = 0;
 
 	/**
 	 * Get the format model of request metadata.

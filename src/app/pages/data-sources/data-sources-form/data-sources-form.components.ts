@@ -8,31 +8,41 @@ import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { DATA_SOURCES_DATA_BASE_TYPE, DATA_SOURCES_FILE_TYPE, LABELS_NO_FILE_SELECTED, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_DATA_SOURCES_SUCCESS_UPDATED, PLACEHOLDERS_ASTERISKS_MASK } from 'src/app/shared/utils/app.constants';
+import {
+	DATA_SOURCES_DATA_BASE_TYPE,
+	DATA_SOURCES_FILE_TYPE,
+	LABELS_NO_FILE_SELECTED,
+	MESSAGES_DATA_SOURCES_SUCCESS_CREATED,
+	MESSAGES_DATA_SOURCES_SUCCESS_UPDATED,
+	PLACEHOLDERS_ASTERISKS_MASK
+} from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
-
 
 @Component({
 	selector: 'app-data-sources-form',
 	templateUrl: './data-sources-form.component.html'
 })
 export class DataSourcesFormComponent implements OnInit {
-
 	destroyRef = inject(DestroyRef);
 
-	constructor(private fb: FormBuilder, private languageService: LanguageService, private dataSourceService: DataSourceService, private notificationService: NotificationService) { }
+	constructor(
+		private fb: FormBuilder,
+		private languageService: LanguageService,
+		private dataSourceService: DataSourceService,
+		private notificationService: NotificationService
+	) {}
 
 	dataSourceForm: FormGroup = null;
 	dataSourceFormats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 
 	file: File;
 	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
-	fileSelected: boolean = false;
-	showFileFields: boolean = false;
-	showDatabaseFields: boolean = false;
+	fileSelected = false;
+	showFileFields = false;
+	showDatabaseFields = false;
 
 	@Output() formSubmitted = new EventEmitter<void>();
-	@Input() isEditMode: boolean = false;
+	@Input() isEditMode = false;
 	@Output() dialog = new EventEmitter<void>();
 	private _dataSource?: DataSourceDTO;
 
@@ -62,7 +72,6 @@ export class DataSourcesFormComponent implements OnInit {
 			this.showFileFields = this.showDatabaseFields = this.fileSelected = false;
 			this.fileName = null;
 		}
-
 	}
 
 	/**
@@ -81,7 +90,7 @@ export class DataSourcesFormComponent implements OnInit {
 	 * Create new data source
 	 */
 	addDataSource(dataSource: DataSourceDTO): void {
-		console.log(dataSource)
+		console.log(dataSource);
 		this.dataSourceService
 			.createDataSource(dataSource, this.file)
 			.pipe(takeUntilDestroyed(this.destroyRef))
@@ -115,7 +124,6 @@ export class DataSourcesFormComponent implements OnInit {
 		}
 		this.showFileFields = type === DataSourceTypeEnum.FILE;
 		this.showDatabaseFields = type === DataSourceTypeEnum.DATABASE;
-
 	}
 
 	/**
@@ -127,7 +135,7 @@ export class DataSourcesFormComponent implements OnInit {
 			this.fileName = this.file.name;
 			this.fileSelected = true;
 		} else {
-			this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED)
+			this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
 			this.fileSelected = false;
 		}
 	}
@@ -153,11 +161,18 @@ export class DataSourcesFormComponent implements OnInit {
 		const dataSource: DataSourceDTO = this.isEditMode
 			? this.dataSourceForm.value
 			: {
-				...this.dataSourceForm.value,
-				type: this.mapToDataSource(selectedType),
-				[this.mapToDataSource(selectedType) === DataSourceTypeEnum.DATABASE ? DATA_SOURCES_DATA_BASE_TYPE : DATA_SOURCES_FILE_TYPE]: selectedType,
-			};
-		this.isEditMode ? this.updateDataSource(dataSource.id, dataSource) : this.addDataSource(dataSource);
+					...this.dataSourceForm.value,
+					type: this.mapToDataSource(selectedType),
+					[this.mapToDataSource(selectedType) === DataSourceTypeEnum.DATABASE ? DATA_SOURCES_DATA_BASE_TYPE : DATA_SOURCES_FILE_TYPE]:
+						selectedType
+				};
+
+		if (this.isEditMode) {
+			this.updateDataSource(dataSource.id, dataSource);
+		} else {
+			this.addDataSource(dataSource);
+		}
+
 		this.dialog.emit();
 	}
 }

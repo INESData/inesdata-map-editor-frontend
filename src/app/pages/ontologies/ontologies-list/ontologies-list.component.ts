@@ -3,7 +3,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OntologyService, PageSearchOntologyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MESSAGES_ONTOLOGIES_SUCCESS_DELETED, ONTOLOGIES_ADD_ONTOLOGY, ONTOLOGIES_EDIT_ONTOLOGY, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
+import {
+	MESSAGES_ONTOLOGIES_SUCCESS_DELETED,
+	ONTOLOGIES_ADD_ONTOLOGY,
+	ONTOLOGIES_EDIT_ONTOLOGY,
+	PAGE,
+	SIZE
+} from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-ontologies-list',
@@ -16,14 +22,14 @@ export class OntologiesListComponent implements OnInit {
 		private ontologyService: OntologyService,
 		private languageService: LanguageService,
 		private notificationService: NotificationService
-	) { }
+	) {}
 
 	ontologies: SearchOntologyDTO[];
 	selectedOntology: SearchOntologyDTO = null;
-	header: string = '';
-	isEditMode: boolean = false;
-	visible: boolean = false;
-	deleteDialogVisible: boolean = false;
+	header = '';
+	isEditMode = false;
+	visible = false;
+	deleteDialogVisible = false;
 
 	/**
 	 * Loads the ontologies when the component is initialized
@@ -53,8 +59,8 @@ export class OntologiesListComponent implements OnInit {
 	}
 
 	/**
-	* Close delete dialog
-	*/
+	 * Close delete dialog
+	 */
 	cancelDelete(): void {
 		this.deleteDialogVisible = false;
 	}

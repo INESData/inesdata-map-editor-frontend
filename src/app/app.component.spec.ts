@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoggerTestingModule } from 'ngx-logger/testing';
@@ -18,15 +19,14 @@ class FakeLoader implements TranslateLoader {
 describe('AppComponent', () => {
 	beforeEach(waitForAsync(() => {
 		TestBed.configureTestingModule({
+			declarations: [AppComponent, FooterComponent, HeaderComponent],
 			imports: [
-				HttpClientTestingModule,
 				TranslateModule.forRoot({
 					loader: { provide: TranslateLoader, useClass: FakeLoader }
 				}),
 				LoggerTestingModule
 			],
-			declarations: [AppComponent, FooterComponent, HeaderComponent],
-			providers: [TranslateService]
+			providers: [TranslateService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 		}).compileComponents();
 	}));
 
