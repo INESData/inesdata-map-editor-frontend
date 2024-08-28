@@ -4,9 +4,7 @@
 		[totalRecords]="paginationInfo.totalElements"
 		[first]="paginationInfo.number * paginationInfo.size"
 		(onPageChange)="onPageChange($event)"
-	>
-		>
-	</p-paginator>
+	/>
 </div>
 
 <div *ngIf="paginationInfo?.totalElements === 0">
