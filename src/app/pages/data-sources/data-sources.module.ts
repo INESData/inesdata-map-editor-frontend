@@ -10,4 +10,4 @@ import { DataSourcesRoutingModule } from './data-sources-routing.module';
 	declarations: [DataSourcesComponent, DataSourcesListComponent, DataSourcesFormComponent],
 	imports: [DataSourcesRoutingModule, SharedModule]
 })
-export class DataSourcesModule {}
+export class DataSourcesModule { }
