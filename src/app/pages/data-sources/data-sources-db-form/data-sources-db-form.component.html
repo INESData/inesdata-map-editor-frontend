@@ -1,0 +1,40 @@
+<form [formGroup]="dbSourceForm">
+	<!-- NAME input -->
+	<div>
+		<div class="grid">
+			<div class="col-12">
+				<label for="">{{ "labels.name" | translate }}</label>
+				<input type="text" pInputText formControlName="name" />
+				<div *ngIf="hasError('name')" class="error-message">
+					{{ getErrorMessage("name") }}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- DATABASE inputs -->
+	<div>
+		<div class="grid">
+			<div class="col-6">
+				<label for="">{{ "labels.user" | translate }}</label>
+				<input type="text" pInputText formControlName="userName" />
+				<div *ngIf="hasError('userName')" class="error-message">
+					{{ getErrorMessage("userName") }}
+				</div>
+			</div>
+			<div class="col-6">
+				<label for="">{{ "labels.password" | translate }}</label>
+				<input type="password" pInputText formControlName="password" />
+				<div *ngIf="hasError('password')" class="error-message">
+					{{ getErrorMessage("password") }}
+				</div>
+			</div>
+			<div class="col-12">
+				<label for="">{{ "labels.connection-url" | translate }}</label>
+				<input type="text" pInputText formControlName="connectionString" />
+				<div *ngIf="hasError('connectionString')" class="error-message">
+					{{ getErrorMessage("connectionString") }}
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

@@ -12,7 +12,7 @@
 		<ng-template pTemplate="body" let-datasource>
 			<tr>
 				<td>{{ datasource.name }}</td>
-				<td>{{ datasource.fileType ? datasource.fileType : datasource.databaseType }}</td>
+				<td>{{ datasource.type }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
 						<p-button class="btn btn__icon icon-lapiz mr-1" (onClick)="showDialog(datasource)" />
@@ -28,7 +28,6 @@
 <p-dialog [header]="header" [modal]="true" [draggable]="false" [(visible)]="addDialogVisible" [style]="{ width: '40rem' }">
 	<app-data-sources-form
 		[isEditMode]="isEditMode"
-		[dataSource]="selectedDataSource"
 		(formSubmitted)="onFormSubmitted()"
 		(dialog)="addDialogVisible = false"
 	></app-data-sources-form>
