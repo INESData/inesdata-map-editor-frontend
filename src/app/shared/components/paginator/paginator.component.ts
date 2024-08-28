@@ -4,13 +4,11 @@ import { PageSearchOntologyDTO } from 'projects/mapper-api-client/model/pageSear
 import { PaginatedResponse } from '../../models/paginated-response.model';
 import { SIZE } from '../../utils/app.constants';
 
-
 @Component({
 	selector: 'app-paginator',
 	templateUrl: './paginator.component.html'
 })
 export class PaginatorComponent {
-
 	/**
 	 * Pagination information, including the current page, total pages, and items per page
 	 */
@@ -25,8 +23,6 @@ export class PaginatorComponent {
 	 */
 	@Output() pageChange = new EventEmitter<number>();
 
-	constructor() { }
-
 	/**
 	 * Method that is triggered when the page changes. It emits the pageChange event
 	 * with the current page number.
@@ -34,5 +30,4 @@ export class PaginatorComponent {
 	onPageChange(event): void {
 		this.pageChange.emit(event.page);
 	}
-
 }
