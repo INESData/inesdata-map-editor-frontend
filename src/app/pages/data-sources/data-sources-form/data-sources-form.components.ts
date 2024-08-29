@@ -25,11 +25,12 @@ export class DataSourcesFormComponent implements OnInit {
 		private notificationService: NotificationService,
 		private fileSourceService: FileSourceService,
 		private dbSourceService: DataBaseSourceService
-	) {}
+	) { }
 
 	dataSourceFormats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	dataSourceForm: FormGroup = null;
 	selectedDataSourceType: string;
+	file: File;
 
 	@Output() formSubmitted = new EventEmitter<void>();
 	@Output() dialog = new EventEmitter<void>();
@@ -47,7 +48,7 @@ export class DataSourcesFormComponent implements OnInit {
 	 */
 	createFileSource(fileSource: FileSourceDTO): void {
 		this.fileSourceService
-			.createFileSource(fileSource)
+			.createFileSource(fileSource, this.file)
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.formSubmitted.emit();
@@ -107,6 +108,13 @@ export class DataSourcesFormComponent implements OnInit {
 		} else if (Object.values(DataFileTypeEnum).includes(type as DataFileTypeEnum)) {
 			return DataSourceTypeEnum.FILE;
 		}
+	}
+
+	/**
+	 * Get selected file from child component
+	 */
+	onFileSelected(file: File) {
+		this.file = file;
 	}
 
 	/**

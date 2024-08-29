@@ -1,9 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { fileSourceDtoForm } from 'projects/mapper-forms/src/public-api';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { LABELS_NO_FILE_SELECTED, MESSAGES_ERRORS_REQUIRED } from 'src/app/shared/utils/app.constants';
-import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
 	selector: 'app-data-sources-file-form',
@@ -15,11 +13,12 @@ export class DataSourcesFileFormComponent {
 	fileSelected: boolean = false;
 
 	@Input() fileSourceForm: FormGroup = null;
+	@Output() fileSelectedEvent: EventEmitter<File> = new EventEmitter<File>();
 
 	constructor(
 		private fb: FormBuilder,
 		private languageService: LanguageService
-	) {}
+	) { }
 
 	/**
 	 * Extract selected file
@@ -29,6 +28,7 @@ export class DataSourcesFileFormComponent {
 		if (this.file) {
 			this.fileName = this.file.name;
 			this.fileSelected = true;
+			this.fileSelectedEvent.emit(this.file)
 		} else {
 			this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
 			this.fileSelected = false;
