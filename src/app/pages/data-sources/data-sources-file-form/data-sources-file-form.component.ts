@@ -38,15 +38,15 @@ export class DataSourcesFileFormComponent {
 	/**
 	 * Check if a form control has an error.
 	 */
-	checkError(controlName: string, dbSourceForm: FormGroup): boolean {
-		return hasError(controlName, dbSourceForm);
+	checkError(controlName: string, fileSourceForm: FormGroup): boolean {
+		return hasError(controlName, fileSourceForm);
 	}
 
 	/**
 	 * Get the error message for a form control.
 	 */
-	showErrorMessage(controlName: string, dbSourceForm: FormGroup): string {
-		return getErrorMessage(controlName, dbSourceForm, this.languageService);
+	showErrorMessage(controlName: string, fileSourceForm: FormGroup): string {
+		return getErrorMessage(controlName, fileSourceForm, this.languageService);
 	}
 
 	/**
