@@ -1,16 +1,53 @@
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-export const dataSourceDtoForm = new FormGroup({
-	connectionString: new FormControl(null, []),
-	databaseType: new FormControl(null, []),
-	fields: new FormControl(null, []),
-	fileName: new FormControl(null, []),
-	fileType: new FormControl(null, []),
+export const dataBaseSourceDtoForm = new FormGroup({
+	connectionString: new FormControl(null, [
+		Validators.required,
+		Validators.minLength(1),
+		Validators.maxLength(255)
+	]),
+	databaseType: new FormControl(null, [Validators.required]),
 	id: new FormControl(null, []),
-	name: new FormControl(null, []),
-	password: new FormControl(null, []),
+	name: new FormControl(null, [
+		Validators.required,
+		Validators.minLength(1),
+		Validators.maxLength(255)
+	]),
+	password: new FormControl(null, [
+		Validators.required,
+		Validators.minLength(1),
+		Validators.maxLength(255)
+	]),
 	type: new FormControl(null, []),
-	userName: new FormControl(null, []),
+	userName: new FormControl(null, [
+		Validators.required,
+		Validators.minLength(1),
+		Validators.maxLength(255)
+	]),
+	version: new FormControl(null, [])
+});
+
+export const dataSourceDtoForm = new FormGroup({
+	id: new FormControl(null, []),
+	name: new FormControl(null, [
+		Validators.required,
+		Validators.minLength(1),
+		Validators.maxLength(255)
+	]),
+	type: new FormControl(null, []),
+	version: new FormControl(null, [])
+});
+
+export const fileSourceDtoForm = new FormGroup({
+	fileName: new FormControl(null, []),
+	fileType: new FormControl(null, [Validators.required]),
+	id: new FormControl(null, []),
+	name: new FormControl(null, [
+		Validators.required,
+		Validators.minLength(1),
+		Validators.maxLength(255)
+	]),
+	type: new FormControl(null, []),
 	version: new FormControl(null, [])
 });
 
