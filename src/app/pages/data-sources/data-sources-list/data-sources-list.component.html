@@ -29,9 +29,11 @@
 <!-- Add/edit dialog -->
 <p-dialog [header]="header" [modal]="true" [draggable]="false" [(visible)]="addDialogVisible" [style]="{ width: '40rem' }">
 	<app-data-sources-form
+		*ngIf="addDialogVisible"
 		[isEditMode]="isEditMode"
 		(formSubmitted)="onFormSubmitted()"
 		(dialog)="addDialogVisible = false"
+		[selectedDataSource]="selectedDataSource"
 	></app-data-sources-form>
 </p-dialog>
 
