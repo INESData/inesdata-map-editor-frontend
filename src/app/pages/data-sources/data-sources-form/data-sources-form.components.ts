@@ -8,7 +8,7 @@ import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MESSAGES_DATA_SOURCES_SUCCESS_CREATED } from 'src/app/shared/utils/app.constants';
+import { MESSAGES_DATA_SOURCES_ERRORS_NOFILE, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_ERRORS } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
@@ -133,6 +133,11 @@ export class DataSourcesFormComponent implements OnInit {
 		// If the form is valid, proceed with the submission
 		if (this.selectedDataSourceType === DataSourceTypeEnum.FILE) {
 			const fileSource: FileSourceDTO = this.dataSourceForm.value;
+			if (!this.file) {
+				this.notificationService.showErrorMessage(MESSAGES_DATA_SOURCES_ERRORS_NOFILE, MESSAGES_ERRORS)
+				return;
+			}
+
 			this.isEditMode ? this.fileSourceService.updateFileSource(fileSource.id, fileSource) : this.createFileSource(fileSource);
 		} else if (this.selectedDataSourceType === DataSourceTypeEnum.DATABASE) {
 			const dbSource: DataBaseSourceDTO = this.dataSourceForm.value;

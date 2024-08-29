@@ -30,6 +30,9 @@
   },
   "messages": {
     "data-sources": {
+      "errors": {
+        "no-file": "No se ha seleccionado un fichero de fuente de datos"
+      },
       "success": {
         "created": "Fuente de datos creada correctamente",
         "deleted": "Fuente de datos eliminada correctamente",
