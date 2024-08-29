@@ -10,7 +10,9 @@
 							<p class="mt-1 mb-0">Ontologías</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
-									<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									<div class="searcherContainer">
+										<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									</div>
 									<div *ngFor="let category of categories" class="field-checkbox">
 										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
 										<label [for]="category.key" class="ml-2">
@@ -23,8 +25,10 @@
 						<div class="col-4">
 							<p class="mt-1 mb-0">Clases</p>
 							<div class="mappingCategory">
-								<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
 								<div class="flex flex-column gap-3">
+									<div class="searcherContainer">
+										<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									</div>
 									<div *ngFor="let category of categories" class="field-checkbox">
 										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
 										<label [for]="category.key" class="ml-2">
@@ -32,14 +36,16 @@
 										</label>
 									</div>
 								</div>
-								<a class="addButton addButton__plus">Añadir elemento</a>
+								<p-button (onClick)="showDialogElement()" class="addButton addButton__plus" label="Añadir elemento" />
 							</div>
 						</div>
 						<div class="col-4">
 							<p class="mt-1 mb-0">Atributos</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
-									<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									<div class="searcherContainer">
+										<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									</div>
 									<div *ngFor="let category of categories" class="field-checkbox">
 										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
 										<label [for]="category.key" class="ml-2">
@@ -47,13 +53,13 @@
 										</label>
 									</div>
 								</div>
-								<a class="addButton addButton__plus">Añadir elemento</a>
+								<p-button (onClick)="showDialogElement()" class="addButton addButton__plus" label="Añadir elemento" />
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-12 flex flex-justify-right pt-0 pb-0">
-					<p-button class="btn btn__primary" label="Añadir output" />
+					<p-button class="btn btn__primary icon-chevron" label="Añadir output" />
 				</div>
 				<div class="col-12">
 					<h1 class="category category__datasources">Fuentes de datos</h1>
@@ -65,7 +71,9 @@
 							<p class="mt-1 mb-0">Datos</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
-									<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									<div class="searcherContainer">
+										<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									</div>
 									<div *ngFor="let category of categories" class="field-checkbox">
 										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
 										<label [for]="category.key" class="ml-2">
@@ -79,29 +87,24 @@
 							<p class="mt-1 mb-0">Tablas</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
-									<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									<div class="searcherContainer">
+										<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+									</div>
 									<div *ngFor="let category of categories" class="field-checkbox">
 										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
-										<label [for]="category.key" class="ml-2">
+										<label [for]="category.key" class="ml-2 queryItem">
 											{{ category.name }}
 										</label>
 									</div>
 								</div>
-								<a class="addButton addButton__query">Añadir query</a>
+								<p-button (onClick)="showDialogQuery()" class="addButton addButton__query" label="Añadir query" />
 							</div>
 						</div>
 						<div class="col-4">
-							<p class="mt-1 mb-0">Columnas</p>
-							<div class="mappingCategory">
-								<div class="flex flex-column gap-3">
-									<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
-									<div *ngFor="let category of categories" class="field-checkbox">
-										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
-										<label [for]="category.key" class="ml-2">
-											{{ category.name }}
-										</label>
-									</div>
-								</div>
+							<p class="mt-1 mb-0">Query</p>
+							<div class="mappingCategory mappingCategory__query">
+								SELECT EMP.*,(CASE JOB WHEN'CLERK'THEN'general-office' WHEN'NIGHTGUARD'THEN'security' WHEN'ENGINEER'THEN'engineering' END)
+								ROLE FROM EMP
 							</div>
 						</div>
 					</div>
@@ -114,17 +117,23 @@
 			<h1 class="category category__mapping mb-1">Mapeo</h1>
 			<label for="">Nombre del mapeo</label>
 			<input class="mb-2" type="text" pInputText />
-			<p-table [value]="mappings">
+			<p-table class="mappingTable" [value]="mappings">
 				<ng-template pTemplate="header">
 					<tr>
 						<th>Ontología</th>
 						<th>Fuente de datos</th>
+						<th></th>
 					</tr>
 				</ng-template>
 				<ng-template pTemplate="body" let-mapping>
 					<tr>
 						<td>{{ mapping.ontology }}</td>
 						<td>{{ mapping.database }}</td>
+						<td>
+							<div class="flex flex-justify flex-justify-right">
+								<p-button class="btn btn__icon icon-lapiz mr-1" />
+							</div>
+						</td>
 					</tr>
 				</ng-template>
 			</p-table>
@@ -134,3 +143,21 @@
 		</div>
 	</div>
 </div>
+
+<p-dialog header="Añadir elemento" [modal]="true" [draggable]="false" [(visible)]="elementDialogVisible" [style]="{ width: '40rem' }">
+	<label for="">Nombre</label>
+	<input class="mb-4" type="text" pInputText />
+	<div class="flex flex-justify-right w-full">
+		<p-button class="btn btn__primary" label="Añadir elemento" type="button" />
+	</div>
+</p-dialog>
+
+<p-dialog header="Añadir query" [modal]="true" [draggable]="false" [(visible)]="queryDialogVisible" [style]="{ width: '40rem' }">
+	<label for="">Nombre</label>
+	<input class="mb-2" type="text" pInputText />
+	<label for="">Query</label>
+	<textarea class="textHighlight mb-4"></textarea>
+	<div class="flex flex-justify-right w-full">
+		<p-button class="btn btn__primary" label="Añadir query" type="button" />
+	</div>
+</p-dialog>

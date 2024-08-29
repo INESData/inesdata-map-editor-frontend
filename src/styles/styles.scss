@@ -66,6 +66,13 @@ h1 {
 	}
 }
 
+h3 {
+	margin: 0;
+	font-size: 20px;
+	font-weight: 300;
+	color: $darkblue;
+}
+
 .whiteContainer {
 	padding: 18px;
 	background-color: $white;
@@ -151,23 +158,31 @@ h1 {
 		overflow: auto;
 		height: 150px;
 	}
-	.searcher {
+	.searcherContainer {
 		position: absolute;
-		top: 0;
-		left: 0;
-		border-top: 0px;
-		border-right: 0px;
-		border-left: 0px;
-		border-bottom: 1px solid $grey300;
+		top: 0px;
+		left: 0px;
 		width: 100%;
-		padding-left: 40px;
-		&::placeholder {
-			color: $grey300;
+		.searcher {
+			position: absolute;
+			top: 0;
+			left: 0;
+			border-top: 0px;
+			border-right: 0px;
+			border-left: 0px;
+			border-bottom: 1px solid $grey300;
+			width: 100%;
+			padding-left: 40px;
+			&::placeholder {
+				color: $grey300;
+			}
 		}
 		&::before {
 			content: "\e90d";
+			z-index: 1;
 			position: absolute;
-			left: 18px;
+			top: 10px;
+			left: 12px;
 			color: $grey300;
 			font-family: "icomoon", sans-serif;
 			font-size: 18px;
@@ -180,23 +195,72 @@ h1 {
 		position: absolute;
 		left: 0px;
 		bottom: 0px;
-		padding: 0px 18px 0px 54px;
+		padding: 0px 18px;
 		height: 42px;
 		width: 100%;
 		background-color: $white;
+		.p-button {
+			padding: 8px 32px;
+			border: 0px;
+			border-radius: 0px;
+			background-color: $white;
+			.p-button-label {
+				color: $primary;
+				font-weight: 500;
+				font-size: 16px;
+			}
+			&:hover {
+				.p-button-label {
+					color: $black;
+				}
+			}
+		}
 		&__plus::before {
+			z-index: 1;
 			content: "\e901";
 			position: absolute;
 			left: 22px;
 			font-family: "icomoon", sans-serif;
 			font-size: 18px;
+			color: $primary;
 		}
 		&__query::before {
+			z-index: 1;
 			content: "\e900";
 			position: absolute;
 			left: 22px;
 			font-family: "icomoon", sans-serif;
 			font-size: 18px;
+			color: $primary;
 		}
+		&:hover {
+			&.addButton__query::before {
+				color: $black !important;
+				transition: color 0.2s;
+			}
+			&.addButton__plus::before {
+				color: $black !important;
+				transition: color 0.2s;
+			}
+		}
+	}
+	&__query {
+		overflow: auto;
+		font-size: 14px;
+		padding: 8px;
+		color: $grey600;
+	}
+}
+
+.queryItem {
+	position: relative;
+	&::before {
+		content: "\e900";
+		position: absolute;
+		top: -1px;
+		right: -24px;
+		font-family: "icomoon", sans-serif;
+		font-size: 16px;
+		color: $black;
 	}
 }

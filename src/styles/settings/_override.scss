@@ -2,6 +2,7 @@
 
 .btn {
 	display: inline-block;
+	position: relative;
 	&__primary {
 		.p-button {
 			padding: 8px 32px;
@@ -60,6 +61,20 @@
 			}
 		}
 	}
+	&.icon-chevron {
+		&::before {
+			z-index: 1;
+			position: absolute;
+			top: 14px;
+			right: 10px;
+			font-size: 14px;
+			color: $white;
+			transform: rotate(180deg);
+		}
+		.p-button {
+			padding: 8px 42px 8px 32px;
+		}
+	}
 }
 
 .menu-button {
@@ -73,6 +88,7 @@
 .p-datatable {
 	.p-datatable-wrapper {
 		.p-datatable-table {
+			table-layout: fixed;
 			border: 1px solid $grey300;
 			.p-datatable-thead {
 				tr {
@@ -89,6 +105,9 @@
 			.p-datatable-tbody {
 				tr {
 					td {
+						text-overflow: ellipsis;
+						white-space: nowrap;
+						overflow: hidden;
 						padding: 12px;
 						border: 0px;
 						border-bottom: 1px solid $grey100;
@@ -99,6 +118,22 @@
 					&:last-child {
 						td {
 							border-bottom: 0px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.mappingTable {
+	.p-datatable {
+		.p-datatable-wrapper {
+			.p-datatable-table {
+				.p-datatable-tbody {
+					tr {
+						td {
+							color: $primary;
 						}
 					}
 				}
@@ -253,16 +288,17 @@ a {
 		position: relative;
 		padding-left: 20px;
 		&::before {
-			content: "<";
+			content: "\e90e";
 			position: absolute;
-			top: -7px;
+			top: 4px;
 			left: 0px;
-			font-size: 24px;
+			font-family: "icomoon", sans-serif;
+			font-size: 16px;
 		}
 	}
 }
 
-// RADIO BUTTON
+// RADIO BUTTON & CHECKBOX
 
 .field-checkbox {
 	margin-bottom: 0px;
@@ -280,5 +316,34 @@ a {
 		.p-radiobutton-box:not(.p-disabled):not(.p-highlight):hover {
 			border-color: $primary;
 		}
+	}
+	.p-checkbox-box {
+		border-color: $primary;
+		box-shadow: none !important;
+		&.p-highlight {
+			border-color: $primary;
+			background: $primary;
+		}
+	}
+}
+
+// TEXTAREA
+
+textarea {
+	display: block;
+	position: relative;
+	padding: 8px;
+	width: 100%;
+	min-height: 200px;
+	font-size: 16px;
+	resize: none;
+	&.textHighlight {
+		color: $primary;
+	}
+	&:active,
+	&:focus,
+	&:focus-visible {
+		outline: none;
+		box-shadow: 0 0 0 0.2rem $primaryfade;
 	}
 }
