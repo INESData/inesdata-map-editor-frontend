@@ -9,7 +9,7 @@ export const DEFAULT_LANGUAGE: string = 'es';
 export const AVAILABLE_LANGUAGES: Array<string> = ['es', 'en'];
 export const LANGUAGE_STORAGE_NAME: string = 'language';
 
-// Numbers
+// Filters
 export const PAGE: number = 0;
 export const SIZE: number = 10;
 

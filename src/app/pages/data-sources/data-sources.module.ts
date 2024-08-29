@@ -18,4 +18,4 @@ import { DataSourcesRoutingModule } from './data-sources-routing.module';
 	],
 	imports: [DataSourcesRoutingModule, SharedModule]
 })
-export class DataSourcesModule {}
+export class DataSourcesModule { }
