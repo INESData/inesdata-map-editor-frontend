@@ -501,6 +501,37 @@
       }
     },
     "/database-sources/{id}": {
+      "get": {
+        "operationId": "getDataBaseSource",
+        "parameters": [
+          {
+            "description": "Data source identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataBaseSourceDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets given data base source",
+        "tags": [
+          "DataBaseSource"
+        ]
+      },
       "put": {
         "operationId": "updateDataBaseSource",
         "parameters": [
@@ -666,6 +697,37 @@
       }
     },
     "/file-sources/{id}": {
+      "get": {
+        "operationId": "getFileSource",
+        "parameters": [
+          {
+            "description": "File source identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileSourceDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets given data file source",
+        "tags": [
+          "FileSource"
+        ]
+      },
       "put": {
         "operationId": "updateFileSource",
         "parameters": [
@@ -830,24 +892,13 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "body": {
-                    "$ref": "#/components/schemas/OntologyDTO"
-                  },
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                },
-                "required": [
-                  "body"
-                ]
+                "$ref": "#/components/schemas/OntologyDTO"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
