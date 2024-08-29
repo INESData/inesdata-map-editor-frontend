@@ -9,10 +9,10 @@
 	<!-- File fields -->
 	<div [ngSwitch]="selectedDataSourceType">
 		<div *ngSwitchCase="'FILE'">
-			<app-data-sources-file-form></app-data-sources-file-form>
+			<app-data-sources-file-form [fileSourceForm]="dataSourceForm"></app-data-sources-file-form>
 		</div>
 		<div *ngSwitchCase="'DATABASE'">
-			<app-data-sources-db-form></app-data-sources-db-form>
+			<app-data-sources-db-form [dbSourceForm]="dataSourceForm"></app-data-sources-db-form>
 		</div>
 	</div>
 	<!-- Add/edit button -->

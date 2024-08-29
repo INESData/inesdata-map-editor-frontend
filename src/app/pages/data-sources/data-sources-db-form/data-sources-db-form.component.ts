@@ -1,23 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { dataBaseSourceDtoForm } from 'projects/mapper-forms/src/public-api';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { MESSAGES_ERRORS_REQUIRED } from 'src/app/shared/utils/app.constants';
-import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
 	selector: 'app-data-sources-db-form',
 	templateUrl: './data-sources-db-form.component.html'
 })
-export class DataSourcesDbFormComponent implements OnInit {
+export class DataSourcesDbFormComponent {
+	@Input() dbSourceForm: FormGroup = null;
 
-	constructor(private fb: FormBuilder, private languageService: LanguageService) { }
-	dbSourceForm: FormGroup = null;
-
-	ngOnInit() {
-		this.dbSourceForm = createDtoForm(this.fb, dataBaseSourceDtoForm);
-
-	}
+	constructor(
+		private fb: FormBuilder,
+		private languageService: LanguageService
+	) {}
 
 	/**
 	 * Check if a control has validation errors
@@ -39,5 +35,4 @@ export class DataSourcesDbFormComponent implements OnInit {
 		}
 		return '';
 	}
-
 }

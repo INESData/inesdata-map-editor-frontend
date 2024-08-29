@@ -11,17 +11,21 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 import { MESSAGES_DATA_SOURCES_SUCCESS_CREATED } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
-
 @Component({
 	selector: 'app-data-sources-form',
 	templateUrl: './data-sources-form.component.html'
 })
 export class DataSourcesFormComponent implements OnInit {
-
 	destroyRef = inject(DestroyRef);
 
-	constructor(private fb: FormBuilder, private languageService: LanguageService, private dataSourceService: DataSourceService, private notificationService: NotificationService,
-		private fileSourceService: FileSourceService, private dbSourceService: DataBaseSourceService) { }
+	constructor(
+		private fb: FormBuilder,
+		private languageService: LanguageService,
+		private dataSourceService: DataSourceService,
+		private notificationService: NotificationService,
+		private fileSourceService: FileSourceService,
+		private dbSourceService: DataBaseSourceService
+	) {}
 
 	dataSourceFormats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	dataSourceForm: FormGroup = null;
@@ -42,7 +46,8 @@ export class DataSourcesFormComponent implements OnInit {
 	 * Create new file source
 	 */
 	createFileSource(fileSource: FileSourceDTO): void {
-		this.fileSourceService.createFileSource(fileSource)
+		this.fileSourceService
+			.createFileSource(fileSource)
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.formSubmitted.emit();
@@ -51,10 +56,11 @@ export class DataSourcesFormComponent implements OnInit {
 			});
 	}
 	/**
-	* Create new data base source
-	*/
+	 * Create new data base source
+	 */
 	createDataBaseSource(dbSource: DataBaseSourceDTO): void {
-		this.dbSourceService.createDataBaseSource(dbSource)
+		this.dbSourceService
+			.createDataBaseSource(dbSource)
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.formSubmitted.emit();
@@ -67,15 +73,16 @@ export class DataSourcesFormComponent implements OnInit {
 	 * Updates the visibility of form fields based on the selected data source type
 	 */
 	updateFormVisibility(type: string): void {
-
 		// Map the provided type to the corresponding data source type enum
 		const dataSourceType = this.mapToDataSource(type);
 
 		// Select the appropriate form group based on the mapped data source type
 		const formDto: FormGroup =
-			dataSourceType === DataSourceTypeEnum.FILE ? fileSourceDtoForm :
-				dataSourceType === DataSourceTypeEnum.DATABASE ? dataBaseSourceDtoForm :
-					null;
+			dataSourceType === DataSourceTypeEnum.FILE
+				? fileSourceDtoForm
+				: dataSourceType === DataSourceTypeEnum.DATABASE
+					? dataBaseSourceDtoForm
+					: null;
 
 		// Apply the current form values to the selected form group
 		formDto.patchValue(this.dataSourceForm.value);
@@ -119,7 +126,6 @@ export class DataSourcesFormComponent implements OnInit {
 		if (this.selectedDataSourceType === DataSourceTypeEnum.FILE) {
 			const fileSource: FileSourceDTO = this.dataSourceForm.value;
 			this.isEditMode ? this.fileSourceService.updateFileSource(fileSource.id, fileSource) : this.createFileSource(fileSource);
-
 		} else if (this.selectedDataSourceType === DataSourceTypeEnum.DATABASE) {
 			const dbSource: DataBaseSourceDTO = this.dataSourceForm.value;
 			this.isEditMode ? this.dbSourceService.updateDataBaseSource(dbSource.id, dbSource) : this.createDataBaseSource(dbSource);
@@ -127,4 +133,3 @@ export class DataSourcesFormComponent implements OnInit {
 		this.dialog.emit();
 	}
 }
-
