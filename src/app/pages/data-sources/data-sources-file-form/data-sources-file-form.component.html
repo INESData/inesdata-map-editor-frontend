@@ -1,6 +1,6 @@
 <div [formGroup]="fileSourceForm">
 	<!-- FILE inputs -->
-	<div>
+	<div *ngIf="!isEditMode()">
 		<p class="mb-1">{{ "labels.data-source-file" | translate }}</p>
 		<div class="grid">
 			<div class="col-12">
@@ -20,8 +20,8 @@
 			<div class="col-12">
 				<label for="">{{ "labels.name" | translate }}</label>
 				<input type="text" pInputText formControlName="name" />
-				<div *ngIf="hasError('name')" class="error-message">
-					{{ getErrorMessage("name") }}
+				<div *ngIf="checkError('name', fileSourceForm)" class="error-message">
+					{{ showErrorMessage("name", fileSourceForm) }}
 				</div>
 			</div>
 		</div>

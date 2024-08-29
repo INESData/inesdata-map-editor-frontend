@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { LanguageService } from 'src/app/shared/services/language.service';
-import { LABELS_NO_FILE_SELECTED, MESSAGES_ERRORS_REQUIRED } from 'src/app/shared/utils/app.constants';
+import { LABELS_NO_FILE_SELECTED } from 'src/app/shared/utils/app.constants';
+import { getErrorMessage, hasError } from 'src/app/shared/utils/errors.utils';
 
 @Component({
 	selector: 'app-data-sources-file-form',
@@ -16,7 +17,6 @@ export class DataSourcesFileFormComponent {
 	@Output() fileSelectedEvent: EventEmitter<File> = new EventEmitter<File>();
 
 	constructor(
-		private fb: FormBuilder,
 		private languageService: LanguageService
 	) { }
 
@@ -36,23 +36,23 @@ export class DataSourcesFileFormComponent {
 	}
 
 	/**
-	 * Check if a control has validation errors
+	 * Check if a form control has an error.
 	 */
-	hasError(controlName: string): boolean {
-		const control = this.fileSourceForm.get(controlName);
-		return control?.invalid && (control?.touched || control?.dirty);
+	checkError(controlName: string, dbSourceForm: FormGroup): boolean {
+		return hasError(controlName, dbSourceForm);
 	}
 
 	/**
-	 * Get error messages
+	 * Get the error message for a form control.
 	 */
-	getErrorMessage(controlName: string): string {
-		const control = this.fileSourceForm.get(controlName);
-		if (control?.errors) {
-			if (control.errors.required) {
-				return this.languageService.translateValue(MESSAGES_ERRORS_REQUIRED);
-			}
-		}
-		return '';
+	showErrorMessage(controlName: string, dbSourceForm: FormGroup): string {
+		return getErrorMessage(controlName, dbSourceForm, this.languageService);
+	}
+
+	/**
+	 * Check if the form is in edit mode.
+	 */
+	isEditMode() {
+		return this.fileSourceForm.get('id').value !== null;
 	}
 }

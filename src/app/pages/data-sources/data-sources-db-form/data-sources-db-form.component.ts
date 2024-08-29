@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { LanguageService } from 'src/app/shared/services/language.service';
-import { MESSAGES_ERRORS_REQUIRED } from 'src/app/shared/utils/app.constants';
+import { getErrorMessage, hasError } from 'src/app/shared/utils/errors.utils';
 
 @Component({
 	selector: 'app-data-sources-db-form',
@@ -10,29 +10,19 @@ import { MESSAGES_ERRORS_REQUIRED } from 'src/app/shared/utils/app.constants';
 export class DataSourcesDbFormComponent {
 	@Input() dbSourceForm: FormGroup = null;
 
-	constructor(
-		private fb: FormBuilder,
-		private languageService: LanguageService
-	) {}
+	constructor(private languageService: LanguageService) { }
 
 	/**
-	 * Check if a control has validation errors
+	 * Check if a form control has an error.
 	 */
-	hasError(controlName: string): boolean {
-		const control = this.dbSourceForm.get(controlName);
-		return control?.invalid && (control?.touched || control?.dirty);
+	checkError(controlName: string, dbSourceForm: FormGroup): boolean {
+		return hasError(controlName, dbSourceForm);
 	}
 
 	/**
-	 * Get error messages
+	 * Get the error message for a form control.
 	 */
-	getErrorMessage(controlName: string): string {
-		const control = this.dbSourceForm.get(controlName);
-		if (control?.errors) {
-			if (control.errors.required) {
-				return this.languageService.translateValue(MESSAGES_ERRORS_REQUIRED);
-			}
-		}
-		return '';
+	showErrorMessage(controlName: string, dbSourceForm: FormGroup): string {
+		return getErrorMessage(controlName, dbSourceForm, this.languageService);
 	}
 }
