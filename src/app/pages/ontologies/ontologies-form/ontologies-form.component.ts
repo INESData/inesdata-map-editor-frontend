@@ -75,7 +75,7 @@ export class OntologiesFormComponent implements OnInit {
 	 */
 	updateOntology(id: number, ontology: OntologyDTO): void {
 		this.ontologyService
-			.updateOntology(id, ontology, this.file)
+			.updateOntology(id, ontology)
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.formSubmitted.emit();
