@@ -142,6 +142,28 @@
 	}
 }
 
+// PAGINATION
+
+.p-paginator {
+	.p-paginator-element {
+		color: $primary;
+		&.p-disabled {
+			opacity: 0.3;
+		}
+		&.p-highlight {
+			background: $primaryfade;
+			border-color: $primaryfade;
+		}
+	}
+	.p-dropdown {
+		border: 1px solid $black;
+		border-radius: 0px;
+		.p-inputtext {
+			color: $primary;
+		}
+	}
+}
+
 // DIALOG
 
 .p-dialog-mask {
