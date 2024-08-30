@@ -9,7 +9,7 @@ import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MESSAGES_DATA_SOURCES_ERRORS_NOFILE, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_DATA_SOURCES_SUCCESS_UPDATED, MESSAGES_ERRORS } from 'src/app/shared/utils/app.constants';
+import { FORM_CONTROL_DBTYPE, FORM_CONTROL_FILETYPE, FORM_CONTROL_PASSWORD, MESSAGES_DATA_SOURCES_ERRORS_NOFILE, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_DATA_SOURCES_SUCCESS_UPDATED, MESSAGES_ERRORS, PLACEHOLDERS_ASTERISKS } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
@@ -105,6 +105,7 @@ export class DataSourcesFormComponent implements OnInit {
 	 * Update data base source
 	 */
 	updateDataBaseSource(dbSource: DataBaseSourceDTO): void {
+		dbSource.password = this.handlePassword(dbSource.password);
 		this.dbSourceService
 			.updateDataBaseSource(dbSource.id, dbSource)
 			.pipe(takeUntilDestroyed(this.destroyRef))
@@ -141,6 +142,7 @@ export class DataSourcesFormComponent implements OnInit {
 				this.dbSource = data;
 				this.dataSourceForm = createDtoForm(this.fb, dataBaseSourceDtoForm)
 				this.dataSourceForm.patchValue(this.dbSource);
+				this.dataSourceForm.get(FORM_CONTROL_PASSWORD).setValue(this.handlePassword(this.dataSourceForm.get(FORM_CONTROL_PASSWORD).value));
 				this.selectedDataSourceType = DataSourceTypeEnum.DATABASE;
 			});
 	}
@@ -166,9 +168,9 @@ export class DataSourcesFormComponent implements OnInit {
 		this.dataSourceForm = createDtoForm(this.fb, formDto);
 
 		if (dataSourceType === DataSourceTypeEnum.FILE) {
-			this.dataSourceForm.get('fileType').setValue(type);
+			this.dataSourceForm.get(FORM_CONTROL_FILETYPE).setValue(type);
 		} else if (dataSourceType === DataSourceTypeEnum.DATABASE) {
-			this.dataSourceForm.get('databaseType').setValue(type);
+			this.dataSourceForm.get(FORM_CONTROL_DBTYPE).setValue(type);
 		}
 
 		this.selectedDataSourceType = dataSourceType;
@@ -190,6 +192,16 @@ export class DataSourcesFormComponent implements OnInit {
 	 */
 	onFileSelected(file: File) {
 		this.file = file;
+	}
+
+	/**
+	 * Transform password value depending on its state.
+	 * If the input is null, mask pass with asterisks.
+	 * If the input is **** and it does not change, set null value
+	 * If the input is **** and it changes, set new value
+	 */
+	handlePassword(value: string): string | null {
+		return value === PLACEHOLDERS_ASTERISKS ? null : (value === null ? PLACEHOLDERS_ASTERISKS : value);
 	}
 
 	/**

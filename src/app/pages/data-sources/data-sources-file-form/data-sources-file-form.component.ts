@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LanguageService } from 'src/app/shared/services/language.service';
-import { LABELS_NO_FILE_SELECTED } from 'src/app/shared/utils/app.constants';
+import { FORM_CONTROL_ID, LABELS_NO_FILE_SELECTED } from 'src/app/shared/utils/app.constants';
 import { getErrorMessage, hasError } from 'src/app/shared/utils/errors.utils';
 
 @Component({
@@ -53,6 +53,6 @@ export class DataSourcesFileFormComponent {
 	 * Check if the form is in edit mode.
 	 */
 	isEditMode() {
-		return this.fileSourceForm.get('id').value !== null;
+		return this.fileSourceForm.get(FORM_CONTROL_ID).value !== null;
 	}
 }
