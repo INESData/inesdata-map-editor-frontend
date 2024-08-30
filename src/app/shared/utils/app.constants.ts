@@ -29,6 +29,8 @@ export const MESSAGES_DATA_SOURCES_SUCCESS_CREATED: string = translate('messages
 export const MESSAGES_DATA_SOURCES_SUCCESS_UPDATED: string = translate('messages.data-sources.success.updated');
 export const MESSAGES_DATA_SOURCES_SUCCESS_DELETED: string = translate('messages.data-sources.success.deleted');
 
+export const MESSAGES_DATA_SOURCES_ERRORS_NOFILE: string = translate('messages.data-sources.errors.no-file');
+
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
 export const LABELS_NO: string = translate('labels.no');
@@ -36,7 +38,14 @@ export const LABELS_HOME: string = translate('labels.home');
 export const LABELS_NO_FILE_SELECTED: string = translate('labels.file-name');
 
 // Placeholders
-export const PLACEHOLDERS_ASTERISKS_MASK: string = '****';
+export const PLACEHOLDERS_ASTERISKS: string = '*************************';
+
+// Form controls
+export const FORM_CONTROL_ID: string = 'id';
+export const FORM_CONTROL_PASSWORD: string = 'password';
+export const FORM_CONTROL_TYPE: string = 'type';
+export const FORM_CONTROL_FILETYPE: string = 'fileType';
+export const FORM_CONTROL_DBTYPE: string = 'databaseType';
 
 //Ontologies
 export const ONTOLOGIES_ADD_ONTOLOGY: string = translate('ontologies.ontology.add');

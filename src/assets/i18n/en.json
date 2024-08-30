@@ -17,6 +17,7 @@
     "delete": "Delete",
     "file-name": "No file selected",
     "home": "Home",
+    "import": "Import from local",
     "name": "Name",
     "no": "No",
     "ontology-file": "Select ontology file",
@@ -30,6 +31,9 @@
   },
   "messages": {
     "data-sources": {
+      "errors": {
+        "no-file": "No data source file selected"
+      },
       "success": {
         "created": "Data source successfully created",
         "deleted": "Data source successfully deleted",
@@ -45,6 +49,7 @@
       "required": "The value field is required",
       "title": "Error"
     },
+    "no_data": "No records are available",
     "ontologies": {
       "success": {
         "created": "Ontology successfully created",
