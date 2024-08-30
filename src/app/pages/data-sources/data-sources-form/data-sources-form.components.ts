@@ -9,7 +9,7 @@ import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { FORM_CONTROL_DBTYPE, FORM_CONTROL_FILETYPE, FORM_CONTROL_PASSWORD, MESSAGES_DATA_SOURCES_ERRORS_NOFILE, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_DATA_SOURCES_SUCCESS_UPDATED, MESSAGES_ERRORS, PLACEHOLDERS_ASTERISKS } from 'src/app/shared/utils/app.constants';
+import { FORM_CONTROL_DBTYPE, FORM_CONTROL_FILETYPE, FORM_CONTROL_PASSWORD, FORM_CONTROL_TYPE, MESSAGES_DATA_SOURCES_ERRORS_NOFILE, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_DATA_SOURCES_SUCCESS_UPDATED, MESSAGES_ERRORS, PLACEHOLDERS_ASTERISKS } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
@@ -90,7 +90,6 @@ export class DataSourcesFormComponent implements OnInit {
 	 * Update file source
 	 */
 	updateFileSource(fileSource: FileSourceDTO): void {
-		console.log('holi')
 		this.fileSourceService
 			.updateFileSource(fileSource.id, fileSource)
 			.pipe(takeUntilDestroyed(this.destroyRef))
@@ -164,7 +163,7 @@ export class DataSourcesFormComponent implements OnInit {
 
 		// Apply the current form values to the selected form group
 		formDto.patchValue(this.dataSourceForm.value);
-		formDto.get('type').setValue(dataSourceType);
+		formDto.get(FORM_CONTROL_TYPE).setValue(dataSourceType);
 		this.dataSourceForm = createDtoForm(this.fb, formDto);
 
 		if (dataSourceType === DataSourceTypeEnum.FILE) {
