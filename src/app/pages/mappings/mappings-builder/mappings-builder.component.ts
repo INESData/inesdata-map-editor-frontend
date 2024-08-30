@@ -18,6 +18,8 @@ export class MappingsBuilderComponent implements OnInit {
 	formats: Format[];
 	mappings: Mapping[];
 	selectedFormat: Format;
+	queryDialogVisible: boolean = false;
+	elementDialogVisible: boolean = false;
 
 	constructor() {
 		this.formats = [
@@ -36,6 +38,14 @@ export class MappingsBuilderComponent implements OnInit {
 		{ name: 'education', key: 'A' },
 		{ name: 'ontology2', key: 'M' }
 	];
+
+	showDialogQuery() {
+		this.queryDialogVisible = true;
+	}
+
+	showDialogElement() {
+		this.elementDialogVisible = true;
+	}
 
 	ngOnInit() {
 		this.selectedCategory = this.categories[1];

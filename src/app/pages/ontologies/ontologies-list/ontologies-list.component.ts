@@ -18,6 +18,7 @@ export class OntologiesListComponent implements OnInit {
 		private notificationService: NotificationService
 	) { }
 
+	paginationInfo: PageSearchOntologyDTO;
 	ontologies: SearchOntologyDTO[];
 	selectedOntology: SearchOntologyDTO = null;
 	header: string = '';
@@ -29,7 +30,7 @@ export class OntologiesListComponent implements OnInit {
 	 * Loads the ontologies when the component is initialized
 	 */
 	ngOnInit(): void {
-		this.loadOntologies();
+		this.loadOntologies(PAGE, SIZE);
 	}
 
 	/**
@@ -62,15 +63,15 @@ export class OntologiesListComponent implements OnInit {
 	/**
 	 * Loads the ontologies list.
 	 */
-	loadOntologies(): void {
+	loadOntologies(page: number, size: number): void {
 		this.ontologyService
-			.listOntologies(PAGE, SIZE)
+			.listOntologies(page, size)
 			.pipe(
-				//TODO: pagination and show success/error popup
 				takeUntilDestroyed(this.destroyRef)
 			)
 			.subscribe((data: PageSearchOntologyDTO) => {
 				this.ontologies = data.content ?? [];
+				this.paginationInfo = data;
 			});
 	}
 
@@ -81,7 +82,6 @@ export class OntologiesListComponent implements OnInit {
 		this.ontologyService
 			.deleteOntology(id)
 			.pipe(
-				//TODO: action confirmation popup
 				takeUntilDestroyed(this.destroyRef)
 			)
 			.subscribe(() => {
@@ -92,11 +92,18 @@ export class OntologiesListComponent implements OnInit {
 	}
 
 	/**
+	 * Method that is called when the page number changes.
+	 */
+	onPageChange(newPage: number): void {
+		this.loadOntologies(newPage, this.paginationInfo.size);
+	}
+
+	/**
 	 * Called when a form is successfully submitted
 	 */
 	onFormSubmitted() {
 		this.visible = false;
-		this.loadOntologies();
+		this.loadOntologies(PAGE, SIZE);
 		this.selectedOntology = null;
 	}
 }

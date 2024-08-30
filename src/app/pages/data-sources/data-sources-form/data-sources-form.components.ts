@@ -1,69 +1,41 @@
 import { Component, DestroyRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { DataSourceDTO, DataSourceService } from 'projects/mapper-api-client';
-import { dataSourceDtoForm } from 'projects/mapper-forms/src/public-api';
+import { DataBaseSourceService, DataSourceDTO, FileSourceService } from 'projects/mapper-api-client';
+import { DataBaseSourceDTO } from 'projects/mapper-api-client/model/dataBaseSourceDTO';
+import { FileSourceDTO } from 'projects/mapper-api-client/model/fileSourceDTO';
+import { dataBaseSourceDtoForm, dataSourceDtoForm, fileSourceDtoForm } from 'projects/mapper-forms/src/public-api';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
-import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { DATA_SOURCES_DATA_BASE_TYPE, DATA_SOURCES_FILE_TYPE, LABELS_NO_FILE_SELECTED, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_DATA_SOURCES_SUCCESS_UPDATED, PLACEHOLDERS_ASTERISKS_MASK } from 'src/app/shared/utils/app.constants';
+import { FORM_CONTROL_DBTYPE, FORM_CONTROL_FILETYPE, FORM_CONTROL_PASSWORD, FORM_CONTROL_TYPE, MESSAGES_DATA_SOURCES_ERRORS_NOFILE, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_DATA_SOURCES_SUCCESS_UPDATED, MESSAGES_ERRORS, PLACEHOLDERS_ASTERISKS } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
-
 
 @Component({
 	selector: 'app-data-sources-form',
 	templateUrl: './data-sources-form.component.html'
 })
 export class DataSourcesFormComponent implements OnInit {
-
 	destroyRef = inject(DestroyRef);
 
-	constructor(private fb: FormBuilder, private languageService: LanguageService, private dataSourceService: DataSourceService, private notificationService: NotificationService) { }
+	constructor(
+		private fb: FormBuilder,
+		private notificationService: NotificationService,
+		private fileSourceService: FileSourceService,
+		private dbSourceService: DataBaseSourceService
+	) { }
 
-	dataSourceForm: FormGroup = null;
 	dataSourceFormats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
-
+	dataSourceForm: FormGroup = null;
+	selectedDataSourceType: string;
 	file: File;
-	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
-	fileSelected: boolean = false;
-	showFileFields: boolean = false;
-	showDatabaseFields: boolean = false;
+	fileSource: FileSourceDTO;
+	dbSource: DataBaseSourceDTO;
 
 	@Output() formSubmitted = new EventEmitter<void>();
 	@Input() isEditMode: boolean = false;
-	@Output() dialog = new EventEmitter<void>();
-	private _dataSource?: DataSourceDTO;
-
-	@Input() set dataSource(value: DataSourceDTO) {
-		this._dataSource = value;
-		// Return if the form is not initialized yet
-		if (!this.dataSourceForm) return;
-
-		if (value) {
-			// Update the form with the new value
-			this.dataSourceForm.patchValue(value);
-			this.updateFormVisibility(value.type);
-
-			if (value.type === DataSourceTypeEnum.FILE) {
-				this.fileName = value.fileName || this.fileName;
-				this.fileSelected = !!value.fileName;
-			}
-
-			// Set the password field to '****' if the value is null
-			const passwordControl = this.dataSourceForm.get('password');
-			if (passwordControl) {
-				passwordControl.setValue(passwordControl.value ?? PLACEHOLDERS_ASTERISKS_MASK);
-			}
-		} else {
-			// Reset the form if no value is provided, clear file and database field states
-			this.dataSourceForm.reset();
-			this.showFileFields = this.showDatabaseFields = this.fileSelected = false;
-			this.fileName = null;
-		}
-
-	}
+	@Input() selectedDataSource: DataSourceDTO;
 
 	/**
 	 * On component init
@@ -71,38 +43,106 @@ export class DataSourcesFormComponent implements OnInit {
 	ngOnInit() {
 		this.dataSourceForm = createDtoForm(this.fb, dataSourceDtoForm);
 
-		//Subscribe to data source type changes
-		this.dataSourceForm.get('type').valueChanges.subscribe((type) => {
-			this.updateFormVisibility(type);
-		});
+		//If is edit mode get source data
+		if (this.isEditMode) {
+			this.getSourceData();
+		}
 	}
 
 	/**
-	 * Create new data source
+	 * Get source data depending on whether it is of file or db type
 	 */
-	addDataSource(dataSource: DataSourceDTO): void {
-		console.log(dataSource)
-		this.dataSourceService
-			.createDataSource(dataSource, this.file)
+	getSourceData() {
+		if (this.selectedDataSource && this.selectedDataSource.type === DataSourceTypeEnum.FILE) {
+			this.getFileSourceData(this.selectedDataSource.id);
+		} else if (this.selectedDataSource && this.selectedDataSource.type === DataSourceTypeEnum.DATABASE) {
+			this.getDataBaseData(this.selectedDataSource.id)
+		}
+	}
+
+	/**
+	 * Create new file source
+	 */
+	createFileSource(fileSource: FileSourceDTO): void {
+		this.fileSourceService
+			.createFileSource(fileSource, this.file)
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.formSubmitted.emit();
 				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
-				this.dataSourceForm.reset();
 			});
 	}
 
 	/**
-	 * Update data source
+	 * Create new data base source
 	 */
-	updateDataSource(id: number, dataSource: DataSourceDTO): void {
-		this.dataSourceService
-			.updateDataSource(id, dataSource, this.file)
+	createDataBaseSource(dbSource: DataBaseSourceDTO): void {
+		this.dbSourceService
+			.createDataBaseSource(dbSource)
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => {
+				this.formSubmitted.emit();
+				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
+			});
+	}
+
+	/**
+	 * Update file source
+	 */
+	updateFileSource(fileSource: FileSourceDTO): void {
+		this.fileSourceService
+			.updateFileSource(fileSource.id, fileSource)
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe(() => {
+
+				this.formSubmitted.emit();
+				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
+			});
+	}
+
+	/**
+	 * Update data base source
+	 */
+	updateDataBaseSource(dbSource: DataBaseSourceDTO): void {
+		dbSource.password = this.handlePassword(dbSource.password);
+		this.dbSourceService
+			.updateDataBaseSource(dbSource.id, dbSource)
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.formSubmitted.emit();
 				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
-				this.dataSourceForm.reset();
+			});
+	}
+
+	/**
+	 * Get file source data by its id
+	 */
+	getFileSourceData(id: number) {
+		this.fileSourceService.getFileSource(id)
+			.pipe(takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe((data: FileSourceDTO) => {
+				this.fileSource = data;
+				this.dataSourceForm = createDtoForm(this.fb, fileSourceDtoForm)
+				this.dataSourceForm.patchValue(this.fileSource);
+				this.selectedDataSourceType = DataSourceTypeEnum.FILE;
+			});
+
+	}
+
+	/**
+	 * Get data base source data by its id
+	 */
+	getDataBaseData(id: number) {
+		this.dbSourceService.getDataBaseSource(id)
+			.pipe(takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe((data: DataBaseSourceDTO) => {
+				this.dbSource = data;
+				this.dataSourceForm = createDtoForm(this.fb, dataBaseSourceDtoForm)
+				this.dataSourceForm.patchValue(this.dbSource);
+				this.dataSourceForm.get(FORM_CONTROL_PASSWORD).setValue(this.handlePassword(this.dataSourceForm.get(FORM_CONTROL_PASSWORD).value));
+				this.selectedDataSourceType = DataSourceTypeEnum.DATABASE;
 			});
 	}
 
@@ -110,26 +150,29 @@ export class DataSourcesFormComponent implements OnInit {
 	 * Updates the visibility of form fields based on the selected data source type
 	 */
 	updateFormVisibility(type: string): void {
-		if (!this.isEditMode) {
-			type = this.mapToDataSource(type);
-		}
-		this.showFileFields = type === DataSourceTypeEnum.FILE;
-		this.showDatabaseFields = type === DataSourceTypeEnum.DATABASE;
+		// Map the provided type to the corresponding data source type enum
+		const dataSourceType = this.mapToDataSource(type);
 
-	}
+		// Select the appropriate form group based on the mapped data source type
+		const formDto: FormGroup =
+			dataSourceType === DataSourceTypeEnum.FILE
+				? fileSourceDtoForm
+				: dataSourceType === DataSourceTypeEnum.DATABASE
+					? dataBaseSourceDtoForm
+					: null;
 
-	/**
-	 * Extract selected file
-	 */
-	onFileSelected(event) {
-		this.file = event.target.files[0];
-		if (this.file) {
-			this.fileName = this.file.name;
-			this.fileSelected = true;
-		} else {
-			this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED)
-			this.fileSelected = false;
+		// Apply the current form values to the selected form group
+		formDto.patchValue(this.dataSourceForm.value);
+		formDto.get(FORM_CONTROL_TYPE).setValue(dataSourceType);
+		this.dataSourceForm = createDtoForm(this.fb, formDto);
+
+		if (dataSourceType === DataSourceTypeEnum.FILE) {
+			this.dataSourceForm.get(FORM_CONTROL_FILETYPE).setValue(type);
+		} else if (dataSourceType === DataSourceTypeEnum.DATABASE) {
+			this.dataSourceForm.get(FORM_CONTROL_DBTYPE).setValue(type);
 		}
+
+		this.selectedDataSourceType = dataSourceType;
 	}
 
 	/**
@@ -144,20 +187,47 @@ export class DataSourcesFormComponent implements OnInit {
 	}
 
 	/**
+	 * Get selected file from child component
+	 */
+	onFileSelected(file: File) {
+		this.file = file;
+	}
+
+	/**
+	 * Transform password value depending on its state.
+	 * If the input is null, mask pass with asterisks.
+	 * If the input is **** and it does not change, set null value
+	 * If the input is **** and it changes, set new value
+	 */
+	handlePassword(value: string): string | null {
+		return value === PLACEHOLDERS_ASTERISKS ? null : (value === null ? PLACEHOLDERS_ASTERISKS : value);
+	}
+
+	/**
 	 * On form submission
 	 */
 	onSubmit(): void {
-		const selectedType = this.dataSourceForm.value.type;
+		// Mark all fields as touched to trigger validation messages
+		this.dataSourceForm.markAllAsTouched();
 
-		// Assign values if not in edit mode
-		const dataSource: DataSourceDTO = this.isEditMode
-			? this.dataSourceForm.value
-			: {
-				...this.dataSourceForm.value,
-				type: this.mapToDataSource(selectedType),
-				[this.mapToDataSource(selectedType) === DataSourceTypeEnum.DATABASE ? DATA_SOURCES_DATA_BASE_TYPE : DATA_SOURCES_FILE_TYPE]: selectedType,
-			};
-		this.isEditMode ? this.updateDataSource(dataSource.id, dataSource) : this.addDataSource(dataSource);
-		this.dialog.emit();
+		// Check if the form is valid
+		if (this.dataSourceForm.invalid) {
+			return;
+		}
+
+		// Check if file is valid
+		const isFileSource = this.selectedDataSourceType === DataSourceTypeEnum.FILE;
+		if (!this.isEditMode && isFileSource && !this.file) {
+			this.notificationService.showErrorMessage(MESSAGES_DATA_SOURCES_ERRORS_NOFILE, MESSAGES_ERRORS);
+			return;
+		}
+
+		// If the form is valid, proceed with the submission
+		const sourceData = this.dataSourceForm.value;
+		if (this.selectedDataSourceType === DataSourceTypeEnum.FILE) {
+			this.isEditMode ? this.updateFileSource(sourceData) : this.createFileSource(sourceData);
+		} else if (this.selectedDataSourceType === DataSourceTypeEnum.DATABASE) {
+			this.isEditMode ? this.updateDataBaseSource(sourceData) : this.createDataBaseSource(sourceData);
+		}
 	}
 }

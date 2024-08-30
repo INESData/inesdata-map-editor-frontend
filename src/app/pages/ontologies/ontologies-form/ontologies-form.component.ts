@@ -75,7 +75,7 @@ export class OntologiesFormComponent implements OnInit {
 	 */
 	updateOntology(id: number, ontology: OntologyDTO): void {
 		this.ontologyService
-			.updateOntology(id, ontology, this.file)
+			.updateOntology(id, ontology)
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.formSubmitted.emit();
@@ -135,7 +135,6 @@ export class OntologiesFormComponent implements OnInit {
 
 		// Check if the form is valid
 		if (this.ontologyForm.invalid) {
-			console.warn('Form is invalid. Please correct the errors before submitting.');
 			return;
 		}
 

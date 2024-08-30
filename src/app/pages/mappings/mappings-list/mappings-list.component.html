@@ -33,6 +33,51 @@
 <!-- Materialisation history dialog -->
 <p-dialog
 	[header]="'mappings.mapping.records-list' | translate"
+	header="Genera un mapeo automático"
+	[modal]="true"
+	[draggable]="false"
+	[(visible)]="autoDialogVisible"
+	[style]="{ width: '40rem' }"
+>
+	<p class="mt-0">
+		Seleccione las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para generar un mapeo automático:
+	</p>
+	<div class="grid">
+		<div class="col-6">
+			<h3 class="mt-1 mb-1">Ontologías</h3>
+			<div class="mappingCategory">
+				<div class="flex flex-column gap-3">
+					<div class="searcherContainer">
+						<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+					</div>
+					<div *ngFor="let category of categories" class="field-checkbox">
+						<p-checkbox [(ngModel)]="selectedCategories" [label]="category.name" name="group" [value]="category" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-6">
+			<h3 class="mt-1 mb-1">Fuentes de datos</h3>
+			<div class="mappingCategory">
+				<div class="flex flex-column gap-3">
+					<div class="searcherContainer">
+						<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+					</div>
+					<div *ngFor="let category of categories" class="field-checkbox">
+						<p-checkbox [(ngModel)]="selectedCategories" [label]="category.name" name="group" [value]="category" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="flex flex-justify-right col-12">
+			<p-button class="btn btn__primary mr-2" label="Generar mapeo" type="button" />
+			<p-button class="btn btn__secondary" label="Cancelar" type="button" />
+		</div>
+	</div>
+</p-dialog>
+
+<p-dialog
+	header="Histórico de materializaciones de *Nombre del mapeo"
 	[modal]="true"
 	[draggable]="false"
 	[(visible)]="addDialogVisible"
