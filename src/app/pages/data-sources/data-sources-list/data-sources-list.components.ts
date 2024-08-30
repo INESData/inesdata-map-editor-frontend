@@ -15,6 +15,7 @@ export class DataSourcesListComponent implements OnInit {
 
 	constructor(private dataSourceService: DataSourceService, private languageService: LanguageService, private notificationService: NotificationService) { }
 
+	paginationInfo: PageDataSourceDTO;
 	dataSources: DataSourceDTO[];
 	selectedDataSource: DataSourceDTO;
 
@@ -27,21 +28,21 @@ export class DataSourcesListComponent implements OnInit {
 	 * Loads the data sources when the component is initialized
 	 */
 	ngOnInit(): void {
-		this.loadDataSources();
+		this.loadDataSources(PAGE, SIZE);
 	}
 
 	/**
 	 * Loads the data sources list.
 	 */
-	loadDataSources(): void {
+	loadDataSources(page: number, size: number): void {
 		this.dataSourceService
-			.listDataSources(PAGE, SIZE)
+			.listDataSources(page, size)
 			.pipe(
-				//TODO: pagination and show success/error popup
 				takeUntilDestroyed(this.destroyRef)
 			)
 			.subscribe((data: PageDataSourceDTO) => {
 				this.dataSources = data.content ?? [];
+				this.paginationInfo = data;
 			});
 	}
 
@@ -52,7 +53,6 @@ export class DataSourcesListComponent implements OnInit {
 		this.dataSourceService
 			.deleteDataSource(id)
 			.pipe(
-				//TODO: action confirmation popup
 				takeUntilDestroyed(this.destroyRef)
 			)
 			.subscribe(() => {
@@ -88,11 +88,18 @@ export class DataSourcesListComponent implements OnInit {
 	}
 
 	/**
+	* Method that is called when the page number changes.
+	*/
+	onPageChange(newPage: number): void {
+		this.loadDataSources(newPage, this.paginationInfo.size);
+	}
+
+	/**
 	* Called when a form is successfully submitted
 	*/
 	onFormSubmitted() {
 		this.addDialogVisible = false;
-		this.loadDataSources();
+		this.loadDataSources(PAGE, SIZE);
 		this.selectedDataSource = null;
 	}
 }
