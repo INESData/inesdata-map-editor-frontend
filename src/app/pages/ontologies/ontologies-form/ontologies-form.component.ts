@@ -135,7 +135,6 @@ export class OntologiesFormComponent implements OnInit {
 
 		// Check if the form is valid
 		if (this.ontologyForm.invalid) {
-			console.warn('Form is invalid. Please correct the errors before submitting.');
 			return;
 		}
 

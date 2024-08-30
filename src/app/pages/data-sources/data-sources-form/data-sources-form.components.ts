@@ -93,8 +93,8 @@ export class DataSourcesFormComponent implements OnInit {
 		this.fileSourceService
 			.updateFileSource(fileSource.id, fileSource)
 			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe((data: FileSourceDTO) => {
-				console.log(data)
+			.subscribe(() => {
+
 				this.formSubmitted.emit();
 				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
 			});
@@ -212,7 +212,6 @@ export class DataSourcesFormComponent implements OnInit {
 
 		// Check if the form is valid
 		if (this.dataSourceForm.invalid) {
-			console.warn('Form is invalid. Please correct the errors before submitting.');
 			return;
 		}
 

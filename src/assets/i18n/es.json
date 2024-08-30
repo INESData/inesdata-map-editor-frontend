@@ -17,6 +17,7 @@
     "delete": "Eliminar",
     "file-name": "Ningún archivo seleccionado",
     "home": "Inicio",
+    "import": "Importar de local",
     "name": "Nombre",
     "no": "No",
     "ontology-file": "Seleccione el archivo de ontología",
@@ -48,6 +49,7 @@
       "required": "El campo es requerido",
       "title": "Error"
     },
+    "no_data": "No existen registros disponibles",
     "ontologies": {
       "success": {
         "created": "Ontología creada correctamente",

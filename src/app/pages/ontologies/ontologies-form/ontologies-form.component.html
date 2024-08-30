@@ -6,7 +6,7 @@
 			<div class="col-12">
 				<div class="flex">
 					<label class="customfileUpload">
-						Importar de local
+						{{ "labels.import" | translate }}
 						<input class="fileUploader" type="file" pInputText (change)="onFileSelected($event)" />
 					</label>
 					<span class="fileName" [class.selected]="fileSelected">{{ fileName }}</span>

@@ -38,7 +38,7 @@ export const LABELS_HOME: string = translate('labels.home');
 export const LABELS_NO_FILE_SELECTED: string = translate('labels.file-name');
 
 // Placeholders
-export const PLACEHOLDERS_ASTERISKS: string = '****';
+export const PLACEHOLDERS_ASTERISKS: string = '*************************';
 
 // Form controls
 export const FORM_CONTROL_ID: string = 'id';
