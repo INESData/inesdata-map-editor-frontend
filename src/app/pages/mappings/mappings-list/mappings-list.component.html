@@ -15,19 +15,21 @@
 		<ng-template pTemplate="body" let-mapping>
 			<tr>
 				<td>{{ mapping.name }}</td>
-				<td>{{ mapping.ontology }}</td>
-				<td>{{ mapping.datasource }}</td>
+				<td>{{ mapping.ontologies | join }}</td>
+				<td>{{ mapping.dataSources | join }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
 						<p-button class="btn btn__icon icon-ojo mr-1" />
 						<p-button (onClick)="showDialog()" class="btn btn__icon icon-play mr-1" />
 						<p-button class="btn btn__icon icon-lapiz mr-1" />
-						<p-button (onClick)="showDialogDelete()" class="btn btn__icon icon-papelera" />
+						<p-button (onClick)="showDialogDelete(mapping.id)" class="btn btn__icon icon-papelera" />
 					</div>
 				</td>
 			</tr>
 		</ng-template>
 	</p-table>
+	<!-- Paginator -->
+	<app-paginator [paginationInfo]="paginationInfo" (pageChange)="onPageChange($event)"> ></app-paginator>
 </div>
 
 <!-- Materialisation history dialog -->
@@ -96,6 +98,12 @@
 >
 	<div class="flex flex-justify-right w-full">
 		<p-button class="btn btn__primary mr-2" [label]="'labels.delete' | translate" type="button" />
-		<p-button class="btn btn__secondary" [label]="'labels.cancel' | translate" type="button" />
+		<p-button
+			class="btn btn__secondary"
+			[label]="'labels.cancel' | translate"
+			type="button"
+			(click)="deleteOntology(selectedMapping.id)"
+			(keydown.enter)="deleteOntology(selectedMapping.id)"
+		/>
 	</div>
 </p-dialog>

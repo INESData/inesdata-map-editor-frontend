@@ -1,30 +1,82 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MappingService, PageSearchMappingDTO } from 'projects/mapper-api-client';
+import { SearchMappingDTO } from 'projects/mapper-api-client/model/searchMappingDTO';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-mappings-list',
 	templateUrl: './mappings-list.component.html'
 })
-export class MappingsListComponent {
+export class MappingsListComponent implements OnInit {
+
+	destroyRef = inject(DestroyRef);
+
+	constructor(private mappingService: MappingService, private notificationService: NotificationService) { }
 	selectedCategories: unknown[] = [];
-	mappings = [
-		{
-			name: 'name',
-			ontology:
-				'Ontología | Ontología | Ontología | Ontología | Ontología | Ontología | Ontología | Ontología | Ontología | Ontología | Ontología | Ontología | Ontología',
-			datasource: 'Fuente de datos | Fuente de datos'
-		},
-		{ name: 'name', ontology: 'Ontología', datasource: 'Fuente de datos' },
-		{ name: 'name', ontology: 'Ontología | Ontología | Ontología', datasource: 'Fuente de datos' }
-	];
+	selectedMapping: SearchMappingDTO;
+	mappings: SearchMappingDTO[];
+	paginationInfo: PageSearchMappingDTO;
 	addDialogVisible: boolean = false;
 	deleteDialogVisible: boolean = false;
 	autoDialogVisible: boolean = false;
+
+	/**
+ * Loads the mappings when the component is initialized
+ */
+	ngOnInit(): void {
+		this.loadMappings(PAGE, SIZE);
+	}
+
+	/**
+	 * Loads the mappings list.
+	 */
+	loadMappings(page: number, size: number): void {
+		this.mappingService
+			.listMappings(page, size)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe((data: PageSearchMappingDTO) => {
+				console.log(data)
+				this.mappings = data.content ?? [];
+				this.paginationInfo = data;
+			});
+	}
+
+	/**
+	 * Delete mapping by its id.
+	 */
+	deleteOntology(id: number): void {
+		this.mappingService
+			.deleteMapping(id)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe(() => {
+				this.mappings = this.mappings.filter((mapping) => mapping.id !== id);
+				this.notificationService.showSuccess(MESSAGES_MAPPINGS_SUCCESS_DELETED);
+			});
+		this.deleteDialogVisible = false;
+	}
+
+	/**
+	 * Method that is called when the page number changes.
+	 */
+	onPageChange(newPage: number): void {
+		this.loadMappings(newPage, this.paginationInfo.size);
+	}
 
 	showDialog() {
 		this.addDialogVisible = true;
 	}
 
-	showDialogDelete() {
+	/**
+	 * Display delete dialog
+	 */
+	showDialogDelete(mapping: SearchMappingDTO): void {
+		this.selectedMapping = mapping;
 		this.deleteDialogVisible = true;
 	}
 
