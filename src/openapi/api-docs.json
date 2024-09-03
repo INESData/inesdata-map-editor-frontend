@@ -31,6 +31,10 @@
         "url": "https://docs.spring.io/spring-boot/docs/current/actuator-api/html/"
       },
       "name": "Actuator"
+    },
+    {
+      "description": "Manage file sources",
+      "name": "FileSource"
     }
   ],
   "paths": {
@@ -437,46 +441,6 @@
         "tags": [
           "DataSource"
         ]
-      },
-      "post": {
-        "operationId": "createDataSource",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "body": {
-                    "$ref": "#/components/schemas/DataSourceDTO"
-                  },
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                },
-                "required": [
-                  "body"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DataSourceDTO"
-                }
-              }
-            },
-            "description": "Created"
-          }
-        },
-        "summary": "Create given data source",
-        "tags": [
-          "DataSource"
-        ]
       }
     },
     "/data-sources/{id}": {
@@ -503,12 +467,76 @@
         "tags": [
           "DataSource"
         ]
-      },
-      "put": {
-        "operationId": "updateDataSource",
+      }
+    },
+    "/database-sources": {
+      "post": {
+        "operationId": "createDataBaseSource",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataBaseSourceDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataSourceDTO"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "summary": "Create given data base source",
+        "tags": [
+          "DataBaseSource"
+        ]
+      }
+    },
+    "/database-sources/{id}": {
+      "get": {
+        "operationId": "getDataBaseSource",
         "parameters": [
           {
-            "description": "Data source identifier to update",
+            "description": "Data source identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataBaseSourceDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets given data base source",
+        "tags": [
+          "DataBaseSource"
+        ]
+      },
+      "put": {
+        "operationId": "updateDataBaseSource",
+        "parameters": [
+          {
+            "description": "Data base source identifier to update",
             "in": "path",
             "name": "id",
             "required": true,
@@ -520,24 +548,13 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "body": {
-                    "$ref": "#/components/schemas/DataSourceDTO"
-                  },
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                },
-                "required": [
-                  "body"
-                ]
+                "$ref": "#/components/schemas/DataBaseSourceDTO"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -551,9 +568,9 @@
             "description": "OK"
           }
         },
-        "summary": "Update given data source",
+        "summary": "Update given data base source",
         "tags": [
-          "DataSource"
+          "DataBaseSource"
         ]
       }
     },
@@ -634,6 +651,122 @@
         "summary": "Get table names for a database source",
         "tags": [
           "DataBaseSource"
+        ]
+      }
+    },
+    "/file-sources": {
+      "post": {
+        "operationId": "createFileSource",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "body": {
+                    "$ref": "#/components/schemas/FileSourceDTO"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "body"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataSourceDTO"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "summary": "Create given file source",
+        "tags": [
+          "FileSource"
+        ]
+      }
+    },
+    "/file-sources/{id}": {
+      "get": {
+        "operationId": "getFileSource",
+        "parameters": [
+          {
+            "description": "File source identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileSourceDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets given data file source",
+        "tags": [
+          "FileSource"
+        ]
+      },
+      "put": {
+        "operationId": "updateFileSource",
+        "parameters": [
+          {
+            "description": "File source identifier to update",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FileSourceDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataSourceDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Updates given file source",
+        "tags": [
+          "FileSource"
         ]
       }
     },
@@ -759,24 +892,13 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "body": {
-                    "$ref": "#/components/schemas/OntologyDTO"
-                  },
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                },
-                "required": [
-                  "body"
-                ]
+                "$ref": "#/components/schemas/OntologyDTO"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -822,10 +944,19 @@
   },
   "components": {
     "schemas": {
-      "DataSourceDTO": {
+      "DataBaseSourceDTO": {
+        "required": [
+          "connectionString",
+          "databaseType",
+          "name",
+          "password",
+          "userName"
+        ],
         "type": "object",
         "properties": {
           "connectionString": {
+            "maxLength": 255,
+            "minLength": 1,
             "type": "string"
           },
           "databaseType": {
@@ -837,9 +968,74 @@
               "MONGO"
             ]
           },
-          "fields": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
             "type": "string"
           },
+          "password": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "DATABASE",
+              "FILE"
+            ]
+          },
+          "userName": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "description": "The data base source to save"
+      },
+      "DataSourceDTO": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "DATABASE",
+              "FILE"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "FileSourceDTO": {
+        "required": [
+          "fileType",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
           "fileName": {
             "type": "string"
           },
@@ -855,9 +1051,8 @@
             "format": "int64"
           },
           "name": {
-            "type": "string"
-          },
-          "password": {
+            "maxLength": 255,
+            "minLength": 1,
             "type": "string"
           },
           "type": {
@@ -867,15 +1062,12 @@
               "FILE"
             ]
           },
-          "userName": {
-            "type": "string"
-          },
           "version": {
             "type": "integer",
             "format": "int64"
           }
         },
-        "description": "The data source to save"
+        "description": "The file source to save"
       },
       "Link": {
         "type": "object",

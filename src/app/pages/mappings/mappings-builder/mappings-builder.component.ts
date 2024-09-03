@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 interface Format {
 	name: string;
@@ -14,10 +14,12 @@ interface Mapping {
 	selector: 'app-mappings-builder',
 	templateUrl: './mappings-builder.component.html'
 })
-export class MappingsBuilderComponent {
+export class MappingsBuilderComponent implements OnInit {
 	formats: Format[];
 	mappings: Mapping[];
 	selectedFormat: Format;
+	queryDialogVisible = false;
+	elementDialogVisible = false;
 
 	constructor() {
 		this.formats = [
@@ -36,6 +38,14 @@ export class MappingsBuilderComponent {
 		{ name: 'education', key: 'A' },
 		{ name: 'ontology2', key: 'M' }
 	];
+
+	showDialogQuery() {
+		this.queryDialogVisible = true;
+	}
+
+	showDialogElement() {
+		this.elementDialogVisible = true;
+	}
 
 	ngOnInit() {
 		this.selectedCategory = this.categories[1];
