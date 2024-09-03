@@ -43,7 +43,7 @@ interface Messages {
 }
 
 interface ApiEndpoints {
-	endpoints: { [key: string]: string };
+	endpoints: Record<string, string>;
 }
 
 interface Info {

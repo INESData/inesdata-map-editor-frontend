@@ -12,5 +12,5 @@
 !tsconfig.app.json
 !tsconfig.json
 !tsconfig.spec.json
-!.eslintrc.json
+!eslint.config.js
 !projects/**

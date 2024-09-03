@@ -18,8 +18,8 @@ export class MappingsBuilderComponent implements OnInit {
 	formats: Format[];
 	mappings: Mapping[];
 	selectedFormat: Format;
-	queryDialogVisible: boolean = false;
-	elementDialogVisible: boolean = false;
+	queryDialogVisible = false;
+	elementDialogVisible = false;
 
 	constructor() {
 		this.formats = [

@@ -9,7 +9,17 @@ import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { FORM_CONTROL_DBTYPE, FORM_CONTROL_FILETYPE, FORM_CONTROL_PASSWORD, FORM_CONTROL_TYPE, MESSAGES_DATA_SOURCES_ERRORS_NOFILE, MESSAGES_DATA_SOURCES_SUCCESS_CREATED, MESSAGES_DATA_SOURCES_SUCCESS_UPDATED, MESSAGES_ERRORS, PLACEHOLDERS_ASTERISKS } from 'src/app/shared/utils/app.constants';
+import {
+	FORM_CONTROL_DBTYPE,
+	FORM_CONTROL_FILETYPE,
+	FORM_CONTROL_PASSWORD,
+	FORM_CONTROL_TYPE,
+	MESSAGES_DATA_SOURCES_ERRORS_NOFILE,
+	MESSAGES_DATA_SOURCES_SUCCESS_CREATED,
+	MESSAGES_DATA_SOURCES_SUCCESS_UPDATED,
+	MESSAGES_ERRORS,
+	PLACEHOLDERS_ASTERISKS
+} from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
 
 @Component({
@@ -24,7 +34,7 @@ export class DataSourcesFormComponent implements OnInit {
 		private notificationService: NotificationService,
 		private fileSourceService: FileSourceService,
 		private dbSourceService: DataBaseSourceService
-	) { }
+	) {}
 
 	dataSourceFormats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	dataSourceForm: FormGroup = null;
@@ -34,7 +44,7 @@ export class DataSourcesFormComponent implements OnInit {
 	dbSource: DataBaseSourceDTO;
 
 	@Output() formSubmitted = new EventEmitter<void>();
-	@Input() isEditMode: boolean = false;
+	@Input() isEditMode = false;
 	@Input() selectedDataSource: DataSourceDTO;
 
 	/**
@@ -56,7 +66,7 @@ export class DataSourcesFormComponent implements OnInit {
 		if (this.selectedDataSource && this.selectedDataSource.type === DataSourceTypeEnum.FILE) {
 			this.getFileSourceData(this.selectedDataSource.id);
 		} else if (this.selectedDataSource && this.selectedDataSource.type === DataSourceTypeEnum.DATABASE) {
-			this.getDataBaseData(this.selectedDataSource.id)
+			this.getDataBaseData(this.selectedDataSource.id);
 		}
 	}
 
@@ -94,7 +104,6 @@ export class DataSourcesFormComponent implements OnInit {
 			.updateFileSource(fileSource.id, fileSource)
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
-
 				this.formSubmitted.emit();
 				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
 			});
@@ -118,28 +127,27 @@ export class DataSourcesFormComponent implements OnInit {
 	 * Get file source data by its id
 	 */
 	getFileSourceData(id: number) {
-		this.fileSourceService.getFileSource(id)
-			.pipe(takeUntilDestroyed(this.destroyRef)
-			)
+		this.fileSourceService
+			.getFileSource(id)
+			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe((data: FileSourceDTO) => {
 				this.fileSource = data;
-				this.dataSourceForm = createDtoForm(this.fb, fileSourceDtoForm)
+				this.dataSourceForm = createDtoForm(this.fb, fileSourceDtoForm);
 				this.dataSourceForm.patchValue(this.fileSource);
 				this.selectedDataSourceType = DataSourceTypeEnum.FILE;
 			});
-
 	}
 
 	/**
 	 * Get data base source data by its id
 	 */
 	getDataBaseData(id: number) {
-		this.dbSourceService.getDataBaseSource(id)
-			.pipe(takeUntilDestroyed(this.destroyRef)
-			)
+		this.dbSourceService
+			.getDataBaseSource(id)
+			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe((data: DataBaseSourceDTO) => {
 				this.dbSource = data;
-				this.dataSourceForm = createDtoForm(this.fb, dataBaseSourceDtoForm)
+				this.dataSourceForm = createDtoForm(this.fb, dataBaseSourceDtoForm);
 				this.dataSourceForm.patchValue(this.dbSource);
 				this.dataSourceForm.get(FORM_CONTROL_PASSWORD).setValue(this.handlePassword(this.dataSourceForm.get(FORM_CONTROL_PASSWORD).value));
 				this.selectedDataSourceType = DataSourceTypeEnum.DATABASE;
@@ -200,7 +208,7 @@ export class DataSourcesFormComponent implements OnInit {
 	 * If the input is **** and it changes, set new value
 	 */
 	handlePassword(value: string): string | null {
-		return value === PLACEHOLDERS_ASTERISKS ? null : (value === null ? PLACEHOLDERS_ASTERISKS : value);
+		return value === PLACEHOLDERS_ASTERISKS ? null : value === null ? PLACEHOLDERS_ASTERISKS : value;
 	}
 
 	/**
@@ -225,9 +233,33 @@ export class DataSourcesFormComponent implements OnInit {
 		// If the form is valid, proceed with the submission
 		const sourceData = this.dataSourceForm.value;
 		if (this.selectedDataSourceType === DataSourceTypeEnum.FILE) {
-			this.isEditMode ? this.updateFileSource(sourceData) : this.createFileSource(sourceData);
+			this.processFileSource(sourceData);
 		} else if (this.selectedDataSourceType === DataSourceTypeEnum.DATABASE) {
-			this.isEditMode ? this.updateDataBaseSource(sourceData) : this.createDataBaseSource(sourceData);
+			this.processDataBaseSource(sourceData);
+		}
+	}
+
+	/**
+	 * Process file source data
+	 * @param sourceData the source data
+	 */
+	private processFileSource(sourceData: FileSourceDTO) {
+		if (this.isEditMode) {
+			this.updateFileSource(sourceData);
+		} else {
+			this.createFileSource(sourceData);
+		}
+	}
+
+	/**
+	 * Process data base source data
+	 * @param sourceData the source data
+	 */
+	private processDataBaseSource(sourceData: DataBaseSourceDTO) {
+		if (this.isEditMode) {
+			this.updateDataBaseSource(sourceData);
+		} else {
+			this.createDataBaseSource(sourceData);
 		}
 	}
 }

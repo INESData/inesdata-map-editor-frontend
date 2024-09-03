@@ -5,13 +5,13 @@ import { marker as translate } from '@colsen1991/ngx-translate-extract-marker';
  */
 
 // Language
-export const DEFAULT_LANGUAGE: string = 'es';
-export const AVAILABLE_LANGUAGES: Array<string> = ['es', 'en'];
-export const LANGUAGE_STORAGE_NAME: string = 'language';
+export const DEFAULT_LANGUAGE = 'es';
+export const AVAILABLE_LANGUAGES: string[] = ['es', 'en'];
+export const LANGUAGE_STORAGE_NAME = 'language';
 
 // Filters
-export const PAGE: number = 0;
-export const SIZE: number = 10;
+export const PAGE = 0;
+export const SIZE = 10;
 
 // Messages
 export const MESSAGES_SUCCESS: string = translate('messages.success');
@@ -40,14 +40,14 @@ export const LABELS_HOME: string = translate('labels.home');
 export const LABELS_NO_FILE_SELECTED: string = translate('labels.file-name');
 
 // Placeholders
-export const PLACEHOLDERS_ASTERISKS: string = '*************************';
+export const PLACEHOLDERS_ASTERISKS = '*************************';
 
 // Form controls
-export const FORM_CONTROL_ID: string = 'id';
-export const FORM_CONTROL_PASSWORD: string = 'password';
-export const FORM_CONTROL_TYPE: string = 'type';
-export const FORM_CONTROL_FILETYPE: string = 'fileType';
-export const FORM_CONTROL_DBTYPE: string = 'databaseType';
+export const FORM_CONTROL_ID = 'id';
+export const FORM_CONTROL_PASSWORD = 'password';
+export const FORM_CONTROL_TYPE = 'type';
+export const FORM_CONTROL_FILETYPE = 'fileType';
+export const FORM_CONTROL_DBTYPE = 'databaseType';
 
 //Ontologies
 export const ONTOLOGIES_ADD_ONTOLOGY: string = translate('ontologies.ontology.add');
@@ -56,16 +56,13 @@ export const ONTOLOGIES_EDIT_ONTOLOGY: string = translate('ontologies.ontology.e
 //Data sources
 export const DATA_SOURCES_ADD_DATA_SOURCE: string = translate('data-sources.data-source.add');
 export const DATA_SOURCES_EDIT_DATA_SOURCE: string = translate('data-sources.data-source.edit');
-export const DATA_SOURCES_DATA_BASE_TYPE: string = 'databaseType';
-export const DATA_SOURCES_FILE_TYPE: string = 'fileType';
-
-
+export const DATA_SOURCES_DATA_BASE_TYPE = 'databaseType';
+export const DATA_SOURCES_FILE_TYPE = 'fileType';
 
 // Routes
-export const HOME: string = '/home';
+export const HOME = '/home';
 
 // Sidebar
 export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontologies');
 export const SIDEBAR_LABELS_DATASOURCES: string = translate('sidebar.labels.data-sources');
 export const SIDEBAR_LABELS_MAPPINGS: string = translate('sidebar.labels.mappings');
-

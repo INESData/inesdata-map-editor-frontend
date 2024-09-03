@@ -8,8 +8,8 @@ import { RequestLoggerFormat } from './request-logger-format';
  * Logger format
  */
 export class LoggerFormat {
-	private static SEPARATOR: string = ':';
-	private static EMPTY: string = '';
+	private static SEPARATOR = ':';
+	private static EMPTY = '';
 	private static FILEPATH_REGEX = /^(.+)\/([^/]+)$/;
 
 	/**
