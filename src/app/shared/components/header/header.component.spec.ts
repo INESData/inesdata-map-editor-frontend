@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { LoggerTestingModule } from 'ngx-logger/testing';
@@ -22,13 +23,12 @@ describe('HeaderComponent', () => {
 		TestBed.configureTestingModule({
 			declarations: [HeaderComponent],
 			imports: [
-				HttpClientTestingModule,
 				TranslateModule.forRoot({
 					loader: { provide: TranslateLoader, useClass: FakeLoader }
 				}),
 				LoggerTestingModule
 			],
-			providers: [MenuService]
+			providers: [MenuService, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 		}).compileComponents();
 	}));
 

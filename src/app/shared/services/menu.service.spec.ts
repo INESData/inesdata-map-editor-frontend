@@ -1,4 +1,5 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { LoggerTestingModule } from 'ngx-logger/testing';
 
@@ -8,7 +9,8 @@ import { MenuService } from './menu.service';
 describe('MenuService', () => {
 	beforeEach(() =>
 		TestBed.configureTestingModule({
-			imports: [SharedTestModule, HttpClientTestingModule, LoggerTestingModule]
+			imports: [SharedTestModule, LoggerTestingModule],
+			providers: [provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()]
 		})
 	);
 

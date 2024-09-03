@@ -1,4 +1,4 @@
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 export const dataBaseSourceDtoForm = new FormGroup({
   connectionString: new FormControl(null, [

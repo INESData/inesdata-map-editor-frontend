@@ -8,9 +8,9 @@ import { WriterRequestLoggerFormat } from './writer-request-logger-format';
  * Writer logger format
  */
 export class WriterLoggerFormat {
-	private static OPEN_BRACKET: string = '[';
-	private static CLOSE_BRACKET: string = ']';
-	private static EMPTY: string = '';
+	private static OPEN_BRACKET = '[';
+	private static CLOSE_BRACKET = ']';
+	private static EMPTY = '';
 
 	/**
 	 * Get the format with the basic standard metadata to display in console

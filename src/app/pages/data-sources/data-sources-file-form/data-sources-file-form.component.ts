@@ -11,14 +11,12 @@ import { getErrorMessage, hasError } from 'src/app/shared/utils/errors.utils';
 export class DataSourcesFileFormComponent {
 	file: File;
 	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
-	fileSelected: boolean = false;
+	fileSelected = false;
 
 	@Input() fileSourceForm: FormGroup = null;
 	@Output() fileSelectedEvent: EventEmitter<File> = new EventEmitter<File>();
 
-	constructor(
-		private languageService: LanguageService
-	) { }
+	constructor(private languageService: LanguageService) {}
 
 	/**
 	 * Extract selected file
@@ -28,7 +26,7 @@ export class DataSourcesFileFormComponent {
 		if (this.file) {
 			this.fileName = this.file.name;
 			this.fileSelected = true;
-			this.fileSelectedEvent.emit(this.file)
+			this.fileSelectedEvent.emit(this.file);
 		} else {
 			this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
 			this.fileSelected = false;

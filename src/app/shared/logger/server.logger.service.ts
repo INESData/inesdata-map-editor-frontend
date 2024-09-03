@@ -9,8 +9,8 @@ import { LoggerFormat } from './formats/logger-format';
  */
 @Injectable()
 export class ServerLoggerService extends NGXLoggerServerService {
-	private CONTENT_TYPE: string = 'Content-Type';
-	private APPLICATION_JSON: string = 'application/json';
+	private CONTENT_TYPE = 'Content-Type';
+	private APPLICATION_JSON = 'application/json';
 	// Uncomment this lines if your application require jwt authentication
 	//private AUTHORIZATION: string = 'Authorization';
 	//private BEARER: string = 'Bearer ';

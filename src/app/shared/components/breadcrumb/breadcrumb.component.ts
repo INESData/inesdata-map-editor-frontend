@@ -15,7 +15,6 @@ import { HOME, LABELS_HOME } from '../../utils/app.constants';
 	templateUrl: './breadcrumb.component.html',
 	styleUrls: ['./breadcrumb.component.scss']
 })
-
 export class BreadcrumbComponent implements OnInit {
 	items: MenuItem[] = [];
 	home: MenuItem = {
@@ -23,7 +22,11 @@ export class BreadcrumbComponent implements OnInit {
 		routerLink: HOME
 	};
 
-	constructor(private router: Router, private activatedRoute: ActivatedRoute, private languageService: LanguageService) { }
+	constructor(
+		private router: Router,
+		private activatedRoute: ActivatedRoute,
+		private languageService: LanguageService
+	) {}
 
 	/**
 	 * Initializes the component and sets up the breadcrumb navigation on router events.
@@ -31,15 +34,17 @@ export class BreadcrumbComponent implements OnInit {
 	 * @returns {void}
 	 */
 	ngOnInit(): void {
-		this.router.events.pipe(
-			// Filter only NavigationEnd events
-			filter(event => event instanceof NavigationEnd),
-			// Build breadcrumb from activated route
-			map(() => this.buildBreadcrumb(this.activatedRoute.root))
-		).subscribe(breadcrumbs => {
-			// Check if route is valid
-			this.setBreadcrumbIfValidRoute(breadcrumbs);
-		});
+		this.router.events
+			.pipe(
+				// Filter only NavigationEnd events
+				filter((event) => event instanceof NavigationEnd),
+				// Build breadcrumb from activated route
+				map(() => this.buildBreadcrumb(this.activatedRoute.root))
+			)
+			.subscribe((breadcrumbs) => {
+				// Check if route is valid
+				this.setBreadcrumbIfValidRoute(breadcrumbs);
+			});
 	}
 
 	/**
@@ -50,7 +55,7 @@ export class BreadcrumbComponent implements OnInit {
 	 * @param {MenuItem[]} [breadcrumbs=[]] - The array of breadcrumb items to be updated.
 	 * @returns {MenuItem[]} - The updated array of breadcrumb items.
 	 */
-	private buildBreadcrumb(route: ActivatedRoute, url: string = '', breadcrumbs: MenuItem[] = []): MenuItem[] {
+	private buildBreadcrumb(route: ActivatedRoute, url = '', breadcrumbs: MenuItem[] = []): MenuItem[] {
 		// Get activated route
 		const children: ActivatedRoute[] = route.children;
 
@@ -60,7 +65,7 @@ export class BreadcrumbComponent implements OnInit {
 		// If children
 		for (const child of children) {
 			// Build route
-			const routeURL: string = child.snapshot.url.map(segment => segment.path).join('/');
+			const routeURL: string = child.snapshot.url.map((segment) => segment.path).join('/');
 			if (routeURL !== '') {
 				url += `/${routeURL}`;
 				//Add children to route
@@ -77,11 +82,11 @@ export class BreadcrumbComponent implements OnInit {
 	}
 
 	/**
- * Sets the breadcrumb items if the current route is valid.
- *
- * @param {MenuItem[]} breadcrumbs - The array of breadcrumb items to be set.
- * @returns {void}
- */
+	 * Sets the breadcrumb items if the current route is valid.
+	 *
+	 * @param {MenuItem[]} breadcrumbs - The array of breadcrumb items to be set.
+	 * @returns {void}
+	 */
 	private setBreadcrumbIfValidRoute(breadcrumbs: MenuItem[]): void {
 		this.items = [];
 		// If route is home leave empty
@@ -89,7 +94,7 @@ export class BreadcrumbComponent implements OnInit {
 			return;
 		}
 		// Get routes in routing
-		const definedRoutes = this.router.config.map(route => route.path);
+		const definedRoutes = this.router.config.map((route) => route.path);
 		// Check if first part of current URL  is in routing
 		const isValidRoute = definedRoutes.includes(this.router.url.split('/')[1]);
 
@@ -97,6 +102,4 @@ export class BreadcrumbComponent implements OnInit {
 			this.items = breadcrumbs;
 		}
 	}
-
-
 }

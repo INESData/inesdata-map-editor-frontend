@@ -16,9 +16,9 @@ export class MappingsListComponent {
 		{ name: 'name', ontology: 'Ontología', datasource: 'Fuente de datos' },
 		{ name: 'name', ontology: 'Ontología | Ontología | Ontología', datasource: 'Fuente de datos' }
 	];
-	addDialogVisible: boolean = false;
-	deleteDialogVisible: boolean = false;
-	autoDialogVisible: boolean = false;
+	addDialogVisible = false;
+	deleteDialogVisible = false;
+	autoDialogVisible = false;
 
 	showDialog() {
 		this.addDialogVisible = true;

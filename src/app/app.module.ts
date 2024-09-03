@@ -1,5 +1,5 @@
 import { LOCATION_INITIALIZED } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,12 +33,12 @@ import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANGUAGE_STORAGE_NAME } from './
  */
 @NgModule({
 	declarations: [AppComponent],
+	bootstrap: [AppComponent],
 	imports: [
 		ApiModule.forRoot(apiConfigFactory),
 		AppRoutingModule,
 		BrowserAnimationsModule,
 		BrowserModule,
-		HttpClientModule,
 		SharedModule,
 		OntologiesModule,
 		DataSourcesModule,
@@ -90,9 +90,9 @@ import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANGUAGE_STORAGE_NAME } from './
 			deps: [TranslateService, Injector, NGXLogger],
 			multi: true
 		},
-		{ provide: ErrorHandler, useClass: GlobalErrorHandlerService }
-	],
-	bootstrap: [AppComponent]
+		{ provide: ErrorHandler, useClass: GlobalErrorHandlerService },
+		provideHttpClient(withInterceptorsFromDi())
+	]
 })
 export class AppModule {}
 

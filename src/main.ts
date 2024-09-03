@@ -11,8 +11,11 @@ runtimeEnvLoaderPromise.then((runtimeEnv) => {
 	}
 
 	if (environment.logging.disableWindowConsoleLogging) {
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
 		window.console.log = () => {};
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
 		window.console.trace = () => {};
+		// eslint-disable-next-line @typescript-eslint/no-empty-function
 		window.console.debug = () => {};
 	}
 
