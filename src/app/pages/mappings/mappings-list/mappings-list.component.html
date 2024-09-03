@@ -22,7 +22,7 @@
 						<p-button class="btn btn__icon icon-ojo mr-1" />
 						<p-button (onClick)="showDialog()" class="btn btn__icon icon-play mr-1" />
 						<p-button class="btn btn__icon icon-lapiz mr-1" />
-						<p-button (onClick)="showDialogDelete(mapping.id)" class="btn btn__icon icon-papelera" />
+						<p-button (onClick)="showDialogDelete(mapping)" class="btn btn__icon icon-papelera" />
 					</div>
 				</td>
 			</tr>
@@ -97,13 +97,19 @@
 	[style]="{ width: '40rem' }"
 >
 	<div class="flex flex-justify-right w-full">
-		<p-button class="btn btn__primary mr-2" [label]="'labels.delete' | translate" type="button" />
+		<p-button
+			class="btn btn__primary mr-2"
+			[label]="'labels.delete' | translate"
+			type="button"
+			(click)="deleteMapping(selectedMapping.id)"
+			(keydown.enter)="deleteMapping(selectedMapping.id)"
+		/>
 		<p-button
 			class="btn btn__secondary"
 			[label]="'labels.cancel' | translate"
 			type="button"
-			(click)="deleteOntology(selectedMapping.id)"
-			(keydown.enter)="deleteOntology(selectedMapping.id)"
+			(click)="cancelDelete()"
+			(keydown.enter)="cancelDelete()"
 		/>
 	</div>
 </p-dialog>

@@ -39,7 +39,6 @@ export class MappingsListComponent implements OnInit {
 				takeUntilDestroyed(this.destroyRef)
 			)
 			.subscribe((data: PageSearchMappingDTO) => {
-				console.log(data)
 				this.mappings = data.content ?? [];
 				this.paginationInfo = data;
 			});
@@ -48,7 +47,7 @@ export class MappingsListComponent implements OnInit {
 	/**
 	 * Delete mapping by its id.
 	 */
-	deleteOntology(id: number): void {
+	deleteMapping(id: number): void {
 		this.mappingService
 			.deleteMapping(id)
 			.pipe(
@@ -82,6 +81,13 @@ export class MappingsListComponent implements OnInit {
 
 	showDialogAuto() {
 		this.autoDialogVisible = true;
+	}
+
+	/**
+	* Close delete dialog
+	*/
+	cancelDelete(): void {
+		this.deleteDialogVisible = false;
 	}
 
 	categories: unknown[] = [
