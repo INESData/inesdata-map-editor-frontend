@@ -18,9 +18,9 @@ export class MappingsListComponent implements OnInit {
 	selectedMapping: SearchMappingDTO;
 	mappings: SearchMappingDTO[];
 	paginationInfo: PageSearchMappingDTO;
-	addDialogVisible: boolean = false;
-	deleteDialogVisible: boolean = false;
-	autoDialogVisible: boolean = false;
+	addDialogVisible = false;
+	deleteDialogVisible = false;
+	autoDialogVisible = false;
 
 	/**
  * Loads the mappings when the component is initialized

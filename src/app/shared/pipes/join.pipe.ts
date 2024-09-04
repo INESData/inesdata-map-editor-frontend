@@ -17,7 +17,7 @@ export class JoinPipe implements PipeTransform {
  * @param value the array
  * @returns transformed array string
  */
-	transform(value: Array<string>, delimiter: string = ' | '): string {
+	transform(value: string[], delimiter = ' | '): string {
 		return Array.isArray(value) ? value.join(delimiter) : value;
 	}
 

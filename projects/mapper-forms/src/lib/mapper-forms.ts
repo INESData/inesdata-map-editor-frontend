@@ -95,6 +95,20 @@ export const pageDataSourceDtoForm = new FormGroup({
   totalPages: new FormControl(null, [])
 });
 
+export const pageSearchMappingDtoForm = new FormGroup({
+  content: new FormControl(null, []),
+  empty: new FormControl(null, []),
+  first: new FormControl(null, []),
+  last: new FormControl(null, []),
+  number: new FormControl(null, []),
+  numberOfElements: new FormControl(null, []),
+  pageable: new FormControl(null, []),
+  size: new FormControl(null, []),
+  sort: new FormControl(null, []),
+  totalElements: new FormControl(null, []),
+  totalPages: new FormControl(null, [])
+});
+
 export const pageSearchOntologyDtoForm = new FormGroup({
   content: new FormControl(null, []),
   empty: new FormControl(null, []),
@@ -116,6 +130,14 @@ export const pageableObjectForm = new FormGroup({
   paged: new FormControl(null, []),
   sort: new FormControl(null, []),
   unpaged: new FormControl(null, [])
+});
+
+export const searchMappingDtoForm = new FormGroup({
+  dataSources: new FormControl(null, []),
+  id: new FormControl(null, []),
+  name: new FormControl(null, []),
+  ontologies: new FormControl(null, []),
+  version: new FormControl(null, [])
 });
 
 export const searchOntologyDtoForm = new FormGroup({
