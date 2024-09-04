@@ -1,7 +1,7 @@
 <div class="whiteContainer w-full">
 	<h1 class="mb-3">{{ "mappings.mapping.list" | translate }}</h1>
 	<p-button class="btn btn__secondary mr-2" [label]="'mappings.mapping.manual' | translate" routerLink="/mappings/builder" />
-	<p-button class="btn btn__secondary mr-2" [label]="'mappings.mapping.automatic' | translate" />
+	<p-button class="btn btn__secondary mr-2" [label]="'mappings.mapping.automatic' | translate" (onClick)="showDialogAuto()" />
 	<p-button class="btn btn__secondary" [label]="'mappings.mapping.import' | translate" />
 	<p-table class="mt-2 block" [value]="mappings">
 		<ng-template pTemplate="header">

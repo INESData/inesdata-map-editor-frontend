@@ -13,7 +13,7 @@ const createDtoForm = (fb: FormBuilder, group: FormGroup): FormGroup => {
 	Object.keys(group.controls).forEach((key) => {
 		const control = group.get(key) as FormControl;
 
-		// Clone each control with its current value, synchronous validator, and asynchronous validator
+		// Clone each control with its current value and validators
 		controlsConfig[key] = new FormControl(
 			control.value,
 			control.validator,

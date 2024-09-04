@@ -23,8 +23,8 @@ export class MappingsListComponent implements OnInit {
 	autoDialogVisible = false;
 
 	/**
- * Loads the mappings when the component is initialized
- */
+	 * Loads the mappings when the component is initialized
+	 */
 	ngOnInit(): void {
 		this.loadMappings(PAGE, SIZE);
 	}
