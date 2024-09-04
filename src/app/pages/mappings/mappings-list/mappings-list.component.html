@@ -1,36 +1,40 @@
 <div class="whiteContainer w-full">
-	<h1 class="mb-3">Lista de mapeos</h1>
-	<p-button class="btn btn__secondary mr-2" label="Generar mapeo manual" routerLink="/mappings/builder" />
-	<p-button (onClick)="showDialogAuto()" class="btn btn__secondary mr-2" label="Generar mapeo automático" />
-	<p-button class="btn btn__secondary" label="Importar mapeo" />
+	<h1 class="mb-3">{{ "mappings.mapping.list" | translate }}</h1>
+	<p-button class="btn btn__secondary mr-2" [label]="'mappings.mapping.manual' | translate" routerLink="/mappings/builder" />
+	<p-button class="btn btn__secondary mr-2" [label]="'mappings.mapping.automatic' | translate" (onClick)="showDialogAuto()" />
+	<p-button class="btn btn__secondary" [label]="'mappings.mapping.import' | translate" />
 	<p-table class="mt-2 block" [value]="mappings">
 		<ng-template pTemplate="header">
 			<tr>
-				<th class="col-2" scope="col">Nombre</th>
-				<th class="col-5" scope="col">Ontology</th>
-				<th class="col-4" scope="col">Fuente de datos</th>
-				<th class="col-1" scope="col"></th>
+				<th scope="col">{{ "labels.name" | translate }}</th>
+				<th scope="col">{{ "labels.ontology" | translate }}</th>
+				<th scope="col">{{ "labels.data-source" | translate }}</th>
+				<th scope="col"></th>
 			</tr>
 		</ng-template>
 		<ng-template pTemplate="body" let-mapping>
 			<tr>
 				<td>{{ mapping.name }}</td>
-				<td>{{ mapping.ontology }}</td>
-				<td>{{ mapping.datasource }}</td>
+				<td>{{ mapping.ontologies | join }}</td>
+				<td>{{ mapping.dataSources | join }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
 						<p-button class="btn btn__icon icon-ojo mr-1" />
 						<p-button (onClick)="showDialog()" class="btn btn__icon icon-play mr-1" />
 						<p-button class="btn btn__icon icon-lapiz mr-1" />
-						<p-button (onClick)="showDialogDelete()" class="btn btn__icon icon-papelera" />
+						<p-button (onClick)="showDialogDelete(mapping)" class="btn btn__icon icon-papelera" />
 					</div>
 				</td>
 			</tr>
 		</ng-template>
 	</p-table>
+	<!-- Paginator -->
+	<app-paginator [paginationInfo]="paginationInfo" (pageChange)="onPageChange($event)"> ></app-paginator>
 </div>
 
+<!-- Materialisation history dialog -->
 <p-dialog
+	[header]="'mappings.mapping.records-list' | translate"
 	header="Genera un mapeo automático"
 	[modal]="true"
 	[draggable]="false"
@@ -84,15 +88,28 @@
 	<app-mappings-records (formSubmitted)="addDialogVisible = false"></app-mappings-records>
 </p-dialog>
 
+<!-- Delete dialog -->
 <p-dialog
-	header="¿Seguro que quieres eliminar este mapeo?"
+	[header]="'mappings.mapping.confirmation' | translate"
 	[modal]="true"
 	[draggable]="false"
 	[(visible)]="deleteDialogVisible"
 	[style]="{ width: '40rem' }"
 >
 	<div class="flex flex-justify-right w-full">
-		<p-button class="btn btn__primary mr-2" label="Eliminar" type="button" />
-		<p-button class="btn btn__secondary" label="Cancelar" type="button" />
+		<p-button
+			class="btn btn__primary mr-2"
+			[label]="'labels.delete' | translate"
+			type="button"
+			(click)="deleteMapping(selectedMapping.id)"
+			(keydown.enter)="deleteMapping(selectedMapping.id)"
+		/>
+		<p-button
+			class="btn btn__secondary"
+			[label]="'labels.cancel' | translate"
+			type="button"
+			(click)="cancelDelete()"
+			(keydown.enter)="cancelDelete()"
+		/>
 	</div>
 </p-dialog>

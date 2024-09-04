@@ -20,6 +20,7 @@
     "import": "Import from local",
     "name": "Name",
     "no": "No",
+    "ontology": "Ontology",
     "ontology-file": "Select ontology file",
     "password": "Password",
     "title": "Title",
@@ -28,6 +29,17 @@
     "user": "User",
     "version_name": "Version",
     "yes": "Yes"
+  },
+  "mappings": {
+    "mapping": {
+      "automatic": "Generate automatic mapping",
+      "confirmation": "Are you sure you want to delete this mapping?",
+      "import": "Import mapping",
+      "list": "Mappings List",
+      "manual": "Generate manual mapping",
+      "new-materialisation": "New materialisation",
+      "records-list": "Materialisation history"
+    }
   },
   "messages": {
     "data-sources": {
@@ -48,6 +60,11 @@
       "login": "Login error",
       "required": "The value field is required",
       "title": "Error"
+    },
+    "mappings": {
+      "success": {
+        "deleted": "Mapping successfully deleted"
+      }
     },
     "no_data": "No records are available",
     "ontologies": {

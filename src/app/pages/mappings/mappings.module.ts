@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 import { MappingsComponent } from './mappings.component';
@@ -10,6 +11,6 @@ import { MappingsRoutingModule } from './mappings-routing.module';
 
 @NgModule({
 	declarations: [MappingsComponent, MappingsListComponent, MappingsFormComponent, MappingsRecordsComponent, MappingsBuilderComponent],
-	imports: [MappingsRoutingModule, SharedModule]
+	imports: [MappingsRoutingModule, SharedModule, JoinPipe]
 })
-export class MappingsModule {}
+export class MappingsModule { }

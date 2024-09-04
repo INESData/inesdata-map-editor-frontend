@@ -29,6 +29,8 @@ export const MESSAGES_DATA_SOURCES_SUCCESS_CREATED: string = translate('messages
 export const MESSAGES_DATA_SOURCES_SUCCESS_UPDATED: string = translate('messages.data-sources.success.updated');
 export const MESSAGES_DATA_SOURCES_SUCCESS_DELETED: string = translate('messages.data-sources.success.deleted');
 
+export const MESSAGES_MAPPINGS_SUCCESS_DELETED: string = translate('messages.mappings.success.deleted');
+
 export const MESSAGES_DATA_SOURCES_ERRORS_NOFILE: string = translate('messages.data-sources.errors.no-file');
 
 // Labels

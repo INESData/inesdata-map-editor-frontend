@@ -20,6 +20,7 @@
     "import": "Importar de local",
     "name": "Nombre",
     "no": "No",
+    "ontology": "Ontología",
     "ontology-file": "Seleccione el archivo de ontología",
     "password": "Contraseña",
     "title": "Título",
@@ -28,6 +29,17 @@
     "user": "Usuario",
     "version_name": "Versión",
     "yes": "Sí"
+  },
+  "mappings": {
+    "mapping": {
+      "automatic": "Generar mapeo automático",
+      "confirmation": "¿Seguro que quieres eliminar este mapeo?",
+      "import": "Importar mapeo",
+      "list": "Lista de Mapeos",
+      "manual": "Generar mapeo manual",
+      "new-materialisation": "Nueva materialización",
+      "records-list": "Histórico de materializaciones"
+    }
   },
   "messages": {
     "data-sources": {
@@ -48,6 +60,11 @@
       "login": "Error al acceder",
       "required": "El campo es requerido",
       "title": "Error"
+    },
+    "mappings": {
+      "success": {
+        "deleted": "Mapeo eliminado correctamente"
+      }
     },
     "no_data": "No existen registros disponibles",
     "ontologies": {

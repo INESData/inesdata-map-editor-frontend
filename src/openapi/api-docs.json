@@ -33,6 +33,10 @@
       "name": "Actuator"
     },
     {
+      "description": "Manage mappings",
+      "name": "Mapping"
+    },
+    {
       "description": "Manage file sources",
       "name": "FileSource"
     }
@@ -770,6 +774,73 @@
         ]
       }
     },
+    "/mappings": {
+      "get": {
+        "operationId": "listMappings",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageSearchMappingDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "List all mappings",
+        "tags": [
+          "Mapping"
+        ]
+      }
+    },
+    "/mappings/{id}": {
+      "delete": {
+        "operationId": "deleteMapping",
+        "parameters": [
+          {
+            "description": "Mapping identifier to delete",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "summary": "Delete mapping",
+        "tags": [
+          "Mapping"
+        ]
+      }
+    },
     "/ontologies": {
       "get": {
         "operationId": "listOntologies",
@@ -1175,6 +1246,52 @@
           }
         }
       },
+      "PageSearchMappingDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchMappingDTO"
+            }
+          },
+          "empty": {
+            "type": "boolean"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "PageSearchOntologyDTO": {
         "type": "object",
         "properties": {
@@ -1244,6 +1361,34 @@
           },
           "unpaged": {
             "type": "boolean"
+          }
+        }
+      },
+      "SearchMappingDTO": {
+        "type": "object",
+        "properties": {
+          "dataSources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ontologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },
