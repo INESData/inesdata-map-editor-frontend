@@ -61,6 +61,11 @@
       "required": "El campo es requerido",
       "title": "Error"
     },
+    "mappings": {
+      "success": {
+        "deleted": "Mapeo eliminado correctamente"
+      }
+    },
     "no_data": "No existen registros disponibles",
     "ontologies": {
       "success": {

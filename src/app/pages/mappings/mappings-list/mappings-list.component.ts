@@ -54,7 +54,7 @@ export class MappingsListComponent implements OnInit {
 				takeUntilDestroyed(this.destroyRef)
 			)
 			.subscribe(() => {
-				this.mappings = this.mappings.filter((mapping) => mapping.id !== id);
+				this.loadMappings(PAGE, SIZE);
 				this.notificationService.showSuccess(MESSAGES_MAPPINGS_SUCCESS_DELETED);
 			});
 		this.deleteDialogVisible = false;

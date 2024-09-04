@@ -61,6 +61,11 @@
       "required": "The value field is required",
       "title": "Error"
     },
+    "mappings": {
+      "success": {
+        "deleted": "Mapping successfully deleted"
+      }
+    },
     "no_data": "No records are available",
     "ontologies": {
       "success": {
