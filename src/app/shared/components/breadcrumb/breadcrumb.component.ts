@@ -26,7 +26,7 @@ export class BreadcrumbComponent implements OnInit {
 		private router: Router,
 		private activatedRoute: ActivatedRoute,
 		private languageService: LanguageService
-	) {}
+	) { }
 
 	/**
 	 * Initializes the component and sets up the breadcrumb navigation on router events.
@@ -70,7 +70,7 @@ export class BreadcrumbComponent implements OnInit {
 				url += `/${routeURL}`;
 				//Add children to route
 				breadcrumbs.push({
-					label: this.languageService.translateValue('sidebar.labels.' + routeURL),
+					label: this.languageService.translateValue('views.labels.' + routeURL),
 					routerLink: url
 				});
 			}
