@@ -94,17 +94,10 @@
   },
   "sidebar": {
     "labels": {
+      "builder": "Manual mapping builder",
       "data-sources": "Data sources",
       "mappings": "Mappings",
       "ontologies": "Ontologies"
-    }
-  },
-  "views": {
-    "labels": {
-      "data-sources": "Data sources",
-      "mappings": "Mappings",
-      "ontologies": "Ontologies",
-      "builder": "Manual mappings builder"
     }
   }
 }

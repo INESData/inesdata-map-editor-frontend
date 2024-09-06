@@ -70,7 +70,7 @@ export class BreadcrumbComponent implements OnInit {
 				url += `/${routeURL}`;
 				//Add children to route
 				breadcrumbs.push({
-					label: this.languageService.translateValue('views.labels.' + routeURL),
+					label: this.languageService.translateValue('sidebar.labels.' + routeURL),
 					routerLink: url
 				});
 			}

@@ -94,17 +94,10 @@
   },
   "sidebar": {
     "labels": {
+      "builder": "Generador de mapeo manual",
       "data-sources": "Fuentes de datos",
       "mappings": "Mapeos",
       "ontologies": "Ontologías"
-    }
-  },
-  "views": {
-    "labels": {
-      "data-sources": "Fuentes de datos",
-      "mappings": "Mapeos",
-      "ontologies": "Ontologías",
-      "builder": "Generador de mapeo manual"
     }
   }
 }
