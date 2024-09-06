@@ -24,6 +24,7 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedFormat: Format;
 	ontologies: SearchOntologyDTO[];
 	classes: string[];
+	atributtes: string[];
 	queryDialogVisible = false;
 	elementDialogVisible = false;
 
@@ -40,6 +41,7 @@ export class MappingsBuilderComponent implements OnInit {
 
 	selectedOntology: SearchOntologyDTO = null;
 	selectedClass: string[] = null;
+	selectedAtributte: string[] = null;
 
 	categories: unknown[] = [
 		{ name: 'education', key: 'A' },
@@ -70,7 +72,6 @@ export class MappingsBuilderComponent implements OnInit {
 			)
 			.subscribe((data: SearchOntologyDTO[]) => {
 				this.ontologies = data ?? [];
-				console.log(this.ontologies)
 			});
 	}
 
@@ -84,7 +85,19 @@ export class MappingsBuilderComponent implements OnInit {
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: string[]) => {
 				this.classes = data ?? [];
-				console.log(this.classes)
+			})
+	}
+
+	/**
+	 * Gets the atributtes of the selected ontology class.
+	 */
+	getAtributtes(id: number, className: string): void {
+		this.ontologyService
+			.getOntologyAtributtes(id, className)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: string[]) => {
+				this.atributtes = data ?? [];
 			})
 	}
 
@@ -92,6 +105,9 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Gets the selected ontology class
 	 */
 	onOntologySelect(ontology: SearchOntologyDTO): void {
+		this.selectedClass = null;
+		this.selectedAtributte = null;
+		this.atributtes = null;
 		this.getClasses(ontology.id);
 	}
 
@@ -99,7 +115,9 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Gets the selected ontology class atributtes
 	 */
 	onClassSelect(className: string): void {
-		console.log(className)
-		console.log(this.selectedOntology.id)
+		this.selectedAtributte = null;
+		this.atributtes = null;
+		this.getAtributtes(this.selectedOntology.id, className);
+
 	}
 }

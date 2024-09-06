@@ -61,10 +61,10 @@
 									<div class="searcherContainer">
 										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
-									<div *ngFor="let category of categories" class="field-checkbox">
-										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedOntology" />
-										<label [for]="category.key" class="ml-2">
-											{{ category.name }}
+									<div *ngFor="let atributte of atributtes" class="field-checkbox">
+										<p-radioButton [inputId]="atributte" name="atributte" [value]="atributte" [(ngModel)]="selectedAtributte" />
+										<label [for]="atributte" class="ml-2">
+											{{ atributte }}
 										</label>
 									</div>
 								</div>
