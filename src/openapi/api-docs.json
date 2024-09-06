@@ -1049,7 +1049,7 @@
     },
     "/ontologies/{id}/{ontologyClass}": {
       "get": {
-        "operationId": "getOntologyAtributtes",
+        "operationId": "getOntologyAttributes",
         "parameters": [
           {
             "description": "Ontology identifier",
@@ -1086,7 +1086,7 @@
             "description": "OK"
           }
         },
-        "summary": "Get all ontology atributtes",
+        "summary": "Get all ontology attributes",
         "tags": [
           "Ontology"
         ]

@@ -24,7 +24,7 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedFormat: Format;
 	ontologies: SearchOntologyDTO[];
 	classes: string[];
-	atributtes: string[];
+	attributes: string[];
 	queryDialogVisible = false;
 	elementDialogVisible = false;
 
@@ -41,7 +41,7 @@ export class MappingsBuilderComponent implements OnInit {
 
 	selectedOntology: SearchOntologyDTO = null;
 	selectedClass: string[] = null;
-	selectedAtributte: string[] = null;
+	selectedAttribute: string[] = null;
 
 	categories: unknown[] = [
 		{ name: 'education', key: 'A' },
@@ -58,7 +58,6 @@ export class MappingsBuilderComponent implements OnInit {
 
 	ngOnInit() {
 		this.getOntologies();
-		//this.selectedOntology = this.categories[1];
 	}
 
 	/**
@@ -89,15 +88,15 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
-	 * Gets the atributtes of the selected ontology class.
+	 * Gets the attributes of the selected ontology class.
 	 */
-	getAtributtes(id: number, className: string): void {
+	getAttributes(id: number, className: string): void {
 		this.ontologyService
-			.getOntologyAtributtes(id, className)
+			.getOntologyAttributes(id, className)
 			.pipe(
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: string[]) => {
-				this.atributtes = data ?? [];
+				this.attributes = data ?? [];
 			})
 	}
 
@@ -106,18 +105,18 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	onOntologySelect(ontology: SearchOntologyDTO): void {
 		this.selectedClass = null;
-		this.selectedAtributte = null;
-		this.atributtes = null;
+		this.selectedAttribute = null;
+		this.attributes = null;
 		this.getClasses(ontology.id);
 	}
 
 	/**
-	 * Gets the selected ontology class atributtes
+	 * Gets the selected ontology class attributes
 	 */
 	onClassSelect(className: string): void {
-		this.selectedAtributte = null;
-		this.atributtes = null;
-		this.getAtributtes(this.selectedOntology.id, className);
+		this.selectedAttribute = null;
+		this.attributes = null;
+		this.getAttributes(this.selectedOntology.id, className);
 
 	}
 }
