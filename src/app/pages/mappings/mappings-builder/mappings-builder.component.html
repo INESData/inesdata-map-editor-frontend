@@ -122,7 +122,7 @@
 									</div>
 									<div *ngFor="let fileField of fileFields" class="field-checkbox">
 										<p-radioButton [inputId]="fileField.id" name="category" [value]="fileField" [(ngModel)]="selectedField" />
-										<label [for]="fileField.id" class="ml-2 queryItem">
+										<label [for]="fileField.id">
 											{{ fileField }}
 										</label>
 									</div>
