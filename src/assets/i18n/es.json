@@ -3,8 +3,14 @@
     "data-source": {
       "add": "Añadir fuente de datos",
       "confirmation": "¿Seguro que quieres eliminar esta fuente de datos?",
+      "data": "Datos",
       "edit": "Editar fuente de datos",
-      "list": "Lista de Fuentes de datos"
+      "fields": "Campos",
+      "format": "Seleccione el formato de la fuente de datos",
+      "list": "Lista de Fuentes de datos",
+      "query": "Query",
+      "sources": "Fuentes de datos",
+      "tables": "Tables"
     }
   },
   "labels": {

@@ -1,6 +1,10 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
+import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
+import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
+import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
 interface Format {
 	name: string;
@@ -19,20 +23,21 @@ interface Mapping {
 export class MappingsBuilderComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 
-	formats: Format[];
+	formats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	mappings: Mapping[];
 	selectedFormat: Format;
 	ontologies: SearchOntologyDTO[];
 	classes: string[];
 	attributes: string[];
+
+	dataSources: FileSourceDTO[] | DataBaseSourceDTO[];
+	fileFields: string[];
 	queryDialogVisible = false;
 	elementDialogVisible = false;
+	isFileType: boolean;
 
-	constructor(private ontologyService: OntologyService) {
-		this.formats = [
-			{ name: 'CSV', code: 'A' },
-			{ name: 'PostgreSQL', code: 'B' }
-		];
+	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService) {
+
 		this.mappings = [
 			{ ontology: 'ontology1', database: 'database' },
 			{ ontology: 'ontology2', database: 'database' }
@@ -43,10 +48,8 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedClass: string[] = null;
 	selectedAttribute: string[] = null;
 
-	categories: unknown[] = [
-		{ name: 'education', key: 'A' },
-		{ name: 'ontology2', key: 'M' }
-	];
+	selectedSource: FileSourceDTO[] | DataBaseSourceDTO[] = null;
+	selectedField: string;
 
 	showDialogQuery() {
 		this.queryDialogVisible = true;
@@ -118,5 +121,49 @@ export class MappingsBuilderComponent implements OnInit {
 		this.attributes = null;
 		this.getAttributes(this.selectedOntology.id, className);
 
+	}
+
+	/**
+	 * Retrieves data based on the specified format
+	 */
+	getDataFromFormat(format: string): void {
+		const type = mapToDataSource(format);
+		if (type == DataSourceTypeEnum.FILE) {
+			this.isFileType = true;
+			this.getFileData(format);
+		}
+	}
+
+	/**
+	 * Retrieves file data based on the specified type
+	 */
+	getFileData(type: string): void {
+		this.fileSourceService
+			.getFileSourceByType(type)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: FileSourceDTO[]) => {
+				this.dataSources = data ?? [];
+			})
+	}
+
+	/**
+	 * Handles the selection of a source, which can be either a FileSourceDTO or a DataBaseSourceDTO
+	 */
+	onSourceSelected(source: FileSourceDTO | DataBaseSourceDTO): void {
+		this.getFields(source.id)
+	}
+
+	/**
+	 * Retrieves the fields for a given source ID
+	 */
+	getFields(id: number): void {
+		this.fileSourceService
+			.getFileFields(id)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: string[]) => {
+				this.fileFields = data ?? [];
+			})
 	}
 }
