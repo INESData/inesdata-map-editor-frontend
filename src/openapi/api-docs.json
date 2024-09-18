@@ -700,6 +700,77 @@
         ]
       }
     },
+    "/file-sources/fields/{id}": {
+      "get": {
+        "operationId": "getFileFields",
+        "parameters": [
+          {
+            "description": "File source identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets all file fields",
+        "tags": [
+          "FileSource"
+        ]
+      }
+    },
+    "/file-sources/type/{fileType}": {
+      "get": {
+        "operationId": "getFileSourceByType",
+        "parameters": [
+          {
+            "description": "File source type",
+            "in": "path",
+            "name": "fileType",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FileSourceDTO"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets all file sources filtered by type",
+        "tags": [
+          "FileSource"
+        ]
+      }
+    },
     "/file-sources/{id}": {
       "get": {
         "operationId": "getFileSource",
@@ -836,6 +907,42 @@
           }
         },
         "summary": "Delete mapping",
+        "tags": [
+          "Mapping"
+        ]
+      }
+    },
+    "/mappings/{id}/materialize": {
+      "post": {
+        "operationId": "materializeMapping",
+        "parameters": [
+          {
+            "description": "Mapping identifier to materialize",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Materialize a mapping",
         "tags": [
           "Mapping"
         ]
@@ -1089,29 +1196,6 @@
         "summary": "Get all ontology attributes",
         "tags": [
           "Ontology"
-        ]
-      }
-    },
-    "/python": {
-      "get": {
-        "operationId": "run",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
-            "description": "OK"
-          }
-        },
-        "tags": [
-          "python-controller"
         ]
       }
     }
