@@ -91,7 +91,7 @@
 										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
 									<div *ngFor="let category of categories" class="field-checkbox">
-										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedOntology" />
+										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
 										<label [for]="category.key" class="ml-2">
 											{{ category.name }}
 										</label>
@@ -107,7 +107,7 @@
 										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
 									<div *ngFor="let category of categories" class="field-checkbox">
-										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedOntology" />
+										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
 										<label [for]="category.key" class="ml-2 queryItem">
 											{{ category.name }}
 										</label>

@@ -40,6 +40,7 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	selectedOntology: SearchOntologyDTO = null;
+	selectedCategory: string;
 	selectedClass: string[] = null;
 	selectedAttribute: string[] = null;
 
