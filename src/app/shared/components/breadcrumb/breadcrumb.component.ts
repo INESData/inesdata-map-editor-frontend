@@ -26,7 +26,7 @@ export class BreadcrumbComponent implements OnInit {
 		private router: Router,
 		private activatedRoute: ActivatedRoute,
 		private languageService: LanguageService
-	) {}
+	) { }
 
 	/**
 	 * Initializes the component and sets up the breadcrumb navigation on router events.

@@ -66,3 +66,4 @@ export const HOME = '/home';
 export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontologies');
 export const SIDEBAR_LABELS_DATASOURCES: string = translate('sidebar.labels.data-sources');
 export const SIDEBAR_LABELS_MAPPINGS: string = translate('sidebar.labels.mappings');
+export const SIDEBAR_LABELS_BUILDER: string = translate('sidebar.labels.builder');

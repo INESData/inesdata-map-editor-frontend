@@ -8,6 +8,8 @@
     }
   },
   "labels": {
+    "add-element": "Añadir elemento",
+    "add-output": "Añadir output",
     "cancel": "Cancelar",
     "connection-url": "URL de conexión",
     "data-source": "Fuente de datos",
@@ -77,15 +79,22 @@
     "success": "Éxito"
   },
   "ontologies": {
+    "ontologies": "Ontologías",
     "ontology": {
       "add": "Añadir ontología",
+      "attributes": "Atributos",
+      "classes": "Clases",
       "confirmation": "¿Seguro que quieres eliminar esta ontología?",
       "edit": "Editar ontología",
       "list": "Lista de Ontologías"
     }
   },
+  "placeholders": {
+    "search": "Buscar por..."
+  },
   "sidebar": {
     "labels": {
+      "builder": "Generador de mapeo manual",
       "data-sources": "Fuentes de datos",
       "mappings": "Mapeos",
       "ontologies": "Ontologías"

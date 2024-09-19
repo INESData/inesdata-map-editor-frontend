@@ -4,63 +4,79 @@
 		<div class="whiteContainer pb-0">
 			<div class="grid">
 				<div class="col-12">
-					<h1 class="category category__ontologies">Ontologías</h1>
+					<h1 class="category category__ontologies">{{ "ontologies.ontologies" | translate }}</h1>
 					<div class="grid">
+						<!-- Ontologies-->
 						<div class="col-4">
 							<p class="mt-1 mb-0">Ontologías</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
-									<div *ngFor="let category of categories" class="field-checkbox">
-										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
-										<label [for]="category.key" class="ml-2">
-											{{ category.name }}
+									<div *ngFor="let ontology of ontologies" class="field-checkbox">
+										<p-radioButton
+											[inputId]="ontology.id"
+											name="ontology"
+											[value]="ontology"
+											[(ngModel)]="selectedOntology"
+											(ngModelChange)="onOntologySelect($event)"
+										/>
+										<label [for]="ontology.id" class="ml-2">
+											{{ ontology.name }}
 										</label>
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="col-4">
-							<p class="mt-1 mb-0">Clases</p>
+						<!-- Classes-->
+						<div *ngIf="selectedOntology" class="col-4">
+							<p class="mt-1 mb-0">{{ "ontologies.ontology.classes" | translate }}</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
-									<div *ngFor="let category of categories" class="field-checkbox">
-										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
-										<label [for]="category.key" class="ml-2">
-											{{ category.name }}
+									<div *ngFor="let class of classes" class="field-checkbox">
+										<p-radioButton
+											[inputId]="class"
+											name="class"
+											[value]="class"
+											[(ngModel)]="selectedClass"
+											(ngModelChange)="onClassSelect($event)"
+										/>
+										<label [for]="class" class="ml-2">
+											{{ class }}
 										</label>
 									</div>
 								</div>
-								<p-button (onClick)="showDialogElement()" class="addButton addButton__plus" label="Añadir elemento" />
+								<p-button (onClick)="showDialogElement()" class="addButton addButton__plus" [label]="'labels.add-element' | translate" />
 							</div>
 						</div>
-						<div class="col-4">
-							<p class="mt-1 mb-0">Atributos</p>
+						<!-- Attributes-->
+						<div *ngIf="selectedClass" class="col-4">
+							<p class="mt-1 mb-0">{{ "ontologies.ontology.attributes" | translate }}</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
-									<div *ngFor="let category of categories" class="field-checkbox">
-										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
-										<label [for]="category.key" class="ml-2">
-											{{ category.name }}
+									<div *ngFor="let attribute of attributes" class="field-checkbox">
+										<p-radioButton [inputId]="attribute" name="attribute" [value]="attribute" [(ngModel)]="selectedAttribute" />
+										<label [for]="attribute" class="ml-2">
+											{{ attribute }}
 										</label>
 									</div>
 								</div>
-								<p-button (onClick)="showDialogElement()" class="addButton addButton__plus" label="Añadir elemento" />
+								<p-button (onClick)="showDialogElement()" class="addButton addButton__plus" [label]="'labels.add-element' | translate" />
 							</div>
 						</div>
 					</div>
 				</div>
 				<div class="col-12 flex flex-justify-right pt-0 pb-0">
-					<p-button class="btn btn__primary icon-chevron" label="Añadir output" />
+					<p-button class="btn btn__primary icon-chevron" [label]="'labels.add-output' | translate" />
 				</div>
+				<!-- Data Sources-->
 				<div class="col-12">
 					<h1 class="category category__datasources">Fuentes de datos</h1>
 					<p class="mt-1 mb-1">Seleccione el formato de la fuente de datos</p>
@@ -72,7 +88,7 @@
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
 									<div *ngFor="let category of categories" class="field-checkbox">
 										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
@@ -88,7 +104,7 @@
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
 									<div *ngFor="let category of categories" class="field-checkbox">
 										<p-radioButton [inputId]="category.key" name="category" [value]="category" [(ngModel)]="selectedCategory" />
@@ -131,7 +147,7 @@
 						<td>{{ mapping.database }}</td>
 						<td>
 							<div class="flex flex-justify flex-justify-right">
-								<p-button class="btn btn__icon icon-lapiz mr-1" />
+								<p-button class="btn btn__icon icon-papelera mr-1" />
 							</div>
 						</td>
 					</tr>

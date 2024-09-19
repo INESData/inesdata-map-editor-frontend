@@ -843,40 +843,23 @@
     },
     "/ontologies": {
       "get": {
-        "operationId": "listOntologies",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "page",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "in": "query",
-            "name": "size",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
+        "operationId": "getOntologies",
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PageSearchOntologyDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SearchOntologyDTO"
+                  }
                 }
               }
             },
             "description": "OK"
           }
         },
-        "summary": "List all ontologies",
+        "summary": "Get all ontologies",
         "tags": [
           "Ontology"
         ]
@@ -922,6 +905,47 @@
         ]
       }
     },
+    "/ontologies/paged": {
+      "get": {
+        "operationId": "listOntologies",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageSearchOntologyDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "List all ontologies paged",
+        "tags": [
+          "Ontology"
+        ]
+      }
+    },
     "/ontologies/{id}": {
       "delete": {
         "operationId": "deleteOntology",
@@ -943,6 +967,40 @@
           }
         },
         "summary": "Delete ontology",
+        "tags": [
+          "Ontology"
+        ]
+      },
+      "get": {
+        "operationId": "getOntologyClasses",
+        "parameters": [
+          {
+            "description": "Ontology identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Get all ontology classes",
         "tags": [
           "Ontology"
         ]
@@ -984,6 +1042,51 @@
           }
         },
         "summary": "Update given ontology",
+        "tags": [
+          "Ontology"
+        ]
+      }
+    },
+    "/ontologies/{id}/{ontologyClass}": {
+      "get": {
+        "operationId": "getOntologyAttributes",
+        "parameters": [
+          {
+            "description": "Ontology identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "description": "Ontology class",
+            "in": "path",
+            "name": "ontologyClass",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Get all ontology attributes",
         "tags": [
           "Ontology"
         ]
