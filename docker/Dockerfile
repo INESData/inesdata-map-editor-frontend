@@ -11,8 +11,8 @@ WORKDIR /app
 COPY . ./
 
 # run npm install
-RUN npm install &&\
-  npm run build
+RUN npm install \
+  	&& npm run build
 
 # nginx base image
 FROM nginx:alpine
