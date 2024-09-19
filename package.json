@@ -70,5 +70,8 @@
     "ts-node": "~7.0.0",
     "typescript": "5.4.5",
     "typescript-eslint": "8.1.0"
+  },
+  "overrides": {
+    "path-to-regexp": "8.0.0"
   }
 }
