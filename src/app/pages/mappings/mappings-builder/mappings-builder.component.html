@@ -74,7 +74,7 @@
 					</div>
 				</div>
 				<div class="col-12 flex flex-justify-right pt-0 pb-0">
-					<p-button class="btn btn__primary icon-chevron" [label]="'labels.add-output' | translate" />
+					<p-button class="btn btn__primary icon-chevron" [label]="'labels.add-output' | translate" (onClick)="addOutput()" />
 				</div>
 				<!-- Data Sources-->
 				<div class="col-12">
@@ -148,7 +148,7 @@
 			<h1 class="category category__mapping mb-1">{{ "mappings.mapping.map" | translate }}</h1>
 			<label for="">{{ "mappings.mapping.map-name" | translate }}</label>
 			<input class="mb-2" type="text" pInputText />
-			<p-table class="mappingTable" [value]="mappings">
+			<p-table *ngIf="mapping.length > 0" class="mappingTable" [value]="mapping">
 				<ng-template pTemplate="header">
 					<tr>
 						<th id="ontology">{{ "ontologies.ontologies" | translate }}</th>
@@ -158,8 +158,8 @@
 				</ng-template>
 				<ng-template pTemplate="body" let-mapping>
 					<tr>
-						<td>{{ mapping.ontology }}</td>
-						<td>{{ mapping.database }}</td>
+						<td>{{ mapping.ontologyClass }}</td>
+						<td>{{ mapping.dataSourceField }}</td>
 						<td>
 							<div class="flex flex-justify flex-justify-right">
 								<p-button class="btn btn__icon icon-papelera mr-1" />

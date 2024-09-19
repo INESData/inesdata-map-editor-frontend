@@ -76,6 +76,7 @@
       "title": "Error"
     },
     "mappings": {
+      "pairs": "At least one pair should be selected",
       "success": {
         "deleted": "Mapping successfully deleted"
       }

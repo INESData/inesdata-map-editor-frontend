@@ -4,18 +4,10 @@ import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, OntologyService, S
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
+import { Output } from 'src/app/shared/models/output.model';
+import { NotificationService } from 'src/app/shared/services/notification.service';
+import { MESSAGES_ERRORS, MESSAGES_MAPPINGS_PAIRS } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
-
-interface Format {
-	name: string;
-	code: string;
-}
-
-interface Mapping {
-	ontology: string;
-	database: string;
-}
-
 @Component({
 	selector: 'app-mappings-builder',
 	templateUrl: './mappings-builder.component.html'
@@ -23,9 +15,11 @@ interface Mapping {
 export class MappingsBuilderComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 
+	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private notificationService: NotificationService) { }
+
 	formats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
-	mappings: Mapping[];
-	selectedFormat: Format;
+	mapping: Output[] = [];
+	selectedFormat;
 	ontologies: SearchOntologyDTO[];
 	classes: string[];
 	attributes: string[];
@@ -36,19 +30,11 @@ export class MappingsBuilderComponent implements OnInit {
 	elementDialogVisible = false;
 	isFileType: boolean;
 
-	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService) {
-
-		this.mappings = [
-			{ ontology: 'ontology1', database: 'database' },
-			{ ontology: 'ontology2', database: 'database' }
-		];
-	}
-
 	selectedOntology: SearchOntologyDTO = null;
-	selectedClass: string[] = null;
-	selectedAttribute: string[] = null;
+	selectedClass: string = null;
+	selectedAttribute: string = null;
 
-	selectedSource: FileSourceDTO[] | DataBaseSourceDTO[] = null;
+	selectedSource: FileSourceDTO | DataBaseSourceDTO = null;
 	selectedField: string;
 
 	showDialogQuery() {
@@ -151,6 +137,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Handles the selection of a source, which can be either a FileSourceDTO or a DataBaseSourceDTO
 	 */
 	onSourceSelected(source: FileSourceDTO | DataBaseSourceDTO): void {
+		this.selectedSource = source;
 		this.getFields(source.id)
 	}
 
@@ -165,5 +152,29 @@ export class MappingsBuilderComponent implements OnInit {
 			).subscribe((data: string[]) => {
 				this.fileFields = data ?? [];
 			})
+	}
+
+	/**
+	 * Collect information from the selected ontology, data source, etc.
+	 * add it tho the output and appends it to mapping
+	 */
+	addOutput(): void {
+		const { selectedOntology, selectedClass, selectedAttribute, selectedSource, selectedField } = this;
+
+		if (selectedOntology?.id && selectedClass && selectedAttribute && selectedSource?.id && selectedField) {
+
+			const output: Output = {
+				ontologyId: this.selectedOntology.id,
+				ontologyClass: this.selectedClass,
+				ontologyAttribute: this.selectedAttribute,
+				dataSourceId: this.selectedSource.id,
+				dataSourceField: this.selectedField,
+			};
+			this.mapping = [...this.mapping, output];
+
+		} else {
+
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PAIRS, MESSAGES_ERRORS);
+		}
 	}
 }
