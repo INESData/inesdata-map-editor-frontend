@@ -1,4 +1,4 @@
-<a class="btn btn__secondary back mb-2" routerLink="/mappings">Volver a la lista de mapeos</a>
+<a class="btn btn__secondary back mb-2" routerLink="/mappings">{{ "mappings.mapping.mappings-list" | translate }}</a>
 <div class="grid">
 	<div class="col-8">
 		<div class="whiteContainer pb-0">
@@ -8,7 +8,7 @@
 					<div class="grid">
 						<!-- Ontologies-->
 						<div class="col-4">
-							<p class="mt-1 mb-0">Ontologías</p>
+							<p class="mt-1 mb-0">{{ "ontologies.ontologies" | translate }}</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
@@ -127,7 +127,7 @@
 										</label>
 									</div>
 								</div>
-								<p-button (onClick)="showDialogQuery()" class="addButton addButton__query" label="Añadir query" />
+								<p-button (onClick)="showDialogQuery()" class="addButton addButton__query" [label]="'labels.add-query' | translate" />
 							</div>
 						</div>
 						<div class="col-4">
@@ -142,16 +142,17 @@
 			</div>
 		</div>
 	</div>
+	<!--Mappings-->
 	<div class="col-4">
 		<div class="whiteContainer h-full">
-			<h1 class="category category__mapping mb-1">Mapeo</h1>
-			<label for="">Nombre del mapeo</label>
+			<h1 class="category category__mapping mb-1">{{ "mappings.mapping.map" | translate }}</h1>
+			<label for="">{{ "mappings.mapping.map-name" | translate }}</label>
 			<input class="mb-2" type="text" pInputText />
 			<p-table class="mappingTable" [value]="mappings">
 				<ng-template pTemplate="header">
 					<tr>
-						<th id="ontology">Ontología</th>
-						<th id="database">Fuente de datos</th>
+						<th id="ontology">{{ "ontologies.ontologies" | translate }}</th>
+						<th id="database">{{ "data-sources.data-source.sources" | translate }}</th>
 						<th id="options"></th>
 					</tr>
 				</ng-template>
@@ -168,26 +169,40 @@
 				</ng-template>
 			</p-table>
 			<div class="col-12 flex flex-justify-right p-0 mt-2">
-				<p-button class="btn btn__primary" label="Generar mapeo" />
+				<p-button class="btn btn__primary" [label]="'mappings.mapping.build' | translate" />
 			</div>
 		</div>
 	</div>
 </div>
 
-<p-dialog header="Añadir elemento" [modal]="true" [draggable]="false" [(visible)]="elementDialogVisible" [style]="{ width: '40rem' }">
-	<label for="">Nombre</label>
+<!--Add element dialog-->
+<p-dialog
+	[header]="'labels.add-element' | translate"
+	[modal]="true"
+	[draggable]="false"
+	[(visible)]="elementDialogVisible"
+	[style]="{ width: '40rem' }"
+>
+	<label for="">{{ "labels.name" | translate }}</label>
 	<input class="mb-4" type="text" pInputText />
 	<div class="flex flex-justify-right w-full">
-		<p-button class="btn btn__primary" label="Añadir elemento" type="button" />
+		<p-button class="btn btn__primary" [label]="'labels.add-element' | translate" type="button" />
 	</div>
 </p-dialog>
 
-<p-dialog header="Añadir query" [modal]="true" [draggable]="false" [(visible)]="queryDialogVisible" [style]="{ width: '40rem' }">
-	<label for="">Nombre</label>
+<!--Add query dialog-->
+<p-dialog
+	[header]="'labels.add-query' | translate"
+	[modal]="true"
+	[draggable]="false"
+	[(visible)]="queryDialogVisible"
+	[style]="{ width: '40rem' }"
+>
+	<label for="">{{ "labels.name" | translate }}</label>
 	<input class="mb-2" type="text" pInputText />
-	<label for="">Query</label>
+	<label for="">{{ "labels.query" | translate }}</label>
 	<textarea class="textHighlight mb-4"></textarea>
 	<div class="flex flex-justify-right w-full">
-		<p-button class="btn btn__primary" label="Añadir query" type="button" />
+		<p-button class="btn btn__primary" [label]="'labels.add-query' | translate" type="button" />
 	</div>
 </p-dialog>

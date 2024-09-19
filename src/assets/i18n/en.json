@@ -16,6 +16,7 @@
   "labels": {
     "add-element": "Add element",
     "add-output": "Add output",
+    "add-query": "Add query",
     "cancel": "Cancel",
     "connection-url": "Connection URL",
     "data-source": "Data Source",
@@ -31,6 +32,7 @@
     "ontology": "Ontology",
     "ontology-file": "Select ontology file",
     "password": "Password",
+    "query": "Query",
     "title": "Title",
     "type": "Type",
     "url": "URL",
@@ -41,10 +43,14 @@
   "mappings": {
     "mapping": {
       "automatic": "Generate automatic mapping",
+      "build": "Build mapping",
       "confirmation": "Are you sure you want to delete this mapping?",
       "import": "Import mapping",
       "list": "Mappings List",
       "manual": "Generate manual mapping",
+      "map": "Mapping",
+      "map-name": "Mapping name",
+      "mappings-list": "Back to mapping list",
       "new-materialisation": "New materialisation",
       "records-list": "Materialisation history"
     }
