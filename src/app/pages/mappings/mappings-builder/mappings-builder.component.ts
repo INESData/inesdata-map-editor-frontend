@@ -1,5 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
@@ -15,7 +16,7 @@ import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 export class MappingsBuilderComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 
-	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private mappingService: MappingService, private notificationService: NotificationService) { }
+	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private mappingService: MappingService, private notificationService: NotificationService, private router: Router) { }
 
 	formats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	mapping: Output[] = [];
@@ -220,7 +221,6 @@ export class MappingsBuilderComponent implements OnInit {
 			name: "",
 			fields: mappingFields
 		};
-		console.log(this.mappingDTO)
 	}
 
 	/**
@@ -236,7 +236,6 @@ export class MappingsBuilderComponent implements OnInit {
 		// Assign the mapping name and clear the error message
 		this.mappingDTO.name = this.mappingName;
 		this.errorMessage = '';
-		console.log(this.mappingDTO);
 
 		this.mappingService
 			.create(this.mappingDTO)
@@ -244,6 +243,7 @@ export class MappingsBuilderComponent implements OnInit {
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: MappingDTO) => {
 				console.log(data);
+				this.router.navigate(['/mappings']);
 			})
 	}
 
