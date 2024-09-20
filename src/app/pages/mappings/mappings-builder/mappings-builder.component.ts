@@ -7,7 +7,7 @@ import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { Output } from 'src/app/shared/models/output.model';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_PAIRS } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, RML_REFERENCE, URL_MAPPINGS } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 @Component({
 	selector: 'app-mappings-builder',
@@ -189,11 +189,10 @@ export class MappingsBuilderComponent implements OnInit {
 	buildMapping(): void {
 
 		const outputs: Output[] = this.mapping;
-		const baseUrl = 'http://example.org/';
 
 		const mappingFields = outputs.map(output => {
-			const classNameUrl = `${baseUrl}${output.ontologyClass}`;
-			const predicateUrl = `${baseUrl}${output.ontologyAttribute}`;
+			const classNameUrl = `${URL_MAPPINGS}${output.ontologyClass}`;
+			const predicateUrl = `${URL_MAPPINGS}${output.ontologyAttribute}`;
 
 			return {
 				dataSourceId: output.dataSourceId,
@@ -202,7 +201,7 @@ export class MappingsBuilderComponent implements OnInit {
 					{
 						objectMap: [
 							{
-								key: "rml:reference",
+								key: RML_REFERENCE,
 								literalValue: output.dataSourceField
 							}
 						],
@@ -229,7 +228,7 @@ export class MappingsBuilderComponent implements OnInit {
 	generateMapping(): void {
 		// Validate if the mapping name is empty
 		if (this.mappingName.trim() === '') {
-			this.errorMessage = 'El nombre del mapping no puede estar vacío';
+			this.errorMessage = MESSAGES_MAPPINGS_ERRORS_NONAME;
 			return;
 		}
 

@@ -34,6 +34,8 @@ export const MESSAGES_MAPPINGS_PAIRS: string = translate('messages.mappings.pair
 
 export const MESSAGES_DATA_SOURCES_ERRORS_NOFILE: string = translate('messages.data-sources.errors.no-file');
 
+export const MESSAGES_MAPPINGS_ERRORS_NONAME: string = translate('messages.mappings.errors.no-name');
+
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
 export const LABELS_NO: string = translate('labels.no');
@@ -63,6 +65,12 @@ export const DATA_SOURCES_FILE_TYPE = 'fileType';
 // Routes
 export const HOME = '/home';
 export const MAPPINGS = '/mappings';
+
+// URLs
+export const URL_MAPPINGS = 'http://example.org/';
+
+//RML
+export const RML_REFERENCE = "rml:reference";
 
 // Sidebar
 export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontologies');
