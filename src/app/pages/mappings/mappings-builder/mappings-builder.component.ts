@@ -7,7 +7,7 @@ import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { Output } from 'src/app/shared/models/output.model';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MESSAGES_ERRORS, MESSAGES_MAPPINGS_PAIRS } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_PAIRS } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 @Component({
 	selector: 'app-mappings-builder',
@@ -175,7 +175,6 @@ export class MappingsBuilderComponent implements OnInit {
 				dataSourceField: this.selectedField,
 			};
 			this.mapping = [...this.mapping, output];
-			this.buildMapping();
 
 		} else {
 
@@ -221,6 +220,7 @@ export class MappingsBuilderComponent implements OnInit {
 			name: "",
 			fields: mappingFields
 		};
+		this.generateMapping();
 	}
 
 	/**
@@ -243,7 +243,7 @@ export class MappingsBuilderComponent implements OnInit {
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: MappingDTO) => {
 				console.log(data);
-				this.router.navigate(['/mappings']);
+				this.router.navigate([MAPPINGS]);
 			})
 	}
 

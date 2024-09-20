@@ -62,6 +62,7 @@ export const DATA_SOURCES_FILE_TYPE = 'fileType';
 
 // Routes
 export const HOME = '/home';
+export const MAPPINGS = '/mappings';
 
 // Sidebar
 export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontologies');
