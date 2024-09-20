@@ -21,6 +21,7 @@ import {
 	PLACEHOLDERS_ASTERISKS
 } from 'src/app/shared/utils/app.constants';
 import { createDtoForm } from 'src/app/shared/utils/form.utils';
+import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
 @Component({
 	selector: 'app-data-sources-form',
@@ -159,7 +160,7 @@ export class DataSourcesFormComponent implements OnInit {
 	 */
 	updateFormVisibility(type: string): void {
 		// Map the provided type to the corresponding data source type enum
-		const dataSourceType = this.mapToDataSource(type);
+		const dataSourceType = mapToDataSource(type);
 
 		// Select the appropriate form group based on the mapped data source type
 		const formDto: FormGroup =
@@ -181,17 +182,6 @@ export class DataSourcesFormComponent implements OnInit {
 		}
 
 		this.selectedDataSourceType = dataSourceType;
-	}
-
-	/**
-	 * Map database/file type to data source
-	 */
-	mapToDataSource(type: string): DataSourceTypeEnum {
-		if (Object.values(DataBaseTypeEnum).includes(type as DataBaseTypeEnum)) {
-			return DataSourceTypeEnum.DATABASE;
-		} else if (Object.values(DataFileTypeEnum).includes(type as DataFileTypeEnum)) {
-			return DataSourceTypeEnum.FILE;
-		}
 	}
 
 	/**

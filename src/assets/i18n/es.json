@@ -3,13 +3,20 @@
     "data-source": {
       "add": "Añadir fuente de datos",
       "confirmation": "¿Seguro que quieres eliminar esta fuente de datos?",
+      "data": "Datos",
       "edit": "Editar fuente de datos",
-      "list": "Lista de Fuentes de datos"
+      "fields": "Campos",
+      "format": "Seleccione el formato",
+      "list": "Lista de Fuentes de datos",
+      "query": "Query",
+      "sources": "Fuentes de datos",
+      "tables": "Tables"
     }
   },
   "labels": {
     "add-element": "Añadir elemento",
     "add-output": "Añadir output",
+    "add-query": "Añadir query",
     "cancel": "Cancelar",
     "connection-url": "URL de conexión",
     "data-source": "Fuente de datos",
@@ -25,6 +32,7 @@
     "ontology": "Ontología",
     "ontology-file": "Seleccione el archivo de ontología",
     "password": "Contraseña",
+    "query": "Query",
     "title": "Título",
     "type": "Tipo",
     "url": "URL",
@@ -35,10 +43,14 @@
   "mappings": {
     "mapping": {
       "automatic": "Generar mapeo automático",
+      "build": "Generar mapeo",
       "confirmation": "¿Seguro que quieres eliminar este mapeo?",
       "import": "Importar mapeo",
       "list": "Lista de Mapeos",
       "manual": "Generar mapeo manual",
+      "map": "Mapeo",
+      "map-name": "Nombre del mapeo",
+      "mappings-list": "Volver a la lista de mapeos",
       "new-materialisation": "Nueva materialización",
       "records-list": "Histórico de materializaciones"
     }
@@ -64,6 +76,7 @@
       "title": "Error"
     },
     "mappings": {
+      "pairs": "Se debe seleccionar al menos un par",
       "success": {
         "deleted": "Mapeo eliminado correctamente"
       }
