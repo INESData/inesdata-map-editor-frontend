@@ -659,6 +659,39 @@
       }
     },
     "/file-sources": {
+      "get": {
+        "operationId": "getFileSourceByType",
+        "parameters": [
+          {
+            "description": "File source type",
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FileSourceDTO"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets all file sources filtered by type",
+        "tags": [
+          "FileSource"
+        ]
+      },
       "post": {
         "operationId": "createFileSource",
         "requestBody": {
@@ -695,41 +728,6 @@
           }
         },
         "summary": "Create given file source",
-        "tags": [
-          "FileSource"
-        ]
-      }
-    },
-    "/file-sources/file-sources": {
-      "get": {
-        "operationId": "getFileSourceByType",
-        "parameters": [
-          {
-            "description": "File source type",
-            "in": "query",
-            "name": "type",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/FileSourceDTO"
-                  }
-                }
-              }
-            },
-            "description": "OK"
-          }
-        },
-        "summary": "Gets all file sources filtered by type",
         "tags": [
           "FileSource"
         ]
