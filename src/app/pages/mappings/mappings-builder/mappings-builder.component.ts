@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
@@ -15,10 +15,12 @@ import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 export class MappingsBuilderComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 
-	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private notificationService: NotificationService) { }
+	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private mappingService: MappingService, private notificationService: NotificationService) { }
 
 	formats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	mapping: Output[] = [];
+	mappingDTO: MappingDTO;
+	mappingName = '';
 	selectedFormat;
 	ontologies: SearchOntologyDTO[];
 	classes: string[];
@@ -36,6 +38,7 @@ export class MappingsBuilderComponent implements OnInit {
 
 	selectedSource: FileSourceDTO | DataBaseSourceDTO = null;
 	selectedField: string;
+	errorMessage = '';
 
 	showDialogQuery() {
 		this.queryDialogVisible = true;
@@ -171,10 +174,85 @@ export class MappingsBuilderComponent implements OnInit {
 				dataSourceField: this.selectedField,
 			};
 			this.mapping = [...this.mapping, output];
+			this.buildMapping();
 
 		} else {
 
 			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PAIRS, MESSAGES_ERRORS);
+		}
+	}
+
+	/**
+	* Builds the mapping fields based on the current mappings
+	* and updates the mappingDTO with the generated fields.
+	*/
+	buildMapping(): void {
+
+		const outputs: Output[] = this.mapping;
+		const baseUrl = 'http://example.org/';
+
+		const mappingFields = outputs.map(output => {
+			const classNameUrl = `${baseUrl}${output.ontologyClass}`;
+			const predicateUrl = `${baseUrl}${output.ontologyAttribute}`;
+
+			return {
+				dataSourceId: output.dataSourceId,
+				ontologyId: output.ontologyId,
+				predicates: [
+					{
+						objectMap: [
+							{
+								key: "rml:reference",
+								literalValue: output.dataSourceField
+							}
+						],
+						predicate: predicateUrl
+					}
+				],
+				subject: {
+					className: classNameUrl,
+					template: `${classNameUrl}/{id}`
+				}
+			};
+		});
+
+		this.mappingDTO = {
+			name: "",
+			fields: mappingFields
+		};
+		console.log(this.mappingDTO)
+	}
+
+	/**
+	* Generates a mapping and call the mapping service to create it.
+	*/
+	generateMapping(): void {
+		// Validate if the mapping name is empty
+		if (this.mappingName.trim() === '') {
+			this.errorMessage = 'El nombre del mapping no puede estar vacío';
+			return;
+		}
+
+		// Assign the mapping name and clear the error message
+		this.mappingDTO.name = this.mappingName;
+		this.errorMessage = '';
+		console.log(this.mappingDTO);
+
+		this.mappingService
+			.create(this.mappingDTO)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: MappingDTO) => {
+				console.log(data);
+			})
+	}
+
+	/**
+	* Clear error message on input change
+	*/
+	onMappingNameChange(): void {
+		if (this.mappingName.trim() !== '') {
+			this.errorMessage = '';
 		}
 	}
 }

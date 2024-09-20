@@ -147,7 +147,10 @@
 		<div class="whiteContainer h-full">
 			<h1 class="category category__mapping mb-1">{{ "mappings.mapping.map" | translate }}</h1>
 			<label for="">{{ "mappings.mapping.map-name" | translate }}</label>
-			<input class="mb-2" type="text" pInputText />
+			<input class="mb-2" type="text" pInputText [(ngModel)]="mappingName" (ngModelChange)="onMappingNameChange()" />
+			<div *ngIf="errorMessage" class="error-message">
+				{{ errorMessage }}
+			</div>
 			<p-table *ngIf="mapping.length > 0" class="mappingTable" [value]="mapping">
 				<ng-template pTemplate="header">
 					<tr>
@@ -169,7 +172,7 @@
 				</ng-template>
 			</p-table>
 			<div class="col-12 flex flex-justify-right p-0 mt-2">
-				<p-button class="btn btn__primary" [label]="'mappings.mapping.build' | translate" />
+				<p-button class="btn btn__primary" [label]="'mappings.mapping.build' | translate" (click)="generateMapping()" />
 			</div>
 		</div>
 	</div>
