@@ -20,7 +20,7 @@
 				<td>
 					<div class="flex flex-justify flex-justify-right">
 						<p-button class="btn btn__icon icon-ojo mr-1" />
-						<p-button (onClick)="showDialog()" class="btn btn__icon icon-play mr-1" />
+						<p-button (onClick)="showDialog(mapping)" class="btn btn__icon icon-play mr-1" />
 						<p-button class="btn btn__icon icon-lapiz mr-1" />
 						<p-button (onClick)="showDialogDelete(mapping)" class="btn btn__icon icon-papelera" />
 					</div>
@@ -32,25 +32,22 @@
 	<app-paginator [paginationInfo]="paginationInfo" (pageChange)="onPageChange($event)"> ></app-paginator>
 </div>
 
-<!-- Materialisation history dialog -->
+<!-- Automatic mapping history dialog -->
 <p-dialog
-	[header]="'mappings.mapping.records-list' | translate"
-	header="Genera un mapeo automático"
+	[header]="'mappings.mapping.automatic' | translate"
 	[modal]="true"
 	[draggable]="false"
 	[(visible)]="autoDialogVisible"
 	[style]="{ width: '40rem' }"
 >
-	<p class="mt-0">
-		Seleccione las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para generar un mapeo automático:
-	</p>
+	<p class="mt-0" [innerHTML]="'mappings.mapping.automatic_selection' | translate"></p>
 	<div class="grid">
 		<div class="col-6">
-			<h3 class="mt-1 mb-1">Ontologías</h3>
+			<h3 class="mt-1 mb-1">{{ "ontologies.ontologies" | translate }}</h3>
 			<div class="mappingCategory">
 				<div class="flex flex-column gap-3">
 					<div class="searcherContainer">
-						<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+						<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 					</div>
 					<div *ngFor="let category of categories" class="field-checkbox">
 						<p-checkbox [(ngModel)]="selectedCategories" [label]="category.name" name="group" [value]="category" />
@@ -59,11 +56,11 @@
 			</div>
 		</div>
 		<div class="col-6">
-			<h3 class="mt-1 mb-1">Fuentes de datos</h3>
+			<h3 class="mt-1 mb-1">{{ "data-sources.data-source.sources" | translate }}</h3>
 			<div class="mappingCategory">
 				<div class="flex flex-column gap-3">
 					<div class="searcherContainer">
-						<input class="searcher" placeholder="Buscar por..." type="text" pInputText />
+						<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 					</div>
 					<div *ngFor="let category of categories" class="field-checkbox">
 						<p-checkbox [(ngModel)]="selectedCategories" [label]="category.name" name="group" [value]="category" />
@@ -72,20 +69,25 @@
 			</div>
 		</div>
 		<div class="flex flex-justify-right col-12">
-			<p-button class="btn btn__primary mr-2" label="Generar mapeo" type="button" />
-			<p-button class="btn btn__secondary" label="Cancelar" type="button" />
+			<p-button class="btn btn__primary mr-2" [label]="'mappings.mapping.build' | translate" type="button" />
+			<p-button class="btn btn__secondary" [label]="'labels.cancel' | translate" type="button" />
 		</div>
 	</div>
 </p-dialog>
 
+<!-- Materialisation history dialog -->
 <p-dialog
-	header="Histórico de materializaciones de *Nombre del mapeo"
+	[header]="('materialisations.historic' | translate) + (selectedMapping ? selectedMapping.name : '')"
 	[modal]="true"
 	[draggable]="false"
 	[(visible)]="addDialogVisible"
 	[style]="{ width: '60rem' }"
 >
-	<app-mappings-records (formSubmitted)="addDialogVisible = false"></app-mappings-records>
+	<app-mappings-records
+		(formSubmitted)="addDialogVisible = false"
+		[mapping]="selectedMapping"
+		[executionHistory]="executionHistory"
+	></app-mappings-records>
 </p-dialog>
 
 <!-- Delete dialog -->

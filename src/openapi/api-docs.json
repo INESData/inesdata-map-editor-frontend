@@ -7,8 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080",
-      "description": "Generated server url"
+      "url": "/"
     }
   ],
   "tags": [
@@ -35,6 +34,10 @@
     {
       "description": "Manage mappings",
       "name": "Mapping"
+    },
+    {
+      "description": "Manage executions",
+      "name": "Execution"
     },
     {
       "description": "Manage file sources",
@@ -658,6 +661,47 @@
         ]
       }
     },
+    "/executions/{id}/files": {
+      "get": {
+        "operationId": "downloadFile",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filename",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Download the specified file from the given execution",
+        "tags": [
+          "Execution"
+        ]
+      }
+    },
     "/file-sources": {
       "get": {
         "operationId": "getFileSourceByType",
@@ -939,6 +983,57 @@
         ]
       }
     },
+    "/mappings/{id}/executions": {
+      "get": {
+        "operationId": "listExecutions",
+        "parameters": [
+          {
+            "description": "Mapping identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedModelExecutionDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "List all executions for a mapping",
+        "tags": [
+          "Mapping"
+        ]
+      }
+    },
     "/mappings/{id}/materialize": {
       "post": {
         "operationId": "materializeMapping",
@@ -955,18 +1050,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            },
-            "description": "OK"
+          "204": {
+            "description": "No Content"
           }
         },
         "summary": "Materialize a mapping",
@@ -1314,6 +1399,32 @@
           }
         }
       },
+      "ExecutionDTO": {
+        "type": "object",
+        "properties": {
+          "executionDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "knowledgeGraphFileName": {
+            "type": "string"
+          },
+          "logFileName": {
+            "type": "string"
+          },
+          "mappingFileName": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
       "FileSourceDTO": {
         "required": [
           "fileType",
@@ -1579,6 +1690,27 @@
           }
         }
       },
+      "PageMetadata": {
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
       "PageSearchMappingDTO": {
         "type": "object",
         "properties": {
@@ -1694,6 +1826,20 @@
           },
           "unpaged": {
             "type": "boolean"
+          }
+        }
+      },
+      "PagedModelExecutionDTO": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExecutionDTO"
+            }
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
           }
         }
       },

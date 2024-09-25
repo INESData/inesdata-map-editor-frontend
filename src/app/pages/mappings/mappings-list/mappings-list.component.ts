@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MappingService, PageSearchMappingDTO } from 'projects/mapper-api-client';
+import { ExecutionDTO, ExecutionService, MappingService, PagedModelExecutionDTO, PageSearchMappingDTO } from 'projects/mapper-api-client';
 import { SearchMappingDTO } from 'projects/mapper-api-client/model/searchMappingDTO';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
@@ -13,11 +13,12 @@ export class MappingsListComponent implements OnInit {
 
 	destroyRef = inject(DestroyRef);
 
-	constructor(private mappingService: MappingService, private notificationService: NotificationService) { }
+	constructor(private mappingService: MappingService, private notificationService: NotificationService, private executionService: ExecutionService) { }
 	selectedCategories: unknown[] = [];
 	selectedMapping: SearchMappingDTO;
 	mappings: SearchMappingDTO[];
 	paginationInfo: PageSearchMappingDTO;
+	executionHistory: ExecutionDTO[];
 	addDialogVisible = false;
 	deleteDialogVisible = false;
 	autoDialogVisible = false;
@@ -61,13 +62,32 @@ export class MappingsListComponent implements OnInit {
 	}
 
 	/**
+	 * Loads the executions list.
+	 */
+	loadExecutionsHistory(id: number): void {
+		this.mappingService
+			.listExecutions(id, PAGE, SIZE)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe((data: PagedModelExecutionDTO) => {
+				this.executionHistory = data.content ?? [];
+			});
+	}
+
+	/**
 	 * Method that is called when the page number changes.
 	 */
 	onPageChange(newPage: number): void {
 		this.loadMappings(newPage, this.paginationInfo.size);
 	}
 
-	showDialog() {
+	/**
+	 * Display materialisation history dialog
+	 */
+	showDialog(mapping: SearchMappingDTO) {
+		this.selectedMapping = mapping;
+		this.loadExecutionsHistory(mapping.id);
 		this.addDialogVisible = true;
 	}
 

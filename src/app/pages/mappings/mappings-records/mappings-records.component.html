@@ -1,30 +1,24 @@
-<p-button class="btn btn__primary mb-2" [label]="'mappings.mapping.new-materialisation' | translate" />
-<div class="recordContainer">
-	<div class="recordContainer__item">
-		<p class="recordTitle">Última materialización ejecutada hace <strong>1 hora</strong></p>
+<p-button
+	class="btn btn__primary mb-2"
+	[label]="'mappings.mapping.new-materialisation' | translate"
+	(onClick)="newMaterialisation(mapping.id)"
+/>
+
+<div class="recordContainer" *ngIf="executionHistory && executionHistory.length > 0">
+	<div class="recordContainer__item" *ngFor="let execution of executionHistory">
+		<p class="recordTitle">
+			{{ "materialisations.executionDate" | translate }}
+			<strong>{{ execution.executionDate | date: "dd-MM-yyyy HH:mm" }}</strong>
+		</p>
 		<div class="recordFiles">
-			<a class="recordFile recordFile__RML" href="#">fichero_1234.rml</a>
-			<a class="recordFile recordFile__RDF" href="#">fichero_1234.rdf</a>
-			<a class="recordFile recordFile__SPARQL" href="#">fichero_1234.sparql</a>
-			<a class="recordFile recordFile__LOG" href="#">fichero_1234.log</a>
+			<a class="recordFile recordFile__RML" [href]="execution.mappingFileName">{{ execution.mappingFileName }}</a>
+			<a class="recordFile recordFile__RDF" [href]="execution.knowledgeGraphFileName">{{ execution.knowledgeGraphFileName }}</a>
+			<a class="recordFile recordFile__SPARQL" href="#">fichero_sparql.sparql</a>
+			<a class="recordFile recordFile__LOG" [href]="execution.logFileName">{{ execution.logFileName }}</a>
 		</div>
 	</div>
-	<div class="recordContainer__item">
-		<p class="recordTitle">Última materialización ejecutada hace <strong>1 hora</strong></p>
-		<div class="recordFiles">
-			<a class="recordFile recordFile__RML" href="#">fichero_1234.rml</a>
-			<a class="recordFile recordFile__RDF" href="#">fichero_1234.rdf</a>
-			<a class="recordFile recordFile__SPARQL" href="#">fichero_1234.sparql</a>
-			<a class="recordFile recordFile__LOG" href="#">fichero_1234.log</a>
-		</div>
-	</div>
-	<div class="recordContainer__item">
-		<p class="recordTitle">Última materialización ejecutada hace <strong>1 hora</strong></p>
-		<div class="recordFiles">
-			<a class="recordFile recordFile__RML" href="#">fichero_1234.rml</a>
-			<a class="recordFile recordFile__RDF" href="#">fichero_1234.rdf</a>
-			<a class="recordFile recordFile__SPARQL" href="#">fichero_1234.sparql</a>
-			<a class="recordFile recordFile__LOG" href="#">fichero_1234.log</a>
-		</div>
-	</div>
+</div>
+
+<div *ngIf="!executionHistory || executionHistory.length === 0">
+	<p>{{ "materialisations.empty" | translate }}</p>
 </div>
