@@ -80,14 +80,13 @@
 	[header]="('materialisations.historic' | translate) + (selectedMapping ? selectedMapping.name : '')"
 	[modal]="true"
 	[draggable]="false"
-	[(visible)]="addDialogVisible"
+	[(visible)]="addHistoryDialog"
 	[style]="{ width: '60rem' }"
 >
 	<app-mappings-records
-		(formSubmitted)="addDialogVisible = false"
-		[mapping]="selectedMapping"
-		[executionHistory]="executionHistory"
-		(materialisationCompleted)="onMaterialisationCompleted()"
+		*ngIf="addHistoryDialog"
+		(formSubmitted)="addHistoryDialog = false"
+		[mappingId]="selectedMapping.id"
 	></app-mappings-records>
 </p-dialog>
 

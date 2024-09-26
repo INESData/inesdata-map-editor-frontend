@@ -1,7 +1,7 @@
 <p-button
 	class="btn btn__primary mb-2"
 	[label]="'mappings.mapping.new-materialisation' | translate"
-	(onClick)="newMaterialisation(mapping.id)"
+	(onClick)="newMaterialisation(mappingId)"
 />
 
 <div class="recordContainer" *ngIf="executionHistory && executionHistory.length > 0">

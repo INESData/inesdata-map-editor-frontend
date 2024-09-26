@@ -1,14 +1,14 @@
-import { Component, DestroyRef, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ExecutionDTO, ExecutionService, MappingDTO, MappingService } from 'projects/mapper-api-client';
+import { ExecutionDTO, ExecutionService, MappingService, PagedModelExecutionDTO } from 'projects/mapper-api-client';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MESSAGES_MATERIALISATIONS_SUCCESS } from 'src/app/shared/utils/app.constants';
+import { MESSAGES_MATERIALISATIONS_SUCCESS, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-mappings-records',
 	templateUrl: './mappings-records.component.html'
 })
-export class MappingsRecordsComponent {
+export class MappingsRecordsComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 
 	constructor(
@@ -17,9 +17,30 @@ export class MappingsRecordsComponent {
 		private notificationService: NotificationService
 	) { }
 
-	@Input() mapping: MappingDTO;
-	@Input() executionHistory: ExecutionDTO[];
-	@Output() materialisationCompleted = new EventEmitter<void>();
+
+	@Input() mappingId: number;
+	executionHistory: ExecutionDTO[];
+
+	/**
+	 * Loads the execution history when the component is initialized
+	 */
+	ngOnInit(): void {
+		this.loadExecutionsHistory()
+	}
+
+	/**
+	 * Loads the executions history list.
+	 */
+	loadExecutionsHistory(): void {
+		this.mappingService
+			.listExecutions(this.mappingId, PAGE, SIZE)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe((data: PagedModelExecutionDTO) => {
+				this.executionHistory = data.content ?? [];
+			});
+	}
 
 	/**
 	 * Execute new materialisation
@@ -28,9 +49,13 @@ export class MappingsRecordsComponent {
 		this.mappingService
 			.materializeMapping(id)
 			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => {
-				this.notificationService.showSuccess(MESSAGES_MATERIALISATIONS_SUCCESS);
-				this.materialisationCompleted.emit();
+			.subscribe({
+				next: () => {
+					this.notificationService.showSuccess(MESSAGES_MATERIALISATIONS_SUCCESS);
+				},
+				complete: () => {
+					this.loadExecutionsHistory();
+				}
 			});
 	}
 
