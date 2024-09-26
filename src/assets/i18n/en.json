@@ -43,6 +43,7 @@
   "mappings": {
     "mapping": {
       "automatic": "Generate automatic mapping",
+      "automatic_selection": "Select the<strong>ontologies</strong> and<strong>data sources</strong> needed to generate an automatic mapping: ",
       "build": "Build mapping",
       "confirmation": "Are you sure you want to delete this mapping?",
       "import": "Import mapping",
@@ -54,6 +55,11 @@
       "new-materialisation": "New materialisation",
       "records-list": "Materialisation history"
     }
+  },
+  "materialisations": {
+    "empty": "There are no materialisations for this mapping",
+    "executionDate": "Materialisation executed on",
+    "historic": "Materialisation history of "
   },
   "messages": {
     "data-sources": {
@@ -82,6 +88,11 @@
       "pairs": "At least one pair should be selected",
       "success": {
         "deleted": "Mapping successfully deleted"
+      }
+    },
+    "materialisations": {
+      "success": {
+        "executed": "Materialisation successfully executed"
       }
     },
     "no_data": "No records are available",

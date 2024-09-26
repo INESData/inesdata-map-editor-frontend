@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MappingService, PageSearchMappingDTO } from 'projects/mapper-api-client';
+import { ExecutionService, MappingService, PageSearchMappingDTO } from 'projects/mapper-api-client';
 import { SearchMappingDTO } from 'projects/mapper-api-client/model/searchMappingDTO';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
@@ -13,12 +13,12 @@ export class MappingsListComponent implements OnInit {
 
 	destroyRef = inject(DestroyRef);
 
-	constructor(private mappingService: MappingService, private notificationService: NotificationService) { }
+	constructor(private mappingService: MappingService, private notificationService: NotificationService, private executionService: ExecutionService) { }
 	selectedCategories: unknown[] = [];
 	selectedMapping: SearchMappingDTO;
 	mappings: SearchMappingDTO[];
 	paginationInfo: PageSearchMappingDTO;
-	addDialogVisible = false;
+	addHistoryDialog = false;
 	deleteDialogVisible = false;
 	autoDialogVisible = false;
 
@@ -67,8 +67,12 @@ export class MappingsListComponent implements OnInit {
 		this.loadMappings(newPage, this.paginationInfo.size);
 	}
 
-	showDialog() {
-		this.addDialogVisible = true;
+	/**
+	 * Display materialisation history dialog
+	 */
+	showDialog(mapping: SearchMappingDTO) {
+		this.selectedMapping = mapping;
+		this.addHistoryDialog = true;
 	}
 
 	/**
