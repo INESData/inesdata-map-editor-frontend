@@ -11,10 +11,15 @@
 			<strong>{{ execution.executionDate | date: "dd-MM-yyyy HH:mm" }}</strong>
 		</p>
 		<div class="recordFiles">
-			<a class="recordFile recordFile__RML" [href]="execution.mappingFileName">{{ execution.mappingFileName }}</a>
-			<a class="recordFile recordFile__RDF" [href]="execution.knowledgeGraphFileName">{{ execution.knowledgeGraphFileName }}</a>
-			<a class="recordFile recordFile__SPARQL" href="#">fichero_sparql.sparql</a>
-			<a class="recordFile recordFile__LOG" [href]="execution.logFileName">{{ execution.logFileName }}</a>
+			<a class="recordFile recordFile__RML" href="/mappings" (click)="downloadFile(execution.id, execution.mappingFileName)">{{
+				execution.mappingFileName
+			}}</a>
+			<a class="recordFile recordFile__RDF" href="/mappings" (click)="downloadFile(execution.id, execution.knowledgeGraphFileName)">{{
+				execution.knowledgeGraphFileName
+			}}</a>
+			<a class="recordFile recordFile__LOG" href="/mappings" (click)="downloadFile(execution.id, execution.logFileName)">{{
+				execution.logFileName
+			}}</a>
 		</div>
 	</div>
 </div>

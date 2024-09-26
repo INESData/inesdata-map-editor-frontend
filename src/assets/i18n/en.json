@@ -58,7 +58,7 @@
   },
   "materialisations": {
     "empty": "There are no materialisations for this mapping",
-    "executionDate": "Last materialisation executed on",
+    "executionDate": "Materialisation executed on",
     "historic": "Materialisation history of "
   },
   "messages": {

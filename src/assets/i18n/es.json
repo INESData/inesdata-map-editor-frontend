@@ -58,7 +58,7 @@
   },
   "materialisations": {
     "empty": "No hay materializaciones para este mapeo",
-    "executionDate": "Última materialización ejecutada el",
+    "executionDate": "Materialización ejecutada el",
     "historic": "Histórico de materializaciones de "
   },
   "messages": {
