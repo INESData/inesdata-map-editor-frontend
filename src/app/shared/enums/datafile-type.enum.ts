@@ -3,5 +3,6 @@
  */
 export enum DataFileTypeEnum {
 	CSV = 'CSV',
-	JSON = 'JSON'
+	JSON = 'JSON',
+	XML = 'XML'
 }
