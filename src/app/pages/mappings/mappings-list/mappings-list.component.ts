@@ -76,6 +76,13 @@ export class MappingsListComponent implements OnInit {
 	}
 
 	/**
+	 * Called when a materialisation is completed to refresh the execution history
+	 */
+	onMaterialisationCompleted(): void {
+		this.loadExecutionsHistory(this.selectedMapping.id);
+	}
+
+	/**
 	 * Method that is called when the page number changes.
 	 */
 	onPageChange(newPage: number): void {

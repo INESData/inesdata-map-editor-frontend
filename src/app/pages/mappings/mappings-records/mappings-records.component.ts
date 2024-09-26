@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Input, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ExecutionDTO, ExecutionService, MappingDTO, MappingService } from 'projects/mapper-api-client';
 import { NotificationService } from 'src/app/shared/services/notification.service';
@@ -15,10 +15,11 @@ export class MappingsRecordsComponent {
 		private mappingService: MappingService,
 		private executionService: ExecutionService,
 		private notificationService: NotificationService
-	) {}
+	) { }
 
 	@Input() mapping: MappingDTO;
 	@Input() executionHistory: ExecutionDTO[];
+	@Output() materialisationCompleted = new EventEmitter<void>();
 
 	/**
 	 * Execute new materialisation
@@ -29,6 +30,7 @@ export class MappingsRecordsComponent {
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(() => {
 				this.notificationService.showSuccess(MESSAGES_MATERIALISATIONS_SUCCESS);
+				this.materialisationCompleted.emit();
 			});
 	}
 
