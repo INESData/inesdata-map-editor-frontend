@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ExecutionDTO, ExecutionService, MappingService, PageSearchMappingDTO } from 'projects/mapper-api-client';
+import { ExecutionService, MappingService, PageSearchMappingDTO } from 'projects/mapper-api-client';
 import { SearchMappingDTO } from 'projects/mapper-api-client/model/searchMappingDTO';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
@@ -18,7 +18,6 @@ export class MappingsListComponent implements OnInit {
 	selectedMapping: SearchMappingDTO;
 	mappings: SearchMappingDTO[];
 	paginationInfo: PageSearchMappingDTO;
-	executionHistory: ExecutionDTO[];
 	addHistoryDialog = false;
 	deleteDialogVisible = false;
 	autoDialogVisible = false;
