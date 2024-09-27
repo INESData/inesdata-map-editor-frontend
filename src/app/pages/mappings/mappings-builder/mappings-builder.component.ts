@@ -6,6 +6,7 @@ import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { Output } from 'src/app/shared/models/output.model';
+import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, RML_REFERENCE, URL_MAPPINGS } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
@@ -16,7 +17,8 @@ import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 export class MappingsBuilderComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 
-	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private mappingService: MappingService, private notificationService: NotificationService, private router: Router) { }
+	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private mappingService: MappingService, private notificationService: NotificationService,
+		private router: Router, private languageService: LanguageService) { }
 
 	formats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	mapping: Output[] = [];
@@ -188,38 +190,43 @@ export class MappingsBuilderComponent implements OnInit {
 	*/
 	buildMapping(): void {
 
-		const outputs: Output[] = this.mapping;
+		if (this.mapping && this.mapping.length > 0) {
+			const outputs: Output[] = this.mapping;
 
-		const mappingFields = outputs.map(output => {
-			const classNameUrl = `${URL_MAPPINGS}${output.ontologyClass}`;
-			const predicateUrl = `${URL_MAPPINGS}${output.ontologyAttribute}`;
+			const mappingFields = outputs.map(output => {
+				const classNameUrl = `${URL_MAPPINGS}${output.ontologyClass}`;
+				const predicateUrl = `${URL_MAPPINGS}${output.ontologyAttribute}`;
 
-			return {
-				dataSourceId: output.dataSourceId,
-				ontologyId: output.ontologyId,
-				predicates: [
-					{
-						objectMap: [
-							{
-								key: RML_REFERENCE,
-								literalValue: output.dataSourceField
-							}
-						],
-						predicate: predicateUrl
+				return {
+					dataSourceId: output.dataSourceId,
+					ontologyId: output.ontologyId,
+					predicates: [
+						{
+							objectMap: [
+								{
+									key: RML_REFERENCE,
+									literalValue: output.dataSourceField
+								}
+							],
+							predicate: predicateUrl
+						}
+					],
+					subject: {
+						className: classNameUrl,
+						template: `${classNameUrl}/{id}`
 					}
-				],
-				subject: {
-					className: classNameUrl,
-					template: `${classNameUrl}/{id}`
-				}
-			};
-		});
+				};
+			});
 
-		this.mappingDTO = {
-			name: "",
-			fields: mappingFields
-		};
-		this.generateMapping();
+			this.mappingDTO = {
+				name: "",
+				fields: mappingFields
+			};
+			this.generateMapping();
+
+		} else {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PAIRS, MESSAGES_ERRORS);
+		}
 	}
 
 	/**
@@ -228,7 +235,7 @@ export class MappingsBuilderComponent implements OnInit {
 	generateMapping(): void {
 		// Validate if the mapping name is empty
 		if (this.mappingName.trim() === '') {
-			this.errorMessage = MESSAGES_MAPPINGS_ERRORS_NONAME;
+			this.errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_NONAME);
 			return;
 		}
 
