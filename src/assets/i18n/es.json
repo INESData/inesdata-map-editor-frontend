@@ -1,0 +1,130 @@
+{
+  "data-sources": {
+    "data-source": {
+      "add": "Añadir fuente de datos",
+      "confirmation": "¿Seguro que quieres eliminar esta fuente de datos?",
+      "data": "Datos",
+      "edit": "Editar fuente de datos",
+      "fields": "Campos",
+      "format": "Seleccione el formato",
+      "list": "Lista de Fuentes de datos",
+      "query": "Query",
+      "sources": "Fuentes de datos",
+      "tables": "Tables"
+    }
+  },
+  "labels": {
+    "add-element": "Añadir elemento",
+    "add-output": "Añadir output",
+    "add-query": "Añadir query",
+    "cancel": "Cancelar",
+    "connection-url": "URL de conexión",
+    "data-source": "Fuente de datos",
+    "data-source-file": "Seleccione el fichero de fuente de datos",
+    "data-source-format": "Seleccione el tipo de fuente de datos",
+    "date": "Fecha",
+    "delete": "Eliminar",
+    "file-name": "Ningún archivo seleccionado",
+    "home": "Inicio",
+    "import": "Importar de local",
+    "name": "Nombre",
+    "no": "No",
+    "ontology": "Ontología",
+    "ontology-file": "Seleccione el archivo de ontología",
+    "password": "Contraseña",
+    "query": "Query",
+    "title": "Título",
+    "type": "Tipo",
+    "url": "URL",
+    "user": "Usuario",
+    "version_name": "Versión",
+    "yes": "Sí"
+  },
+  "mappings": {
+    "mapping": {
+      "automatic": "Generar mapeo automático",
+      "automatic_selection": "Seleccione las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para generar un mapeo automático: ",
+      "build": "Generar mapeo",
+      "confirmation": "¿Seguro que quieres eliminar este mapeo?",
+      "import": "Importar mapeo",
+      "list": "Lista de Mapeos",
+      "manual": "Generar mapeo manual",
+      "map": "Mapeo",
+      "map-name": "Nombre del mapeo",
+      "mappings-list": "Volver a la lista de mapeos",
+      "new-materialisation": "Nueva materialización",
+      "records-list": "Histórico de materializaciones"
+    }
+  },
+  "materialisations": {
+    "empty": "No hay materializaciones para este mapeo",
+    "executionDate": "Materialización ejecutada el",
+    "historic": "Histórico de materializaciones de "
+  },
+  "messages": {
+    "data-sources": {
+      "errors": {
+        "no-file": "No se ha seleccionado un fichero de fuente de datos"
+      },
+      "success": {
+        "created": "Fuente de datos creada correctamente",
+        "deleted": "Fuente de datos eliminada correctamente",
+        "updated": "Fuente de datos actualizada correctamente"
+      }
+    },
+    "errors": {
+      "generic": "Ha ocurrido un error procesando la operación",
+      "internet": {
+        "connection": "No hay conexión a internet"
+      },
+      "login": "Error al acceder",
+      "required": "El campo es requerido",
+      "title": "Error"
+    },
+    "mappings": {
+      "errors": {
+        "no-name": "El mapeo debe tener un nombre"
+      },
+      "pairs": "Se debe seleccionar al menos un par",
+      "success": {
+        "deleted": "Mapeo eliminado correctamente"
+      }
+    },
+    "materialisations": {
+      "success": {
+        "executed": "Materialización ejecutada correctamente"
+      }
+    },
+    "no_data": "No existen registros disponibles",
+    "ontologies": {
+      "success": {
+        "created": "Ontología creada correctamente",
+        "deleted": "Ontología eliminada correctamente",
+        "updated": "Ontología actualizada correctamente"
+      }
+    },
+    "success": "Éxito"
+  },
+  "ontologies": {
+    "ontologies": "Ontologías",
+    "ontology": {
+      "add": "Añadir ontología",
+      "attributes": "Atributos",
+      "classes": "Clases",
+      "confirmation": "¿Seguro que quieres eliminar esta ontología?",
+      "edit": "Editar ontología",
+      "list": "Lista de Ontologías"
+    }
+  },
+  "placeholders": {
+    "search": "Buscar por..."
+  },
+  "sidebar": {
+    "labels": {
+      "builder": "Generador de mapeo manual",
+      "data-sources": "Fuentes de datos",
+      "mappings": "Mapeos",
+      "ontologies": "Ontologías"
+    }
+  }
+}
