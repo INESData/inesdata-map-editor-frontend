@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ExecutionDTO, ExecutionService, MappingService, PagedModelExecutionDTO } from 'projects/mapper-api-client';
+import { finalize } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { MESSAGES_MATERIALISATIONS_SUCCESS, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
@@ -48,13 +49,17 @@ export class MappingsRecordsComponent implements OnInit {
 	newMaterialisation(id: number) {
 		this.mappingService
 			.materializeMapping(id)
-			.pipe(takeUntilDestroyed(this.destroyRef))
+			.pipe(
+				takeUntilDestroyed(this.destroyRef),
+				// Refresh the execution history on operation success or error
+				finalize(() => {
+					this.loadExecutionsHistory();
+				})
+			)
 			.subscribe({
 				next: () => {
+					// Success notification only when materialisation is successful
 					this.notificationService.showSuccess(MESSAGES_MATERIALISATIONS_SUCCESS);
-				},
-				complete: () => {
-					this.loadExecutionsHistory();
 				}
 			});
 	}
