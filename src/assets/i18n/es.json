@@ -10,7 +10,8 @@
       "list": "Lista de Fuentes de datos",
       "query": "Query",
       "sources": "Fuentes de datos",
-      "tables": "Tables"
+      "tables": "Tables",
+      "xpath": "XPath"
     }
   },
   "labels": {
@@ -52,8 +53,7 @@
       "map": "Mapeo",
       "map-name": "Nombre del mapeo",
       "mappings-list": "Volver a la lista de mapeos",
-      "new-materialisation": "Nueva materialización",
-      "records-list": "Histórico de materializaciones"
+      "new-materialisation": "Nueva materialización"
     }
   },
   "materialisations": {
