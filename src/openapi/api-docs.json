@@ -3,7 +3,7 @@
   "info": {
     "description": "Service responsible for saving a data source mapping and generating the corresponding R2RML / RML mapping file",
     "title": "com.inesdata-map:mapper-backend",
-    "version": "1.0.0-SNAPSHOT"
+    "version": "1.1.0-SNAPSHOT"
   },
   "servers": [
     {
@@ -851,6 +851,42 @@
         ]
       }
     },
+    "/file-sources/{id}/attributes": {
+      "get": {
+        "operationId": "getFileAttributes",
+        "parameters": [
+          {
+            "description": "File source identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets all XML file attributes",
+        "tags": [
+          "FileSource"
+        ]
+      }
+    },
     "/file-sources/{id}/fields": {
       "get": {
         "operationId": "getFileFields",
@@ -881,7 +917,7 @@
             "description": "OK"
           }
         },
-        "summary": "Gets all file fields",
+        "summary": "Gets all file fields from CSV file",
         "tags": [
           "FileSource"
         ]
@@ -1436,7 +1472,8 @@
             "type": "string",
             "enum": [
               "CSV",
-              "JSON"
+              "JSON",
+              "XML"
             ]
           },
           "id": {

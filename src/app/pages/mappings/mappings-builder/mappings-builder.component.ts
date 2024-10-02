@@ -31,9 +31,11 @@ export class MappingsBuilderComponent implements OnInit {
 
 	dataSources: FileSourceDTO[] | DataBaseSourceDTO[];
 	fileFields: string[];
+	xmlAttributes: string[];
 	queryDialogVisible = false;
 	elementDialogVisible = false;
-	isFileType: boolean;
+	isCsvFile: boolean;
+	isXmlFile: boolean;
 
 	selectedOntology: SearchOntologyDTO = null;
 	selectedClass: string = null;
@@ -119,9 +121,11 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Retrieves data based on the specified format
 	 */
 	getDataFromFormat(format: string): void {
+		this.selectedSource = null;
+		this.xmlAttributes = this.fileFields = null;
+		this.isCsvFile = this.isXmlFile = false;
 		const type = mapToDataSource(format);
 		if (type == DataSourceTypeEnum.FILE) {
-			this.isFileType = true;
 			this.getFileData(format);
 		}
 	}
@@ -144,7 +148,16 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	onSourceSelected(source: FileSourceDTO | DataBaseSourceDTO): void {
 		this.selectedSource = source;
-		this.getFields(source.id)
+		switch (this.selectedFormat) {
+			case DataFileTypeEnum.CSV:
+				this.isCsvFile = true;
+				this.getFields(source.id);
+				break;
+			case DataFileTypeEnum.XML:
+				this.isXmlFile = true;
+				this.getXMLAttributes(source.id);
+				break;
+		}
 	}
 
 	/**
@@ -160,6 +173,15 @@ export class MappingsBuilderComponent implements OnInit {
 			})
 	}
 
+	getXMLAttributes(id: number): void {
+		this.fileSourceService
+			.getFileAttributes(id)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: string[]) => {
+				this.xmlAttributes = data ?? [];
+			})
+	}
 	/**
 	 * Collect information from the selected ontology, data source, etc.
 	 * add it tho the output and appends it to mapping
