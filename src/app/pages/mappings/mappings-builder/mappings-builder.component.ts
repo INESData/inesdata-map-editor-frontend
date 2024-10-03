@@ -173,6 +173,9 @@ export class MappingsBuilderComponent implements OnInit {
 			})
 	}
 
+	/**
+	 * Retrieves the XML attributes for a given file source ID
+	 */
 	getXMLAttributes(id: number): void {
 		this.fileSourceService
 			.getFileAttributes(id)

@@ -917,7 +917,7 @@
             "description": "OK"
           }
         },
-        "summary": "Gets all file fields from CSV file",
+        "summary": "Gets all CSV file fields",
         "tags": [
           "FileSource"
         ]
