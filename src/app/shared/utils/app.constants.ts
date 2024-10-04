@@ -67,6 +67,7 @@ export const DATA_SOURCES_FILE_TYPE = 'fileType';
 // Routes
 export const HOME = '/home';
 export const MAPPINGS = '/mappings';
+export const MAPPINGS_BUILDER_EDIT = '/mappings/builder/edit';
 
 // URLs
 export const URL_MAPPINGS = 'http://example.org/';

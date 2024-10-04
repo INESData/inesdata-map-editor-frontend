@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
@@ -18,12 +18,13 @@ export class MappingsBuilderComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 
 	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private mappingService: MappingService, private notificationService: NotificationService,
-		private router: Router, private languageService: LanguageService) { }
+		private router: Router, private languageService: LanguageService, private route: ActivatedRoute) { }
 
 	formats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	mapping: Output[] = [];
 	mappingDTO: MappingDTO;
 	mappingName = '';
+	mappingId: number;
 	selectedFormat;
 	ontologies: SearchOntologyDTO[];
 	classes: string[];
@@ -53,8 +54,20 @@ export class MappingsBuilderComponent implements OnInit {
 		this.elementDialogVisible = true;
 	}
 
+	/**
+	 * Initializes the component and subscribe to route parameter to get the ID
+	 * if provided. Otherwise, load ontologies.
+	 *
+	 */
 	ngOnInit() {
-		this.getOntologies();
+		this.route.paramMap.subscribe((params) => {
+			this.mappingId = +params.get('id');
+		})
+		if (this.mappingId) {
+			this.getMapping(this.mappingId);
+		} else {
+			this.getOntologies();
+		}
 	}
 
 	/**
@@ -285,5 +298,18 @@ export class MappingsBuilderComponent implements OnInit {
 		if (this.mappingName.trim() !== '') {
 			this.errorMessage = '';
 		}
+	}
+
+	/**
+	 * Gets the mapping data for the given mapping ID
+	 */
+	getMapping(id: number): void {
+		this.mappingService
+			.getMapping(id)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: MappingDTO) => {
+				this.mappingDTO = data;
+			})
 	}
 }

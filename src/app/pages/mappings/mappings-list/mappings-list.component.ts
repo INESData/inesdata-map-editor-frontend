@@ -1,9 +1,10 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { ExecutionService, MappingService, PageSearchMappingDTO } from 'projects/mapper-api-client';
 import { SearchMappingDTO } from 'projects/mapper-api-client/model/searchMappingDTO';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS_BUILDER_EDIT, MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-mappings-list',
@@ -13,7 +14,7 @@ export class MappingsListComponent implements OnInit {
 
 	destroyRef = inject(DestroyRef);
 
-	constructor(private mappingService: MappingService, private notificationService: NotificationService, private executionService: ExecutionService) { }
+	constructor(private mappingService: MappingService, private notificationService: NotificationService, private executionService: ExecutionService, private router: Router) { }
 	selectedCategories: unknown[] = [];
 	selectedMapping: SearchMappingDTO;
 	mappings: SearchMappingDTO[];
@@ -92,6 +93,10 @@ export class MappingsListComponent implements OnInit {
 	*/
 	cancelDelete(): void {
 		this.deleteDialogVisible = false;
+	}
+
+	editMapping(id: string) {
+		this.router.navigate([MAPPINGS_BUILDER_EDIT, id]);
 	}
 
 	categories: unknown[] = [
