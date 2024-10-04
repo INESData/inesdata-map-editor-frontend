@@ -1017,6 +1017,37 @@
         "tags": [
           "Mapping"
         ]
+      },
+      "get": {
+        "operationId": "getMapping",
+        "parameters": [
+          {
+            "description": "Mapping identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappingDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets given mapping",
+        "tags": [
+          "Mapping"
+        ]
       }
     },
     "/mappings/{id}/executions": {
