@@ -71,6 +71,7 @@ export const MAPPINGS_BUILDER_EDIT = '/mappings/builder/edit';
 
 // URLs
 export const URL_MAPPINGS = 'http://example.org/';
+export const URL_DELIMITER = '/';
 
 //RML
 export const RML_REFERENCE = "rml:reference";

@@ -8,7 +8,7 @@ import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { Output } from 'src/app/shared/models/output.model';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, RML_REFERENCE, URL_MAPPINGS } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, RML_REFERENCE, URL_DELIMITER, URL_MAPPINGS } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 @Component({
 	selector: 'app-mappings-builder',
@@ -304,6 +304,37 @@ export class MappingsBuilderComponent implements OnInit {
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: MappingDTO) => {
 				this.mappingDTO = data;
+				this.getOntologies();
+				this.processMapping(this.mappingDTO)
 			})
+	}
+
+	/**
+	 * Processes the given mappingDTO and fill the mapping array with output entries
+	 */
+	processMapping(mappingDTO: MappingDTO): void {
+		this.mappingName = this.mappingDTO.name;
+
+		// Iterate through each field in the mappingDTO
+		mappingDTO.fields.forEach(field => {
+			// Iterate through each predicate
+			field.predicates.forEach(predicate => {
+				// Iterate through each object map of the current predicate
+				predicate.objectMap.forEach(objectMap => {
+					// Construct the output entry based on the field, predicate, and object map
+					const mappingOutput: Output = {
+						ontologyId: field.ontologyId,
+						ontologyClass: field.subject.className.split(URL_DELIMITER).pop(),
+						ontologyAttribute: predicate.predicate.split(URL_DELIMITER).pop(),
+						dataSourceId: field.dataSourceId,
+						dataSourceField: objectMap.literalValue
+					};
+
+					this.selectedAttribute = field.subject.className.replace(URL_MAPPINGS, '');
+					// Add the constructed output entry to the mapping
+					this.mapping.push(mappingOutput);
+				});
+			});
+		});
 	}
 }
