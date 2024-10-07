@@ -88,7 +88,8 @@
       },
       "pairs": "Se debe seleccionar al menos un par",
       "success": {
-        "deleted": "Mapeo eliminado correctamente"
+        "deleted": "Mapeo eliminado correctamente",
+        "updated": "Mapeo editado correctamente"
       }
     },
     "materialisations": {

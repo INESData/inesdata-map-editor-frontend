@@ -88,7 +88,8 @@
       },
       "pairs": "At least one pair should be selected",
       "success": {
-        "deleted": "Mapping successfully deleted"
+        "deleted": "Mapping successfully deleted",
+        "updated": "Mapping successfully updated"
       }
     },
     "materialisations": {

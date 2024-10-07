@@ -8,7 +8,7 @@ import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { Output } from 'src/app/shared/models/output.model';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, RML_REFERENCE, URL_DELIMITER, URL_MAPPINGS } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, MESSAGES_MAPPINGS_SUCCESS_UPDATED, RML_REFERENCE, URL_DELIMITER, URL_MAPPINGS } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 @Component({
 	selector: 'app-mappings-builder',
@@ -364,6 +364,8 @@ export class MappingsBuilderComponent implements OnInit {
 			)
 			.subscribe((data: MappingDTO) => {
 				this.mappingDTO = data;
+				this.router.navigate([MAPPINGS]);
+				this.notificationService.showSuccess(MESSAGES_MAPPINGS_SUCCESS_UPDATED);
 			})
 	}
 }
