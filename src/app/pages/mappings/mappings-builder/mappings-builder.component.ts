@@ -33,7 +33,6 @@ export class MappingsBuilderComponent implements OnInit {
 	fileFields: string[];
 	queryDialogVisible = false;
 	elementDialogVisible = false;
-	isFileType: boolean;
 
 	selectedOntology: SearchOntologyDTO = null;
 	selectedClass: string = null;
@@ -119,9 +118,9 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Retrieves data based on the specified format
 	 */
 	getDataFromFormat(format: string): void {
+		this.selectedSource = null;
 		const type = mapToDataSource(format);
 		if (type == DataSourceTypeEnum.FILE) {
-			this.isFileType = true;
 			this.getFileData(format);
 		}
 	}
@@ -144,7 +143,15 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	onSourceSelected(source: FileSourceDTO | DataBaseSourceDTO): void {
 		this.selectedSource = source;
-		this.getFields(source.id)
+		this.selectedField = null;
+		switch (this.selectedFormat) {
+			case DataFileTypeEnum.CSV:
+				this.getFields(source.id);
+				break;
+			case DataFileTypeEnum.XML:
+				this.getXMLAttributes(source.id);
+				break;
+		}
 	}
 
 	/**
@@ -160,6 +167,18 @@ export class MappingsBuilderComponent implements OnInit {
 			})
 	}
 
+	/**
+	 * Retrieves the XML attributes for a given file source ID
+	 */
+	getXMLAttributes(id: number): void {
+		this.fileSourceService
+			.getFileAttributes(id)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: string[]) => {
+				this.fileFields = data ?? [];
+			})
+	}
 	/**
 	 * Collect information from the selected ontology, data source, etc.
 	 * add it tho the output and appends it to mapping

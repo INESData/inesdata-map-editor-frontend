@@ -110,10 +110,17 @@
 								</div>
 							</div>
 						</div>
-						<!-- Fields/Tables-->
+						<!-- Fields/XPath/Tables-->
 						<div *ngIf="selectedSource" class="col-4">
 							<p class="mt-1 mb-0">
-								{{ (isFileType ? "data-sources.data-source.fields" : "data-sources.data-source.tables") | translate }}
+								{{
+									(selectedFormat === "CSV"
+										? "data-sources.data-source.fields"
+										: selectedFormat === "XML"
+											? "data-sources.data-source.xpath"
+											: "data-sources.data-source.tables"
+									) | translate
+								}}
 							</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
@@ -127,7 +134,6 @@
 										</label>
 									</div>
 								</div>
-								<p-button (onClick)="showDialogQuery()" class="addButton addButton__query" [label]="'labels.add-query' | translate" />
 							</div>
 						</div>
 						<div class="col-4">
@@ -135,6 +141,7 @@
 							<div class="mappingCategory mappingCategory__query">
 								SELECT EMP.*,(CASE JOB WHEN'CLERK'THEN'general-office' WHEN'NIGHTGUARD'THEN'security' WHEN'ENGINEER'THEN'engineering' END)
 								ROLE FROM EMP
+								<p-button (onClick)="showDialogQuery()" class="addButton addButton__query" [label]="'labels.add-query' | translate" />
 							</div>
 						</div>
 					</div>
