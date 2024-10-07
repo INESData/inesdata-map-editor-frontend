@@ -1048,6 +1048,47 @@
         "tags": [
           "Mapping"
         ]
+      },
+      "put": {
+        "operationId": "updateMapping",
+        "parameters": [
+          {
+            "description": "Mapping identifier to update",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MappingDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappingDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Update given mapping",
+        "tags": [
+          "Mapping"
+        ]
       }
     },
     "/mappings/{id}/executions": {
@@ -1591,7 +1632,8 @@
             "type": "integer",
             "format": "int64"
           }
-        }
+        },
+        "description": "The mapping to update"
       },
       "MappingFieldDTO": {
         "required": [

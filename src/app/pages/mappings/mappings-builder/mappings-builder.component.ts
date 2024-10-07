@@ -254,7 +254,12 @@ export class MappingsBuilderComponent implements OnInit {
 				name: "",
 				fields: mappingFields
 			};
-			this.generateMapping();
+			if (!this.mappingId) {
+				this.generateMapping();
+			} else {
+				this.editMapping();
+			}
+
 
 		} else {
 			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PAIRS, MESSAGES_ERRORS);
@@ -336,5 +341,29 @@ export class MappingsBuilderComponent implements OnInit {
 				});
 			});
 		});
+	}
+
+	/**
+	 * Deletes selected pair from mapping
+	 */
+	deletePairFromMapping(index: number): void {
+		if (index > -1 && index < this.mapping.length) {
+			this.mapping.splice(index, 1);
+		}
+	}
+
+	/**
+	 * Updates the mapping
+	 */
+	editMapping(): void {
+		this.mappingDTO.name = this.mappingName;
+		this.mappingService
+			.updateMapping(this.mappingId, this.mappingDTO)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe((data: MappingDTO) => {
+				this.mappingDTO = data;
+			})
 	}
 }

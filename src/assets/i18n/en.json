@@ -47,6 +47,7 @@
       "automatic_selection": "Select the<strong>ontologies</strong> and<strong>data sources</strong> needed to generate an automatic mapping: ",
       "build": "Build mapping",
       "confirmation": "Are you sure you want to delete this mapping?",
+      "edit": "Edit mapping",
       "import": "Import mapping",
       "list": "Mappings List",
       "manual": "Generate manual mapping",

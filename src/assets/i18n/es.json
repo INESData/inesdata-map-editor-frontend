@@ -47,6 +47,7 @@
       "automatic_selection": "Seleccione las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para generar un mapeo automático: ",
       "build": "Generar mapeo",
       "confirmation": "¿Seguro que quieres eliminar este mapeo?",
+      "edit": "Editar mapeo",
       "import": "Importar mapeo",
       "list": "Lista de Mapeos",
       "manual": "Generar mapeo manual",
