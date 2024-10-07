@@ -114,9 +114,9 @@
 						<div *ngIf="selectedSource" class="col-4">
 							<p class="mt-1 mb-0">
 								{{
-									(isCsvFile
+									(selectedFormat === "CSV"
 										? "data-sources.data-source.fields"
-										: isXmlFile
+										: selectedFormat === "XML"
 											? "data-sources.data-source.xpath"
 											: "data-sources.data-source.tables"
 									) | translate
@@ -127,10 +127,10 @@
 									<div class="searcherContainer">
 										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
-									<div *ngFor="let item of xmlAttributes && xmlAttributes.length > 0 ? xmlAttributes : fileFields" class="field-checkbox">
-										<p-radioButton [inputId]="item.id" name="category" [value]="item" [(ngModel)]="selectedField" />
-										<label [for]="item.id">
-											{{ item }}
+									<div *ngFor="let fileField of fileFields" class="field-checkbox">
+										<p-radioButton [inputId]="fileField.id" name="category" [value]="fileField" [(ngModel)]="selectedField" />
+										<label [for]="fileField.id">
+											{{ fileField }}
 										</label>
 									</div>
 								</div>
