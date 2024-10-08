@@ -254,12 +254,12 @@ export class MappingsBuilderComponent implements OnInit {
 				name: "",
 				fields: mappingFields
 			};
+
 			if (!this.mappingId) {
 				this.generateMapping();
 			} else {
 				this.editMapping();
 			}
-
 
 		} else {
 			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PAIRS, MESSAGES_ERRORS);
@@ -270,15 +270,10 @@ export class MappingsBuilderComponent implements OnInit {
 	* Generates a mapping and call the mapping service to create it.
 	*/
 	generateMapping(): void {
-		// Validate if the mapping name is empty
-		if (this.mappingName.trim() === '') {
-			this.errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_NONAME);
+		// Validate mapping
+		if (!this.validateAndAssignMappingName()) {
 			return;
 		}
-
-		// Assign the mapping name and clear the error message
-		this.mappingDTO.name = this.mappingName;
-		this.errorMessage = '';
 
 		this.mappingService
 			.create(this.mappingDTO)
@@ -294,9 +289,7 @@ export class MappingsBuilderComponent implements OnInit {
 	* Clear error message on input change
 	*/
 	onMappingNameChange(): void {
-		if (this.mappingName.trim() !== '') {
-			this.errorMessage = '';
-		}
+		this.validateAndAssignMappingName();
 	}
 
 	/**
@@ -356,7 +349,11 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Updates the mapping
 	 */
 	editMapping(): void {
-		this.mappingDTO.name = this.mappingName;
+		// Validate mapping
+		if (!this.validateAndAssignMappingName()) {
+			return;
+		}
+
 		this.mappingService
 			.updateMapping(this.mappingId, this.mappingDTO)
 			.pipe(
@@ -367,5 +364,18 @@ export class MappingsBuilderComponent implements OnInit {
 				this.router.navigate([MAPPINGS]);
 				this.notificationService.showSuccess(MESSAGES_MAPPINGS_SUCCESS_UPDATED);
 			})
+	}
+
+	/**
+	 * Validate and assign mapping name
+	 */
+	validateAndAssignMappingName(): boolean {
+		if (this.mappingName.trim() === '') {
+			this.errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_NONAME);
+			return false;
+		}
+		this.errorMessage = '';
+		this.mappingDTO.name = this.mappingName;
+		return true;
 	}
 }
