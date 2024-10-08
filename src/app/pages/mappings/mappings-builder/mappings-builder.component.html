@@ -88,7 +88,7 @@
 
 					<div class="grid mt-0">
 						<!-- Source names-->
-						<div *ngIf="selectedFormat" class="col-4">
+						<div *ngIf="selectedFormat && dataSources.length > 0" class="col-4">
 							<p class="mt-1 mb-0">{{ "data-sources.data-source.data" | translate }}</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
