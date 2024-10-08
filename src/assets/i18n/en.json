@@ -125,6 +125,7 @@
     "labels": {
       "builder": "Manual mapping builder",
       "data-sources": "Data sources",
+      "edit": "Edit mapping",
       "mappings": "Mappings",
       "ontologies": "Ontologies"
     }

@@ -72,6 +72,7 @@ export const MAPPINGS_BUILDER_EDIT = '/mappings/builder/edit';
 
 // URLs
 export const URL_MAPPINGS = 'http://example.org/';
+export const URL_EDIT = 'edit';
 export const URL_DELIMITER = '/';
 
 //RML
@@ -82,3 +83,4 @@ export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontol
 export const SIDEBAR_LABELS_DATASOURCES: string = translate('sidebar.labels.data-sources');
 export const SIDEBAR_LABELS_MAPPINGS: string = translate('sidebar.labels.mappings');
 export const SIDEBAR_LABELS_BUILDER: string = translate('sidebar.labels.builder');
+export const SIDEBAR_LABELS_EDIT: string = translate('sidebar.labels.edit');
