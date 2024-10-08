@@ -75,6 +75,9 @@ export const URL_MAPPINGS = 'http://example.org/';
 export const URL_EDIT = 'edit';
 export const URL_DELIMITER = '/';
 
+// Params
+export const PARAM_ID = 'id';
+
 //RML
 export const RML_REFERENCE = "rml:reference";
 
