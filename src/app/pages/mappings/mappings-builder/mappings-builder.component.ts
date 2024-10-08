@@ -57,13 +57,12 @@ export class MappingsBuilderComponent implements OnInit {
 	 *
 	 */
 	ngOnInit() {
+		this.getOntologies();
 		this.route.paramMap.subscribe((params) => {
 			this.mappingId = +params.get(PARAM_ID);
 		})
 		if (this.mappingId) {
 			this.getMapping(this.mappingId);
-		} else {
-			this.getOntologies();
 		}
 	}
 
@@ -302,7 +301,6 @@ export class MappingsBuilderComponent implements OnInit {
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: MappingDTO) => {
 				this.mappingDTO = data;
-				this.getOntologies();
 				this.processMapping(this.mappingDTO)
 			})
 	}
