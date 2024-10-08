@@ -4,7 +4,7 @@ import { MenuItem } from 'primeng/api';
 import { filter, map } from 'rxjs';
 
 import { LanguageService } from '../../services/language.service';
-import { HOME, LABELS_HOME } from '../../utils/app.constants';
+import { HOME, LABELS_HOME, URL_EDIT } from '../../utils/app.constants';
 
 /**
  * BreadcrumbComponent is responsible for displaying breadcrumb navigation in the application.
@@ -62,21 +62,24 @@ export class BreadcrumbComponent implements OnInit {
 		if (children.length === 0) {
 			return breadcrumbs;
 		}
-		// If children
-		for (const child of children) {
+
+		children.forEach(child => {
 			// Build route
 			const routeURL: string = child.snapshot.url.map((segment) => segment.path).join('/');
-			if (routeURL !== '') {
-				url += `/${routeURL}`;
-				//Add children to route
+			// Normalize the routeURL if it contains 'edit'
+			const breadcrumbURL = routeURL.includes(URL_EDIT) ? URL_EDIT : routeURL;
+
+			if (breadcrumbURL) {
+				const newUrl = `${url}/${breadcrumbURL}`;
 				breadcrumbs.push({
-					label: this.languageService.translateValue('sidebar.labels.' + routeURL),
-					routerLink: url
+					label: this.languageService.translateValue('sidebar.labels.' + breadcrumbURL),
+					routerLink: newUrl
 				});
 			}
 
-			return this.buildBreadcrumb(child, url, breadcrumbs);
-		}
+			// Build breadcrumbs for child routes
+			this.buildBreadcrumb(child, url ? `${url}/${routeURL}` : routeURL, breadcrumbs);
+		});
 
 		return breadcrumbs;
 	}

@@ -47,6 +47,7 @@
       "automatic_selection": "Seleccione las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para generar un mapeo automático: ",
       "build": "Generar mapeo",
       "confirmation": "¿Seguro que quieres eliminar este mapeo?",
+      "edit": "Editar mapeo",
       "import": "Importar mapeo",
       "list": "Lista de Mapeos",
       "manual": "Generar mapeo manual",
@@ -87,7 +88,8 @@
       },
       "pairs": "Se debe seleccionar al menos un par",
       "success": {
-        "deleted": "Mapeo eliminado correctamente"
+        "deleted": "Mapeo eliminado correctamente",
+        "updated": "Mapeo editado correctamente"
       }
     },
     "materialisations": {
@@ -123,6 +125,7 @@
     "labels": {
       "builder": "Generador de mapeo manual",
       "data-sources": "Fuentes de datos",
+      "edit": "Editar mapeo",
       "mappings": "Mapeos",
       "ontologies": "Ontologías"
     }

@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
@@ -8,7 +8,7 @@ import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { Output } from 'src/app/shared/models/output.model';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, RML_REFERENCE, URL_MAPPINGS } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, MESSAGES_MAPPINGS_SUCCESS_UPDATED, PARAM_ID, RML_REFERENCE, URL_DELIMITER, URL_MAPPINGS } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 @Component({
 	selector: 'app-mappings-builder',
@@ -18,12 +18,13 @@ export class MappingsBuilderComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 
 	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private mappingService: MappingService, private notificationService: NotificationService,
-		private router: Router, private languageService: LanguageService) { }
+		private router: Router, private languageService: LanguageService, private route: ActivatedRoute) { }
 
 	formats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	mapping: Output[] = [];
 	mappingDTO: MappingDTO;
 	mappingName = '';
+	mappingId: number;
 	selectedFormat;
 	ontologies: SearchOntologyDTO[];
 	classes: string[];
@@ -50,8 +51,19 @@ export class MappingsBuilderComponent implements OnInit {
 		this.elementDialogVisible = true;
 	}
 
+	/**
+	 * Initializes the component and subscribe to route parameter to get the ID
+	 * if provided. Otherwise, load ontologies.
+	 *
+	 */
 	ngOnInit() {
 		this.getOntologies();
+		this.route.paramMap.subscribe((params) => {
+			this.mappingId = +params.get(PARAM_ID);
+		})
+		if (this.mappingId) {
+			this.getMapping(this.mappingId);
+		}
 	}
 
 	/**
@@ -241,7 +253,12 @@ export class MappingsBuilderComponent implements OnInit {
 				name: "",
 				fields: mappingFields
 			};
-			this.generateMapping();
+
+			if (!this.mappingId) {
+				this.generateMapping();
+			} else {
+				this.editMapping();
+			}
 
 		} else {
 			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PAIRS, MESSAGES_ERRORS);
@@ -252,15 +269,10 @@ export class MappingsBuilderComponent implements OnInit {
 	* Generates a mapping and call the mapping service to create it.
 	*/
 	generateMapping(): void {
-		// Validate if the mapping name is empty
-		if (this.mappingName.trim() === '') {
-			this.errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_NONAME);
+		// Validate mapping
+		if (!this.validateAndAssignMappingName()) {
 			return;
 		}
-
-		// Assign the mapping name and clear the error message
-		this.mappingDTO.name = this.mappingName;
-		this.errorMessage = '';
 
 		this.mappingService
 			.create(this.mappingDTO)
@@ -276,8 +288,92 @@ export class MappingsBuilderComponent implements OnInit {
 	* Clear error message on input change
 	*/
 	onMappingNameChange(): void {
-		if (this.mappingName.trim() !== '') {
-			this.errorMessage = '';
+		this.validateAndAssignMappingName();
+	}
+
+	/**
+	 * Gets the mapping data for the given mapping ID
+	 */
+	getMapping(id: number): void {
+		this.mappingService
+			.getMapping(id)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: MappingDTO) => {
+				this.mappingDTO = data;
+				this.processMapping(this.mappingDTO)
+			})
+	}
+
+	/**
+	 * Processes the given mappingDTO and fill the mapping array with output entries
+	 */
+	processMapping(mappingDTO: MappingDTO): void {
+		this.mappingName = this.mappingDTO.name;
+
+		// Iterate through each field in the mappingDTO
+		mappingDTO.fields.forEach(field => {
+			// Iterate through each predicate
+			field.predicates.forEach(predicate => {
+				// Iterate through each object map of the current predicate
+				predicate.objectMap.forEach(objectMap => {
+					// Construct the output entry based on the field, predicate, and object map
+					const mappingOutput: Output = {
+						ontologyId: field.ontologyId,
+						ontologyClass: field.subject.className.split(URL_DELIMITER).pop(),
+						ontologyAttribute: predicate.predicate.split(URL_DELIMITER).pop(),
+						dataSourceId: field.dataSourceId,
+						dataSourceField: objectMap.literalValue
+					};
+
+					this.selectedAttribute = field.subject.className.replace(URL_MAPPINGS, '');
+					// Add the constructed output entry to the mapping
+					this.mapping.push(mappingOutput);
+				});
+			});
+		});
+	}
+
+	/**
+	 * Deletes selected pair from mapping
+	 */
+	deletePairFromMapping(index: number): void {
+		if (index > -1 && index < this.mapping.length) {
+			this.mapping.splice(index, 1);
 		}
+	}
+
+	/**
+	 * Updates the mapping
+	 */
+	editMapping(): void {
+		// Validate mapping
+		if (!this.validateAndAssignMappingName()) {
+			return;
+		}
+
+		this.mappingService
+			.updateMapping(this.mappingId, this.mappingDTO)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe((data: MappingDTO) => {
+				this.mappingDTO = data;
+				this.router.navigate([MAPPINGS]);
+				this.notificationService.showSuccess(MESSAGES_MAPPINGS_SUCCESS_UPDATED);
+			})
+	}
+
+	/**
+	 * Validate and assign mapping name
+	 */
+	validateAndAssignMappingName(): boolean {
+		if (this.mappingName.trim() === '') {
+			this.errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_NONAME);
+			return false;
+		}
+		this.errorMessage = '';
+		this.mappingDTO.name = this.mappingName;
+		return true;
 	}
 }

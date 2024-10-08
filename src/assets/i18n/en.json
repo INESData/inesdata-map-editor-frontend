@@ -47,6 +47,7 @@
       "automatic_selection": "Select the<strong>ontologies</strong> and<strong>data sources</strong> needed to generate an automatic mapping: ",
       "build": "Build mapping",
       "confirmation": "Are you sure you want to delete this mapping?",
+      "edit": "Edit mapping",
       "import": "Import mapping",
       "list": "Mappings List",
       "manual": "Generate manual mapping",
@@ -87,7 +88,8 @@
       },
       "pairs": "At least one pair should be selected",
       "success": {
-        "deleted": "Mapping successfully deleted"
+        "deleted": "Mapping successfully deleted",
+        "updated": "Mapping successfully updated"
       }
     },
     "materialisations": {
@@ -123,6 +125,7 @@
     "labels": {
       "builder": "Manual mapping builder",
       "data-sources": "Data sources",
+      "edit": "Edit mapping",
       "mappings": "Mappings",
       "ontologies": "Ontologies"
     }

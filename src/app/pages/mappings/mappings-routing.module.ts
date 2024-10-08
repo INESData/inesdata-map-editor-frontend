@@ -12,6 +12,10 @@ const routes: Routes = [
 	{
 		path: 'builder',
 		component: MappingsBuilderComponent
+	},
+	{
+		path: 'builder/edit/:id',
+		component: MappingsBuilderComponent
 	}
 ];
 

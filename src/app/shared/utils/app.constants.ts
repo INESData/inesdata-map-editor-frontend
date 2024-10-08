@@ -30,6 +30,7 @@ export const MESSAGES_DATA_SOURCES_SUCCESS_UPDATED: string = translate('messages
 export const MESSAGES_DATA_SOURCES_SUCCESS_DELETED: string = translate('messages.data-sources.success.deleted');
 
 export const MESSAGES_MAPPINGS_SUCCESS_DELETED: string = translate('messages.mappings.success.deleted');
+export const MESSAGES_MAPPINGS_SUCCESS_UPDATED: string = translate('messages.mappings.success.updated');
 export const MESSAGES_MAPPINGS_PAIRS: string = translate('messages.mappings.pairs');
 
 export const MESSAGES_MATERIALISATIONS_SUCCESS: string = translate('messages.materialisations.success.executed');
@@ -67,9 +68,15 @@ export const DATA_SOURCES_FILE_TYPE = 'fileType';
 // Routes
 export const HOME = '/home';
 export const MAPPINGS = '/mappings';
+export const MAPPINGS_BUILDER_EDIT = '/mappings/builder/edit';
 
 // URLs
 export const URL_MAPPINGS = 'http://example.org/';
+export const URL_EDIT = 'edit';
+export const URL_DELIMITER = '/';
+
+// Params
+export const PARAM_ID = 'id';
 
 //RML
 export const RML_REFERENCE = "rml:reference";
@@ -79,3 +86,4 @@ export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontol
 export const SIDEBAR_LABELS_DATASOURCES: string = translate('sidebar.labels.data-sources');
 export const SIDEBAR_LABELS_MAPPINGS: string = translate('sidebar.labels.mappings');
 export const SIDEBAR_LABELS_BUILDER: string = translate('sidebar.labels.builder');
+export const SIDEBAR_LABELS_EDIT: string = translate('sidebar.labels.edit');
