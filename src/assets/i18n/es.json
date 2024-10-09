@@ -88,6 +88,7 @@
       },
       "pairs": "Se debe seleccionar al menos un par",
       "success": {
+        "created": "Mapeo creado correctamente",
         "deleted": "Mapeo eliminado correctamente",
         "updated": "Mapeo editado correctamente"
       }

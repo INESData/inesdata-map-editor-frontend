@@ -88,6 +88,7 @@
       },
       "pairs": "At least one pair should be selected",
       "success": {
+        "created": "Mapping successfully created",
         "deleted": "Mapping successfully deleted",
         "updated": "Mapping successfully updated"
       }
