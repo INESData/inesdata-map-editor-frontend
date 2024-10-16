@@ -5,7 +5,7 @@ import { marker as translate } from '@colsen1991/ngx-translate-extract-marker';
  */
 
 // Language
-export const DEFAULT_LANGUAGE = 'es';
+export const DEFAULT_LANGUAGE = 'en';
 export const AVAILABLE_LANGUAGES: string[] = ['es', 'en'];
 export const LANGUAGE_STORAGE_NAME = 'language';
 
