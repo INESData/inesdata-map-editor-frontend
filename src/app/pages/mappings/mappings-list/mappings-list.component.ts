@@ -3,8 +3,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { ExecutionService, MappingService, PageSearchMappingDTO } from 'projects/mapper-api-client';
 import { SearchMappingDTO } from 'projects/mapper-api-client/model/searchMappingDTO';
+import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS_BUILDER_EDIT, MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
+import { LABELS_NO_FILE_SELECTED, MAPPINGS_BUILDER_EDIT, MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-mappings-list',
@@ -14,7 +15,7 @@ export class MappingsListComponent implements OnInit {
 
 	destroyRef = inject(DestroyRef);
 
-	constructor(private mappingService: MappingService, private notificationService: NotificationService, private executionService: ExecutionService, private router: Router) { }
+	constructor(private mappingService: MappingService, private notificationService: NotificationService, private executionService: ExecutionService, private router: Router, private languageService: LanguageService) { }
 	selectedCategories: unknown[] = [];
 	selectedMapping: SearchMappingDTO;
 	mappings: SearchMappingDTO[];
@@ -22,12 +23,39 @@ export class MappingsListComponent implements OnInit {
 	addHistoryDialog = false;
 	deleteDialogVisible = false;
 	autoDialogVisible = false;
+	importDialogVisible = false;
+
+	file: File;
+	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
+	fileSelected = false;
 
 	/**
 	 * Loads the mappings when the component is initialized
 	 */
 	ngOnInit(): void {
 		this.loadMappings(PAGE, SIZE);
+	}
+
+	/**
+	 * Extract selected file
+	 */
+	onFileSelected(event) {
+		this.file = event.target.files[0];
+		if (this.file) {
+			this.fileName = this.file.name;
+			this.fileSelected = true;
+		} else {
+			this.resetFile();
+		}
+	}
+
+	/**
+	 * Reset file to initial state
+	 */
+	resetFile(): void {
+		this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
+		this.fileSelected = false;
+		this.file = null;
 	}
 
 	/**
@@ -86,6 +114,10 @@ export class MappingsListComponent implements OnInit {
 
 	showDialogAuto() {
 		this.autoDialogVisible = true;
+	}
+
+	showDialogImport() {
+		this.importDialogVisible = true;
 	}
 
 	/**

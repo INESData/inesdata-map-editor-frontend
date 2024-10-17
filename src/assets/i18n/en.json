@@ -28,6 +28,8 @@
     "file-name": "No file selected",
     "home": "Home",
     "import": "Import from local",
+    "import_mapping": "Import mapping",
+    "importRML": "Select RML file",
     "name": "Name",
     "no": "No",
     "ontology": "Ontology",
@@ -44,17 +46,19 @@
   "mappings": {
     "mapping": {
       "automatic": "Generate automatic mapping",
-      "automatic_selection": "Select the<strong>ontologies</strong> and<strong>data sources</strong> needed to generate an automatic mapping: ",
+      "automatic_selection": "Select the <strong>ontologies</strong> and <strong>data sources</strong> needed to generate an automatic mapping: ",
       "build": "Build mapping",
       "confirmation": "Are you sure you want to delete this mapping?",
       "edit": "Edit mapping",
       "import": "Import mapping",
+      "import_mapping": "Import mapping",
       "list": "Mappings List",
       "manual": "Generate manual mapping",
       "map": "Mapping",
       "map-name": "Mapping name",
       "mappings-list": "Back to mapping list",
-      "new-materialisation": "New materialisation"
+      "new-materialisation": "New materialisation",
+      "select": "Select the <strong>RML file</strong>, the <strong>ontologies</strong> and <strong>data sources</strong> needed to import a mapping: "
     }
   },
   "materialisations": {

@@ -28,6 +28,8 @@
     "file-name": "Ningún archivo seleccionado",
     "home": "Inicio",
     "import": "Importar de local",
+    "import_mapping": "Importar mapeo",
+    "importRML": "Seleccionar archivo RML",
     "name": "Nombre",
     "no": "No",
     "ontology": "Ontología",
@@ -49,12 +51,14 @@
       "confirmation": "¿Seguro que quieres eliminar este mapeo?",
       "edit": "Editar mapeo",
       "import": "Importar mapeo",
+      "import_mapping": "Importación de mapeo",
       "list": "Lista de Mapeos",
       "manual": "Generar mapeo manual",
       "map": "Mapeo",
       "map-name": "Nombre del mapeo",
       "mappings-list": "Volver a la lista de mapeos",
-      "new-materialisation": "Nueva materialización"
+      "new-materialisation": "Nueva materialización",
+      "select": "Seleccione el <strong>archivo RML</strong>, las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para importar un mapeo: "
     }
   },
   "materialisations": {
