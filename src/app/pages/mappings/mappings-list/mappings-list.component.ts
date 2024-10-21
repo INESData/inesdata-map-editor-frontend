@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { ExecutionService, MappingService, PageSearchMappingDTO } from 'projects/mapper-api-client';
+import { DataSourceDTO, DataSourceService, ExecutionService, MappingService, OntologyService, PageDataSourceDTO, PageSearchMappingDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { SearchMappingDTO } from 'projects/mapper-api-client/model/searchMappingDTO';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
@@ -15,10 +15,16 @@ export class MappingsListComponent implements OnInit {
 
 	destroyRef = inject(DestroyRef);
 
-	constructor(private mappingService: MappingService, private notificationService: NotificationService, private executionService: ExecutionService, private router: Router, private languageService: LanguageService) { }
+	constructor(private mappingService: MappingService, private notificationService: NotificationService, private executionService: ExecutionService, private router: Router, private languageService: LanguageService,
+		private ontologyService: OntologyService, private dataSourceService: DataSourceService
+	) { }
 	selectedCategories: unknown[] = [];
+	selectedOntologies: SearchOntologyDTO[] = [];
+	selectedDataSources: DataSourceDTO[] = [];
+	dataSources: DataSourceDTO[];
 	selectedMapping: SearchMappingDTO;
 	mappings: SearchMappingDTO[];
+	ontologies: SearchOntologyDTO[];
 	paginationInfo: PageSearchMappingDTO;
 	addHistoryDialog = false;
 	deleteDialogVisible = false;
@@ -90,6 +96,30 @@ export class MappingsListComponent implements OnInit {
 	}
 
 	/**
+	 * Loads the ontologies list.
+	 */
+	loadOntologies(): void {
+		this.ontologyService
+			.getOntologies()
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe((data: SearchOntologyDTO[]) => {
+				this.ontologies = data ?? [];
+			});
+	}
+
+	/**
+	 * Loads the data sources list.
+	 */
+	loadDataSources(): void {
+		this.dataSourceService
+			.listDataSources(PAGE, SIZE)
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe((data: PageDataSourceDTO) => {
+				this.dataSources = data.content ?? [];
+			});
+	}
+
+	/**
 	 * Method that is called when the page number changes.
 	 */
 	onPageChange(newPage: number): void {
@@ -116,8 +146,22 @@ export class MappingsListComponent implements OnInit {
 		this.autoDialogVisible = true;
 	}
 
+	/**
+	 * Display import mapping dialog, load data sources and ontologies
+	 */
 	showDialogImport() {
+		this.selectedOntologies = [];
+		this.selectedDataSources = [];
+		this.loadDataSources();
+		this.loadOntologies();
 		this.importDialogVisible = true;
+	}
+
+	/**
+	* Close import dialog
+	*/
+	cancelImport(): void {
+		this.importDialogVisible = false;
 	}
 
 	/**
