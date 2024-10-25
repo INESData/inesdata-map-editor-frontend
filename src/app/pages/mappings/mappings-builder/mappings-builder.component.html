@@ -155,6 +155,8 @@
 			<h1 class="category category__mapping mb-1">{{ "mappings.mapping.map" | translate }}</h1>
 			<label for="">{{ "mappings.mapping.map-name" | translate }}</label>
 			<input class="mb-2" type="text" pInputText [(ngModel)]="mappingName" (ngModelChange)="onMappingNameChange()" />
+			<label for="">{{ "mappings.mapping.map_base_url" | translate }}</label>
+			<input class="mb-2" type="text" pInputText [(ngModel)]="mappingBaseUrl" (ngModelChange)="onMappingBaseUrlChange()" />
 			<div *ngIf="errorMessage" class="error-message">
 				{{ errorMessage }}
 			</div>

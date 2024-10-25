@@ -38,7 +38,7 @@ export const MESSAGES_MATERIALISATIONS_SUCCESS: string = translate('messages.mat
 
 export const MESSAGES_DATA_SOURCES_ERRORS_NOFILE: string = translate('messages.data-sources.errors.no-file');
 
-export const MESSAGES_MAPPINGS_ERRORS_NONAME: string = translate('messages.mappings.errors.no-name');
+export const MESSAGES_MAPPINGS_ERRORS_NONAME: string = translate('messages.mappings.errors.no-name-url');
 
 // Labels
 export const LABELS_YES: string = translate('labels.yes');

@@ -24,6 +24,7 @@ export class MappingsBuilderComponent implements OnInit {
 	mapping: Output[] = [];
 	mappingDTO: MappingDTO;
 	mappingName = '';
+	mappingBaseUrl = '';
 	mappingId: number;
 	selectedFormat;
 	ontologies: SearchOntologyDTO[];
@@ -251,6 +252,7 @@ export class MappingsBuilderComponent implements OnInit {
 
 			this.mappingDTO = {
 				name: "",
+				baseUrl: "",
 				fields: mappingFields
 			};
 
@@ -294,6 +296,15 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
+	* Clear error message on input change
+	*/
+	onMappingBaseUrlChange(): void {
+		if (this.mappingBaseUrl.trim() !== '') {
+			this.errorMessage = '';
+		}
+	}
+
+	/**
 	 * Gets the mapping data for the given mapping ID
 	 */
 	getMapping(id: number): void {
@@ -312,6 +323,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	processMapping(mappingDTO: MappingDTO): void {
 		this.mappingName = this.mappingDTO.name;
+		this.mappingBaseUrl = this.mappingDTO.baseUrl;
 
 		// Iterate through each field in the mappingDTO
 		mappingDTO.fields.forEach(field => {
@@ -370,12 +382,13 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Validate and assign mapping name
 	 */
 	validateAndAssignMappingName(): boolean {
-		if (this.mappingName.trim() === '') {
+		if (this.mappingName.trim() === '' || this.mappingBaseUrl.trim() === '') {
 			this.errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_NONAME);
 			return false;
 		}
 		this.errorMessage = '';
 		this.mappingDTO.name = this.mappingName;
+		this.mappingDTO.baseUrl = this.mappingBaseUrl;
 		return true;
 	}
 }

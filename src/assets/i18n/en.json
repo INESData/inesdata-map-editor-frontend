@@ -55,6 +55,7 @@
       "list": "Mappings List",
       "manual": "Generate manual mapping",
       "map": "Mapping",
+      "map_base_url": "Mapping base URL",
       "map-name": "Mapping name",
       "mappings-list": "Back to mapping list",
       "new-materialisation": "New materialisation",
@@ -88,7 +89,7 @@
     },
     "mappings": {
       "errors": {
-        "no-name": "Mapping must have a name"
+        "no-name-url": "Mapping must have a name and a base URL"
       },
       "pairs": "At least one pair should be selected",
       "success": {
