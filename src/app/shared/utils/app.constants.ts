@@ -72,7 +72,6 @@ export const MAPPINGS = '/mappings';
 export const MAPPINGS_BUILDER_EDIT = '/mappings/builder/edit';
 
 // URLs
-export const URL_MAPPINGS = 'http://example.org/';
 export const URL_EDIT = 'edit';
 export const URL_DELIMITER = '/';
 

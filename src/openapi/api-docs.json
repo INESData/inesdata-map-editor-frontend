@@ -1608,6 +1608,7 @@
       },
       "MappingDTO": {
         "required": [
+          "baseUrl",
           "fields",
           "name"
         ],
@@ -1615,7 +1616,7 @@
         "properties": {
           "baseUrl": {
             "maxLength": 255,
-            "minLength": 0,
+            "minLength": 1,
             "type": "string"
           },
           "fields": {
@@ -2014,6 +2015,7 @@
       "SearchOntologyDTO": {
         "required": [
           "name",
+          "url",
           "versionName"
         ],
         "type": "object",
@@ -2038,7 +2040,7 @@
           },
           "url": {
             "maxLength": 255,
-            "minLength": 0,
+            "minLength": 1,
             "type": "string"
           },
           "versionName": {
