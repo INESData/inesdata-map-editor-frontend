@@ -227,8 +227,8 @@ export class MappingsBuilderComponent implements OnInit {
 			const outputs: Output[] = this.mapping;
 
 			const mappingFields = outputs.map(output => {
-				const classNameUrl = `${output.ontologyUrl}${output.ontologyClass}`;
-				const predicateUrl = `${output.ontologyUrl}${output.ontologyAttribute}`;
+				const classNameUrl = `${output.ontologyUrl.endsWith('/') ? output.ontologyUrl : output.ontologyUrl + '/'}${output.ontologyClass}`;
+				const predicateUrl = `${output.ontologyUrl.endsWith('/') ? output.ontologyUrl : output.ontologyUrl + '/'}${output.ontologyAttribute}`;
 
 				return {
 					dataSourceId: output.dataSourceId,
