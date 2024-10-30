@@ -55,7 +55,7 @@
       "list": "Lista de Mapeos",
       "manual": "Generar mapeo manual",
       "map": "Mapeo",
-      "map_base_url": "URL base del mapeo",
+      "map-base-url": "URL base del mapeo",
       "map-name": "Nombre del mapeo",
       "mappings-list": "Volver a la lista de mapeos",
       "new-materialisation": "Nueva materialización",

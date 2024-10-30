@@ -55,7 +55,7 @@
       "list": "Mappings List",
       "manual": "Generate manual mapping",
       "map": "Mapping",
-      "map_base_url": "Mapping base URL",
+      "map-base-url": "Mapping base URL",
       "map-name": "Mapping name",
       "mappings-list": "Back to mapping list",
       "new-materialisation": "New materialisation",
