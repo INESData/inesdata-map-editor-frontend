@@ -76,6 +76,11 @@ export const logicalTableDtoForm = new FormGroup({
 });
 
 export const mappingDtoForm = new FormGroup({
+  baseUrl: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
   fields: new FormControl(null, [Validators.required]),
   id: new FormControl(null, []),
   name: new FormControl(null, [
@@ -228,7 +233,8 @@ export const searchOntologyDtoForm = new FormGroup({
   ]),
   uploadDate: new FormControl(null, []),
   url: new FormControl(null, [
-    Validators.minLength(0),
+    Validators.required,
+    Validators.minLength(1),
     Validators.maxLength(255)
   ]),
   versionName: new FormControl(null, [

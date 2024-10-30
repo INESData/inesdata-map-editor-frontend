@@ -55,6 +55,7 @@
       "list": "Lista de Mapeos",
       "manual": "Generar mapeo manual",
       "map": "Mapeo",
+      "map-base-url": "URL base del mapeo",
       "map-name": "Nombre del mapeo",
       "mappings-list": "Volver a la lista de mapeos",
       "new-materialisation": "Nueva materialización",
@@ -88,7 +89,7 @@
     },
     "mappings": {
       "errors": {
-        "no-name": "El mapeo debe tener un nombre"
+        "no-name-url": "El mapeo debe tener un nombre y una URL base"
       },
       "pairs": "Se debe seleccionar al menos un par",
       "success": {

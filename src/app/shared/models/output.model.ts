@@ -4,6 +4,7 @@
  */
 export interface Output {
 	ontologyId: number;
+	ontologyUrl: string;
 	ontologyClass: string;
 	ontologyAttribute: string;
 	dataSourceId: number;

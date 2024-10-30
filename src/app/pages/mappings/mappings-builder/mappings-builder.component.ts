@@ -8,7 +8,7 @@ import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { Output } from 'src/app/shared/models/output.model';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_UPDATED, PARAM_ID, RML_REFERENCE, URL_DELIMITER, URL_MAPPINGS } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_UPDATED, PARAM_ID, RML_REFERENCE, URL_DELIMITER } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 @Component({
 	selector: 'app-mappings-builder',
@@ -24,6 +24,7 @@ export class MappingsBuilderComponent implements OnInit {
 	mapping: Output[] = [];
 	mappingDTO: MappingDTO;
 	mappingName = '';
+	mappingBaseUrl = '';
 	mappingId: number;
 	selectedFormat;
 	ontologies: SearchOntologyDTO[];
@@ -202,6 +203,7 @@ export class MappingsBuilderComponent implements OnInit {
 
 			const output: Output = {
 				ontologyId: this.selectedOntology.id,
+				ontologyUrl: this.selectedOntology.url,
 				ontologyClass: this.selectedClass,
 				ontologyAttribute: this.selectedAttribute,
 				dataSourceId: this.selectedSource.id,
@@ -225,8 +227,8 @@ export class MappingsBuilderComponent implements OnInit {
 			const outputs: Output[] = this.mapping;
 
 			const mappingFields = outputs.map(output => {
-				const classNameUrl = `${URL_MAPPINGS}${output.ontologyClass}`;
-				const predicateUrl = `${URL_MAPPINGS}${output.ontologyAttribute}`;
+				const classNameUrl = `${output.ontologyUrl}${output.ontologyClass}`;
+				const predicateUrl = `${output.ontologyUrl}${output.ontologyAttribute}`;
 
 				return {
 					dataSourceId: output.dataSourceId,
@@ -251,6 +253,7 @@ export class MappingsBuilderComponent implements OnInit {
 
 			this.mappingDTO = {
 				name: "",
+				baseUrl: "",
 				fields: mappingFields
 			};
 
@@ -294,6 +297,15 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
+	* Clear error message on input change
+	*/
+	onMappingBaseUrlChange(): void {
+		if (this.mappingBaseUrl.trim() !== '') {
+			this.errorMessage = '';
+		}
+	}
+
+	/**
 	 * Gets the mapping data for the given mapping ID
 	 */
 	getMapping(id: number): void {
@@ -312,6 +324,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	processMapping(mappingDTO: MappingDTO): void {
 		this.mappingName = this.mappingDTO.name;
+		this.mappingBaseUrl = this.mappingDTO.baseUrl;
 
 		// Iterate through each field in the mappingDTO
 		mappingDTO.fields.forEach(field => {
@@ -322,13 +335,14 @@ export class MappingsBuilderComponent implements OnInit {
 					// Construct the output entry based on the field, predicate, and object map
 					const mappingOutput: Output = {
 						ontologyId: field.ontologyId,
+						ontologyUrl: field.subject.className.substring(0, field.subject.className.lastIndexOf('/') + 1),
 						ontologyClass: field.subject.className.split(URL_DELIMITER).pop(),
 						ontologyAttribute: predicate.predicate.split(URL_DELIMITER).pop(),
 						dataSourceId: field.dataSourceId,
 						dataSourceField: objectMap.literalValue
 					};
 
-					this.selectedAttribute = field.subject.className.replace(URL_MAPPINGS, '');
+					this.selectedAttribute = field.subject.className.split(URL_DELIMITER).pop();
 					// Add the constructed output entry to the mapping
 					this.mapping.push(mappingOutput);
 				});
@@ -370,12 +384,13 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Validate and assign mapping name
 	 */
 	validateAndAssignMappingName(): boolean {
-		if (this.mappingName.trim() === '') {
+		if (this.mappingName.trim() === '' || this.mappingBaseUrl.trim() === '') {
 			this.errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_NONAME);
 			return false;
 		}
 		this.errorMessage = '';
 		this.mappingDTO.name = this.mappingName;
+		this.mappingDTO.baseUrl = this.mappingBaseUrl;
 		return true;
 	}
 }
