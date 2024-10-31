@@ -162,7 +162,10 @@ export class MappingsBuilderComponent implements OnInit {
 				this.getFields(source.id);
 				break;
 			case DataFileTypeEnum.XML:
-				this.getXMLAttributes(source.id);
+				this.getFileAttributes(source.id);
+				break;
+			case DataFileTypeEnum.JSON:
+				this.getFileAttributes(source.id);
 				break;
 		}
 	}
@@ -181,9 +184,9 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
-	 * Retrieves the XML attributes for a given file source ID
+	 * Retrieves the file attributes for a given file source ID
 	 */
-	getXMLAttributes(id: number): void {
+	getFileAttributes(id: number): void {
 		this.fileSourceService
 			.getFileAttributes(id)
 			.pipe(
