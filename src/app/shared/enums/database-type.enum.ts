@@ -1,9 +1,7 @@
 /**
  * List of available databases
  */
-export enum DataBaseTypeEnum  {
+export enum DataBaseTypeEnum {
 	POSTGRESQL = 'POSTGRESQL',
-	MYSQL = 'MYSQL',
-	MONGO = 'MONGO',
-	H2 = 'H2'
+	MYSQL = 'MYSQL'
 }
