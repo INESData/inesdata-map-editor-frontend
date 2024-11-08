@@ -88,6 +88,7 @@ export const mappingDtoForm = new FormGroup({
     Validators.minLength(1),
     Validators.maxLength(255)
   ]),
+  ontologyIds: new FormControl(null, [Validators.required]),
   version: new FormControl(null, [])
 });
 
@@ -95,7 +96,6 @@ export const mappingFieldDtoForm = new FormGroup({
   dataSourceId: new FormControl(null, [Validators.required]),
   id: new FormControl(null, []),
   logicalTable: new FormControl(null, []),
-  ontologyId: new FormControl(null, [Validators.required]),
   predicates: new FormControl(null, []),
   subject: new FormControl(null, []),
   version: new FormControl(null, [])

@@ -1610,7 +1610,8 @@
         "required": [
           "baseUrl",
           "fields",
-          "name"
+          "name",
+          "ontologyIds"
         ],
         "type": "object",
         "properties": {
@@ -1634,6 +1635,13 @@
             "minLength": 1,
             "type": "string"
           },
+          "ontologyIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
           "version": {
             "type": "integer",
             "format": "int64"
@@ -1643,8 +1651,7 @@
       },
       "MappingFieldDTO": {
         "required": [
-          "dataSourceId",
-          "ontologyId"
+          "dataSourceId"
         ],
         "type": "object",
         "properties": {
@@ -1658,10 +1665,6 @@
           },
           "logicalTable": {
             "$ref": "#/components/schemas/LogicalTableDTO"
-          },
-          "ontologyId": {
-            "type": "integer",
-            "format": "int64"
           },
           "predicates": {
             "type": "array",

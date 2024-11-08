@@ -254,6 +254,7 @@ export class MappingsBuilderComponent implements OnInit {
 			this.mappingDTO = {
 				name: "",
 				baseUrl: "",
+				ontologyIds: [1, 2], //TODO: Obtener de la selección
 				fields: mappingFields
 			};
 
@@ -334,7 +335,7 @@ export class MappingsBuilderComponent implements OnInit {
 				predicate.objectMap.forEach(objectMap => {
 					// Construct the output entry based on the field, predicate, and object map
 					const mappingOutput: Output = {
-						ontologyId: field.ontologyId,
+						ontologyId: 1, //TODO: Obtener de la selección
 						ontologyUrl: field.subject.className.substring(0, field.subject.className.lastIndexOf('/') + 1),
 						ontologyClass: field.subject.className.split(URL_DELIMITER).pop(),
 						ontologyAttribute: predicate.predicate.split(URL_DELIMITER).pop(),
