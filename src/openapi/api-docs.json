@@ -1376,7 +1376,7 @@
     },
     "/ontologies/{id}/{ontologyClass}": {
       "get": {
-        "operationId": "getOntologyAttributes",
+        "operationId": "getClassProperties",
         "parameters": [
           {
             "description": "Ontology identifier",
@@ -1413,7 +1413,7 @@
             "description": "OK"
           }
         },
-        "summary": "Get all ontology attributes",
+        "summary": "Get all properties of the class",
         "tags": [
           "Ontology"
         ]

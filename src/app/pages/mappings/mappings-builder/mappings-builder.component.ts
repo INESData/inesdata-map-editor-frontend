@@ -95,11 +95,11 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
-	 * Gets the attributes of the selected ontology class.
+	 * Gets the properties of the selected ontology class.
 	 */
-	getAttributes(id: number, className: string): void {
+	getProperties(id: number, className: string): void {
 		this.ontologyService
-			.getOntologyAttributes(id, className)
+			.getClassProperties(id, className)
 			.pipe(
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: string[]) => {
@@ -123,7 +123,7 @@ export class MappingsBuilderComponent implements OnInit {
 	onClassSelect(className: string): void {
 		this.selectedAttribute = null;
 		this.attributes = null;
-		this.getAttributes(this.selectedOntology.id, className);
+		this.getProperties(this.selectedOntology.id, className);
 
 	}
 
