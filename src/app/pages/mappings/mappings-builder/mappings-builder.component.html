@@ -54,8 +54,8 @@
 							</div>
 						</div>
 						<!-- Attributes-->
-						<div *ngIf="selectedClass" class="col-4">
-							<p class="mt-1 mb-0">{{ "ontologies.ontology.attributes" | translate }}</p>
+						<div *ngIf="selectedClass && attributes && attributes.length > 0" class="col-4">
+							<p class="mt-1 mb-0">{{ "ontologies.ontology.properties" | translate }}</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
