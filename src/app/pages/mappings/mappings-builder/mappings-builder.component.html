@@ -53,18 +53,19 @@
 								<p-button (onClick)="showDialogElement()" class="addButton addButton__plus" [label]="'labels.add-element' | translate" />
 							</div>
 						</div>
-						<!-- Attributes-->
-						<div *ngIf="selectedClass && attributes && attributes.length > 0" class="col-4">
+						<!-- Properties-->
+						<div *ngIf="selectedClass && properties && properties.length > 0" class="col-4">
 							<p class="mt-1 mb-0">{{ "ontologies.ontology.properties" | translate }}</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
 										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
-									<div *ngFor="let attribute of attributes" class="field-checkbox">
-										<p-radioButton [inputId]="attribute" name="attribute" [value]="attribute" [(ngModel)]="selectedAttribute" />
-										<label [for]="attribute" class="ml-2">
-											{{ attribute }}
+									<div *ngFor="let property of properties" class="field-checkbox">
+										<p-radioButton [inputId]="property.name" name="property" [value]="property" [(ngModel)]="selectedProperty" />
+										<label [for]="property.name" class="ml-2">
+											{{ property.name }}
+											<i class="property-icon ml-1" [ngClass]="getIcon(property.propertyType)"> </i>
 										</label>
 									</div>
 								</div>

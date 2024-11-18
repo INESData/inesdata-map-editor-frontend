@@ -10,6 +10,8 @@ import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_UPDATED, PARAM_ID, RML_REFERENCE, URL_DELIMITER } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
+
+import { PropertyDTO } from '../../../../../projects/mapper-api-client/model/propertyDTO';
 @Component({
 	selector: 'app-mappings-builder',
 	templateUrl: './mappings-builder.component.html'
@@ -29,7 +31,7 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedFormat;
 	ontologies: SearchOntologyDTO[];
 	classes: string[];
-	attributes: string[];
+	properties: PropertyDTO[];
 
 	dataSources: FileSourceDTO[] | DataBaseSourceDTO[];
 	fileFields: string[];
@@ -38,7 +40,7 @@ export class MappingsBuilderComponent implements OnInit {
 
 	selectedOntology: SearchOntologyDTO = null;
 	selectedClass: string = null;
-	selectedAttribute: string = null;
+	selectedProperty: string = null;
 
 	selectedSource: FileSourceDTO | DataBaseSourceDTO = null;
 	selectedField: string;
@@ -102,8 +104,8 @@ export class MappingsBuilderComponent implements OnInit {
 			.getClassProperties(id, className)
 			.pipe(
 				takeUntilDestroyed(this.destroyRef)
-			).subscribe((data: string[]) => {
-				this.attributes = data ?? [];
+			).subscribe((data: PropertyDTO[]) => {
+				this.properties = data ?? [];
 			})
 	}
 
@@ -112,17 +114,17 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	onOntologySelect(ontology: SearchOntologyDTO): void {
 		this.selectedClass = null;
-		this.selectedAttribute = null;
-		this.attributes = null;
+		this.selectedProperty = null;
+		this.properties = null;
 		this.getClasses(ontology.id);
 	}
 
 	/**
-	 * Gets the selected ontology class attributes
+	 * Gets the selected ontology class properties
 	 */
 	onClassSelect(className: string): void {
-		this.selectedAttribute = null;
-		this.attributes = null;
+		this.selectedProperty = null;
+		this.properties = null;
 		this.getProperties(this.selectedOntology.id, className);
 
 	}
@@ -197,15 +199,15 @@ export class MappingsBuilderComponent implements OnInit {
 	 * add it tho the output and appends it to mapping
 	 */
 	addOutput(): void {
-		const { selectedOntology, selectedClass, selectedAttribute, selectedSource, selectedField } = this;
+		const { selectedOntology, selectedClass, selectedProperty, selectedSource, selectedField } = this;
 
-		if (selectedOntology?.id && selectedClass && selectedAttribute && selectedSource?.id && selectedField) {
+		if (selectedOntology?.id && selectedClass && selectedProperty && selectedSource?.id && selectedField) {
 
 			const output: Output = {
 				ontologyId: this.selectedOntology.id,
 				ontologyUrl: this.selectedOntology.url,
 				ontologyClass: this.selectedClass,
-				ontologyAttribute: this.selectedAttribute,
+				ontologyAttribute: this.selectedProperty,
 				dataSourceId: this.selectedSource.id,
 				dataSourceField: this.selectedField,
 			};
@@ -343,7 +345,7 @@ export class MappingsBuilderComponent implements OnInit {
 						dataSourceField: objectMap.literalValue
 					};
 
-					this.selectedAttribute = field.subject.className.split(URL_DELIMITER).pop();
+					this.selectedProperty = field.subject.className.split(URL_DELIMITER).pop();
 					// Add the constructed output entry to the mapping
 					this.mapping.push(mappingOutput);
 				});
@@ -393,5 +395,21 @@ export class MappingsBuilderComponent implements OnInit {
 		this.mappingDTO.name = this.mappingName;
 		this.mappingDTO.baseUrl = this.mappingBaseUrl;
 		return true;
+	}
+
+	/**
+	 * Returns the corresponding icon class for the property type
+	 */
+	getIcon(propertyType: PropertyDTO.PropertyTypeEnum): string {
+		switch (propertyType) {
+			case 'DATA':
+				return 'pi pi-table';
+			case 'OBJECT':
+				return 'pi pi-box';
+			case 'ANNOTATION':
+				return 'pi pi-pen-to-square';
+			default:
+				return '';
+		}
 	}
 }
