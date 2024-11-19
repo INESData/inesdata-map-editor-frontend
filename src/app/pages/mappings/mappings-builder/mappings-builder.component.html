@@ -65,7 +65,12 @@
 										<p-radioButton [inputId]="property.name" name="property" [value]="property" [(ngModel)]="selectedProperty" />
 										<label [for]="property.name" class="ml-2">
 											{{ property.name }}
-											<i class="property-icon ml-1" [ngClass]="getIcon(property.propertyType)"> </i>
+											<i
+												class="property-icon ml-1"
+												[ngClass]="getIconAndTitle(property.propertyType).iconClass"
+												[title]="getIconAndTitle(property.propertyType).title"
+											>
+											</i>
 										</label>
 									</div>
 								</div>

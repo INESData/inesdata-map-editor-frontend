@@ -398,18 +398,18 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
-	 * Returns the corresponding icon class for the property type
+	 * Returns the corresponding icon class and title for the property type
 	 */
-	getIcon(propertyType: PropertyDTO.PropertyTypeEnum): string {
+	getIconAndTitle(propertyType: PropertyDTO.PropertyTypeEnum): { iconClass: string, title: string } {
 		switch (propertyType) {
 			case 'DATA':
-				return 'pi pi-table';
+				return { iconClass: 'pi pi-table', title: 'Data Property' };
 			case 'OBJECT':
-				return 'pi pi-box';
+				return { iconClass: 'pi pi-box', title: 'Object Property' };
 			case 'ANNOTATION':
-				return 'pi pi-pen-to-square';
+				return { iconClass: 'pi pi-pen-to-square', title: 'Annotation Property' };
 			default:
-				return '';
+				return { iconClass: '', title: '' };
 		}
 	}
 }
