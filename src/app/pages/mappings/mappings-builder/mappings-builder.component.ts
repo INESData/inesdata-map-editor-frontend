@@ -8,7 +8,7 @@ import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { Output } from 'src/app/shared/models/output.model';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_UPDATED, PARAM_ID, RML_REFERENCE, URL_DELIMITER } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_UPDATED, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_REFERENCE, URL_DELIMITER } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
 import { PropertyDTO } from '../../../../../projects/mapper-api-client/model/propertyDTO';
@@ -403,11 +403,11 @@ export class MappingsBuilderComponent implements OnInit {
 	getIconAndTitle(propertyType: PropertyDTO.PropertyTypeEnum): { iconClass: string, title: string } {
 		switch (propertyType) {
 			case 'DATA':
-				return { iconClass: 'pi pi-table', title: 'Data Property' };
+				return { iconClass: 'pi pi-table', title: this.languageService.translateValue(PROPERTIES_DATA) };
 			case 'OBJECT':
-				return { iconClass: 'pi pi-box', title: 'Object Property' };
+				return { iconClass: 'pi pi-box', title: this.languageService.translateValue(PROPERTIES_OBJECT) };
 			case 'ANNOTATION':
-				return { iconClass: 'pi pi-pen-to-square', title: 'Annotation Property' };
+				return { iconClass: 'pi pi-pen-to-square', title: this.languageService.translateValue(PROPERTIES_ANNOTATION) };
 			default:
 				return { iconClass: '', title: '' };
 		}

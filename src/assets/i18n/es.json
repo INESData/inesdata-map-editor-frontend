@@ -127,6 +127,11 @@
   "placeholders": {
     "search": "Buscar por..."
   },
+  "properties": {
+    "annotation": "Propiedad de Anotación",
+    "data": "Propiedad de Datos",
+    "object": "Propiedad de Objeto"
+  },
   "sidebar": {
     "labels": {
       "builder": "Generador de mapeo manual",

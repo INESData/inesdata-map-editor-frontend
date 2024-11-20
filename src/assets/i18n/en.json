@@ -127,6 +127,11 @@
   "placeholders": {
     "search": "Search by..."
   },
+  "properties": {
+    "annotation": "Annotation Property",
+    "data": "Data property",
+    "object": "Object Property"
+  },
   "sidebar": {
     "labels": {
       "builder": "Manual mapping builder",
