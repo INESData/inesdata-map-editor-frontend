@@ -87,3 +87,8 @@ export const SIDEBAR_LABELS_DATASOURCES: string = translate('sidebar.labels.data
 export const SIDEBAR_LABELS_MAPPINGS: string = translate('sidebar.labels.mappings');
 export const SIDEBAR_LABELS_BUILDER: string = translate('sidebar.labels.builder');
 export const SIDEBAR_LABELS_EDIT: string = translate('sidebar.labels.edit');
+
+//Properties
+export const PROPERTIES_DATA: string = translate('properties.data');
+export const PROPERTIES_OBJECT: string = translate('properties.object');
+export const PROPERTIES_ANNOTATION: string = translate('properties.annotation');

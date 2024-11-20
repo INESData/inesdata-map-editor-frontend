@@ -117,15 +117,20 @@
     "ontologies": "Ontologies",
     "ontology": {
       "add": "Add ontology",
-      "attributes": "Attributes",
       "classes": "Classes",
       "confirmation": "Are you sure you want to delete this ontology?",
       "edit": "Edit ontology",
-      "list": "Ontologies list"
+      "list": "Ontologies list",
+      "properties": "Properties"
     }
   },
   "placeholders": {
     "search": "Search by..."
+  },
+  "properties": {
+    "annotation": "Annotation Property",
+    "data": "Data property",
+    "object": "Object Property"
   },
   "sidebar": {
     "labels": {

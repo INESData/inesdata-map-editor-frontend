@@ -1376,7 +1376,7 @@
     },
     "/ontologies/{id}/{ontologyClass}": {
       "get": {
-        "operationId": "getOntologyAttributes",
+        "operationId": "getClassProperties",
         "parameters": [
           {
             "description": "Ontology identifier",
@@ -1405,7 +1405,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "type": "string"
+                    "$ref": "#/components/schemas/PropertyDTO"
                   }
                 }
               }
@@ -1413,7 +1413,7 @@
             "description": "OK"
           }
         },
-        "summary": "Get all ontology attributes",
+        "summary": "Get all properties of the class",
         "tags": [
           "Ontology"
         ]
@@ -1984,6 +1984,26 @@
           "version": {
             "type": "integer",
             "format": "int64"
+          }
+        }
+      },
+      "PropertyDTO": {
+        "required": [
+          "name",
+          "propertyType"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "propertyType": {
+            "type": "string",
+            "enum": [
+              "DATA",
+              "OBJECT",
+              "ANNOTATION"
+            ]
           }
         }
       },

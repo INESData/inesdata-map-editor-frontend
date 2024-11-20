@@ -212,6 +212,11 @@ export const predicateObjectMapDtoForm = new FormGroup({
   version: new FormControl(null, [])
 });
 
+export const propertyDtoForm = new FormGroup({
+  name: new FormControl(null, [Validators.required]),
+  propertyType: new FormControl(null, [Validators.required])
+});
+
 export const searchMappingDtoForm = new FormGroup({
   dataSources: new FormControl(null, []),
   id: new FormControl(null, []),

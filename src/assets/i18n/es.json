@@ -117,15 +117,20 @@
     "ontologies": "Ontologías",
     "ontology": {
       "add": "Añadir ontología",
-      "attributes": "Atributos",
       "classes": "Clases",
       "confirmation": "¿Seguro que quieres eliminar esta ontología?",
       "edit": "Editar ontología",
-      "list": "Lista de Ontologías"
+      "list": "Lista de Ontologías",
+      "properties": "Propiedades"
     }
   },
   "placeholders": {
     "search": "Buscar por..."
+  },
+  "properties": {
+    "annotation": "Propiedad de Anotación",
+    "data": "Propiedad de Datos",
+    "object": "Propiedad de Objeto"
   },
   "sidebar": {
     "labels": {
