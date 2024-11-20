@@ -398,7 +398,7 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
-	 * Returns the corresponding icon class and title for the property type
+	 * Returns the corresponding icon class and for the property type
 	 */
 	getIconAndTitle(propertyType: PropertyDTO.PropertyTypeEnum): { iconClass: string, title: string } {
 		switch (propertyType) {
