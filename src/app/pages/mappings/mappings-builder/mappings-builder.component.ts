@@ -8,7 +8,7 @@ import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
 import { Output } from 'src/app/shared/models/output.model';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_UPDATED, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_REFERENCE, URL_DELIMITER } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_UPDATED, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_ASSOCIATED, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_REFERENCE, URL_DELIMITER } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
 import { PropertyDTO } from '../../../../../projects/mapper-api-client/model/propertyDTO';
@@ -400,16 +400,35 @@ export class MappingsBuilderComponent implements OnInit {
 	/**
 	 * Returns the corresponding icon class and for the property type
 	 */
-	getIconAndTitle(propertyType: PropertyDTO.PropertyTypeEnum): { iconClass: string, title: string } {
-		switch (propertyType) {
+	getIconAndTitle(property: PropertyDTO): { iconClasses: string[], titles: string[] } {
+		const iconClasses = [];
+		const titles = [];
+
+		switch (property.propertyType) {
 			case 'DATA':
-				return { iconClass: 'pi pi-table', title: this.languageService.translateValue(PROPERTIES_DATA) };
+				iconClasses.push('pi pi-table');
+				titles.push(this.languageService.translateValue(PROPERTIES_DATA));
+				break;
+
+
 			case 'OBJECT':
-				return { iconClass: 'pi pi-box', title: this.languageService.translateValue(PROPERTIES_OBJECT) };
+				iconClasses.push('pi pi-box');
+				titles.push(this.languageService.translateValue(PROPERTIES_OBJECT));
+				break;
+
 			case 'ANNOTATION':
-				return { iconClass: 'pi pi-pen-to-square', title: this.languageService.translateValue(PROPERTIES_ANNOTATION) };
+				iconClasses.push('pi pi-pen-to-square');
+				titles.push(this.languageService.translateValue(PROPERTIES_ANNOTATION));
+				break;
+
 			default:
-				return { iconClass: '', title: '' };
+				break;
 		}
+		if (property.associated) {
+			iconClasses.push('pi pi-link');
+			titles.push(this.languageService.translateValue(PROPERTIES_ASSOCIATED));
+		}
+
+		return { iconClasses, titles };
 	}
 }

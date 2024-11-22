@@ -129,6 +129,7 @@
   },
   "properties": {
     "annotation": "Propiedad de Anotación",
+    "associated": "Asociada a la clase",
     "data": "Propiedad de Datos",
     "object": "Propiedad de Objeto"
   },
