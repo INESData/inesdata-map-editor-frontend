@@ -1994,6 +1994,9 @@
         ],
         "type": "object",
         "properties": {
+          "associated": {
+            "type": "boolean"
+          },
           "name": {
             "type": "string"
           },

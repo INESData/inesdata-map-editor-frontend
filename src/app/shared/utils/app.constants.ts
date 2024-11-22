@@ -92,3 +92,4 @@ export const SIDEBAR_LABELS_EDIT: string = translate('sidebar.labels.edit');
 export const PROPERTIES_DATA: string = translate('properties.data');
 export const PROPERTIES_OBJECT: string = translate('properties.object');
 export const PROPERTIES_ANNOTATION: string = translate('properties.annotation');
+export const PROPERTIES_ASSOCIATED: string = translate('properties.associated');
