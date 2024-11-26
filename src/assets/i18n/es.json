@@ -5,19 +5,15 @@
       "confirmation": "¿Seguro que quieres eliminar esta fuente de datos?",
       "data": "Datos",
       "edit": "Editar fuente de datos",
-      "fields": "Campos",
       "format": "Seleccione el formato",
       "list": "Lista de Fuentes de datos",
-      "query": "Query",
-      "sources": "Fuentes de datos",
-      "tables": "Tables",
-      "xpath": "XPath"
+      "sources": "Fuentes de datos"
     }
   },
   "labels": {
     "add-element": "Añadir elemento",
-    "add-output": "Añadir output",
     "add-query": "Añadir query",
+    "add-rule": "Añadir regla",
     "cancel": "Cancelar",
     "connection-url": "URL de conexión",
     "data-source": "Fuente de datos",
@@ -30,7 +26,10 @@
     "import": "Importar de local",
     "import_mapping": "Importar mapeo",
     "importRML": "Seleccionar archivo RML",
+    "iri": "IRI",
+    "literal": "Literal",
     "name": "Nombre",
+    "new-triplesmap": "Nueva tripleta",
     "no": "No",
     "ontology": "Ontología",
     "ontology-file": "Seleccione el archivo de ontología",
@@ -59,7 +58,10 @@
       "map-name": "Nombre del mapeo",
       "mappings-list": "Volver a la lista de mapeos",
       "new-materialisation": "Nueva materialización",
-      "select": "Seleccione el <strong>archivo RML</strong>, las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para importar un mapeo: "
+      "object": "Objeto",
+      "predicate": "Predicado",
+      "select": "Seleccione el <strong>archivo RML</strong>, las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para importar un mapeo: ",
+      "subject": "Sujeto"
     }
   },
   "materialisations": {
@@ -125,6 +127,7 @@
     }
   },
   "placeholders": {
+    "dataType": "Selecciona el tipo de dato",
     "search": "Buscar por..."
   },
   "properties": {

@@ -8,9 +8,10 @@ import { MappingsFormComponent } from './mappings-form/mappings-form.component';
 import { MappingsListComponent } from './mappings-list/mappings-list.component';
 import { MappingsRecordsComponent } from './mappings-records/mappings-records.component';
 import { MappingsRoutingModule } from './mappings-routing.module';
+import { MappingsSummaryComponent } from './mappings-summary/mappings-summary.component';
 
 @NgModule({
-	declarations: [MappingsComponent, MappingsListComponent, MappingsFormComponent, MappingsRecordsComponent, MappingsBuilderComponent],
+	declarations: [MappingsComponent, MappingsListComponent, MappingsFormComponent, MappingsRecordsComponent, MappingsBuilderComponent, MappingsSummaryComponent],
 	imports: [MappingsRoutingModule, SharedModule, JoinPipe]
 })
 export class MappingsModule { }
