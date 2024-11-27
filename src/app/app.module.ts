@@ -13,6 +13,7 @@ import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { ApiModule, Configuration, ConfigurationParameters } from 'projects/mapper-api-client';
 import { environment } from 'src/environments/environment';
 
@@ -47,6 +48,7 @@ import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANGUAGE_STORAGE_NAME } from './
 		DropdownModule,
 		FileUploadModule,
 		DialogModule,
+		SelectButtonModule,
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,

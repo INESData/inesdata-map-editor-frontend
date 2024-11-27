@@ -27,6 +27,7 @@ import { PaginatorModule } from 'primeng/paginator';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { TableModule } from 'primeng/table';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { ToastModule } from 'primeng/toast';
@@ -134,7 +135,8 @@ import { SideBarComponent } from './components/sidebar/sidebar.component';
 		InputNumberModule,
 		PaginatorModule,
 		TreeModule,
-		MenubarModule
+		MenubarModule,
+		SelectButtonModule
 	]
 })
 export class SharedModule { }

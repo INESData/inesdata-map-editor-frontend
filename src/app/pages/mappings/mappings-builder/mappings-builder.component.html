@@ -6,13 +6,13 @@
 				<!-- Subject-->
 				<div class="col-12">
 					<div class="col-12 flex flex-justify-right pt-0 pb-0">
-						<p-button class="btn btn__primary icon-chevron" [label]="'labels.new-triplesmap' | translate" (onClick)="addOutput()" />
+						<p-button class="btn btn__primary icon-chevron" [label]="'labels.new-triplesmap' | translate" (onClick)="newTriplesMap()" />
 					</div>
 					<!-- Data Sources-->
 					<h1 class="category category__datasources">{{ "data-sources.data-source.sources" | translate }}</h1>
 					<p-dropdown
 						[options]="formats"
-						[(ngModel)]="selectedFormat"
+						[(ngModel)]="selectedSourceFormat"
 						[placeholder]="'data-sources.data-source.format' | translate"
 						(onChange)="getDataFromFormat($event.value)"
 					></p-dropdown>
@@ -20,7 +20,7 @@
 						<h1 class="category">{{ "mappings.mapping.subject" | translate }}</h1>
 					</div>
 					<div class="grid mt-0">
-						<div *ngIf="selectedFormat" class="col-4">
+						<div *ngIf="selectedSourceFormat" class="col-4">
 							<p class="mt-1 mb-0">{{ "data-sources.data-source.data" | translate }}</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
@@ -56,7 +56,7 @@
 											[inputId]="ontology.id"
 											name="ontology"
 											[value]="ontology"
-											[(ngModel)]="selectedObjectOntology"
+											[(ngModel)]="selectedSubjectOntology"
 											(ngModelChange)="onOntologySelect($event, 'subject')"
 										/>
 										<label [for]="ontology.id" class="ml-2">
@@ -65,13 +65,15 @@
 									</div>
 								</div>
 							</div>
-							<p class="mt-1 mb-0">Iterador</p>
-							<input class="mb-1" type="text" pInputText />
-							<p class="mt-1 mb-0">Template URL</p>
-							<input class="mb-1" type="text" pInputText />
+							<div *ngIf="selectedSourceFormat && (selectedSourceFormat === 'XML' || selectedSourceFormat === 'JSON')">
+								<p class="mt-1 mb-0">{{ "mappings.mapping.iterator" | translate }}</p>
+								<input class="mb-1" type="text" pInputText [(ngModel)]="iterator" />
+							</div>
+							<p class="mt-1 mb-0">{{ "mappings.mapping.templateUrl" | translate }}</p>
+							<input class="mb-1" type="text" pInputText [(ngModel)]="templateUrl" />
 						</div>
 						<!-- Subject ontologies classes-->
-						<div *ngIf="selectedObjectOntology" class="col-4">
+						<div *ngIf="selectedSubjectOntology" class="col-4">
 							<p class="mt-1 mb-0">{{ "ontologies.ontology.classes" | translate }}</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
@@ -79,7 +81,7 @@
 										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
 									<div *ngFor="let subjectClass of subjectClasses" class="field-checkbox">
-										<p-radioButton [inputId]="subjectClass" name="subjectClass" [value]="subjectClass" [(ngModel)]="selectedObjectClass" />
+										<p-radioButton [inputId]="subjectClass" name="subjectClass" [value]="subjectClass" [(ngModel)]="selectedSubjectClass" />
 										<label [for]="subjectClass" class="ml-2">
 											{{ subjectClass }}
 										</label>
@@ -92,7 +94,7 @@
 				</div>
 				<!-- End of Subject-->
 				<div class="col-12 flex flex-justify-right pt-0 pb-0">
-					<p-button class="btn btn__primary icon-chevron" [label]="'labels.add-rule' | translate" (onClick)="addOutput()" />
+					<p-button class="btn btn__primary icon-chevron" [label]="'labels.add-rule' | translate" (onClick)="addFieldToMapping()" />
 				</div>
 				<!-- Predicate-->
 				<div class="col-12">
@@ -154,7 +156,7 @@
 										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
 									<div *ngFor="let property of properties" class="field-checkbox">
-										<p-radioButton [inputId]="property.name" name="property" [value]="property" [(ngModel)]="selectedProperty" />
+										<p-radioButton [inputId]="property.name" name="property" [value]="property" [(ngModel)]="selectedPredicateProperty" />
 										<label [for]="property.name" class="ml-2">
 											{{ property.name }}
 											<ng-container *ngFor="let icon of getIconAndTitle(property).iconClasses; let i = index">
@@ -174,26 +176,17 @@
 					<h1 class="category">{{ "mappings.mapping.object" | translate }}</h1>
 					<div class="grid mt-0">
 						<div class="col-4">
-							<input class="mb-1" type="text" pInputText />
+							<input class="mb-1" type="text" pInputText [(ngModel)]="objectMap" />
 						</div>
 						<div class="col-4">
-							<div class="button-group" style="display: flex; gap: 10px">
-								<p-button
-									class="btn btn__primary"
-									[label]="'labels.iri' | translate"
-									[styleClass]="termType === 'iri' ? 'p-button-primary' : 'p-button-secondary'"
-									(onClick)="setTermType('iri')"
-								/>
-								<p-button
-									class="btn btn__primary"
-									[label]="'labels.literal' | translate"
-									[styleClass]="termType === 'literal' ? 'p-button-primary' : 'p-button-secondary'"
-									(onClick)="setTermType('literal')"
-								/>
-							</div>
+							<p-selectButton [options]="termType" [(ngModel)]="currentTermType" optionLabel="label" optionValue="value" />
 						</div>
-						<div class="col-4">
-							<p-dropdown [options]="dataTypes" [(ngModel)]="selectedType" [placeholder]="'placeholders.dataType' | translate"></p-dropdown>
+						<div *ngIf="currentTermType === 'literal'" class="col-4">
+							<p-dropdown
+								[options]="dataTypes"
+								[(ngModel)]="selectedDataType"
+								[placeholder]="'placeholders.dataType' | translate"
+							></p-dropdown>
 						</div>
 					</div>
 				</div>
@@ -202,7 +195,7 @@
 		</div>
 	</div>
 	<!--Mappings summary-->
-	<app-mappings-summary></app-mappings-summary>
+	<app-mappings-summary [mappingDTO]="mappingDTO"></app-mappings-summary>
 </div>
 
 <!--Add element dialog-->

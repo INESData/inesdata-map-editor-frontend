@@ -26,8 +26,6 @@
     "import": "Import from local",
     "import_mapping": "Import mapping",
     "importRML": "Select RML file",
-    "iri": "IRI",
-    "literal": "Literal",
     "name": "Name",
     "new-triplesmap": "New triples map",
     "no": "No",
@@ -51,6 +49,7 @@
       "edit": "Edit mapping",
       "import": "Import mapping",
       "import_mapping": "Import mapping",
+      "iterator": "Iterator",
       "list": "Mappings List",
       "manual": "Generate manual mapping",
       "map": "Mapping",
@@ -61,7 +60,8 @@
       "object": "Object",
       "predicate": "Predicate",
       "select": "Select the <strong>RML file</strong>, the <strong>ontologies</strong> and <strong>data sources</strong> needed to import a mapping: ",
-      "subject": "Subject"
+      "subject": "Subject",
+      "templateUrl": "Template URL"
     }
   },
   "materialisations": {
@@ -93,7 +93,9 @@
       "errors": {
         "no-name-url": "Mapping must have a name and a base URL"
       },
-      "pairs": "At least one pair should be selected",
+      "rule": {
+        "incomplete": "Incomplete rule. Please check the fields."
+      },
       "success": {
         "created": "Mapping successfully created",
         "deleted": "Mapping successfully deleted",

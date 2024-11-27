@@ -26,8 +26,6 @@
     "import": "Importar de local",
     "import_mapping": "Importar mapeo",
     "importRML": "Seleccionar archivo RML",
-    "iri": "IRI",
-    "literal": "Literal",
     "name": "Nombre",
     "new-triplesmap": "Nueva tripleta",
     "no": "No",
@@ -51,6 +49,7 @@
       "edit": "Editar mapeo",
       "import": "Importar mapeo",
       "import_mapping": "Importación de mapeo",
+      "iterator": "Iterador",
       "list": "Lista de Mapeos",
       "manual": "Generar mapeo manual",
       "map": "Mapeo",
@@ -61,7 +60,8 @@
       "object": "Objeto",
       "predicate": "Predicado",
       "select": "Seleccione el <strong>archivo RML</strong>, las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para importar un mapeo: ",
-      "subject": "Sujeto"
+      "subject": "Sujeto",
+      "templateUrl": "URL del template"
     }
   },
   "materialisations": {
@@ -93,7 +93,9 @@
       "errors": {
         "no-name-url": "El mapeo debe tener un nombre y una URL base"
       },
-      "pairs": "Se debe seleccionar al menos un par",
+      "rule": {
+        "incomplete": "Regla incompleta. Por favor, revisa los campos."
+      },
       "success": {
         "created": "Mapeo creado correctamente",
         "deleted": "Mapeo eliminado correctamente",

@@ -1,11 +1,10 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, Input } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { MappingDTO, MappingService } from 'projects/mapper-api-client';
-import { Output } from 'src/app/shared/models/output.model';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_UPDATED, RML_REFERENCE } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_UPDATED } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-mappings-summary',
@@ -19,11 +18,10 @@ export class MappingsSummaryComponent {
 
 	mappingName = '';
 	mappingBaseUrl = '';
-	errorMessage = '';
-	mapping: Output[] = [];
 	mappingId: number;
-	mappingDTO: MappingDTO;
+	errorMessage = '';
 
+	@Input() mappingDTO: MappingDTO;
 
 	/**
 	* Clear error message on input change
@@ -44,69 +42,17 @@ export class MappingsSummaryComponent {
 	}
 
 	/**
-	 * Deletes selected pair from mapping
+	 * Deletes selected field from mapping
 	 */
-	deletePairFromMapping(index: number): void {
-		if (index > -1 && index < this.mapping.length) {
-			this.mapping.splice(index, 1);
+	deleteFieldFromMapping(index: number): void {
+		if (index > -1 && index < this.mappingDTO.fields.length) {
+			this.mappingDTO.fields.splice(index, 1);
 		}
 	}
 
 	/**
-* Builds the mapping fields based on the current mappings
-* and updates the mappingDTO with the generated fields.
-*/
-	buildMapping(): void {
-
-		if (this.mapping && this.mapping.length > 0) {
-			const outputs: Output[] = this.mapping;
-
-			const mappingFields = outputs.map(output => {
-				const classNameUrl = `${output.ontologyUrl}${output.ontologyClass}`;
-				const predicateUrl = `${output.ontologyUrl}${output.ontologyAttribute}`;
-
-				return {
-					dataSourceId: output.dataSourceId,
-					ontologyId: output.ontologyId,
-					predicates: [
-						{
-							objectMap: [
-								{
-									key: RML_REFERENCE,
-									literalValue: output.dataSourceField
-								}
-							],
-							predicate: predicateUrl
-						}
-					],
-					subject: {
-						className: classNameUrl,
-						template: `${classNameUrl}/{id}`
-					}
-				};
-			});
-
-			this.mappingDTO = {
-				name: "",
-				baseUrl: "",
-				ontologyIds: [1, 2], //TODO: Obtener de la selección
-				fields: mappingFields
-			};
-
-			if (!this.mappingId) {
-				this.generateMapping();
-			} else {
-				this.editMapping();
-			}
-
-		} else {
-			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PAIRS, MESSAGES_ERRORS);
-		}
-	}
-
-	/**
-* Generates a mapping and call the mapping service to create it.
-*/
+	* Generates a mapping and call the mapping service to create it.
+	*/
 	generateMapping(): void {
 		// Validate mapping
 		if (!this.validateAndAssignMappingName()) {
@@ -124,8 +70,8 @@ export class MappingsSummaryComponent {
 	}
 
 	/**
- * Updates the mapping
- */
+	 * Updates the mapping
+	 */
 	editMapping(): void {
 		// Validate mapping
 		if (!this.validateAndAssignMappingName()) {
@@ -145,8 +91,8 @@ export class MappingsSummaryComponent {
 	}
 
 	/**
- * Validate and assign mapping name
- */
+	 * Validate and assign mapping name
+	 */
 	validateAndAssignMappingName(): boolean {
 		if (this.mappingName.trim() === '' || this.mappingBaseUrl.trim() === '') {
 			this.errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_NONAME);
