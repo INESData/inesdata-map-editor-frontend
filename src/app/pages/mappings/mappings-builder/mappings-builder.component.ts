@@ -30,8 +30,6 @@ export class MappingsBuilderComponent implements OnInit {
 	elementDialogVisible = false;
 	mappingDTO: MappingDTO;
 	mappingId: number;
-	mappingName = '';
-	mappingBaseUrl = '';
 
 	ontologies: SearchOntologyDTO[];
 	dataSources: FileSourceDTO[] | DataBaseSourceDTO[];
@@ -51,7 +49,7 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedPredicateProperty: string = null;
 
 	objectMap: string;
-	selectedDataType;
+	selectedDataType: string;
 
 	source: string;
 	fileFields: string[];
@@ -223,39 +221,30 @@ export class MappingsBuilderComponent implements OnInit {
 	 * add it to the mapping DTO
 	 */
 	addFieldToMapping(): void {
-		const { selectedSource, selectedSourceFormat, templateUrl, selectedSubjectClass, selectedPredicateProperty, objectMap, currentTermType } = this;
 
-		if (selectedSource?.id && selectedSourceFormat && templateUrl && selectedSubjectClass && selectedPredicateProperty && objectMap && currentTermType) {
+		const { selectedSource, selectedSourceFormat, templateUrl, selectedSubjectClass, selectedPredicateProperty, objectMap, currentTermType, selectedDataType } = this;
+
+		if (selectedSource?.id && selectedSourceFormat && templateUrl && selectedSubjectClass && selectedPredicateProperty && objectMap && currentTermType && (currentTermType !== 'literal' || selectedDataType)) {
 
 			const mappingField: MappingFieldDTO = {
 				dataSourceId: selectedSource.id,
-				logicalTable: {
-					id: 0,
-					query: '',
-					tableName: '',
-					version: 0,
-				},
+				logicalTable: null,
 				predicates: [
 					{
 						predicate: selectedPredicateProperty['name'],
-						version: 1,
 						objectMap: [
 							{
-								id: 1,
 								key: "rml:template",
 								literalValue: objectMap,
-								objectValue: [],
-								version: 1
+								objectValue: []
 							}
 						]
 					}
 				],
 				subject: {
 					className: selectedSubjectClass,
-					template: templateUrl,
-					version: 1,
-				},
-				version: 1,
+					template: templateUrl
+				}
 			};
 
 			if (this.mappingDTO) {
@@ -269,11 +258,9 @@ export class MappingsBuilderComponent implements OnInit {
 			} else {
 
 				this.mappingDTO = {
-					id: 0,
 					name: '',
 					baseUrl: '',
 					ontologyIds: [this.selectedSubjectOntology.id, this.selectedPredicateOntology.id],
-					version: 1,
 					fields: [mappingField],
 				};
 			}
@@ -285,6 +272,9 @@ export class MappingsBuilderComponent implements OnInit {
 		}
 	}
 
+	/**
+	 * Clear all selected properties
+	 */
 	newTriplesMap(): void {
 		this.selectedSourceFormat = null;
 		this.selectedSubjectOntology = null;

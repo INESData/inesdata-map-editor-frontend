@@ -40,7 +40,8 @@
 			<p-button
 				class="btn btn__primary"
 				[label]="mappingId ? ('mappings.mapping.edit' | translate) : ('mappings.mapping.build' | translate)"
-				(click)="buildMapping()"
+				(click)="generateMapping()"
+				(keydown.enter)="generateMapping()"
 			/>
 		</div>
 	</div>
