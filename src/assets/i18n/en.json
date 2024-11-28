@@ -91,6 +91,8 @@
     },
     "mappings": {
       "errors": {
+        "no-data-type": "Data type is required for literal term type",
+        "no-iterator": "Iterator is required for XML or JSON data source type",
         "no-name-url": "Mapping must have a name and a base URL"
       },
       "rule": {
