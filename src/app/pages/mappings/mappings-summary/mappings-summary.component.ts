@@ -54,16 +54,21 @@ export class MappingsSummaryComponent implements OnChanges {
 	}
 
 	/**
-	 * Deletes selected field from mapping
+	 * Deletes selected predicate from mapping.
+	 * If field has no predicate-object, delete field from mapping
 	 */
-	deleteFieldFromMapping(index: number): void {
-		if (index > -1 && index < this.mappingDTO.fields.length) {
-			this.mappingDTO.fields.splice(index, 1);
+	deletePredicateFromField(fieldIndex: number, predicateIndex: number): void {
+		const field = this.mappingDTO.fields[fieldIndex];
+		field.predicates.splice(predicateIndex, 1);
+
+		if (field.predicates.length === 0) {
+			this.mappingDTO.fields.splice(fieldIndex, 1);
 		}
 	}
 
 	/**
-	* Generates a mapping and call the mapping service to create it.
+	* Validate mapping, assign name and base url and concat url
+	* Update if exists and create if not
 	*/
 	generateMapping(): void {
 		// Validate mapping
@@ -75,17 +80,27 @@ export class MappingsSummaryComponent implements OnChanges {
 			return;
 		}
 
+		// Add url
 		this.mappingDTO?.fields?.forEach(field => {
-			if (field.subject) {
+			if (!field.id) {
 				field.subject.className = `${this.mappingDTO.baseUrl}${field.subject.className}`;
-			}
-			if (field.predicates) {
 				field.predicates.forEach(predicate => {
 					predicate.predicate = `${this.mappingDTO.baseUrl}${predicate.predicate}`;
 				});
 			}
 		});
 
+		if (!this.mappingId) {
+			this.createMapping();
+		} else {
+			this.editMapping();
+		}
+	}
+
+	/**
+	 * Creates a mapping
+	 */
+	createMapping(): void {
 		this.mappingService
 			.create(this.mappingDTO)
 			.pipe(
