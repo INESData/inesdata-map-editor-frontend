@@ -1,48 +1,46 @@
-<div class="col-4">
-	<div class="whiteContainer h-full">
-		<h1 class="category category__mapping mb-1">{{ "mappings.mapping.map" | translate }}</h1>
-		<label for="">{{ "mappings.mapping.map-name" | translate }}</label>
-		<input class="mb-2" type="text" pInputText [(ngModel)]="mappingName" (ngModelChange)="onMappingNameChange()" />
-		<label for="">{{ "mappings.mapping.map-base-url" | translate }}</label>
-		<input class="mb-2" type="text" pInputText [(ngModel)]="mappingBaseUrl" (ngModelChange)="onMappingBaseUrlChange()" />
-		<div>
-			{{ errorMessage }}
-		</div>
-		<!-- Fields table -->
-		<div *ngIf="mappingDTO && mappingDTO.fields?.length > 0">
-			<h2 class="category" *ngIf="mappingDTO.fields[0]?.subject?.template">
-				{{ "mappings.mapping.subject" | translate }}: {{ mappingDTO.fields[0].subject.template }}
-			</h2>
-			<p-table *ngIf="mappingDTO && mappingDTO.fields?.length > 0" class="mappingTable" [value]="mappingDTO.fields">
-				<ng-template pTemplate="header">
+<div class="whiteContainer h-full">
+	<h1 class="category category__mapping mb-1">{{ "mappings.mapping.map" | translate }}</h1>
+	<label for="">{{ "mappings.mapping.map-name" | translate }}</label>
+	<input class="mb-2" type="text" pInputText [(ngModel)]="mappingName" (ngModelChange)="onMappingNameChange()" />
+	<label for="">{{ "mappings.mapping.map-base-url" | translate }}</label>
+	<input class="mb-2" type="text" pInputText [(ngModel)]="mappingBaseUrl" (ngModelChange)="onMappingBaseUrlChange()" />
+	<div>
+		{{ errorMessage }}
+	</div>
+	<!-- Fields table -->
+	<div *ngIf="mappingDTO && mappingDTO.fields?.length > 0">
+		<h3 class="category" *ngIf="mappingDTO.fields[0]?.subject?.template">
+			{{ "mappings.mapping.subject" | translate }}: {{ mappingDTO.fields[0].subject.template }}
+		</h3>
+		<p-table *ngIf="mappingDTO && mappingDTO.fields?.length > 0" class="mappingTable" [value]="mappingDTO.fields">
+			<ng-template pTemplate="header">
+				<tr>
+					<th id="object">{{ "mappings.mapping.object" | translate }}</th>
+					<th id="predicate">{{ "mappings.mapping.predicate" | translate }}</th>
+					<th id="options"></th>
+				</tr>
+			</ng-template>
+			<ng-template pTemplate="body" let-field let-index="rowIndex">
+				<ng-container *ngFor="let predicate of field.predicates; let index = index">
 					<tr>
-						<th id="object">{{ "mappings.mapping.object" | translate }}</th>
-						<th id="predicate">{{ "mappings.mapping.predicate" | translate }}</th>
-						<th id="options"></th>
+						<td>{{ predicate.objectMap?.[0]?.literalValue || "-" }}</td>
+						<td>{{ predicate.predicate || "-" }}</td>
+						<td>
+							<div class="flex flex-justify flex-justify-right">
+								<p-button class="btn btn__icon icon-papelera mr-1" (onClick)="deleteFieldFromMapping(index)" />
+							</div>
+						</td>
 					</tr>
-				</ng-template>
-				<ng-template pTemplate="body" let-field let-index="rowIndex">
-					<ng-container *ngFor="let predicate of field.predicates; let index = index">
-						<tr>
-							<td>{{ predicate.objectMap?.[0]?.literalValue || "-" }}</td>
-							<td>{{ predicate.predicate || "-" }}</td>
-							<td>
-								<div class="flex flex-justify flex-justify-right">
-									<p-button class="btn btn__icon icon-papelera mr-1" (onClick)="deleteFieldFromMapping(index)" />
-								</div>
-							</td>
-						</tr>
-					</ng-container>
-				</ng-template>
-			</p-table>
-		</div>
-		<div class="col-12 flex flex-justify-right p-0 mt-2">
-			<p-button
-				class="btn btn__primary"
-				[label]="mappingId ? ('mappings.mapping.edit' | translate) : ('mappings.mapping.build' | translate)"
-				(click)="generateMapping()"
-				(keydown.enter)="generateMapping()"
-			/>
-		</div>
+				</ng-container>
+			</ng-template>
+		</p-table>
+	</div>
+	<div class="col-12 flex flex-justify-right p-0 mt-2">
+		<p-button
+			class="btn btn__primary"
+			[label]="mappingId ? ('mappings.mapping.edit' | translate) : ('mappings.mapping.build' | translate)"
+			(click)="generateMapping()"
+			(keydown.enter)="generateMapping()"
+		/>
 	</div>
 </div>

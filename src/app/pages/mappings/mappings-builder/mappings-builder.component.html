@@ -176,7 +176,7 @@
 					<h1 class="category">{{ "mappings.mapping.object" | translate }}</h1>
 					<div class="grid mt-0">
 						<div class="col-4">
-							<input class="mb-1" type="text" pInputText [(ngModel)]="objectMap" />
+							<input class="mb-1" type="text" pInputText [(ngModel)]="objectMapValue" />
 						</div>
 						<div class="col-4">
 							<p-selectButton [options]="termType" [(ngModel)]="currentTermType" optionLabel="label" optionValue="value" />
@@ -195,7 +195,9 @@
 		</div>
 	</div>
 	<!--Mappings summary-->
-	<app-mappings-summary [mappingDTO]="mappingDTO"></app-mappings-summary>
+	<div class="col-4">
+		<app-mappings-summary [mappingDTO]="mappingDTO"></app-mappings-summary>
+	</div>
 </div>
 
 <!--Add element dialog-->

@@ -29,6 +29,7 @@ export class MappingsSummaryComponent implements OnChanges {
 	 */
 	ngOnChanges(changes): void {
 		if (changes.mappingDTO?.currentValue) {
+			this.mappingId = this.mappingDTO.id;
 			this.mappingName = this.mappingDTO.name;
 			this.mappingBaseUrl = this.mappingDTO.baseUrl;
 		}
@@ -70,7 +71,7 @@ export class MappingsSummaryComponent implements OnChanges {
 			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_RULE_INCOMPLETE);
 			return;
 		}
-		if (!this.mappingDTO && !this.validateAndAssignMappingName()) {
+		if (!this.mappingDTO || !this.validateAndAssignMappingName()) {
 			return;
 		}
 
