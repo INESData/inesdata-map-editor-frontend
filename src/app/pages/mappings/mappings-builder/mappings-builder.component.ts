@@ -58,6 +58,7 @@ export class MappingsBuilderComponent implements OnInit {
 	termType: TermType[];
 	currentTermType = '';
 	isNewTriplesMap = false;
+	isFirstEdition = true;
 
 	/**
 	 * Initializes the component and subscribe to route parameter to get the ID
@@ -223,36 +224,55 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	addFieldToMapping(): void {
 
-		const { selectedSource, selectedSourceFormat, templateUrl, iterator, selectedSubjectClass, selectedPredicateProperty, objectMapValue, currentTermType, selectedDataType } = this;
+		const { selectedSource, selectedSourceFormat, templateUrl, iterator, selectedSubjectClass, selectedPredicateProperty, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
 
-		if (selectedSource?.id && selectedSourceFormat && selectedSubjectClass && templateUrl && selectedSubjectClass && selectedPredicateProperty && objectMapValue && currentTermType) {
-
-			// Validate iterator and data type
-			if (!this.validateMappingInputs()) {
-				return;
-			}
-
-			// Create obect-predicate
-			const objectMap = this.createObjectMap(objectMapValue, currentTermType, selectedDataType);
-			const predicate = this.createPredicate(selectedPredicateProperty['name'], objectMap);
-
-			if (!this.mappingDTO) {
-				this.createMappingDTO(selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
-
-			} else if (this.mappingDTO.fields) {
-
-				if (this.isNewTriplesMap === false) {
-
-					this.addPredicateToField(predicate);
-				} else if (this.isNewTriplesMap === true) {
-
-					this.addNewFieldToMapping(selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
-					this.isNewTriplesMap = false;
-				}
-			}
-
-		} else {
+		// Rule must be completed
+		if (!(selectedSource?.id && selectedSourceFormat && selectedSubjectClass && templateUrl && selectedSubjectClass && selectedPredicateProperty && objectMapValue && currentTermType)) {
 			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_RULE_INCOMPLETE, MESSAGES_ERRORS);
+			return;
+		}
+
+		// Validate iterator and data type (non required fields in rule)
+		if (!this.validateMappingInputs()) return;
+
+		// Create object-predicate DTOs
+		const objectMap = this.createObjectMap(objectMapValue, currentTermType, selectedDataType);
+		const predicate = this.createPredicate(selectedPredicateProperty['name'], objectMap);
+
+		// On create
+		if (!mappingDTO?.id) {
+			//If no mapping DTO, create it
+			if (!mappingDTO) {
+				this.createMappingDTO(selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+			} else if (mappingDTO.fields) {
+				// Mapping DTO exists, process fields
+				this.processMappingField(isNewTriplesMap, selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+			}
+			// On update
+		} else {
+			if (isFirstEdition) {
+				// On first rule of edition (is first edition true)
+				this.addNewFieldToMapping(selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+				this.isNewTriplesMap = false;
+				this.isFirstEdition = false;
+			} else {
+				// On next rules of edition
+				this.processMappingField(isNewTriplesMap, selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+			}
+		}
+	}
+
+	/**
+	 * Processes a mapping field based on creating a new triples map or update an existing one
+	 */
+	processMappingField(isNewTriplesMap: boolean, selectedSourceId: number, selectedSourceFormat: string, iterator: string, templateUrl: string, selectedSubjectClass: string, predicate: PredicateObjectMapDTO[]): void {
+		if (isNewTriplesMap) {
+			// Add field
+			this.addNewFieldToMapping(selectedSourceId, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+			this.isNewTriplesMap = false;
+		} else {
+			// Add predicate-object pair to field
+			this.addPredicateToField(predicate);
 		}
 	}
 

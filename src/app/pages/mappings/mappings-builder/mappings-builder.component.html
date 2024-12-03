@@ -96,6 +96,26 @@
 				<div class="col-12 flex flex-justify-right pt-0 pb-0">
 					<p-button class="btn btn__primary icon-chevron" [label]="'labels.add-rule' | translate" (onClick)="addFieldToMapping()" />
 				</div>
+				<!-- Object-->
+				<div class="col-12">
+					<h1 class="category">{{ "mappings.mapping.object" | translate }}</h1>
+					<div class="grid mt-0">
+						<div class="col-4">
+							<input class="mb-1" type="text" pInputText [(ngModel)]="objectMapValue" />
+						</div>
+						<div class="col-4">
+							<p-selectButton [options]="termType" [(ngModel)]="currentTermType" optionLabel="label" optionValue="value" />
+						</div>
+						<div *ngIf="currentTermType === 'literal'" class="col-4">
+							<p-dropdown
+								[options]="dataTypes"
+								[(ngModel)]="selectedDataType"
+								[placeholder]="'placeholders.dataType' | translate"
+							></p-dropdown>
+						</div>
+					</div>
+				</div>
+				<!-- End of object-->
 				<!-- Predicate-->
 				<div class="col-12">
 					<h1 class="category">{{ "mappings.mapping.predicate" | translate }}</h1>
@@ -171,26 +191,6 @@
 					</div>
 				</div>
 				<!-- End of Predicate-->
-				<!-- Object-->
-				<div class="col-12">
-					<h1 class="category">{{ "mappings.mapping.object" | translate }}</h1>
-					<div class="grid mt-0">
-						<div class="col-4">
-							<input class="mb-1" type="text" pInputText [(ngModel)]="objectMapValue" />
-						</div>
-						<div class="col-4">
-							<p-selectButton [options]="termType" [(ngModel)]="currentTermType" optionLabel="label" optionValue="value" />
-						</div>
-						<div *ngIf="currentTermType === 'literal'" class="col-4">
-							<p-dropdown
-								[options]="dataTypes"
-								[(ngModel)]="selectedDataType"
-								[placeholder]="'placeholders.dataType' | translate"
-							></p-dropdown>
-						</div>
-					</div>
-				</div>
-				<!-- End of object-->
 			</div>
 		</div>
 	</div>
