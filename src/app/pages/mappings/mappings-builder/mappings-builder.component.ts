@@ -111,6 +111,7 @@ export class MappingsBuilderComponent implements OnInit {
 					this.subjectClasses = data ?? [];
 				} else if (this.source === 'predicate') {
 					this.predicateClasses = data ?? [];
+					this.getNamespaceMap();
 				}
 			})
 	}
@@ -351,7 +352,7 @@ export class MappingsBuilderComponent implements OnInit {
 					logicalTable: null,
 					subject: {
 						template: templateUrl,
-						className: subjectClass,
+						className: this.selectedSubjectOntology.url + subjectClass,
 					},
 					predicates,
 				},
@@ -435,5 +436,44 @@ export class MappingsBuilderComponent implements OnInit {
 		}
 
 		return { iconClasses, titles };
+	}
+
+	/**
+	 * Retrieves the namespace map for the selected ontology
+	 */
+	getNamespaceMap(): void {
+		this.ontologyService
+			.getNameSpaceMap(this.selectedPredicateOntology.id)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe((data: Record<string, string>) => {
+				this.namespaceMap = this.cleanNamespaceMap(data);
+			});
+	}
+
+	/**
+	 * Cleans the keys of the namespace map by removing trailing colons
+	 */
+	cleanNamespaceMap(data: Record<string, string>): Record<string, string> {
+		const cleanedNamespaceMap: Record<string, string> = {};
+		for (const key in data) {
+			const cleanedKey = key.endsWith(':') ? key.slice(0, -1) : key;
+			cleanedNamespaceMap[cleanedKey] = data[key];
+		}
+		return cleanedNamespaceMap;
+	}
+
+	/**
+	 * Search with prefix in namespace map to return the url value
+	 */
+	onPropertySelect(property: string): void {
+		const propertyName = property['name'].split(':');
+		for (const key in this.namespaceMap) {
+			if (key === propertyName[0]) {
+				const url = this.namespaceMap[propertyName[0]];
+				this.selectedPredicateProperty = url + propertyName[1];
+			}
+		}
 	}
 }

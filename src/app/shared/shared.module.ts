@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AccordionModule } from 'primeng/accordion';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
@@ -65,6 +66,7 @@ import { SideBarComponent } from './components/sidebar/sidebar.component';
 		RouterModule,
 		TranslateModule,
 		// Prime NG
+		AutoCompleteModule,
 		TabMenuModule,
 		TableModule,
 		ButtonModule,
@@ -136,7 +138,8 @@ import { SideBarComponent } from './components/sidebar/sidebar.component';
 		PaginatorModule,
 		TreeModule,
 		MenubarModule,
-		SelectButtonModule
+		SelectButtonModule,
+		AutoCompleteModule
 	]
 })
 export class SharedModule { }

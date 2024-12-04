@@ -80,16 +80,6 @@ export class MappingsSummaryComponent implements OnChanges {
 			return;
 		}
 
-		// Add url
-		this.mappingDTO?.fields?.forEach(field => {
-			if (!field.id) {
-				field.subject.className = `${this.mappingDTO.baseUrl}${field.subject.className}`;
-				field.predicates.forEach(predicate => {
-					predicate.predicate = `${this.mappingDTO.baseUrl}${predicate.predicate}`;
-				});
-			}
-		});
-
 		if (!this.mappingId) {
 			this.createMapping();
 		} else {

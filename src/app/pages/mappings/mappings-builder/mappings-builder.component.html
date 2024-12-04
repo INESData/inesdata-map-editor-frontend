@@ -176,7 +176,7 @@
 										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
 									<div *ngFor="let property of properties" class="field-checkbox">
-										<p-radioButton [inputId]="property.name" name="property" [value]="property" [(ngModel)]="selectedPredicateProperty" />
+										<p-radioButton [inputId]="property.name" name="property" [value]="property" [(ngModel)]="selectedPredicateProperty" (ngModelChange)="onPropertySelect($event)" />
 										<label [for]="property.name" class="ml-2">
 											{{ property.name }}
 											<ng-container *ngFor="let icon of getIconAndTitle(property).iconClasses; let i = index">

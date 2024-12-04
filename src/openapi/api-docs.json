@@ -1374,6 +1374,42 @@
         ]
       }
     },
+    "/ontologies/{id}/namespaces": {
+      "get": {
+        "operationId": "getNameSpaceMap",
+        "parameters": [
+          {
+            "description": "Ontology identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Get ontology namespace and prefix map",
+        "tags": [
+          "Ontology"
+        ]
+      }
+    },
     "/ontologies/{id}/{ontologyClass}": {
       "get": {
         "operationId": "getClassProperties",
@@ -1437,6 +1473,15 @@
             "minLength": 1,
             "type": "string"
           },
+          "dataBaseType": {
+            "type": "string",
+            "enum": [
+              "POSTGRESQL",
+              "MYSQL",
+              "H2",
+              "MONGO"
+            ]
+          },
           "databaseType": {
             "type": "string",
             "enum": [
@@ -1444,6 +1489,14 @@
               "MYSQL",
               "H2",
               "MONGO"
+            ]
+          },
+          "fileType": {
+            "type": "string",
+            "enum": [
+              "CSV",
+              "JSON",
+              "XML"
             ]
           },
           "id": {
@@ -1485,6 +1538,23 @@
         ],
         "type": "object",
         "properties": {
+          "dataBaseType": {
+            "type": "string",
+            "enum": [
+              "POSTGRESQL",
+              "MYSQL",
+              "H2",
+              "MONGO"
+            ]
+          },
+          "fileType": {
+            "type": "string",
+            "enum": [
+              "CSV",
+              "JSON",
+              "XML"
+            ]
+          },
           "id": {
             "type": "integer",
             "format": "int64"
@@ -1540,6 +1610,15 @@
         ],
         "type": "object",
         "properties": {
+          "dataBaseType": {
+            "type": "string",
+            "enum": [
+              "POSTGRESQL",
+              "MYSQL",
+              "H2",
+              "MONGO"
+            ]
+          },
           "fileType": {
             "type": "string",
             "enum": [
@@ -1583,9 +1662,6 @@
         }
       },
       "LogicalSourceDTO": {
-        "required": [
-          "iterator"
-        ],
         "type": "object",
         "properties": {
           "id": {
