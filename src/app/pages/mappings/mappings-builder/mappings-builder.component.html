@@ -101,7 +101,14 @@
 					<h1 class="category">{{ "mappings.mapping.object" | translate }}</h1>
 					<div class="grid mt-0">
 						<div class="col-4">
-							<input class="mb-1" type="text" pInputText [(ngModel)]="objectMapValue" />
+							<p-autoComplete
+								[(ngModel)]="objectMapValue"
+								[suggestions]="suggestions"
+								(completeMethod)="search($event)"
+								(onSelect)="onSelect($event)"
+								[disabled]="!(selectedSource && currentTermType)"
+								[placeholder]="'placeholders.fields' | translate"
+							/>
 						</div>
 						<div class="col-4">
 							<p-selectButton [options]="termType" [(ngModel)]="currentTermType" optionLabel="label" optionValue="value" />
@@ -176,7 +183,13 @@
 										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 									</div>
 									<div *ngFor="let property of properties" class="field-checkbox">
-										<p-radioButton [inputId]="property.name" name="property" [value]="property" [(ngModel)]="selectedPredicateProperty" (ngModelChange)="onPropertySelect($event)" />
+										<p-radioButton
+											[inputId]="property.name"
+											name="property"
+											[value]="property"
+											[(ngModel)]="selectedPredicateProperty"
+											(ngModelChange)="onPropertySelect($event)"
+										/>
 										<label [for]="property.name" class="ml-2">
 											{{ property.name }}
 											<ng-container *ngFor="let icon of getIconAndTitle(property).iconClasses; let i = index">

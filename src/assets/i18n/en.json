@@ -132,6 +132,7 @@
   },
   "placeholders": {
     "dataType": "Select the data type",
+    "fields": "Search fields...",
     "search": "Search by..."
   },
   "properties": {

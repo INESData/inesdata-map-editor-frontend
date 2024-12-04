@@ -56,9 +56,12 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedField: string;
 	errorMessage: string;
 	termType: TermType[];
-	currentTermType = '';
+	currentTermType: string = null;
 	isNewTriplesMap = false;
 	isFirstEdition = true;
+	namespaceMap: Record<string, string>;
+	suggestions: string[];
+	inputValue: string;
 
 	/**
 	 * Initializes the component and subscribe to route parameter to get the ID
@@ -475,5 +478,41 @@ export class MappingsBuilderComponent implements OnInit {
 				this.selectedPredicateProperty = url + propertyName[1];
 			}
 		}
+	}
+
+	search(event) {
+		const query = event.query;
+		if (this.currentTermType === 'literal') {
+			this.inputValue = '';
+			this.executeSearch(query);
+
+		} else if (this.currentTermType === 'iri' && query.includes('{')) {
+			const charIndex = query.lastIndexOf('{');
+			if (charIndex !== -1) {
+				// Get query part before { and save it in inputValue
+				this.inputValue = query.substring(0, charIndex + 1).trim();
+				// Get query part after { and search
+				const searchText = query.substring(charIndex + 1);
+				this.executeSearch(searchText);
+
+			}
+		}
+	}
+
+	/**
+	 * Filters the list of file fields based on the provided search text
+	 */
+	executeSearch(searchText: string): void {
+		this.suggestions = this.fileFields.filter(field =>
+			field.toLowerCase().includes(searchText.toLowerCase())
+		);
+	}
+
+	/**
+	 * Concat input value saed before with the selected option
+	 */
+	onSelect(event): void {
+		const selectedValue = event.value;
+		this.objectMapValue = this.inputValue + selectedValue;
 	}
 }
