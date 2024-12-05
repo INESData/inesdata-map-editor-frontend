@@ -9,15 +9,19 @@
 						<p-button class="btn btn__primary icon-chevron" [label]="'labels.new-triplesmap' | translate" (onClick)="newTriplesMap()" />
 					</div>
 					<!-- Data Sources-->
-					<h1 class="category category__datasources">{{ "data-sources.data-source.sources" | translate }}</h1>
-					<p-dropdown
-						[options]="formats"
-						[(ngModel)]="selectedSourceFormat"
-						[placeholder]="'data-sources.data-source.format' | translate"
-						(onChange)="getDataFromFormat($event.value)"
-					></p-dropdown>
-					<div class="col-12 flex flex-justify-center pt-0 pb-0">
-						<h1 class="category">{{ "mappings.mapping.subject" | translate }}</h1>
+					<div class="grid">
+						<div class="col-6">
+							<h1 class="category category__datasources">{{ "data-sources.data-source.sources" | translate }}</h1>
+							<p-dropdown
+								[options]="formats"
+								[(ngModel)]="selectedSourceFormat"
+								[placeholder]="'data-sources.data-source.format' | translate"
+								(onChange)="getDataFromFormat($event.value)"
+							></p-dropdown>
+						</div>
+						<div class="col-6">
+							<h1 class="category">{{ "mappings.mapping.subject" | translate }}</h1>
+						</div>
 					</div>
 					<div class="grid mt-0">
 						<div *ngIf="selectedSourceFormat" class="col-4">
@@ -42,6 +46,10 @@
 									<p-button (onClick)="showDialogQuery()" class="addButton addButton__query" [label]="'labels.add-query' | translate" />
 								</div>
 							</div>
+							<div *ngIf="selectedSourceFormat && (selectedSourceFormat === 'XML' || selectedSourceFormat === 'JSON')">
+								<p class="mt-1 mb-0">{{ "mappings.mapping.iterator" | translate }}</p>
+								<input class="mb-1" type="text" pInputText [(ngModel)]="iterator" />
+							</div>
 						</div>
 						<!-- Subject ontologies list-->
 						<div class="col-4">
@@ -65,12 +73,10 @@
 									</div>
 								</div>
 							</div>
-							<div *ngIf="selectedSourceFormat && (selectedSourceFormat === 'XML' || selectedSourceFormat === 'JSON')">
-								<p class="mt-1 mb-0">{{ "mappings.mapping.iterator" | translate }}</p>
-								<input class="mb-1" type="text" pInputText [(ngModel)]="iterator" />
+							<div>
+								<p class="mt-1 mb-0">{{ "mappings.mapping.templateUrl" | translate }}</p>
+								<input class="mb-1" type="text" pInputText [(ngModel)]="templateUrl" />
 							</div>
-							<p class="mt-1 mb-0">{{ "mappings.mapping.templateUrl" | translate }}</p>
-							<input class="mb-1" type="text" pInputText [(ngModel)]="templateUrl" />
 						</div>
 						<!-- Subject ontologies classes-->
 						<div *ngIf="selectedSubjectOntology" class="col-4">
@@ -98,20 +104,12 @@
 				</div>
 				<!-- Object-->
 				<div class="col-12">
-					<h1 class="category">{{ "mappings.mapping.object" | translate }}</h1>
-					<div class="grid mt-0">
+					<div class="grid">
 						<div class="col-4">
-							<p-autoComplete
-								[(ngModel)]="objectMapValue"
-								[suggestions]="suggestions"
-								(completeMethod)="search($event)"
-								(onSelect)="onSelect($event)"
-								[disabled]="!(selectedSource && currentTermType)"
-								[placeholder]="'placeholders.fields' | translate"
-							/>
+							<h1 class="category">{{ "mappings.mapping.object" | translate }}</h1>
 						</div>
 						<div class="col-4">
-							<p-selectButton [options]="termType" [(ngModel)]="currentTermType" optionLabel="label" optionValue="value" />
+							<p-selectButton [options]="termType" [(ngModel)]="currentTermType" optionLabel="label" optionValue="value"></p-selectButton>
 						</div>
 						<div *ngIf="currentTermType === 'literal'" class="col-4">
 							<p-dropdown
@@ -119,6 +117,18 @@
 								[(ngModel)]="selectedDataType"
 								[placeholder]="'placeholders.dataType' | translate"
 							></p-dropdown>
+						</div>
+					</div>
+					<div class="grid">
+						<div class="col-12">
+							<p-autoComplete
+								[(ngModel)]="objectMapValue"
+								[suggestions]="suggestions"
+								(completeMethod)="search($event)"
+								(onSelect)="onSelect($event)"
+								[disabled]="!(selectedSource && currentTermType)"
+								[placeholder]="'placeholders.fields' | translate"
+							></p-autoComplete>
 						</div>
 					</div>
 				</div>

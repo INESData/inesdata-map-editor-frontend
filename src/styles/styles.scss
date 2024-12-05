@@ -264,3 +264,21 @@ h3 {
 		color: $black;
 	}
 }
+
+// SELECT BUTTON
+.p-selectbutton .p-button {
+  background-color: $primary;
+  border: none;
+}
+
+.p-selectbutton .p-button:hover {
+  background-color: $black;
+}
+
+.p-selectbutton .p-button.p-highlight {
+  background-color: $orange;
+}
+
+.p-selectbutton .p-button-label {
+  color: #ffffff;
+}
