@@ -241,7 +241,7 @@ export class MappingsBuilderComponent implements OnInit {
 
 		// Create object-predicate DTOs
 		const objectMap = this.createObjectMap(objectMapValue, currentTermType, selectedDataType);
-		const predicate = this.createPredicate(selectedPredicateProperty['name'], objectMap);
+		const predicate = this.createPredicate(selectedPredicateProperty, objectMap);
 
 		// On create
 		if (!mappingDTO?.id) {
@@ -381,7 +381,7 @@ export class MappingsBuilderComponent implements OnInit {
 			logicalTable: null,
 			subject: {
 				template: templateUrl,
-				className: subjectClass,
+				className: this.selectedSubjectOntology.url + subjectClass,
 			},
 			predicates,
 		});
