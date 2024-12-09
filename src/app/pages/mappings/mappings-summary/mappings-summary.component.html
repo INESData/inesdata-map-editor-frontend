@@ -9,7 +9,7 @@
 	</div>
 	<!-- Fields table -->
 	<div *ngIf="mappingDTO && mappingDTO.fields?.length > 0">
-		<div *ngFor="let field of mappingDTO.fields; let fieldIndex = index" class="field-container">
+		<div *ngFor="let field of mappingDTO.fields; let fieldIndex = index" class="field-container mb-2">
 			<h3 class="category">{{ "mappings.mapping.subject" | translate }}: {{ field.subject.template }}</h3>
 			<p-table *ngIf="field.predicates?.length > 0" class="mappingTable" [value]="field.predicates">
 				<ng-template pTemplate="header">

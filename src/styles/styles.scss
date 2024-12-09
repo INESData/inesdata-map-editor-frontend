@@ -71,6 +71,11 @@ h3 {
 	font-size: 20px;
 	font-weight: 300;
 	color: $darkblue;
+	&.category {
+		text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+	}
 }
 
 .whiteContainer {
@@ -283,4 +288,16 @@ h3 {
   color: $white;
 	font-weight: 500;
   font-size: 14px;
+}
+
+// AUTO COMPLETE INPUT
+
+.p-element {
+	.p-autocomplete {
+		max-width: 419px;
+    width: 100%;
+	}
+}
+.p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight {
+	background: $primary;
 }

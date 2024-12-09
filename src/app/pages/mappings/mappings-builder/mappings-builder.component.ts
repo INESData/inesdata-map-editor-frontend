@@ -341,7 +341,7 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
-	 * Create mapping DTO with al collected properties
+	 * Create mapping DTO with all collected properties
 	 */
 	createMappingDTO(dataSourceId: number, sourceFormat: string, iterator: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
 		this.mappingDTO = {
