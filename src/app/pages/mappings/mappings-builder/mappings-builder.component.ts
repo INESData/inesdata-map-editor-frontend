@@ -1,17 +1,18 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, OntologyService, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { DataTypeEnum } from 'src/app/shared/enums/data-type.enum';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
-import { Output } from 'src/app/shared/models/output.model';
+import { TermType } from 'src/app/shared/models/term-type.model';
+import { TERM_TYPES } from 'src/app/shared/models/term-types';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NONAME, MESSAGES_MAPPINGS_PAIRS, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_UPDATED, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_ASSOCIATED, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_REFERENCE, URL_DELIMITER } from 'src/app/shared/utils/app.constants';
+import { MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_ASSOCIATED, PROPERTIES_DATA, PROPERTIES_OBJECT, RR_DATATYPE, RR_IRI, RR_LITERAL, RR_TEMPLATE, RR_TERMTYPE } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
-import { PropertyDTO } from '../../../../../projects/mapper-api-client/model/propertyDTO';
 @Component({
 	selector: 'app-mappings-builder',
 	templateUrl: './mappings-builder.component.html'
@@ -23,36 +24,44 @@ export class MappingsBuilderComponent implements OnInit {
 		private router: Router, private languageService: LanguageService, private route: ActivatedRoute) { }
 
 	formats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
-	mapping: Output[] = [];
-	mappingDTO: MappingDTO;
-	mappingName = '';
-	mappingBaseUrl = '';
-	mappingId: number;
-	selectedFormat;
-	ontologies: SearchOntologyDTO[];
-	classes: string[];
-	properties: PropertyDTO[];
+	dataTypes: string[] = [...Object.values(DataTypeEnum)];
 
-	dataSources: FileSourceDTO[] | DataBaseSourceDTO[];
-	fileFields: string[];
 	queryDialogVisible = false;
 	elementDialogVisible = false;
+	mappingDTO: MappingDTO;
+	mappingId: number;
 
-	selectedOntology: SearchOntologyDTO = null;
-	selectedClass: string = null;
-	selectedProperty: string = null;
+	ontologies: SearchOntologyDTO[];
+	dataSources: FileSourceDTO[] | DataBaseSourceDTO[];
+	properties: PropertyDTO[];
+	subjectClasses: string[];
+	predicateClasses: string[];
 
+	selectedSourceFormat;
 	selectedSource: FileSourceDTO | DataBaseSourceDTO = null;
+	selectedSubjectOntology: SearchOntologyDTO = null;
+	selectedSubjectClass: string = null;
+	iterator?: string;
+	templateUrl: string;
+
+	selectedPredicateOntology: SearchOntologyDTO = null;
+	selectedPredicateClass: string = null;
+	selectedPredicateProperty: string = null;
+
+	objectMapValue: string;
+	selectedDataType: string;
+
+	source: string;
+	fileFields: string[];
 	selectedField: string;
-	errorMessage = '';
-
-	showDialogQuery() {
-		this.queryDialogVisible = true;
-	}
-
-	showDialogElement() {
-		this.elementDialogVisible = true;
-	}
+	errorMessage: string;
+	termType: TermType[];
+	currentTermType: string = null;
+	isNewTriplesMap = false;
+	isFirstEdition = true;
+	namespaceMap: Record<string, string>;
+	suggestions: string[];
+	inputValue: string;
 
 	/**
 	 * Initializes the component and subscribe to route parameter to get the ID
@@ -60,6 +69,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 *
 	 */
 	ngOnInit() {
+		this.termType = TERM_TYPES;
 		this.getOntologies();
 		this.route.paramMap.subscribe((params) => {
 			this.mappingId = +params.get(PARAM_ID);
@@ -67,6 +77,14 @@ export class MappingsBuilderComponent implements OnInit {
 		if (this.mappingId) {
 			this.getMapping(this.mappingId);
 		}
+	}
+
+	showDialogQuery() {
+		this.queryDialogVisible = true;
+	}
+
+	showDialogElement() {
+		this.elementDialogVisible = true;
 	}
 
 	/**
@@ -92,7 +110,12 @@ export class MappingsBuilderComponent implements OnInit {
 			.pipe(
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: string[]) => {
-				this.classes = data ?? [];
+				if (this.source === 'subject') {
+					this.subjectClasses = data ?? [];
+				} else if (this.source === 'predicate') {
+					this.predicateClasses = data ?? [];
+					this.getNamespaceMap();
+				}
 			})
 	}
 
@@ -112,10 +135,16 @@ export class MappingsBuilderComponent implements OnInit {
 	/**
 	 * Gets the selected ontology class
 	 */
-	onOntologySelect(ontology: SearchOntologyDTO): void {
-		this.selectedClass = null;
-		this.selectedProperty = null;
-		this.properties = null;
+	onOntologySelect(ontology: SearchOntologyDTO, source: 'subject' | 'predicate'): void {
+		this.source = source;
+		if (this.source === 'subject') {
+			this.subjectClasses = null;
+			this.selectedSubjectClass = null;
+		} else if (this.source === 'predicate') {
+			this.properties = null;
+			this.predicateClasses = null;
+			this.selectedPredicateClass = null;
+		}
 		this.getClasses(ontology.id);
 	}
 
@@ -123,10 +152,8 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Gets the selected ontology class properties
 	 */
 	onClassSelect(className: string): void {
-		this.selectedProperty = null;
-		this.properties = null;
-		this.getProperties(this.selectedOntology.id, className);
-
+		this.selectedPredicateProperty = null;
+		this.getProperties(this.selectedPredicateOntology.id, className);
 	}
 
 	/**
@@ -159,7 +186,7 @@ export class MappingsBuilderComponent implements OnInit {
 	onSourceSelected(source: FileSourceDTO | DataBaseSourceDTO): void {
 		this.selectedSource = source;
 		this.selectedField = null;
-		switch (this.selectedFormat) {
+		switch (this.selectedSourceFormat) {
 			case DataFileTypeEnum.CSV:
 				this.getFields(source.id);
 				break;
@@ -194,118 +221,82 @@ export class MappingsBuilderComponent implements OnInit {
 				this.fileFields = data ?? [];
 			})
 	}
+
 	/**
-	 * Collect information from the selected ontology, data source, etc.
-	 * add it tho the output and appends it to mapping
+	 * Collect information from subject, predicate and object and
+	 * add it to the mapping DTO
 	 */
-	addOutput(): void {
-		const { selectedOntology, selectedClass, selectedProperty, selectedSource, selectedField } = this;
+	addFieldToMapping(): void {
 
-		if (selectedOntology?.id && selectedClass && selectedProperty && selectedSource?.id && selectedField) {
+		const { selectedSource, selectedSourceFormat, templateUrl, iterator, selectedSubjectClass, selectedPredicateProperty, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
 
-			const output: Output = {
-				ontologyId: this.selectedOntology.id,
-				ontologyUrl: this.selectedOntology.url,
-				ontologyClass: this.selectedClass,
-				ontologyAttribute: this.selectedProperty,
-				dataSourceId: this.selectedSource.id,
-				dataSourceField: this.selectedField,
-			};
-			this.mapping = [...this.mapping, output];
-
-		} else {
-
-			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PAIRS, MESSAGES_ERRORS);
-		}
-	}
-
-	/**
-	* Builds the mapping fields based on the current mappings
-	* and updates the mappingDTO with the generated fields.
-	*/
-	buildMapping(): void {
-
-		if (this.mapping && this.mapping.length > 0) {
-			const outputs: Output[] = this.mapping;
-
-			const mappingFields = outputs.map(output => {
-				const classNameUrl = `${output.ontologyUrl}${output.ontologyClass}`;
-				const predicateUrl = `${output.ontologyUrl}${output.ontologyAttribute}`;
-
-				return {
-					dataSourceId: output.dataSourceId,
-					ontologyId: output.ontologyId,
-					predicates: [
-						{
-							objectMap: [
-								{
-									key: RML_REFERENCE,
-									literalValue: output.dataSourceField
-								}
-							],
-							predicate: predicateUrl
-						}
-					],
-					subject: {
-						className: classNameUrl,
-						template: `${classNameUrl}/{id}`
-					}
-				};
-			});
-
-			this.mappingDTO = {
-				name: "",
-				baseUrl: "",
-				ontologyIds: [1, 2], //TODO: Obtener de la selección
-				fields: mappingFields
-			};
-
-			if (!this.mappingId) {
-				this.generateMapping();
-			} else {
-				this.editMapping();
-			}
-
-		} else {
-			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PAIRS, MESSAGES_ERRORS);
-		}
-	}
-
-	/**
-	* Generates a mapping and call the mapping service to create it.
-	*/
-	generateMapping(): void {
-		// Validate mapping
-		if (!this.validateAndAssignMappingName()) {
+		// Rule must be completed
+		if (!(selectedSource?.id && selectedSourceFormat && selectedSubjectClass && templateUrl && selectedSubjectClass && selectedPredicateProperty && objectMapValue && currentTermType)) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_RULE_INCOMPLETE, MESSAGES_ERRORS);
 			return;
 		}
 
-		this.mappingService
-			.create(this.mappingDTO)
-			.pipe(
-				takeUntilDestroyed(this.destroyRef)
-			).subscribe(() => {
-				this.router.navigate([MAPPINGS]);
-				this.notificationService.showSuccess(MESSAGES_MAPPINGS_SUCCESS_CREATED);
-			})
-	}
+		// Validate iterator and data type (non required fields in rule)
+		if (!this.validateMappingInputs()) return;
 
-	/**
-	* Clear error message on input change
-	*/
-	onMappingNameChange(): void {
-		if (this.mappingName.trim() !== '') {
-			this.errorMessage = '';
+		// Create object-predicate DTOs
+		const objectMap = this.createObjectMap(objectMapValue, currentTermType, selectedDataType);
+		const predicate = this.createPredicate(selectedPredicateProperty, objectMap);
+
+		// On create
+		if (!mappingDTO?.id) {
+			//If no mapping DTO, create it
+			if (!mappingDTO) {
+				this.createMappingDTO(selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+			} else if (mappingDTO.fields) {
+				// Mapping DTO exists, process fields
+				this.processMappingField(isNewTriplesMap, selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+			}
+			// On update
+		} else {
+			if (isFirstEdition) {
+				// On first rule of edition (is first edition true)
+				this.addNewFieldToMapping(selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+				this.isNewTriplesMap = false;
+				this.isFirstEdition = false;
+			} else {
+				// On next rules of edition
+				this.processMappingField(isNewTriplesMap, selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+			}
 		}
 	}
 
 	/**
-	* Clear error message on input change
-	*/
-	onMappingBaseUrlChange(): void {
-		if (this.mappingBaseUrl.trim() !== '') {
-			this.errorMessage = '';
+	 * Processes a mapping field based on creating a new triples map or update an existing one
+	 */
+	processMappingField(isNewTriplesMap: boolean, selectedSourceId: number, selectedSourceFormat: string, iterator: string, templateUrl: string, selectedSubjectClass: string, predicate: PredicateObjectMapDTO[]): void {
+		if (isNewTriplesMap) {
+			// Add field
+			this.addNewFieldToMapping(selectedSourceId, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+			this.isNewTriplesMap = false;
+		} else {
+			// Add predicate-object pair to field
+			this.addPredicateToField(predicate);
 		}
+	}
+
+	/**
+	 * Clear all selected properties
+	 */
+	newTriplesMap(): void {
+		this.selectedSourceFormat = null;
+		this.selectedSubjectOntology = null;
+		this.selectedSubjectClass = '';
+		this.iterator = null;
+		this.templateUrl = '';
+		this.selectedPredicateOntology = null;
+		this.predicateClasses = null;
+		this.selectedPredicateClass = null;
+		this.selectedPredicateProperty = null;
+		this.objectMapValue = '';
+		this.currentTermType = '';
+		this.selectedDataType = null;
+		this.isNewTriplesMap = true;
 	}
 
 	/**
@@ -318,82 +309,100 @@ export class MappingsBuilderComponent implements OnInit {
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: MappingDTO) => {
 				this.mappingDTO = data;
-				this.processMapping(this.mappingDTO)
 			})
 	}
 
 	/**
-	 * Processes the given mappingDTO and fill the mapping array with output entries
+	 * Create object map DTO
 	 */
-	processMapping(mappingDTO: MappingDTO): void {
-		this.mappingName = this.mappingDTO.name;
-		this.mappingBaseUrl = this.mappingDTO.baseUrl;
+	createObjectMap(objectMapValue: string, currentTermType: string, selectedDataType?: string): ObjectMapDTO[] {
+		const objectMap: ObjectMapDTO[] = [
+			{ key: RR_TEMPLATE, literalValue: objectMapValue },
+			{ key: RR_TERMTYPE, literalValue: currentTermType === 'literal' ? RR_LITERAL : RR_IRI },
+		];
 
-		// Iterate through each field in the mappingDTO
-		mappingDTO.fields.forEach(field => {
-			// Iterate through each predicate
-			field.predicates.forEach(predicate => {
-				// Iterate through each object map of the current predicate
-				predicate.objectMap.forEach(objectMap => {
-					// Construct the output entry based on the field, predicate, and object map
-					const mappingOutput: Output = {
-						ontologyId: 1, //TODO: Obtener de la selección
-						ontologyUrl: field.subject.className.substring(0, field.subject.className.lastIndexOf('/') + 1),
-						ontologyClass: field.subject.className.split(URL_DELIMITER).pop(),
-						ontologyAttribute: predicate.predicate.split(URL_DELIMITER).pop(),
-						dataSourceId: field.dataSourceId,
-						dataSourceField: objectMap.literalValue
-					};
+		if (currentTermType === 'literal') {
+			objectMap.push({ key: RR_DATATYPE, literalValue: "xsd:" + selectedDataType });
+		}
 
-					this.selectedProperty = field.subject.className.split(URL_DELIMITER).pop();
-					// Add the constructed output entry to the mapping
-					this.mapping.push(mappingOutput);
-				});
-			});
+		return objectMap;
+	}
+
+	/**
+	 * Create predicate DTO
+	 */
+	createPredicate(predicateName: string, objectMap: ObjectMapDTO[]): PredicateObjectMapDTO[] {
+		return [
+			{
+				predicate: predicateName,
+				objectMap: objectMap,
+			},
+		];
+	}
+
+	/**
+	 * Create mapping DTO with all collected properties
+	 */
+	createMappingDTO(dataSourceId: number, sourceFormat: string, iterator: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
+		this.mappingDTO = {
+			name: '',
+			baseUrl: '',
+			ontologyIds: [this.selectedSubjectOntology.id, this.selectedPredicateOntology.id],
+			fields: [
+				{
+					dataSourceId,
+					logicalSource: sourceFormat === 'XML' || sourceFormat === 'JSON' ? { iterator } : null,
+					logicalTable: null,
+					subject: {
+						template: templateUrl,
+						className: this.selectedSubjectOntology.url + subjectClass,
+					},
+					predicates,
+				},
+			],
+		};
+	}
+
+	/**
+	 * Add predicate DTO to field
+	 */
+	addPredicateToField(predicate: PredicateObjectMapDTO[]): void {
+		const lastField = this.mappingDTO.fields[this.mappingDTO.fields.length - 1];
+		lastField.predicates.push(...predicate);
+	}
+
+	/**
+	 * Add new field to mapping DTO
+	 */
+	addNewFieldToMapping(dataSourceId: number, sourceFormat: string, iterator: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
+		this.mappingDTO.fields.push({
+			dataSourceId,
+			logicalSource: sourceFormat === 'XML' || sourceFormat === 'JSON' ? { iterator } : null,
+			logicalTable: null,
+			subject: {
+				template: templateUrl,
+				className: this.selectedSubjectOntology.url + subjectClass,
+			},
+			predicates,
 		});
 	}
 
 	/**
-	 * Deletes selected pair from mapping
+	 * Validate iterator from subject and data type from object
 	 */
-	deletePairFromMapping(index: number): void {
-		if (index > -1 && index < this.mapping.length) {
-			this.mapping.splice(index, 1);
-		}
-	}
+	validateMappingInputs(): boolean {
+		const { currentTermType, selectedDataType, selectedSourceFormat, iterator } = this;
 
-	/**
-	 * Updates the mapping
-	 */
-	editMapping(): void {
-		// Validate mapping
-		if (!this.validateAndAssignMappingName()) {
-			return;
-		}
-
-		this.mappingService
-			.updateMapping(this.mappingId, this.mappingDTO)
-			.pipe(
-				takeUntilDestroyed(this.destroyRef)
-			)
-			.subscribe((data: MappingDTO) => {
-				this.mappingDTO = data;
-				this.router.navigate([MAPPINGS]);
-				this.notificationService.showSuccess(MESSAGES_MAPPINGS_SUCCESS_UPDATED);
-			})
-	}
-
-	/**
-	 * Validate and assign mapping name
-	 */
-	validateAndAssignMappingName(): boolean {
-		if (this.mappingName.trim() === '' || this.mappingBaseUrl.trim() === '') {
-			this.errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_NONAME);
+		if (currentTermType === 'literal' && !selectedDataType) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_ERRORS);
 			return false;
 		}
-		this.errorMessage = '';
-		this.mappingDTO.name = this.mappingName;
-		this.mappingDTO.baseUrl = this.mappingBaseUrl;
+
+		if ((selectedSourceFormat === 'XML' || selectedSourceFormat === 'JSON') && !iterator) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_ERRORS);
+			return false;
+		}
+
 		return true;
 	}
 
@@ -430,5 +439,80 @@ export class MappingsBuilderComponent implements OnInit {
 		}
 
 		return { iconClasses, titles };
+	}
+
+	/**
+	 * Retrieves the namespace map for the selected ontology
+	 */
+	getNamespaceMap(): void {
+		this.ontologyService
+			.getNameSpaceMap(this.selectedPredicateOntology.id)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe((data: Record<string, string>) => {
+				this.namespaceMap = this.cleanNamespaceMap(data);
+			});
+	}
+
+	/**
+	 * Cleans the keys of the namespace map by removing trailing colons
+	 */
+	cleanNamespaceMap(data: Record<string, string>): Record<string, string> {
+		const cleanedNamespaceMap: Record<string, string> = {};
+		for (const key in data) {
+			const cleanedKey = key.endsWith(':') ? key.slice(0, -1) : key;
+			cleanedNamespaceMap[cleanedKey] = data[key];
+		}
+		return cleanedNamespaceMap;
+	}
+
+	/**
+	 * Search with prefix in namespace map to return the url value
+	 */
+	onPropertySelect(property: string): void {
+		const propertyName = property['name'].split(':');
+		for (const key in this.namespaceMap) {
+			if (key === propertyName[0]) {
+				const url = this.namespaceMap[propertyName[0]];
+				this.selectedPredicateProperty = url + propertyName[1];
+			}
+		}
+	}
+
+	search(event) {
+		const query = event.query;
+		if (this.currentTermType === 'literal') {
+			this.inputValue = '';
+			this.executeSearch(query);
+
+		} else if (this.currentTermType === 'iri' && query.includes('{')) {
+			const charIndex = query.lastIndexOf('{');
+			if (charIndex !== -1) {
+				// Get query part before { and save it in inputValue
+				this.inputValue = query.substring(0, charIndex + 1).trim();
+				// Get query part after { and search
+				const searchText = query.substring(charIndex + 1);
+				this.executeSearch(searchText);
+
+			}
+		}
+	}
+
+	/**
+	 * Filters the list of file fields based on the provided search text
+	 */
+	executeSearch(searchText: string): void {
+		this.suggestions = this.fileFields.filter(field =>
+			field.toLowerCase().includes(searchText.toLowerCase())
+		);
+	}
+
+	/**
+	 * Concat input value saed before with the selected option
+	 */
+	onSelect(event): void {
+		const selectedValue = event.value;
+		this.objectMapValue = this.inputValue + selectedValue;
 	}
 }

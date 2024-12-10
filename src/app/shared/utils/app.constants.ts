@@ -32,13 +32,15 @@ export const MESSAGES_DATA_SOURCES_SUCCESS_DELETED: string = translate('messages
 export const MESSAGES_MAPPINGS_SUCCESS_CREATED: string = translate('messages.mappings.success.created');
 export const MESSAGES_MAPPINGS_SUCCESS_DELETED: string = translate('messages.mappings.success.deleted');
 export const MESSAGES_MAPPINGS_SUCCESS_UPDATED: string = translate('messages.mappings.success.updated');
-export const MESSAGES_MAPPINGS_PAIRS: string = translate('messages.mappings.pairs');
+export const MESSAGES_MAPPINGS_RULE_INCOMPLETE: string = translate('messages.mappings.rule.incomplete');
 
 export const MESSAGES_MATERIALISATIONS_SUCCESS: string = translate('messages.materialisations.success.executed');
 
 export const MESSAGES_DATA_SOURCES_ERRORS_NOFILE: string = translate('messages.data-sources.errors.no-file');
 
 export const MESSAGES_MAPPINGS_ERRORS_NONAME: string = translate('messages.mappings.errors.no-name-url');
+export const MESSAGES_MAPPINGS_ERRORS_NODATATYPE: string = translate('messages.mappings.errors.no-data-type');
+export const MESSAGES_MAPPINGS_ERRORS_NOITERATOR: string = translate('messages.mappings.errors.no-iterator');
 
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
@@ -79,7 +81,11 @@ export const URL_DELIMITER = '/';
 export const PARAM_ID = 'id';
 
 //RML
-export const RML_REFERENCE = "rml:reference";
+export const RR_TEMPLATE = "rr:template";
+export const RR_TERMTYPE = "rr:termType";
+export const RR_LITERAL = "rr:Literal";
+export const RR_IRI = "rr:IRI";
+export const RR_DATATYPE = "rr:datatype";
 
 // Sidebar
 export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontologies');

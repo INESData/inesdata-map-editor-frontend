@@ -8,11 +8,13 @@ import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // Logger
 import { LoggerModule, NGXLogger } from 'ngx-logger';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import { ApiModule, Configuration, ConfigurationParameters } from 'projects/mapper-api-client';
 import { environment } from 'src/environments/environment';
 
@@ -36,6 +38,7 @@ import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANGUAGE_STORAGE_NAME } from './
 	bootstrap: [AppComponent],
 	imports: [
 		ApiModule.forRoot(apiConfigFactory),
+		AutoCompleteModule,
 		AppRoutingModule,
 		BrowserAnimationsModule,
 		BrowserModule,
@@ -47,6 +50,7 @@ import { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE, LANGUAGE_STORAGE_NAME } from './
 		DropdownModule,
 		FileUploadModule,
 		DialogModule,
+		SelectButtonModule,
 		TranslateModule.forRoot({
 			loader: {
 				provide: TranslateLoader,

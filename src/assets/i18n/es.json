@@ -5,22 +5,18 @@
       "confirmation": "¿Seguro que quieres eliminar esta fuente de datos?",
       "data": "Datos",
       "edit": "Editar fuente de datos",
-      "fields": "Campos",
       "format": "Seleccione el formato",
       "list": "Lista de Fuentes de datos",
-      "query": "Query",
-      "sources": "Fuentes de datos",
-      "tables": "Tables",
-      "xpath": "XPath"
+      "sources": "Fuentes de datos"
     }
   },
   "labels": {
     "add-element": "Añadir elemento",
-    "add-output": "Añadir output",
     "add-query": "Añadir query",
+    "add-rule": "Añadir regla",
     "cancel": "Cancelar",
     "connection-url": "URL de conexión",
-    "data-source": "Fuente de datos",
+    "data-source": "Tipo de fuente de datos",
     "data-source-file": "Seleccione el fichero de fuente de datos",
     "data-source-format": "Seleccione el tipo de fuente de datos",
     "date": "Fecha",
@@ -31,6 +27,7 @@
     "import_mapping": "Importar mapeo",
     "importRML": "Seleccionar archivo RML",
     "name": "Nombre",
+    "new-triplesmap": "Nueva tripleta",
     "no": "No",
     "ontology": "Ontología",
     "ontology-file": "Seleccione el archivo de ontología",
@@ -52,6 +49,7 @@
       "edit": "Editar mapeo",
       "import": "Importar mapeo",
       "import_mapping": "Importación de mapeo",
+      "iterator": "Iterador",
       "list": "Lista de Mapeos",
       "manual": "Generar mapeo manual",
       "map": "Mapeo",
@@ -59,7 +57,11 @@
       "map-name": "Nombre del mapeo",
       "mappings-list": "Volver a la lista de mapeos",
       "new-materialisation": "Nueva materialización",
-      "select": "Seleccione el <strong>archivo RML</strong>, las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para importar un mapeo: "
+      "object": "Objeto",
+      "predicate": "Predicado",
+      "select": "Seleccione el <strong>archivo RML</strong>, las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para importar un mapeo: ",
+      "subject": "Sujeto",
+      "templateUrl": "URL del template"
     }
   },
   "materialisations": {
@@ -89,9 +91,13 @@
     },
     "mappings": {
       "errors": {
+        "no-data-type": "El tipo de dato es necesario para el tipo de término literal",
+        "no-iterator": "El iterador es necesario para las fuentes de datos de tipo XML o JSON",
         "no-name-url": "El mapeo debe tener un nombre y una URL base"
       },
-      "pairs": "Se debe seleccionar al menos un par",
+      "rule": {
+        "incomplete": "Regla incompleta. Por favor, revisa los campos."
+      },
       "success": {
         "created": "Mapeo creado correctamente",
         "deleted": "Mapeo eliminado correctamente",
@@ -125,6 +131,8 @@
     }
   },
   "placeholders": {
+    "dataType": "Selecciona el tipo de dato",
+    "fields": "Buscar campos...",
     "search": "Buscar por..."
   },
   "properties": {
