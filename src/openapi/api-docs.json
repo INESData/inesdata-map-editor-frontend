@@ -1473,15 +1473,6 @@
             "minLength": 1,
             "type": "string"
           },
-          "dataBaseType": {
-            "type": "string",
-            "enum": [
-              "POSTGRESQL",
-              "MYSQL",
-              "H2",
-              "MONGO"
-            ]
-          },
           "databaseType": {
             "type": "string",
             "enum": [
@@ -1489,14 +1480,6 @@
               "MYSQL",
               "H2",
               "MONGO"
-            ]
-          },
-          "fileType": {
-            "type": "string",
-            "enum": [
-              "CSV",
-              "JSON",
-              "XML"
             ]
           },
           "id": {
@@ -1538,23 +1521,6 @@
         ],
         "type": "object",
         "properties": {
-          "dataBaseType": {
-            "type": "string",
-            "enum": [
-              "POSTGRESQL",
-              "MYSQL",
-              "H2",
-              "MONGO"
-            ]
-          },
-          "fileType": {
-            "type": "string",
-            "enum": [
-              "CSV",
-              "JSON",
-              "XML"
-            ]
-          },
           "id": {
             "type": "integer",
             "format": "int64"
@@ -1610,15 +1576,6 @@
         ],
         "type": "object",
         "properties": {
-          "dataBaseType": {
-            "type": "string",
-            "enum": [
-              "POSTGRESQL",
-              "MYSQL",
-              "H2",
-              "MONGO"
-            ]
-          },
           "fileType": {
             "type": "string",
             "enum": [
