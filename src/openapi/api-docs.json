@@ -1700,6 +1700,12 @@
             "minLength": 1,
             "type": "string"
           },
+          "namespaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NamespaceDTO"
+            }
+          },
           "ontologyIds": {
             "type": "array",
             "items": {
@@ -1742,6 +1748,25 @@
           },
           "subject": {
             "$ref": "#/components/schemas/SubjectMapDTO"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "NamespaceDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "iri": {
+            "type": "string"
+          },
+          "prefix": {
+            "type": "string"
           },
           "version": {
             "type": "integer",

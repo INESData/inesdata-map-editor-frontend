@@ -103,6 +103,7 @@ export const mappingDtoForm = new FormGroup({
     Validators.minLength(1),
     Validators.maxLength(255)
   ]),
+  namespaces: new FormControl(null, []),
   ontologyIds: new FormControl(null, [Validators.required]),
   version: new FormControl(null, [])
 });
@@ -114,6 +115,13 @@ export const mappingFieldDtoForm = new FormGroup({
   logicalTable: new FormControl(null, []),
   predicates: new FormControl(null, []),
   subject: new FormControl(null, []),
+  version: new FormControl(null, [])
+});
+
+export const namespaceDtoForm = new FormGroup({
+  id: new FormControl(null, []),
+  iri: new FormControl(null, []),
+  prefix: new FormControl(null, []),
   version: new FormControl(null, [])
 });
 
