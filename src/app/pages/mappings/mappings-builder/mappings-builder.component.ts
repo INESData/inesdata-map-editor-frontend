@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, NamespaceDTO, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { DataTypeEnum } from 'src/app/shared/enums/data-type.enum';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
@@ -37,7 +37,7 @@ export class MappingsBuilderComponent implements OnInit {
 	subjectClasses: string[];
 	predicateClasses: string[];
 
-	selectedSourceFormat;
+	selectedSourceFormat = DataFileTypeEnum.XML;
 	selectedSource: FileSourceDTO | DataBaseSourceDTO = null;
 	selectedSubjectOntology: SearchOntologyDTO = null;
 	selectedSubjectClass: string = null;
@@ -47,6 +47,7 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedPredicateOntology: SearchOntologyDTO = null;
 	selectedPredicateClass: string = null;
 	selectedPredicateProperty: string = null;
+	selectedPredicatePropertyUrl: string = null;
 
 	objectMapValue: string;
 	selectedDataType: string;
@@ -56,12 +57,13 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedField: string;
 	errorMessage: string;
 	termType: TermType[];
-	currentTermType: string = null;
+	currentTermType = 'iri';
 	isNewTriplesMap = false;
 	isFirstEdition = true;
 	namespaceMap: Record<string, string>;
 	suggestions: string[];
 	inputValue: string;
+	selectedNamespaces: NamespaceDTO[] = [];
 
 	/**
 	 * Initializes the component and subscribe to route parameter to get the ID
@@ -71,6 +73,7 @@ export class MappingsBuilderComponent implements OnInit {
 	ngOnInit() {
 		this.termType = TERM_TYPES;
 		this.getOntologies();
+		this.getFileData(this.selectedSourceFormat)
 		this.route.paramMap.subscribe((params) => {
 			this.mappingId = +params.get(PARAM_ID);
 		})
@@ -228,10 +231,10 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	addFieldToMapping(): void {
 
-		const { selectedSource, selectedSourceFormat, templateUrl, iterator, selectedSubjectClass, selectedPredicateProperty, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
+		const { selectedSource, selectedSourceFormat, templateUrl, iterator, selectedSubjectClass, selectedPredicatePropertyUrl, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
 
 		// Rule must be completed
-		if (!(selectedSource?.id && selectedSourceFormat && selectedSubjectClass && templateUrl && selectedSubjectClass && selectedPredicateProperty && objectMapValue && currentTermType)) {
+		if (!(selectedSource?.id && selectedSourceFormat && selectedSubjectClass && templateUrl && selectedSubjectClass && selectedPredicatePropertyUrl && objectMapValue && currentTermType)) {
 			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_RULE_INCOMPLETE, MESSAGES_ERRORS);
 			return;
 		}
@@ -241,7 +244,7 @@ export class MappingsBuilderComponent implements OnInit {
 
 		// Create object-predicate DTOs
 		const objectMap = this.createObjectMap(objectMapValue, currentTermType, selectedDataType);
-		const predicate = this.createPredicate(selectedPredicateProperty, objectMap);
+		const predicate = this.createPredicate(selectedPredicatePropertyUrl, objectMap);
 
 		// On create
 		if (!mappingDTO?.id) {
@@ -293,6 +296,7 @@ export class MappingsBuilderComponent implements OnInit {
 		this.predicateClasses = null;
 		this.selectedPredicateClass = null;
 		this.selectedPredicateProperty = null;
+		this.selectedPredicatePropertyUrl = null;
 		this.objectMapValue = '';
 		this.currentTermType = '';
 		this.selectedDataType = null;
@@ -317,7 +321,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	createObjectMap(objectMapValue: string, currentTermType: string, selectedDataType?: string): ObjectMapDTO[] {
 		const objectMap: ObjectMapDTO[] = [
-			{ key: RR_TEMPLATE, literalValue: objectMapValue },
+			{ key: RR_TEMPLATE, literalValue: currentTermType === 'iri' ? objectMapValue : "{" + objectMapValue + "}" },
 			{ key: RR_TERMTYPE, literalValue: currentTermType === 'literal' ? RR_LITERAL : RR_IRI },
 		];
 
@@ -383,7 +387,7 @@ export class MappingsBuilderComponent implements OnInit {
 				template: templateUrl,
 				className: this.selectedSubjectOntology.url + subjectClass,
 			},
-			predicates,
+			predicates
 		});
 	}
 
@@ -471,15 +475,29 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Search with prefix in namespace map to return the url value
 	 */
 	onPropertySelect(property: string): void {
-		const propertyName = property['name'].split(':');
-		for (const key in this.namespaceMap) {
-			if (key === propertyName[0]) {
-				const url = this.namespaceMap[propertyName[0]];
-				this.selectedPredicateProperty = url + propertyName[1];
-			}
+		this.selectedPredicateProperty = property;
+		const propertyName: string[] = property.split(':');
+		const url = this.namespaceMap[propertyName[0]];
+		if (url) {
+			this.selectedPredicatePropertyUrl = url + propertyName[1];
 		}
+		this.createNamespace(url, propertyName[0]);
 	}
 
+	/**
+	 * Creates a namespace with the specified URL and prefix and adds it to selectedNamespaces
+	 */
+	createNamespace(url: string, prefix: string): void {
+		const newNamespace: NamespaceDTO = {
+			prefix: prefix,
+			iri: url,
+		};
+		this.selectedNamespaces.push(newNamespace);
+	}
+
+	/**
+	 * Process query based on the term type
+	 */
 	search(event) {
 		const query = event.query;
 		if (this.currentTermType === 'literal') {
