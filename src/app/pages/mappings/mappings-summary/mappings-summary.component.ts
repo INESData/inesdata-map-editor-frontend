@@ -23,7 +23,6 @@ export class MappingsSummaryComponent implements OnChanges {
 	errorMessage = '';
 
 	@Input() mappingDTO: MappingDTO;
-	@Input() selectedNamespaces;
 
 	/**
 	 * Update mapping name and base url when the input mappingDTO changes
@@ -80,8 +79,6 @@ export class MappingsSummaryComponent implements OnChanges {
 		if (!this.mappingDTO || !this.validateAndAssignMappingName()) {
 			return;
 		}
-
-		this.mappingDTO.namespaces = this.selectedNamespaces;
 
 		if (!this.mappingId) {
 			this.createMapping();

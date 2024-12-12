@@ -63,7 +63,7 @@ export class MappingsBuilderComponent implements OnInit {
 	namespaceMap: Record<string, string>;
 	suggestions: string[];
 	inputValue: string;
-	selectedNamespaces: NamespaceDTO[] = [];
+	selectedNamespace: NamespaceDTO;
 
 	/**
 	 * Initializes the component and subscribe to route parameter to get the ID
@@ -267,6 +267,7 @@ export class MappingsBuilderComponent implements OnInit {
 				this.processMappingField(isNewTriplesMap, selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
 			}
 		}
+		this.addNamespaceToMapping(this.selectedNamespace)
 	}
 
 	/**
@@ -480,19 +481,21 @@ export class MappingsBuilderComponent implements OnInit {
 		const url = this.namespaceMap[propertyName[0]];
 		if (url) {
 			this.selectedPredicatePropertyUrl = url + propertyName[1];
+			this.selectedNamespace = {
+				prefix: propertyName[1],
+				iri: url
+			}
 		}
-		this.createNamespace(url, propertyName[0]);
 	}
 
 	/**
-	 * Creates a namespace with the specified URL and prefix and adds it to selectedNamespaces
+	 * Adds a namespace to the mapping if it does not already exist
 	 */
-	createNamespace(url: string, prefix: string): void {
-		const newNamespace: NamespaceDTO = {
-			prefix: prefix,
-			iri: url,
-		};
-		this.selectedNamespaces.push(newNamespace);
+	addNamespaceToMapping(namespace: NamespaceDTO): void {
+		const urlExists = this.mappingDTO.namespaces.some(existingNamespace => existingNamespace.iri === namespace.iri);
+		if (!urlExists) {
+			this.mappingDTO.namespaces.push(namespace);
+		}
 	}
 
 	/**
