@@ -321,7 +321,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	createObjectMap(objectMapValue: string, currentTermType: string, selectedDataType?: string): ObjectMapDTO[] {
 		const objectMap: ObjectMapDTO[] = [
-			{ key: RR_TEMPLATE, literalValue: currentTermType === 'iri' ? objectMapValue : "{" + objectMapValue + "}" },
+			{ key: RR_TEMPLATE, literalValue: objectMapValue },
 			{ key: RR_TERMTYPE, literalValue: currentTermType === 'literal' ? RR_LITERAL : RR_IRI },
 		];
 
