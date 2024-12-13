@@ -6,12 +6,12 @@
 				<!-- Subject-->
 				<div class="col-12">
 					<div class="col-12 flex flex-justify-right pt-0 pb-0">
-						<p-button class="btn btn__primary icon-chevron" [label]="'labels.new-triplesmap' | translate" (onClick)="newTriplesMap()" />
+						<p-button class="btn btn__primary" [label]="'labels.new-triplesmap' | translate" (onClick)="newTriplesMap()" />
 					</div>
 					<!-- Data Sources-->
 					<div class="grid">
-						<div class="col-6">
-							<h1 class="category category__datasources">{{ "data-sources.data-source.sources" | translate }}</h1>
+						<div class="col-4">
+							<h1 class="category">{{ "data-sources.data-source.sources" | translate }}</h1>
 							<p-dropdown
 								[options]="formats"
 								[(ngModel)]="selectedSourceFormat"
@@ -19,12 +19,13 @@
 								(onChange)="getDataFromFormat($event.value)"
 							></p-dropdown>
 						</div>
-						<div class="col-6">
+						<div class="col-4">
 							<h1 class="category">{{ "mappings.mapping.subject" | translate }}</h1>
 						</div>
+						<div class="col-4"></div>
 					</div>
 					<div class="grid mt-0">
-						<div *ngIf="selectedSourceFormat" class="col-4">
+						<div class="col-4">
 							<p class="mt-1 mb-0">{{ "data-sources.data-source.data" | translate }}</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
@@ -192,8 +193,8 @@
 									<div *ngFor="let property of properties" class="field-checkbox">
 										<p-radioButton
 											[inputId]="property.name"
-											name="property"
-											[value]="property"
+											name="propertyGroup"
+											[value]="property.name"
 											[(ngModel)]="selectedPredicateProperty"
 											(ngModelChange)="onPropertySelect($event)"
 										/>

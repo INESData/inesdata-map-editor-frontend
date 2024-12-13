@@ -280,7 +280,7 @@ h3 {
   background-color: $black;
 }
 
-.p-selectbutton .p-button.p-highlight {
+.p-selectbutton .p-button:not(.p-highlight) {
   background-color: $orange;
 }
 

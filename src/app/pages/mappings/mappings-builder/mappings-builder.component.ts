@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, NamespaceDTO, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { DataTypeEnum } from 'src/app/shared/enums/data-type.enum';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
@@ -37,7 +37,7 @@ export class MappingsBuilderComponent implements OnInit {
 	subjectClasses: string[];
 	predicateClasses: string[];
 
-	selectedSourceFormat;
+	selectedSourceFormat = DataFileTypeEnum.XML;
 	selectedSource: FileSourceDTO | DataBaseSourceDTO = null;
 	selectedSubjectOntology: SearchOntologyDTO = null;
 	selectedSubjectClass: string = null;
@@ -47,6 +47,7 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedPredicateOntology: SearchOntologyDTO = null;
 	selectedPredicateClass: string = null;
 	selectedPredicateProperty: string = null;
+	selectedPredicatePropertyUrl: string = null;
 
 	objectMapValue: string;
 	selectedDataType: string;
@@ -56,12 +57,13 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedField: string;
 	errorMessage: string;
 	termType: TermType[];
-	currentTermType: string = null;
+	currentTermType = 'iri';
 	isNewTriplesMap = false;
 	isFirstEdition = true;
 	namespaceMap: Record<string, string>;
 	suggestions: string[];
 	inputValue: string;
+	selectedNamespace: NamespaceDTO;
 
 	/**
 	 * Initializes the component and subscribe to route parameter to get the ID
@@ -71,6 +73,7 @@ export class MappingsBuilderComponent implements OnInit {
 	ngOnInit() {
 		this.termType = TERM_TYPES;
 		this.getOntologies();
+		this.getFileData(this.selectedSourceFormat)
 		this.route.paramMap.subscribe((params) => {
 			this.mappingId = +params.get(PARAM_ID);
 		})
@@ -228,10 +231,10 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	addFieldToMapping(): void {
 
-		const { selectedSource, selectedSourceFormat, templateUrl, iterator, selectedSubjectClass, selectedPredicateProperty, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
+		const { selectedSource, selectedSourceFormat, templateUrl, iterator, selectedSubjectClass, selectedPredicatePropertyUrl, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
 
 		// Rule must be completed
-		if (!(selectedSource?.id && selectedSourceFormat && selectedSubjectClass && templateUrl && selectedSubjectClass && selectedPredicateProperty && objectMapValue && currentTermType)) {
+		if (!(selectedSource?.id && selectedSourceFormat && selectedSubjectClass && templateUrl && selectedSubjectClass && selectedPredicatePropertyUrl && objectMapValue && currentTermType)) {
 			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_RULE_INCOMPLETE, MESSAGES_ERRORS);
 			return;
 		}
@@ -241,7 +244,7 @@ export class MappingsBuilderComponent implements OnInit {
 
 		// Create object-predicate DTOs
 		const objectMap = this.createObjectMap(objectMapValue, currentTermType, selectedDataType);
-		const predicate = this.createPredicate(selectedPredicateProperty, objectMap);
+		const predicate = this.createPredicate(selectedPredicatePropertyUrl, objectMap);
 
 		// On create
 		if (!mappingDTO?.id) {
@@ -264,6 +267,7 @@ export class MappingsBuilderComponent implements OnInit {
 				this.processMappingField(isNewTriplesMap, selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
 			}
 		}
+		this.addNamespaceToMapping(this.selectedNamespace)
 	}
 
 	/**
@@ -284,7 +288,8 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Clear all selected properties
 	 */
 	newTriplesMap(): void {
-		this.selectedSourceFormat = null;
+		this.selectedSourceFormat = DataFileTypeEnum.XML;
+		this.selectedSource = null;
 		this.selectedSubjectOntology = null;
 		this.selectedSubjectClass = '';
 		this.iterator = null;
@@ -293,8 +298,9 @@ export class MappingsBuilderComponent implements OnInit {
 		this.predicateClasses = null;
 		this.selectedPredicateClass = null;
 		this.selectedPredicateProperty = null;
+		this.selectedPredicatePropertyUrl = null;
 		this.objectMapValue = '';
-		this.currentTermType = '';
+		this.currentTermType = 'iri';
 		this.selectedDataType = null;
 		this.isNewTriplesMap = true;
 	}
@@ -383,7 +389,7 @@ export class MappingsBuilderComponent implements OnInit {
 				template: templateUrl,
 				className: this.selectedSubjectOntology.url + subjectClass,
 			},
-			predicates,
+			predicates
 		});
 	}
 
@@ -471,15 +477,38 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Search with prefix in namespace map to return the url value
 	 */
 	onPropertySelect(property: string): void {
-		const propertyName = property['name'].split(':');
-		for (const key in this.namespaceMap) {
-			if (key === propertyName[0]) {
-				const url = this.namespaceMap[propertyName[0]];
-				this.selectedPredicateProperty = url + propertyName[1];
+		this.selectedPredicateProperty = property;
+
+		const splittedProperty: string[] = property.split(':');
+		const prefix = splittedProperty[0];
+		const propertyName = splittedProperty[1];
+		const foundUrl = this.namespaceMap[prefix];
+
+		if (foundUrl) {
+			this.selectedPredicatePropertyUrl = foundUrl + propertyName;
+			this.selectedNamespace = {
+				prefix,
+				iri: foundUrl
 			}
 		}
 	}
 
+	/**
+	 * Adds a namespace to the mapping if it does not already exist
+	 */
+	addNamespaceToMapping(namespace: NamespaceDTO): void {
+		if (!this.mappingDTO.namespaces) {
+			this.mappingDTO.namespaces = [];
+		}
+		const urlExists = this.mappingDTO.namespaces.some(existingNamespace => existingNamespace.iri === namespace.iri);
+		if (!urlExists) {
+			this.mappingDTO.namespaces?.push(namespace);
+		}
+	}
+
+	/**
+	 * Process query based on the term type
+	 */
 	search(event) {
 		const query = event.query;
 		if (this.currentTermType === 'literal') {
