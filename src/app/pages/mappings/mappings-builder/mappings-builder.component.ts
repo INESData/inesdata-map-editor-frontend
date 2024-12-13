@@ -288,7 +288,8 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Clear all selected properties
 	 */
 	newTriplesMap(): void {
-		this.selectedSourceFormat = null;
+		this.selectedSourceFormat = DataFileTypeEnum.XML;
+		this.selectedSource = null;
 		this.selectedSubjectOntology = null;
 		this.selectedSubjectClass = '';
 		this.iterator = null;
@@ -299,7 +300,7 @@ export class MappingsBuilderComponent implements OnInit {
 		this.selectedPredicateProperty = null;
 		this.selectedPredicatePropertyUrl = null;
 		this.objectMapValue = '';
-		this.currentTermType = '';
+		this.currentTermType = 'iri';
 		this.selectedDataType = null;
 		this.isNewTriplesMap = true;
 	}
@@ -477,13 +478,17 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	onPropertySelect(property: string): void {
 		this.selectedPredicateProperty = property;
-		const propertyName: string[] = property.split(':');
-		const url = this.namespaceMap[propertyName[0]];
-		if (url) {
-			this.selectedPredicatePropertyUrl = url + propertyName[1];
+
+		const splittedProperty: string[] = property.split(':');
+		const prefix = splittedProperty[0];
+		const propertyName = splittedProperty[1];
+		const foundUrl = this.namespaceMap[prefix];
+
+		if (foundUrl) {
+			this.selectedPredicatePropertyUrl = foundUrl + propertyName;
 			this.selectedNamespace = {
-				prefix: propertyName[1],
-				iri: url
+				prefix,
+				iri: foundUrl
 			}
 		}
 	}
@@ -492,9 +497,12 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Adds a namespace to the mapping if it does not already exist
 	 */
 	addNamespaceToMapping(namespace: NamespaceDTO): void {
+		if (!this.mappingDTO.namespaces) {
+			this.mappingDTO.namespaces = [];
+		}
 		const urlExists = this.mappingDTO.namespaces.some(existingNamespace => existingNamespace.iri === namespace.iri);
 		if (!urlExists) {
-			this.mappingDTO.namespaces.push(namespace);
+			this.mappingDTO.namespaces?.push(namespace);
 		}
 	}
 
