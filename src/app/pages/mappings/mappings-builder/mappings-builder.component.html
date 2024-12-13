@@ -124,7 +124,13 @@
 								[suggestions]="suggestions"
 								(completeMethod)="search($event)"
 								(onSelect)="onSelect($event)"
-								[disabled]="!(selectedSource && currentTermType)"
+								[disabled]="
+									!(
+										selectedSource &&
+										currentTermType &&
+										(selectedSourceFormat === 'XML' || selectedSourceFormat === 'JSON' ? iterator : true)
+									)
+								"
 								[placeholder]="'placeholders.fields' | translate"
 							></p-autoComplete>
 						</div>

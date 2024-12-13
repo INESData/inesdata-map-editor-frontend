@@ -510,10 +510,14 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Process query based on the term type
 	 */
 	search(event) {
+		const fieldsToSearch = (this.selectedSourceFormat === DataFileTypeEnum.XML || this.selectedSourceFormat === DataFileTypeEnum.JSON)
+			? this.filterAndTrimFields(this.fileFields)
+			: this.fileFields;
+
 		const query = event.query;
 		if (this.currentTermType === 'literal') {
 			this.inputValue = '';
-			this.executeSearch(query);
+			this.executeSearch(query, fieldsToSearch);
 
 		} else if (this.currentTermType === 'iri' && query.includes('{')) {
 			const charIndex = query.lastIndexOf('{');
@@ -522,17 +526,26 @@ export class MappingsBuilderComponent implements OnInit {
 				this.inputValue = query.substring(0, charIndex + 1).trim();
 				// Get query part after { and search
 				const searchText = query.substring(charIndex + 1);
-				this.executeSearch(searchText);
+				this.executeSearch(searchText, fieldsToSearch);
 
 			}
 		}
 	}
 
 	/**
+	 * Filters and trims fields based on the iterator
+	 */
+	filterAndTrimFields(fieldsToSearch: string[]): string[] {
+		return fieldsToSearch
+			.filter(field => field.startsWith(this.iterator))
+			.map(field => field.slice(this.iterator.length + 1));
+	}
+
+	/**
 	 * Filters the list of file fields based on the provided search text
 	 */
-	executeSearch(searchText: string): void {
-		this.suggestions = this.fileFields.filter(field =>
+	executeSearch(searchText: string, fieldsToSearch: string[]): void {
+		this.suggestions = fieldsToSearch.filter(field =>
 			field.toLowerCase().includes(searchText.toLowerCase())
 		);
 	}
