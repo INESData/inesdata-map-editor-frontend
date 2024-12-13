@@ -64,6 +64,7 @@ export class MappingsBuilderComponent implements OnInit {
 	suggestions: string[];
 	inputValue: string;
 	selectedNamespace: NamespaceDTO;
+	blockedSubject = false;
 
 	/**
 	 * Initializes the component and subscribe to route parameter to get the ID
@@ -267,7 +268,8 @@ export class MappingsBuilderComponent implements OnInit {
 				this.processMappingField(isNewTriplesMap, selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
 			}
 		}
-		this.addNamespaceToMapping(this.selectedNamespace)
+		this.addNamespaceToMapping(this.selectedNamespace);
+		this.clearObjectPredicate();
 	}
 
 	/**
@@ -278,31 +280,12 @@ export class MappingsBuilderComponent implements OnInit {
 			// Add field
 			this.addNewFieldToMapping(selectedSourceId, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
 			this.isNewTriplesMap = false;
+			this.blockedSubject = false;
 		} else {
 			// Add predicate-object pair to field
 			this.addPredicateToField(predicate);
+			this.blockedSubject = true;
 		}
-	}
-
-	/**
-	 * Clear all selected properties
-	 */
-	newTriplesMap(): void {
-		this.selectedSourceFormat = DataFileTypeEnum.XML;
-		this.selectedSource = null;
-		this.selectedSubjectOntology = null;
-		this.selectedSubjectClass = '';
-		this.iterator = null;
-		this.templateUrl = '';
-		this.selectedPredicateOntology = null;
-		this.predicateClasses = null;
-		this.selectedPredicateClass = null;
-		this.selectedPredicateProperty = null;
-		this.selectedPredicatePropertyUrl = null;
-		this.objectMapValue = '';
-		this.currentTermType = 'iri';
-		this.selectedDataType = null;
-		this.isNewTriplesMap = true;
 	}
 
 	/**
@@ -367,6 +350,7 @@ export class MappingsBuilderComponent implements OnInit {
 				},
 			],
 		};
+		this.blockedSubject = true;
 	}
 
 	/**
@@ -391,6 +375,7 @@ export class MappingsBuilderComponent implements OnInit {
 			},
 			predicates
 		});
+		this.blockedSubject = true;
 	}
 
 	/**
@@ -551,10 +536,46 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
-	 * Concat input value saed before with the selected option
+	 * Concat input value saved before with the selected option
 	 */
 	onSelect(event): void {
 		const selectedValue = event.value;
 		this.objectMapValue = this.inputValue + selectedValue;
+	}
+
+	/**
+ * Clear all selected properties from object and predicate
+ */
+	clearObjectPredicate(): void {
+		this.objectMapValue = '';
+		this.currentTermType = 'iri';
+		this.selectedDataType = null;
+		this.selectedPredicateOntology = null;
+		this.predicateClasses = null;
+		this.selectedPredicateClass = null;
+		this.selectedPredicateProperty = null;
+		this.selectedPredicatePropertyUrl = null;
+	}
+
+	/**
+	 * Clear all selected properties
+	 */
+	newTriplesMap(): void {
+		this.blockedSubject = false;
+		this.selectedSourceFormat = DataFileTypeEnum.XML;
+		this.selectedSource = null;
+		this.selectedSubjectOntology = null;
+		this.selectedSubjectClass = '';
+		this.iterator = null;
+		this.templateUrl = '';
+		this.selectedPredicateOntology = null;
+		this.predicateClasses = null;
+		this.selectedPredicateClass = null;
+		this.selectedPredicateProperty = null;
+		this.selectedPredicatePropertyUrl = null;
+		this.objectMapValue = '';
+		this.currentTermType = 'iri';
+		this.selectedDataType = null;
+		this.isNewTriplesMap = true;
 	}
 }
