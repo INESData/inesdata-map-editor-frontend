@@ -230,7 +230,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Collect information from subject, predicate and object and
 	 * add it to the mapping DTO
 	 */
-	addFieldToMapping(): void {
+	addRule(): void {
 
 		const { selectedSource, selectedSourceFormat, templateUrl, iterator, selectedSubjectClass, selectedPredicatePropertyUrl, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
 
@@ -359,6 +359,9 @@ export class MappingsBuilderComponent implements OnInit {
 	addPredicateToField(predicate: PredicateObjectMapDTO[]): void {
 		const lastField = this.mappingDTO.fields[this.mappingDTO.fields.length - 1];
 		lastField.predicates.push(...predicate);
+		if (!this.mappingDTO.ontologyIds.includes(this.selectedPredicateOntology.id)) {
+			this.mappingDTO.ontologyIds.push(this.selectedPredicateOntology.id);
+		}
 	}
 
 	/**
@@ -374,6 +377,11 @@ export class MappingsBuilderComponent implements OnInit {
 				className: this.selectedSubjectOntology.url + subjectClass,
 			},
 			predicates
+		});
+		[this.selectedPredicateOntology.id, this.selectedSubjectOntology.id].forEach(id => {
+			if (!this.mappingDTO.ontologyIds.includes(id)) {
+				this.mappingDTO.ontologyIds.push(id);
+			}
 		});
 		this.blockedSubject = true;
 	}
