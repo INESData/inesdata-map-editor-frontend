@@ -21,8 +21,8 @@
 				</ng-template>
 				<ng-template pTemplate="body" let-predicate let-index="rowIndex">
 					<tr>
-						<td [title]="predicate.objectMap?.[0]?.literalValue">
-							{{ predicate.objectMap?.[0]?.literalValue }}
+						<td [title]="predicate.objectMap | filterLiteralValue">
+							{{ predicate.objectMap | filterLiteralValue }}
 						</td>
 						<td [title]="predicate.predicate">
 							{{ predicate.predicate }}

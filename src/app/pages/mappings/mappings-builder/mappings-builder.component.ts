@@ -64,6 +64,7 @@ export class MappingsBuilderComponent implements OnInit {
 	suggestions: string[];
 	inputValue: string;
 	selectedNamespace: NamespaceDTO;
+	blockedSubject = false;
 
 	/**
 	 * Initializes the component and subscribe to route parameter to get the ID
@@ -229,7 +230,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Collect information from subject, predicate and object and
 	 * add it to the mapping DTO
 	 */
-	addFieldToMapping(): void {
+	addRule(): void {
 
 		const { selectedSource, selectedSourceFormat, templateUrl, iterator, selectedSubjectClass, selectedPredicatePropertyUrl, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
 
@@ -267,7 +268,8 @@ export class MappingsBuilderComponent implements OnInit {
 				this.processMappingField(isNewTriplesMap, selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
 			}
 		}
-		this.addNamespaceToMapping(this.selectedNamespace)
+		this.addNamespaceToMapping(this.selectedNamespace);
+		this.clearObjectPredicate();
 	}
 
 	/**
@@ -278,31 +280,12 @@ export class MappingsBuilderComponent implements OnInit {
 			// Add field
 			this.addNewFieldToMapping(selectedSourceId, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
 			this.isNewTriplesMap = false;
+			this.blockedSubject = false;
 		} else {
 			// Add predicate-object pair to field
 			this.addPredicateToField(predicate);
+			this.blockedSubject = true;
 		}
-	}
-
-	/**
-	 * Clear all selected properties
-	 */
-	newTriplesMap(): void {
-		this.selectedSourceFormat = DataFileTypeEnum.XML;
-		this.selectedSource = null;
-		this.selectedSubjectOntology = null;
-		this.selectedSubjectClass = '';
-		this.iterator = null;
-		this.templateUrl = '';
-		this.selectedPredicateOntology = null;
-		this.predicateClasses = null;
-		this.selectedPredicateClass = null;
-		this.selectedPredicateProperty = null;
-		this.selectedPredicatePropertyUrl = null;
-		this.objectMapValue = '';
-		this.currentTermType = 'iri';
-		this.selectedDataType = null;
-		this.isNewTriplesMap = true;
 	}
 
 	/**
@@ -367,6 +350,7 @@ export class MappingsBuilderComponent implements OnInit {
 				},
 			],
 		};
+		this.blockedSubject = true;
 	}
 
 	/**
@@ -375,6 +359,9 @@ export class MappingsBuilderComponent implements OnInit {
 	addPredicateToField(predicate: PredicateObjectMapDTO[]): void {
 		const lastField = this.mappingDTO.fields[this.mappingDTO.fields.length - 1];
 		lastField.predicates.push(...predicate);
+		if (!this.mappingDTO.ontologyIds.includes(this.selectedPredicateOntology.id)) {
+			this.mappingDTO.ontologyIds.push(this.selectedPredicateOntology.id);
+		}
 	}
 
 	/**
@@ -391,6 +378,12 @@ export class MappingsBuilderComponent implements OnInit {
 			},
 			predicates
 		});
+		[this.selectedPredicateOntology.id, this.selectedSubjectOntology.id].forEach(id => {
+			if (!this.mappingDTO.ontologyIds.includes(id)) {
+				this.mappingDTO.ontologyIds.push(id);
+			}
+		});
+		this.blockedSubject = true;
 	}
 
 	/**
@@ -510,10 +503,14 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Process query based on the term type
 	 */
 	search(event) {
+		const fieldsToSearch = (this.selectedSourceFormat === DataFileTypeEnum.XML || this.selectedSourceFormat === DataFileTypeEnum.JSON)
+			? this.filterAndTrimFields(this.fileFields)
+			: this.fileFields;
+
 		const query = event.query;
 		if (this.currentTermType === 'literal') {
 			this.inputValue = '';
-			this.executeSearch(query);
+			this.executeSearch(query, fieldsToSearch);
 
 		} else if (this.currentTermType === 'iri' && query.includes('{')) {
 			const charIndex = query.lastIndexOf('{');
@@ -522,26 +519,71 @@ export class MappingsBuilderComponent implements OnInit {
 				this.inputValue = query.substring(0, charIndex + 1).trim();
 				// Get query part after { and search
 				const searchText = query.substring(charIndex + 1);
-				this.executeSearch(searchText);
+				this.executeSearch(searchText, fieldsToSearch);
 
 			}
 		}
 	}
 
 	/**
+	 * Filters and trims fields based on the iterator
+	 */
+	filterAndTrimFields(fieldsToSearch: string[]): string[] {
+		return fieldsToSearch
+			.filter(field => field.startsWith(this.iterator))
+			.map(field => field.slice(this.iterator.length + 1));
+	}
+
+	/**
 	 * Filters the list of file fields based on the provided search text
 	 */
-	executeSearch(searchText: string): void {
-		this.suggestions = this.fileFields.filter(field =>
+	executeSearch(searchText: string, fieldsToSearch: string[]): void {
+		this.suggestions = fieldsToSearch.filter(field =>
 			field.toLowerCase().includes(searchText.toLowerCase())
 		);
 	}
 
 	/**
-	 * Concat input value saed before with the selected option
+	 * Concat input value saved before with the selected option
 	 */
 	onSelect(event): void {
 		const selectedValue = event.value;
 		this.objectMapValue = this.inputValue + selectedValue;
+	}
+
+	/**
+ * Clear all selected properties from object and predicate
+ */
+	clearObjectPredicate(): void {
+		this.objectMapValue = '';
+		this.currentTermType = 'iri';
+		this.selectedDataType = null;
+		this.selectedPredicateOntology = null;
+		this.predicateClasses = null;
+		this.selectedPredicateClass = null;
+		this.selectedPredicateProperty = null;
+		this.selectedPredicatePropertyUrl = null;
+	}
+
+	/**
+	 * Clear all selected properties
+	 */
+	newTriplesMap(): void {
+		this.blockedSubject = false;
+		this.selectedSourceFormat = DataFileTypeEnum.XML;
+		this.selectedSource = null;
+		this.selectedSubjectOntology = null;
+		this.selectedSubjectClass = '';
+		this.iterator = null;
+		this.templateUrl = '';
+		this.selectedPredicateOntology = null;
+		this.predicateClasses = null;
+		this.selectedPredicateClass = null;
+		this.selectedPredicateProperty = null;
+		this.selectedPredicatePropertyUrl = null;
+		this.objectMapValue = '';
+		this.currentTermType = 'iri';
+		this.selectedDataType = null;
+		this.isNewTriplesMap = true;
 	}
 }
