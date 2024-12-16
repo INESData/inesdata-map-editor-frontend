@@ -512,9 +512,8 @@ export class MappingsBuilderComponent implements OnInit {
 			this.inputValue = '';
 			this.executeSearch(query, fieldsToSearch);
 
-		} else if (this.currentTermType === 'iri' && (query.includes('{') || query.includes('#'))) {
-
-			const charIndex = query.lastIndexOf('{') !== -1 ? query.lastIndexOf('{') : query.lastIndexOf('#');
+		} else if (this.currentTermType === 'iri' && query.includes('{')) {
+			const charIndex = query.lastIndexOf('{');
 			if (charIndex !== -1) {
 				// Get query part before { and save it in inputValue
 				this.inputValue = query.substring(0, charIndex + 1).trim();
