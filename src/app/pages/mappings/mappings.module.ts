@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FilterLiteralValuePipe } from 'src/app/shared/pipes/filter-literal-value.pipe';
 import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
 import { SharedModule } from 'src/app/shared/shared.module';
 
@@ -12,6 +13,6 @@ import { MappingsSummaryComponent } from './mappings-summary/mappings-summary.co
 
 @NgModule({
 	declarations: [MappingsComponent, MappingsListComponent, MappingsFormComponent, MappingsRecordsComponent, MappingsBuilderComponent, MappingsSummaryComponent],
-	imports: [MappingsRoutingModule, SharedModule, JoinPipe]
+	imports: [MappingsRoutingModule, SharedModule, JoinPipe, FilterLiteralValuePipe]
 })
 export class MappingsModule { }
