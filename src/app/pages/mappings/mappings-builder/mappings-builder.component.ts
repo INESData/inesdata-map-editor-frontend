@@ -280,7 +280,7 @@ export class MappingsBuilderComponent implements OnInit {
 			// Add field
 			this.addNewFieldToMapping(selectedSourceId, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
 			this.isNewTriplesMap = false;
-			this.blockedSubject = false;
+			this.blockedSubject = true;
 		} else {
 			// Add predicate-object pair to field
 			this.addPredicateToField(predicate);
@@ -512,8 +512,9 @@ export class MappingsBuilderComponent implements OnInit {
 			this.inputValue = '';
 			this.executeSearch(query, fieldsToSearch);
 
-		} else if (this.currentTermType === 'iri' && query.includes('{')) {
-			const charIndex = query.lastIndexOf('{');
+		} else if (this.currentTermType === 'iri' && (query.includes('{') || query.includes('#'))) {
+
+			const charIndex = query.lastIndexOf('{') !== -1 ? query.lastIndexOf('{') : query.lastIndexOf('#');
 			if (charIndex !== -1) {
 				// Get query part before { and save it in inputValue
 				this.inputValue = query.substring(0, charIndex + 1).trim();
@@ -552,8 +553,8 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
- * Clear all selected properties from object and predicate
- */
+	 * Clear all selected properties from object and predicate
+	 */
 	clearObjectPredicate(): void {
 		this.objectMapValue = '';
 		this.currentTermType = 'iri';
