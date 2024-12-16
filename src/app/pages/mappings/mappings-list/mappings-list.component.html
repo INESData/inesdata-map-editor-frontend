@@ -15,8 +15,8 @@
 		<ng-template pTemplate="body" let-mapping>
 			<tr>
 				<td>{{ mapping.name }}</td>
-				<td>{{ mapping.ontologies | join }}</td>
-				<td>{{ mapping.dataSources | join }}</td>
+				<td [title]="mapping.ontologies | join">{{ mapping.ontologies | join }}</td>
+				<td [title]="mapping.dataSources | join">{{ mapping.dataSources | join }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
 						<p-button class="btn btn__icon icon-ojo mr-1" />
