@@ -108,6 +108,9 @@
       }
     },
     "materialisations": {
+      "errors": {
+        "not-found": "The file has not been generated correctly and cannot be retrieved"
+      },
       "success": {
         "executed": "Materialisation successfully executed"
       }

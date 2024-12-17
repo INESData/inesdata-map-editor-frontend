@@ -36,6 +36,7 @@ export const MESSAGES_MAPPINGS_RULE_INCOMPLETE: string = translate('messages.map
 export const MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE: string = translate('messages.mappings.predicate.incomplete');
 
 export const MESSAGES_MATERIALISATIONS_SUCCESS: string = translate('messages.materialisations.success.executed');
+export const MESSAGES_MATERIALISATIONS_ERRORS_NOTFOUND: string = translate('messages.materialisations.errors.not-found');
 
 export const MESSAGES_DATA_SOURCES_ERRORS_NOFILE: string = translate('messages.data-sources.errors.no-file');
 
