@@ -68,12 +68,14 @@ export class ServerErrorInterceptor implements HttpInterceptor {
 				this.notificationService.showErrorException(error.error);
 				break;
 			case 404:
-				this.logger.error(
-					'The request has not been completed because the requested resource is not found; status code: ' + error.status,
-					request,
-					error
-				);
-				this.notificationService.showErrorException(error.error);
+				if (!request.url.includes('executions')) {
+					this.logger.error(
+						'The request has not been completed because the requested resource is not found; status code: ' + error.status,
+						request,
+						error
+					);
+					this.notificationService.showErrorException(error.error);
+				}
 				break;
 			default:
 				// Error managed by general error handling

@@ -1,9 +1,9 @@
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ExecutionDTO, ExecutionService, MappingService, PagedModelExecutionDTO } from 'projects/mapper-api-client';
-import { finalize } from 'rxjs';
+import { catchError, finalize, throwError } from 'rxjs';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MESSAGES_MATERIALISATIONS_SUCCESS, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
+import { MESSAGES_ERRORS, MESSAGES_MATERIALISATIONS_ERRORS_NOTFOUND, MESSAGES_MATERIALISATIONS_SUCCESS, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-mappings-records',
@@ -70,7 +70,15 @@ export class MappingsRecordsComponent implements OnInit {
 	downloadFile(id: number, fileName: string) {
 		this.executionService
 			.downloadFile(id, fileName)
-			.pipe(takeUntilDestroyed(this.destroyRef))
+			.pipe(
+				takeUntilDestroyed(this.destroyRef),
+				catchError(error => {
+					if (error.status === 404) {
+						this.notificationService.showErrorMessage(MESSAGES_MATERIALISATIONS_ERRORS_NOTFOUND, MESSAGES_ERRORS);
+					}
+					return throwError(() => error);
+				})
+			)
 			.subscribe((value) => {
 				const blob = new Blob([value]);
 				const data = window.URL.createObjectURL(blob);
