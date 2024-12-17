@@ -95,6 +95,9 @@
         "no-iterator": "Iterator is required for XML or JSON data source type",
         "no-name-url": "Mapping must have a name and a base URL"
       },
+      "predicate": {
+        "incomplete": "The selected property does not have a defined prefix"
+      },
       "rule": {
         "incomplete": "Incomplete rule. Please check the fields."
       },

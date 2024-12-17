@@ -95,6 +95,9 @@
         "no-iterator": "El iterador es necesario para las fuentes de datos de tipo XML o JSON",
         "no-name-url": "El mapeo debe tener un nombre y una URL base"
       },
+      "predicate": {
+        "incomplete": "La propiedad seleccionada no tiene un prefijo definido"
+      },
       "rule": {
         "incomplete": "Regla incompleta. Por favor, revisa los campos."
       },
