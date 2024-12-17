@@ -33,6 +33,7 @@ export const MESSAGES_MAPPINGS_SUCCESS_CREATED: string = translate('messages.map
 export const MESSAGES_MAPPINGS_SUCCESS_DELETED: string = translate('messages.mappings.success.deleted');
 export const MESSAGES_MAPPINGS_SUCCESS_UPDATED: string = translate('messages.mappings.success.updated');
 export const MESSAGES_MAPPINGS_RULE_INCOMPLETE: string = translate('messages.mappings.rule.incomplete');
+export const MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE: string = translate('messages.mappings.predicate.incomplete');
 
 export const MESSAGES_MATERIALISATIONS_SUCCESS: string = translate('messages.materialisations.success.executed');
 

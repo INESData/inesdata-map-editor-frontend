@@ -10,7 +10,7 @@ import { TermType } from 'src/app/shared/models/term-type.model';
 import { TERM_TYPES } from 'src/app/shared/models/term-types';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_ASSOCIATED, PROPERTIES_DATA, PROPERTIES_OBJECT, RR_DATATYPE, RR_IRI, RR_LITERAL, RR_TEMPLATE, RR_TERMTYPE } from 'src/app/shared/utils/app.constants';
+import { MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_ASSOCIATED, PROPERTIES_DATA, PROPERTIES_OBJECT, RR_DATATYPE, RR_IRI, RR_LITERAL, RR_TEMPLATE, RR_TERMTYPE } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
 @Component({
@@ -483,6 +483,8 @@ export class MappingsBuilderComponent implements OnInit {
 				prefix,
 				iri: foundUrl
 			}
+		} else {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_ERRORS);
 		}
 	}
 
@@ -493,7 +495,7 @@ export class MappingsBuilderComponent implements OnInit {
 		if (!this.mappingDTO.namespaces) {
 			this.mappingDTO.namespaces = [];
 		}
-		const urlExists = this.mappingDTO.namespaces.some(existingNamespace => existingNamespace.iri === namespace.iri);
+		const urlExists = this.mappingDTO.namespaces.some(existingNamespace => existingNamespace.iri && existingNamespace.iri === namespace.iri);
 		if (!urlExists) {
 			this.mappingDTO.namespaces?.push(namespace);
 		}
