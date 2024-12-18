@@ -4,14 +4,14 @@
 	<p-table class="mt-2 block" [value]="dataSources">
 		<ng-template pTemplate="header">
 			<tr>
-				<th scope="col">{{ "labels.data-source" | translate }}</th>
+				<th scope="col">{{ "labels.name" | translate }}</th>
 				<th scope="col">{{ "labels.type" | translate }}</th>
 				<th scope="col"></th>
 			</tr>
 		</ng-template>
 		<ng-template pTemplate="body" let-datasource>
 			<tr>
-				<td>{{ datasource.name }}</td>
+				<td [title]="datasource.name">{{ datasource.name }}</td>
 				<td>{{ datasource.type }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">

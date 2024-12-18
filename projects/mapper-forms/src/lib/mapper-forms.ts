@@ -38,8 +38,16 @@ export const dataSourceDtoForm = new FormGroup({
   version: new FormControl(null, [])
 });
 
+export const executionDtoForm = new FormGroup({
+  executionDate: new FormControl(null, []),
+  id: new FormControl(null, []),
+  knowledgeGraphFileName: new FormControl(null, []),
+  logFileName: new FormControl(null, []),
+  mappingFileName: new FormControl(null, []),
+  version: new FormControl(null, [])
+});
+
 export const fileSourceDtoForm = new FormGroup({
-  fileName: new FormControl(null, []),
   fileType: new FormControl(null, [Validators.required]),
   id: new FormControl(null, []),
   name: new FormControl(null, [
@@ -54,6 +62,79 @@ export const fileSourceDtoForm = new FormGroup({
 export const linkForm = new FormGroup({
   href: new FormControl(null, []),
   templated: new FormControl(null, [])
+});
+
+export const logicalSourceDtoForm = new FormGroup({
+  id: new FormControl(null, []),
+  iterator: new FormControl(null, []),
+  query: new FormControl(null, [
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  referenceFormulation: new FormControl(null, []),
+  source: new FormControl(null, [
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  version: new FormControl(null, [])
+});
+
+export const logicalTableDtoForm = new FormGroup({
+  id: new FormControl(null, []),
+  query: new FormControl(null, []),
+  tableName: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  version: new FormControl(null, [])
+});
+
+export const mappingDtoForm = new FormGroup({
+  baseUrl: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  fields: new FormControl(null, [Validators.required]),
+  id: new FormControl(null, []),
+  name: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  namespaces: new FormControl(null, []),
+  ontologyIds: new FormControl(null, [Validators.required]),
+  version: new FormControl(null, [])
+});
+
+export const mappingFieldDtoForm = new FormGroup({
+  dataSourceId: new FormControl(null, [Validators.required]),
+  id: new FormControl(null, []),
+  logicalSource: new FormControl(null, []),
+  logicalTable: new FormControl(null, []),
+  predicates: new FormControl(null, []),
+  subject: new FormControl(null, []),
+  version: new FormControl(null, [])
+});
+
+export const namespaceDtoForm = new FormGroup({
+  id: new FormControl(null, []),
+  iri: new FormControl(null, []),
+  prefix: new FormControl(null, []),
+  version: new FormControl(null, [])
+});
+
+export const objectMapDtoForm = new FormGroup({
+  id: new FormControl(null, []),
+  key: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  literalValue: new FormControl(null, []),
+  objectValue: new FormControl(null, []),
+  version: new FormControl(null, [])
 });
 
 export const ontologyDtoForm = new FormGroup({
@@ -95,6 +176,13 @@ export const pageDataSourceDtoForm = new FormGroup({
   totalPages: new FormControl(null, [])
 });
 
+export const pageMetadataForm = new FormGroup({
+  number: new FormControl(null, []),
+  size: new FormControl(null, []),
+  totalElements: new FormControl(null, []),
+  totalPages: new FormControl(null, [])
+});
+
 export const pageSearchMappingDtoForm = new FormGroup({
   content: new FormControl(null, []),
   empty: new FormControl(null, []),
@@ -132,6 +220,28 @@ export const pageableObjectForm = new FormGroup({
   unpaged: new FormControl(null, [])
 });
 
+export const pagedModelExecutionDtoForm = new FormGroup({
+  content: new FormControl(null, []),
+  page: new FormControl(null, [])
+});
+
+export const predicateObjectMapDtoForm = new FormGroup({
+  id: new FormControl(null, []),
+  objectMap: new FormControl(null, [Validators.required]),
+  predicate: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  version: new FormControl(null, [])
+});
+
+export const propertyDtoForm = new FormGroup({
+  associated: new FormControl(null, []),
+  name: new FormControl(null, [Validators.required]),
+  propertyType: new FormControl(null, [Validators.required])
+});
+
 export const searchMappingDtoForm = new FormGroup({
   dataSources: new FormControl(null, []),
   id: new FormControl(null, []),
@@ -153,7 +263,8 @@ export const searchOntologyDtoForm = new FormGroup({
   ]),
   uploadDate: new FormControl(null, []),
   url: new FormControl(null, [
-    Validators.minLength(0),
+    Validators.required,
+    Validators.minLength(1),
     Validators.maxLength(255)
   ]),
   versionName: new FormControl(null, [
@@ -167,4 +278,19 @@ export const sortObjectForm = new FormGroup({
   empty: new FormControl(null, []),
   sorted: new FormControl(null, []),
   unsorted: new FormControl(null, [])
+});
+
+export const subjectMapDtoForm = new FormGroup({
+  className: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  id: new FormControl(null, []),
+  template: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  version: new FormControl(null, [])
 });
