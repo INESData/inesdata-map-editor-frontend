@@ -195,7 +195,8 @@ export class MappingsBuilderComponent implements OnInit {
 				this.getFields(source.id);
 				break;
 			case DataFileTypeEnum.XML:
-				this.getXMLAttributes(source.id);
+			case DataFileTypeEnum.JSON:
+				this.getFileAttributes(source.id);
 				break;
 		}
 	}
@@ -214,9 +215,9 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
-	 * Retrieves the XML attributes for a given file source ID
+	 * Retrieves the XML and JSON attributes for a given file source ID
 	 */
-	getXMLAttributes(id: number): void {
+	getFileAttributes(id: number): void {
 		this.fileSourceService
 			.getFileAttributes(id)
 			.pipe(
@@ -531,9 +532,13 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Filters and trims fields based on the iterator
 	 */
 	filterAndTrimFields(fieldsToSearch: string[]): string[] {
+		const iterator = this.selectedSourceFormat === DataFileTypeEnum.JSON
+			? this.iterator.replace('$.', '')
+			: this.iterator;
+
 		return fieldsToSearch
-			.filter(field => field.startsWith(this.iterator))
-			.map(field => field.slice(this.iterator.length + 1));
+			.filter(field => field.startsWith(iterator))
+			.map(field => field.slice(iterator.length + 1));
 	}
 
 	/**
