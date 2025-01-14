@@ -881,7 +881,7 @@
             "description": "OK"
           }
         },
-        "summary": "Gets all XML file attributes",
+        "summary": "Gets all file attributes",
         "tags": [
           "FileSource"
         ]
