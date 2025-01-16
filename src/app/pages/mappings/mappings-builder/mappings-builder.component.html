@@ -112,40 +112,6 @@
 				<div class="col-12 flex flex-justify-right pt-0 pb-0">
 					<p-button class="btn btn__primary icon-chevron" [label]="'labels.add-rule' | translate" (onClick)="addRule()" />
 				</div>
-				<!-- Object-->
-				<div class="col-12">
-					<div class="grid">
-						<div class="col-12 flex gap-5">
-							<h1 class="category">{{ "mappings.mapping.object" | translate }}</h1>
-							<p-selectButton [options]="termType" [(ngModel)]="currentTermType" optionLabel="label" optionValue="value"></p-selectButton>
-							<p-dropdown
-								*ngIf="currentTermType === 'literal'"
-								[options]="dataTypes"
-								[(ngModel)]="selectedDataType"
-								[placeholder]="'placeholders.dataType' | translate"
-							></p-dropdown>
-						</div>
-					</div>
-					<div class="grid">
-						<div class="col-12">
-							<p-autoComplete
-								[(ngModel)]="objectMapValue"
-								[suggestions]="suggestions"
-								(completeMethod)="search($event)"
-								(onSelect)="onSelect($event)"
-								[disabled]="
-									!(
-										selectedSource &&
-										currentTermType &&
-										(selectedSourceFormat === 'XML' || selectedSourceFormat === 'JSON' ? iterator : true)
-									)
-								"
-								[placeholder]="'placeholders.fields' | translate"
-							></p-autoComplete>
-						</div>
-					</div>
-				</div>
-				<!-- End of object-->
 				<!-- Predicate-->
 				<div class="col-12">
 					<h1 class="category">{{ "mappings.mapping.predicate" | translate }}</h1>
@@ -227,6 +193,40 @@
 					</div>
 				</div>
 				<!-- End of Predicate-->
+				<!-- Object-->
+				<div class="col-12">
+					<div class="grid">
+						<div class="col-12 flex gap-5">
+							<h1 class="category">{{ "mappings.mapping.object" | translate }}</h1>
+							<p-selectButton [options]="termType" [(ngModel)]="currentTermType" optionLabel="label" optionValue="value"></p-selectButton>
+							<p-dropdown
+								*ngIf="currentTermType === 'literal'"
+								[options]="dataTypes"
+								[(ngModel)]="selectedDataType"
+								[placeholder]="'placeholders.dataType' | translate"
+							></p-dropdown>
+						</div>
+					</div>
+					<div class="grid">
+						<div class="col-12">
+							<p-autoComplete
+								[(ngModel)]="objectMapValue"
+								[suggestions]="suggestions"
+								(completeMethod)="search($event)"
+								(onSelect)="onSelect($event)"
+								[disabled]="
+									!(
+										selectedSource &&
+										currentTermType &&
+										(selectedSourceFormat === 'XML' || selectedSourceFormat === 'JSON' ? iterator : true)
+									)
+								"
+								[placeholder]="'placeholders.fields' | translate"
+							></p-autoComplete>
+						</div>
+					</div>
+				</div>
+				<!-- End of object-->
 			</div>
 		</div>
 	</div>
