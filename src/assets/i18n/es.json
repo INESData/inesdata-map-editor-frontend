@@ -62,6 +62,9 @@
       "select": "Seleccione el <strong>archivo RML</strong>, las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para importar un mapeo: ",
       "subject": "Sujeto",
       "templateUrl": "URL del template"
+    },
+    "predicate": {
+      "allclasses": "Todas las clases"
     }
   },
   "materialisations": {
