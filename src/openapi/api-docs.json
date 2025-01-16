@@ -1449,7 +1449,7 @@
             "description": "OK"
           }
         },
-        "summary": "Get all properties in a ontology, filtered or not by class",
+        "summary": "Get all properties in an ontology, filtered or not by class",
         "tags": [
           "Ontology"
         ]
