@@ -2,22 +2,22 @@
  * List of available data types
  */
 export enum DataTypeEnum {
+	ANY_URI = 'anyURI',
+	BOOLEAN = 'boolean',
 	DATE = 'date',
 	DATE_TIME = 'dateTime',
 	DATE_TIME_STAMP = 'dateTimeStamp',
-	TIME = 'time',
+	DECIMAL = 'decimal',
+	DOUBLE = 'double',
+	FLOAT = 'float',
 	INT = 'int',
 	INTEGER = 'integer',
-	DOUBLE = 'double',
 	LONG = 'long',
-	FLOAT = 'float',
-	DECIMAL = 'decimal',
-	SHORT = 'short',
-	BOOLEAN = 'boolean',
-	STRING = 'string',
-	ANY_URI = 'anyURI',
 	NEGATIVE_INTEGER = 'negativeInteger',
-	POSITIVE_INTEGER = 'positiveInteger',
 	NON_NEGATIVE_INTEGER = 'nonNegativeInteger',
-	NON_POSITIVE_INTEGER = 'nonPositiveInteger'
+	NON_POSITIVE_INTEGER = 'nonPositiveInteger',
+	POSITIVE_INTEGER = 'positiveInteger',
+	SHORT = 'short',
+	STRING = 'string',
+	TIME = 'time'
 }
