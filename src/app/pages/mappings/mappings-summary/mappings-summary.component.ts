@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, Input, OnChanges } from '@angular/core';
+import { Component, DestroyRef, EventEmitter, inject, Input, OnChanges, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { MappingDTO, MappingService } from 'projects/mapper-api-client';
@@ -23,6 +23,8 @@ export class MappingsSummaryComponent implements OnChanges {
 	errorMessage = '';
 
 	@Input() mappingDTO: MappingDTO;
+	@Output() mappingNameChange: EventEmitter<string> = new EventEmitter<string>();
+	@Output() mappingBaseUrlChange: EventEmitter<string> = new EventEmitter<string>();
 
 	/**
 	 * Update mapping name and base url when the input mappingDTO changes
@@ -42,6 +44,8 @@ export class MappingsSummaryComponent implements OnChanges {
 		if (this.mappingName.trim() !== '') {
 			this.errorMessage = '';
 		}
+
+		this.mappingNameChange.emit(this.mappingName);
 	}
 
 	/**
@@ -51,6 +55,7 @@ export class MappingsSummaryComponent implements OnChanges {
 		if (this.mappingBaseUrl.trim() !== '') {
 			this.errorMessage = '';
 		}
+		this.mappingBaseUrlChange.emit(this.mappingBaseUrl);
 	}
 
 	/**

@@ -232,7 +232,11 @@
 	</div>
 	<!--Mappings summary-->
 	<div class="col-4">
-		<app-mappings-summary [mappingDTO]="mappingDTO"></app-mappings-summary>
+		<app-mappings-summary
+			[mappingDTO]="mappingDTO"
+			(mappingNameChange)="onMappingNameUpdate($event)"
+			(mappingBaseUrlChange)="onMappingBaseUrlUpdate($event)"
+		></app-mappings-summary>
 	</div>
 </div>
 

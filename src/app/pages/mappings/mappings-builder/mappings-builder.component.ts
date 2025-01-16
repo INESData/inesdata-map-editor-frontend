@@ -66,6 +66,9 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedNamespace: NamespaceDTO;
 	blockedSubject = false;
 
+	mappingName = '';
+	mappingBaseUrl = '';
+
 	/**
 	 * Initializes the component and subscribe to route parameter to get the ID
 	 * if provided. Otherwise, load ontologies.
@@ -89,6 +92,20 @@ export class MappingsBuilderComponent implements OnInit {
 
 	showDialogElement() {
 		this.elementDialogVisible = true;
+	}
+
+	/**
+	 * Updates the mapping name with the value from child
+	 */
+	onMappingNameUpdate(name: string): void {
+		this.mappingName = name;
+	}
+
+	/**
+	 * Updates the mapping base url with the value from child
+	 */
+	onMappingBaseUrlUpdate(url: string): void {
+		this.mappingBaseUrl = url;
 	}
 
 	/**
@@ -339,8 +356,8 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	createMappingDTO(dataSourceId: number, sourceFormat: string, iterator: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
 		this.mappingDTO = {
-			name: '',
-			baseUrl: '',
+			name: this.mappingName,
+			baseUrl: this.mappingBaseUrl,
 			ontologyIds: [this.selectedSubjectOntology.id, this.selectedPredicateOntology.id],
 			fields: [
 				{
