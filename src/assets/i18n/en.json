@@ -62,6 +62,9 @@
       "select": "Select the <strong>RML file</strong>, the <strong>ontologies</strong> and <strong>data sources</strong> needed to import a mapping: ",
       "subject": "Subject",
       "templateUrl": "Template URL"
+    },
+    "predicate": {
+      "allclasses": "All classes"
     }
   },
   "materialisations": {

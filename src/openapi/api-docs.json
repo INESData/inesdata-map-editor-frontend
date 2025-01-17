@@ -1410,7 +1410,7 @@
         ]
       }
     },
-    "/ontologies/{id}/{ontologyClass}": {
+    "/ontologies/{id}/properties": {
       "get": {
         "operationId": "getClassProperties",
         "parameters": [
@@ -1426,9 +1426,9 @@
           },
           {
             "description": "Ontology class",
-            "in": "path",
+            "in": "query",
             "name": "ontologyClass",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -1449,7 +1449,7 @@
             "description": "OK"
           }
         },
-        "summary": "Get all properties of the class",
+        "summary": "Get all properties in an ontology, filtered or not by class",
         "tags": [
           "Ontology"
         ]
@@ -2087,9 +2087,6 @@
         ],
         "type": "object",
         "properties": {
-          "associated": {
-            "type": "boolean"
-          },
           "name": {
             "type": "string"
           },

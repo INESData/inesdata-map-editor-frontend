@@ -10,7 +10,7 @@ import { TermType } from 'src/app/shared/models/term-type.model';
 import { TERM_TYPES } from 'src/app/shared/models/term-types';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_ASSOCIATED, PROPERTIES_DATA, PROPERTIES_OBJECT, RR_DATATYPE, RR_IRI, RR_LITERAL, RR_TEMPLATE, RR_TERMTYPE } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS_PREDICATE_ALLCLASSES, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RR_DATATYPE, RR_IRI, RR_LITERAL, RR_TEMPLATE, RR_TERMTYPE } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
 @Component({
@@ -66,6 +66,9 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedNamespace: NamespaceDTO;
 	blockedSubject = false;
 
+	mappingName = '';
+	mappingBaseUrl = '';
+
 	/**
 	 * Initializes the component and subscribe to route parameter to get the ID
 	 * if provided. Otherwise, load ontologies.
@@ -89,6 +92,20 @@ export class MappingsBuilderComponent implements OnInit {
 
 	showDialogElement() {
 		this.elementDialogVisible = true;
+	}
+
+	/**
+	 * Updates the mapping name with the value from child
+	 */
+	onMappingNameUpdate(name: string): void {
+		this.mappingName = name;
+	}
+
+	/**
+	 * Updates the mapping base url with the value from child
+	 */
+	onMappingBaseUrlUpdate(url: string): void {
+		this.mappingBaseUrl = url;
 	}
 
 	/**
@@ -117,7 +134,9 @@ export class MappingsBuilderComponent implements OnInit {
 				if (this.source === 'subject') {
 					this.subjectClasses = data ?? [];
 				} else if (this.source === 'predicate') {
-					this.predicateClasses = data ?? [];
+					this.predicateClasses = [this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES), ...(data ?? [])];
+					this.selectedPredicateClass = this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES);
+					this.onClassSelect('');
 					this.getNamespaceMap();
 				}
 			})
@@ -157,6 +176,9 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	onClassSelect(className: string): void {
 		this.selectedPredicateProperty = null;
+		if (className === this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES)) {
+			className = '';
+		}
 		this.getProperties(this.selectedPredicateOntology.id, className);
 	}
 
@@ -334,8 +356,8 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	createMappingDTO(dataSourceId: number, sourceFormat: string, iterator: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
 		this.mappingDTO = {
-			name: '',
-			baseUrl: '',
+			name: this.mappingName,
+			baseUrl: this.mappingBaseUrl,
 			ontologyIds: [this.selectedSubjectOntology.id, this.selectedPredicateOntology.id],
 			fields: [
 				{
@@ -432,11 +454,6 @@ export class MappingsBuilderComponent implements OnInit {
 			default:
 				break;
 		}
-		if (property.associated) {
-			iconClasses.push('pi pi-link');
-			titles.push(this.languageService.translateValue(PROPERTIES_ASSOCIATED));
-		}
-
 		return { iconClasses, titles };
 	}
 

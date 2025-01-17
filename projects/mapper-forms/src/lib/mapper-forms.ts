@@ -237,7 +237,6 @@ export const predicateObjectMapDtoForm = new FormGroup({
 });
 
 export const propertyDtoForm = new FormGroup({
-  associated: new FormControl(null, []),
   name: new FormControl(null, [Validators.required]),
   propertyType: new FormControl(null, [Validators.required])
 });
