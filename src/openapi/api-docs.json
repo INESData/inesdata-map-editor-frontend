@@ -1807,6 +1807,7 @@
       "OntologyDTO": {
         "required": [
           "name",
+          "url",
           "versionName"
         ],
         "type": "object",
