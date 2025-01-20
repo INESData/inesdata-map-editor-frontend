@@ -11,6 +11,9 @@
 					</label>
 					<span class="fileName" [class.selected]="fileSelected">{{ fileName }}</span>
 				</div>
+				<div *ngIf="fileRequired && !fileSelected" class="error">
+					{{ "messages.errors.required" | translate }}
+				</div>
 			</div>
 		</div>
 	</div>
@@ -37,6 +40,9 @@
 			<div>
 				<label for="URL">{{ "labels.url" | translate }}</label>
 				<input type="text" pInputText formControlName="url" />
+				<div *ngIf="hasError('url')" class="error-message">
+					{{ getErrorMessage("url") }}
+				</div>
 			</div>
 		</div>
 		<div class="col-3">

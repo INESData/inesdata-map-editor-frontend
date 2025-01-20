@@ -89,7 +89,7 @@
         "connection": "No internet connection"
       },
       "login": "Login error",
-      "required": "The value field is required",
+      "required": "The field is required",
       "title": "Error"
     },
     "mappings": {

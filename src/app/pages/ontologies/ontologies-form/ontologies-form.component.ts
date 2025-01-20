@@ -21,6 +21,7 @@ export class OntologiesFormComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
 	fileSelected = false;
+	fileRequired = false;
 
 	@Output() formSubmitted = new EventEmitter<void>();
 	@Input() isEditMode = false;
@@ -97,6 +98,7 @@ export class OntologiesFormComponent implements OnInit {
 		if (this.file) {
 			this.fileName = this.file.name;
 			this.fileSelected = true;
+			this.fileRequired = false;
 		} else {
 			this.resetFile();
 		}
@@ -109,6 +111,7 @@ export class OntologiesFormComponent implements OnInit {
 		this.fileName = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
 		this.fileSelected = false;
 		this.file = null;
+		this.fileRequired = false;
 	}
 
 	/**
@@ -138,6 +141,12 @@ export class OntologiesFormComponent implements OnInit {
 	onSubmit(): void {
 		// Mark all fields as touched to trigger validation messages
 		this.ontologyForm.markAllAsTouched();
+
+		//File is required
+		if (!this.file) {
+			this.fileRequired = true;
+			return;
+		}
 
 		// Check if the form is valid
 		if (this.ontologyForm.invalid) {
