@@ -152,7 +152,7 @@ export const ontologyDtoForm = new FormGroup({
   uploadDate: new FormControl(null, []),
   url: new FormControl(null, [
     Validators.required,
-    Validators.minLength(0),
+    Validators.minLength(1),
     Validators.maxLength(255)
   ]),
   version: new FormControl(null, []),
