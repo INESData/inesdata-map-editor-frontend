@@ -22,6 +22,7 @@ export class OntologiesFormComponent implements OnInit {
 	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
 	fileSelected = false;
 	fileRequired = false;
+	submittingForm = false;
 
 	@Output() formSubmitted = new EventEmitter<void>();
 	@Input() isEditMode = false;
@@ -152,6 +153,9 @@ export class OntologiesFormComponent implements OnInit {
 		if (this.ontologyForm.invalid) {
 			return;
 		}
+
+		// If form is valid, disable submit button
+		this.submittingForm = true;
 
 		// If the form is valid, proceed with the submission
 		const ontology: OntologyDTO = this.ontologyForm.value;

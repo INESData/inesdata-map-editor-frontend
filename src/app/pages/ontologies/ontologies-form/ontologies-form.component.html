@@ -62,6 +62,7 @@
 			class="btn btn__primary"
 			[label]="isEditMode ? ('ontologies.ontology.edit' | translate) : ('ontologies.ontology.add' | translate)"
 			type="button"
+			[disabled]="submittingForm"
 			(click)="onSubmit()"
 			(keydown.enter)="onSubmit()"
 		/>

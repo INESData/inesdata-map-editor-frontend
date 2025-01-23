@@ -24,6 +24,7 @@
 			class="btn btn__primary"
 			[label]="isEditMode ? ('data-sources.data-source.edit' | translate) : ('data-sources.data-source.add' | translate)"
 			type="button"
+			[disabled]="submittingForm"
 			(click)="onSubmit()"
 			(keydown.enter)="onSubmit()"
 		/>
