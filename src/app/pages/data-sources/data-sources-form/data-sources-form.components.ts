@@ -43,6 +43,7 @@ export class DataSourcesFormComponent implements OnInit {
 	file: File;
 	fileSource: FileSourceDTO;
 	dbSource: DataBaseSourceDTO;
+	submittingForm = false;
 
 	@Output() formSubmitted = new EventEmitter<void>();
 	@Input() isEditMode = false;
@@ -212,6 +213,9 @@ export class DataSourcesFormComponent implements OnInit {
 		if (this.dataSourceForm.invalid) {
 			return;
 		}
+
+		// If form is valid, disable submit button
+		this.submittingForm = true;
 
 		// Check if file is valid
 		const isFileSource = this.selectedDataSourceType === DataSourceTypeEnum.FILE;

@@ -35,7 +35,7 @@
     "query": "Query",
     "title": "Title",
     "type": "Type",
-    "url": "URL",
+    "url": "Base URL",
     "user": "User",
     "version_name": "Version",
     "yes": "Yes"
@@ -89,7 +89,7 @@
         "connection": "No internet connection"
       },
       "login": "Login error",
-      "required": "The value field is required",
+      "required": "The field is required",
       "title": "Error"
     },
     "mappings": {

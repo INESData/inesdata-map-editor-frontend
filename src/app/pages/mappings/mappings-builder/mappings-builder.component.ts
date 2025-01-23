@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, NamespaceDTO, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { DataTypeEnum } from 'src/app/shared/enums/data-type.enum';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
@@ -125,21 +126,21 @@ export class MappingsBuilderComponent implements OnInit {
 	/**
 	 * Gets the classes of the selected ontology.
 	 */
-	getClasses(id: number): void {
-		this.ontologyService
+	getClasses(id: number): Observable<void> {
+		return this.ontologyService
 			.getOntologyClasses(id)
 			.pipe(
-				takeUntilDestroyed(this.destroyRef)
-			).subscribe((data: string[]) => {
-				if (this.source === 'subject') {
-					this.subjectClasses = data ?? [];
-				} else if (this.source === 'predicate') {
-					this.predicateClasses = [this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES), ...(data ?? [])];
-					this.selectedPredicateClass = this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES);
-					this.onClassSelect('');
-					this.getNamespaceMap();
-				}
-			})
+				takeUntilDestroyed(this.destroyRef),
+				map((data: string[]) => {
+					if (this.source === 'subject') {
+						this.subjectClasses = data ?? [];
+					} else if (this.source === 'predicate') {
+						this.predicateClasses = [this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES), ...(data ?? [])];
+						this.selectedPredicateClass = this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES);
+						this.onClassSelect('');
+					}
+				})
+			);
 	}
 
 	/**
@@ -168,7 +169,11 @@ export class MappingsBuilderComponent implements OnInit {
 			this.predicateClasses = null;
 			this.selectedPredicateClass = null;
 		}
-		this.getClasses(ontology.id);
+		this.getNamespaceMap()
+			.pipe(
+				switchMap(() => this.getClasses(ontology.id))
+			)
+			.subscribe();
 	}
 
 	/**
@@ -460,15 +465,14 @@ export class MappingsBuilderComponent implements OnInit {
 	/**
 	 * Retrieves the namespace map for the selected ontology
 	 */
-	getNamespaceMap(): void {
-		this.ontologyService
-			.getNameSpaceMap(this.selectedPredicateOntology.id)
-			.pipe(
-				takeUntilDestroyed(this.destroyRef)
-			)
-			.subscribe((data: Record<string, string>) => {
-				this.namespaceMap = this.cleanNamespaceMap(data);
-			});
+	getNamespaceMap(): Observable<Record<string, string>> {
+		return this.ontologyService.getNameSpaceMap(this.selectedPredicateOntology.id).pipe(
+			takeUntilDestroyed(this.destroyRef),
+			map(data => this.cleanNamespaceMap(data)),
+			tap(cleanedData => {
+				this.namespaceMap = cleanedData;
+			})
+		);
 	}
 
 	/**
