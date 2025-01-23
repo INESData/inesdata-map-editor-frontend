@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, NamespaceDTO, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
-import { map, Observable, switchMap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { DataTypeEnum } from 'src/app/shared/enums/data-type.enum';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
@@ -466,12 +466,13 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Retrieves the namespace map for the selected ontology
 	 */
 	getNamespaceMap(): Observable<Record<string, string>> {
-		return this.ontologyService
-			.getNameSpaceMap(this.selectedPredicateOntology.id)
-			.pipe(
-				takeUntilDestroyed(this.destroyRef),
-				map((data: Record<string, string>) => this.cleanNamespaceMap(data))
-			);
+		return this.ontologyService.getNameSpaceMap(this.selectedPredicateOntology.id).pipe(
+			takeUntilDestroyed(this.destroyRef),
+			map(data => this.cleanNamespaceMap(data)),
+			tap(cleanedData => {
+				this.namespaceMap = cleanedData;
+			})
+		);
 	}
 
 	/**
