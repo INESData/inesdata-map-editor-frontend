@@ -5,8 +5,14 @@
 			<div class="grid">
 				<!-- Subject-->
 				<div class="col-12">
-					<div class="col-12 flex flex-justify-right pt-0 pb-0">
-						<p-button class="btn btn__primary" [label]="'labels.new-triplesmap' | translate" (onClick)="newTriplesMap()" />
+					<div class="grid mt-0">
+						<div class="col-4"></div>
+						<div class="col-4 flex flex-justify-right pt-0 pb-0">
+							<h1 class="category">{{ "mappings.mapping.subject" | translate }}</h1>
+						</div>
+						<div class="col-4 flex flex-justify-right pt-0 pb-0">
+							<p-button class="btn btn__primary" [label]="'labels.new-triplesmap' | translate" (onClick)="newTriplesMap()" />
+						</div>
 					</div>
 					<!-- Data Sources-->
 					<div class="grid">
@@ -20,13 +26,21 @@
 								[disabled]="blockedSubject"
 							></p-dropdown>
 						</div>
-						<div class="col-4">
-							<h1 class="category">{{ "mappings.mapping.subject" | translate }}</h1>
+						<!-- Database names-->
+						<div *ngIf="selectedSourceFormat && (selectedSourceFormat === 'POSTGRESQL' || selectedSourceFormat === 'MYSQL')" class="col-4">
+							<h1 class="category">{{ "labels.data-bases" | translate }}</h1>
+							<p-dropdown
+								[options]="dataBases"
+								(onChange)="getDbTables($event.value)"
+								[(ngModel)]="selectedDb"
+								[placeholder]="'data-sources.data-source.dbList' | translate"
+							></p-dropdown>
 						</div>
 						<div class="col-4"></div>
 					</div>
 					<div class="grid mt-0">
-						<div class="col-4">
+						<!-- File sources-->
+						<div class="col-4" *ngIf="selectedSourceFormat && type === 'FILE'">
 							<p class="mt-1 mb-0">{{ "data-sources.data-source.data" | translate }}</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
@@ -46,12 +60,35 @@
 											{{ dataSource.name }}
 										</label>
 									</div>
-									<p-button (onClick)="showDialogQuery()" class="addButton addButton__query" [label]="'labels.add-query' | translate" />
 								</div>
 							</div>
 							<div *ngIf="selectedSourceFormat && (selectedSourceFormat === 'XML' || selectedSourceFormat === 'JSON')">
 								<p class="mt-1 mb-0">{{ "mappings.mapping.iterator" | translate }}</p>
 								<input class="mb-1" type="text" pInputText [(ngModel)]="iterator" [disabled]="blockedSubject" />
+							</div>
+						</div>
+						<!-- Database tables-->
+						<div class="col-4" *ngIf="dbTableNames">
+							<p class="mt-1 mb-0">{{ "labels.tables" | translate }}</p>
+							<div class="mappingCategory">
+								<div class="flex flex-column gap-3">
+									<div class="searcherContainer">
+										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
+									</div>
+									<div *ngFor="let dbTableName of dbTableNames" class="field-checkbox">
+										<p-radioButton
+											name="category"
+											[value]="dbTableName"
+											[(ngModel)]="selectedTable"
+											(ngModelChange)="onTableSelected($event)"
+											[disabled]="blockedSubject"
+										/>
+										<label [for]="dbTableName" class="ml-2">
+											{{ dbTableName }}
+										</label>
+									</div>
+									<p-button (onClick)="showDialogQuery()" class="addButton addButton__query" [label]="'labels.add-query' | translate" />
+								</div>
 							</div>
 						</div>
 						<!-- Subject ontologies list-->
@@ -216,7 +253,7 @@
 								(onSelect)="onSelect($event)"
 								[disabled]="
 									!(
-										selectedSource &&
+										(type === 'FILE' && selectedSource ? iterator : true) &&
 										currentTermType &&
 										(selectedSourceFormat === 'XML' || selectedSourceFormat === 'JSON' ? iterator : true)
 									)

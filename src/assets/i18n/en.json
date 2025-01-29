@@ -4,6 +4,7 @@
       "add": "Add data source",
       "confirmation": "Are you sure you want to delete this data source?",
       "data": "Data",
+      "dbList": "Select a database",
       "edit": "Edit data source",
       "format": "Select the data source format",
       "list": "Data Sources list",
@@ -16,6 +17,7 @@
     "add-rule": "Add rule",
     "cancel": "Cancel",
     "connection-url": "Connection URL",
+    "data-bases": "Databases",
     "data-source": "Data Source Type",
     "data-source-file": "Select the data source file",
     "data-source-format": "Select the data source type",
@@ -33,6 +35,7 @@
     "ontology-file": "Select ontology file",
     "password": "Password",
     "query": "Query",
+    "tables": "Database tables",
     "title": "Title",
     "type": "Type",
     "url": "Base URL",
@@ -146,7 +149,6 @@
   },
   "properties": {
     "annotation": "Annotation Property",
-    "associated": "Associated to class",
     "data": "Data property",
     "object": "Object Property"
   },

@@ -477,6 +477,39 @@
       }
     },
     "/database-sources": {
+      "get": {
+        "operationId": "getDataBaseSourceByType",
+        "parameters": [
+          {
+            "description": "Data base source type",
+            "in": "query",
+            "name": "type",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DataBaseSourceDTO"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets all data bases filtered by type",
+        "tags": [
+          "DataBaseSource"
+        ]
+      },
       "post": {
         "operationId": "createDataBaseSource",
         "requestBody": {

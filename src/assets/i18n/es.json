@@ -4,6 +4,7 @@
       "add": "Añadir fuente de datos",
       "confirmation": "¿Seguro que quieres eliminar esta fuente de datos?",
       "data": "Datos",
+      "dbList": "Selecciona una base de datos",
       "edit": "Editar fuente de datos",
       "format": "Seleccione el formato",
       "list": "Lista de Fuentes de datos",
@@ -16,6 +17,7 @@
     "add-rule": "Añadir regla",
     "cancel": "Cancelar",
     "connection-url": "URL de conexión",
+    "data-bases": "Bases de datos",
     "data-source": "Tipo de fuente de datos",
     "data-source-file": "Seleccione el fichero de fuente de datos",
     "data-source-format": "Seleccione el tipo de fuente de datos",
@@ -33,6 +35,7 @@
     "ontology-file": "Seleccione el archivo de ontología",
     "password": "Contraseña",
     "query": "Query",
+    "tables": "Tablas de base de datos",
     "title": "Título",
     "type": "Tipo",
     "url": "URL Base",
@@ -146,7 +149,6 @@
   },
   "properties": {
     "annotation": "Propiedad de Anotación",
-    "associated": "Asociada a la clase",
     "data": "Propiedad de Datos",
     "object": "Propiedad de Objeto"
   },
