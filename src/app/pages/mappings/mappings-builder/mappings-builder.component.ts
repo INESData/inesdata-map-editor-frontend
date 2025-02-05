@@ -10,7 +10,7 @@ import { TermType } from 'src/app/shared/models/term-type.model';
 import { TERM_TYPES } from 'src/app/shared/models/term-types';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS_PREDICATE_ALLCLASSES, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RR_DATATYPE, RR_IRI, RR_LITERAL, RR_TEMPLATE, RR_TERMTYPE } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS_PREDICATE_ALLCLASSES, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_REFERENCE, RR_DATATYPE, RR_IRI, RR_LITERAL, RR_TEMPLATE, RR_TERMTYPE } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
 @Component({
@@ -33,7 +33,7 @@ export class MappingsBuilderComponent implements OnInit {
 	mappingId: number;
 
 	ontologies: SearchOntologyDTO[];
-	dataSources: FileSourceDTO[] | DataBaseSourceDTO[];
+	dataSources: FileSourceDTO[];
 	dataBasesList: DataBaseSourceDTO[] = [];
 	dataBases = [];
 	dbTableNames: string[];
@@ -382,8 +382,9 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Create object map DTO
 	 */
 	createObjectMap(objectMapValue: string, currentTermType: string, selectedDataType?: string): ObjectMapDTO[] {
+		console.log(selectedDataType)
 		const objectMap: ObjectMapDTO[] = [
-			{ key: RR_TEMPLATE, literalValue: objectMapValue },
+			{ key: this.selectedSourceFormat === 'MYSQL' || this.selectedSourceFormat === 'POSTGRESQL' ? RML_REFERENCE : RR_TEMPLATE, literalValue: objectMapValue },
 			{ key: RR_TERMTYPE, literalValue: currentTermType === 'literal' ? RR_LITERAL : RR_IRI },
 		];
 
