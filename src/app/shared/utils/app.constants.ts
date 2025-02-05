@@ -88,6 +88,7 @@ export const RR_TERMTYPE = "rr:termType";
 export const RR_LITERAL = "rr:Literal";
 export const RR_IRI = "rr:IRI";
 export const RR_DATATYPE = "rr:datatype";
+export const RML_REFERENCE = "rml:reference";
 
 // Sidebar
 export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontologies');
