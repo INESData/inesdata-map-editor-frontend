@@ -45,9 +45,15 @@
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
+										<input
+											class="searcher"
+											[placeholder]="'placeholders.search' | translate"
+											type="text"
+											pInputText
+											[(ngModel)]="searchSources"
+										/>
 									</div>
-									<div *ngFor="let dataSource of dataSources" class="field-checkbox">
+									<div *ngFor="let dataSource of dataSources | filterList: searchSources : 'name'" class="field-checkbox">
 										<p-radioButton
 											[inputId]="dataSource.id"
 											name="category"
@@ -73,9 +79,15 @@
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
+										<input
+											class="searcher"
+											[placeholder]="'placeholders.search' | translate"
+											type="text"
+											pInputText
+											[(ngModel)]="searchTableNames"
+										/>
 									</div>
-									<div *ngFor="let dbTableName of dbTableNames" class="field-checkbox">
+									<div *ngFor="let dbTableName of dbTableNames | filterList: searchTableNames" class="field-checkbox">
 										<p-radioButton
 											name="category"
 											[value]="dbTableName"
@@ -97,9 +109,15 @@
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
+										<input
+											class="searcher"
+											[placeholder]="'placeholders.search' | translate"
+											type="text"
+											pInputText
+											[(ngModel)]="searchOntologies"
+										/>
 									</div>
-									<div *ngFor="let ontology of ontologies" class="field-checkbox">
+									<div *ngFor="let ontology of ontologies | filterList: searchOntologies : 'name'" class="field-checkbox">
 										<p-radioButton
 											[inputId]="ontology.id"
 											name="ontology"
@@ -125,9 +143,15 @@
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
+										<input
+											class="searcher"
+											[placeholder]="'placeholders.search' | translate"
+											type="text"
+											pInputText
+											[(ngModel)]="searchSubjectClasses"
+										/>
 									</div>
-									<div *ngFor="let subjectClass of subjectClasses" class="field-checkbox">
+									<div *ngFor="let subjectClass of subjectClasses | filterList: searchSubjectClasses" class="field-checkbox">
 										<p-radioButton
 											[inputId]="subjectClass"
 											name="subjectClass"
@@ -159,9 +183,15 @@
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
+										<input
+											class="searcher"
+											[placeholder]="'placeholders.search' | translate"
+											type="text"
+											pInputText
+											[(ngModel)]="searchPredicateOntologies"
+										/>
 									</div>
-									<div *ngFor="let ontology of ontologies" class="field-checkbox">
+									<div *ngFor="let ontology of ontologies | filterList: searchPredicateOntologies : 'name'" class="field-checkbox">
 										<p-radioButton
 											[inputId]="ontology.id"
 											name="ontology"
@@ -182,9 +212,15 @@
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
+										<input
+											class="searcher"
+											[placeholder]="'placeholders.search' | translate"
+											type="text"
+											pInputText
+											[(ngModel)]="searchPredicateClasses"
+										/>
 									</div>
-									<div *ngFor="let predicateClass of predicateClasses" class="field-checkbox">
+									<div *ngFor="let predicateClass of predicateClasses | filterList: searchPredicateClasses" class="field-checkbox">
 										<p-radioButton
 											[inputId]="predicateClass"
 											name="predicateClass"
@@ -206,9 +242,15 @@
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">
 									<div class="searcherContainer">
-										<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
+										<input
+											class="searcher"
+											[placeholder]="'placeholders.search' | translate"
+											type="text"
+											pInputText
+											[(ngModel)]="searchProperties"
+										/>
 									</div>
-									<div *ngFor="let property of properties" class="field-checkbox">
+									<div *ngFor="let property of properties | filterList: searchProperties : 'name'" class="field-checkbox">
 										<p-radioButton
 											[inputId]="property.name"
 											name="propertyGroup"
@@ -251,13 +293,7 @@
 								[suggestions]="suggestions"
 								(completeMethod)="search($event)"
 								(onSelect)="onSelect($event)"
-								[disabled]="
-									!(
-										(type === 'FILE' && selectedSource ? iterator : true) &&
-										currentTermType &&
-										(selectedSourceFormat === 'XML' || selectedSourceFormat === 'JSON' ? iterator : true)
-									)
-								"
+								[disabled]="isButtonDisabled()"
 								[placeholder]="'placeholders.fields' | translate"
 							></p-autoComplete>
 						</div>

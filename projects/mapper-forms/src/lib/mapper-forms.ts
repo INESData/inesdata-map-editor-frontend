@@ -76,14 +76,7 @@ export const logicalSourceDtoForm = new FormGroup({
     Validators.minLength(1),
     Validators.maxLength(255)
   ]),
-  version: new FormControl(null, [])
-});
-
-export const logicalTableDtoForm = new FormGroup({
-  id: new FormControl(null, []),
-  query: new FormControl(null, []),
   tableName: new FormControl(null, [
-    Validators.required,
     Validators.minLength(1),
     Validators.maxLength(255)
   ]),
@@ -112,7 +105,6 @@ export const mappingFieldDtoForm = new FormGroup({
   dataSourceId: new FormControl(null, [Validators.required]),
   id: new FormControl(null, []),
   logicalSource: new FormControl(null, []),
-  logicalTable: new FormControl(null, []),
   predicates: new FormControl(null, []),
   subject: new FormControl(null, []),
   version: new FormControl(null, [])

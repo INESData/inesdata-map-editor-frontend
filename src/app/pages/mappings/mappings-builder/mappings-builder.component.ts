@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DataBaseSourceDTO, DataBaseSourceService, FileSourceDTO, FileSourceService, MappingDTO, MappingService, NamespaceDTO, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { DataTypeEnum } from 'src/app/shared/enums/data-type.enum';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
@@ -20,8 +20,7 @@ import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 export class MappingsBuilderComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 
-	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private dataBaseService: DataBaseSourceService, private mappingService: MappingService, private notificationService: NotificationService,
-		private router: Router, private languageService: LanguageService, private route: ActivatedRoute) { }
+	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private dataBaseService: DataBaseSourceService, private mappingService: MappingService, private notificationService: NotificationService, private languageService: LanguageService, private route: ActivatedRoute) { }
 
 	formats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	dataTypes: string[] = [...Object.values(DataTypeEnum)];
@@ -71,6 +70,14 @@ export class MappingsBuilderComponent implements OnInit {
 	inputValue: string;
 	selectedNamespace: NamespaceDTO;
 	blockedSubject = false;
+
+	searchSources = '';
+	searchTableNames = '';
+	searchOntologies = '';
+	searchSubjectClasses = '';
+	searchPredicateOntologies = '';
+	searchPredicateClasses = '';
+	searchProperties = '';
 
 	mappingName = '';
 	mappingBaseUrl = '';
@@ -331,18 +338,18 @@ export class MappingsBuilderComponent implements OnInit {
 				this.createMappingDTO(sourceId, selectedSourceFormat, iterator, selectedTable, templateUrl, selectedSubjectClass, predicate);
 			} else if (mappingDTO.fields) {
 				// Mapping DTO exists, process fields
-				this.processMappingField(isNewTriplesMap, sourceId, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+				this.processMappingField(isNewTriplesMap, sourceId, selectedSourceFormat, iterator, selectedTable, templateUrl, selectedSubjectClass, predicate);
 			}
 			// On update
 		} else {
 			if (isFirstEdition) {
 				// On first rule of edition (is first edition true)
-				this.addNewFieldToMapping(sourceId, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+				this.addNewFieldToMapping(sourceId, selectedSourceFormat, iterator, selectedTable, templateUrl, selectedSubjectClass, predicate);
 				this.isNewTriplesMap = false;
 				this.isFirstEdition = false;
 			} else {
 				// On next rules of edition
-				this.processMappingField(isNewTriplesMap, sourceId, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+				this.processMappingField(isNewTriplesMap, sourceId, selectedSourceFormat, iterator, selectedTable, templateUrl, selectedSubjectClass, predicate);
 			}
 		}
 		this.addNamespaceToMapping(this.selectedNamespace);
@@ -352,10 +359,10 @@ export class MappingsBuilderComponent implements OnInit {
 	/**
 	 * Processes a mapping field based on creating a new triples map or update an existing one
 	 */
-	processMappingField(isNewTriplesMap: boolean, selectedSourceId: number, selectedSourceFormat: string, iterator: string, templateUrl: string, selectedSubjectClass: string, predicate: PredicateObjectMapDTO[]): void {
+	processMappingField(isNewTriplesMap: boolean, selectedSourceId: number, selectedSourceFormat: string, iterator: string, selectedTable: string, templateUrl: string, selectedSubjectClass: string, predicate: PredicateObjectMapDTO[]): void {
 		if (isNewTriplesMap) {
 			// Add field
-			this.addNewFieldToMapping(selectedSourceId, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+			this.addNewFieldToMapping(selectedSourceId, selectedSourceFormat, iterator, selectedTable, templateUrl, selectedSubjectClass, predicate);
 			this.isNewTriplesMap = false;
 			this.blockedSubject = true;
 		} else {
@@ -418,8 +425,7 @@ export class MappingsBuilderComponent implements OnInit {
 			fields: [
 				{
 					dataSourceId,
-					logicalSource: sourceFormat === 'XML' || sourceFormat === 'JSON' ? { iterator } : null,
-					logicalTable: sourceFormat === 'MYSQL' || sourceFormat === 'POSTGRESQL' ? { tableName } : null,
+					logicalSource: sourceFormat === 'XML' || sourceFormat === 'JSON' ? { iterator } : { tableName },
 					subject: {
 						template: templateUrl,
 						className: this.selectedSubjectOntology.url + subjectClass,
@@ -445,11 +451,10 @@ export class MappingsBuilderComponent implements OnInit {
 	/**
 	 * Add new field to mapping DTO
 	 */
-	addNewFieldToMapping(dataSourceId: number, sourceFormat: string, iterator: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
+	addNewFieldToMapping(dataSourceId: number, sourceFormat: string, iterator: string, tableName: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
 		this.mappingDTO.fields.push({
 			dataSourceId,
-			logicalSource: sourceFormat === 'XML' || sourceFormat === 'JSON' ? { iterator } : null,
-			logicalTable: null,
+			logicalSource: sourceFormat === 'XML' || sourceFormat === 'JSON' ? { iterator } : { tableName },
 			subject: {
 				template: templateUrl,
 				className: this.selectedSubjectOntology.url + subjectClass,
@@ -624,6 +629,23 @@ export class MappingsBuilderComponent implements OnInit {
 	onSelect(event): void {
 		const selectedValue = event.value;
 		this.objectMapValue = this.inputValue + selectedValue;
+	}
+
+	/**
+	 * Enable or disable object input
+	 */
+	isButtonDisabled(): boolean {
+
+		if (this.type === 'FILE' &&
+			(!this.selectedSource ||
+				(this.selectedSourceFormat !== 'CSV' && !this.iterator))) {
+			return true;
+		}
+
+		if (this.type === 'DATABASE' && !this.selectedTable) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
