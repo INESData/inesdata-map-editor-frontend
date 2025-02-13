@@ -391,12 +391,12 @@ export class MappingsBuilderComponent implements OnInit {
 	createObjectMap(objectMapValue: string, currentTermType: string, selectedDataType?: string): ObjectMapDTO[] {
 		console.log(selectedDataType)
 		const objectMap: ObjectMapDTO[] = [
-			{ key: this.selectedSourceFormat === 'MYSQL' || this.selectedSourceFormat === 'POSTGRESQL' ? RML_REFERENCE : RR_TEMPLATE, literalValue: objectMapValue },
-			{ key: RR_TERMTYPE, literalValue: currentTermType === 'literal' ? RR_LITERAL : RR_IRI },
+			{ key: currentTermType === 'literal' ? RML_REFERENCE : RML_TEMPLATE, literalValue: objectMapValue },
+			{ key: RML_TERMTYPE, literalValue: currentTermType === 'literal' ? RML_LITERAL : RML_IRI },
 		];
 
 		if (currentTermType === 'literal') {
-			objectMap.push({ key: RR_DATATYPE, literalValue: "xsd:" + selectedDataType });
+			objectMap.push({ key: RML_DATATYPE, literalValue: "xsd:" + selectedDataType });
 		}
 
 		return objectMap;

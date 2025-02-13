@@ -83,11 +83,11 @@ export const URL_DELIMITER = '/';
 export const PARAM_ID = 'id';
 
 //RML
-export const RR_TEMPLATE = "rr:template";
-export const RR_TERMTYPE = "rr:termType";
-export const RR_LITERAL = "rr:Literal";
-export const RR_IRI = "rr:IRI";
-export const RR_DATATYPE = "rr:datatype";
+export const RML_TEMPLATE = "rml:template";
+export const RML_TERMTYPE = "rml:termType";
+export const RML_LITERAL = "rml:Literal";
+export const RML_IRI = "rml:IRI";
+export const RML_DATATYPE = "rml:datatype";
 export const RML_REFERENCE = "rml:reference";
 
 // Sidebar
