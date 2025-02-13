@@ -23,7 +23,7 @@ export class FilterLiteralValuePipe implements PipeTransform {
 		if (!objectMap || !Array.isArray(objectMap)) {
 			return '';
 		}
-		// Find the object in the array where the key matches the rr:template or rml:reference
+		// Find the object in the array where the key matches the rml:template or rml:reference
 		const filteredItem = objectMap.find(item => item.key === RML_TEMPLATE || item.key === RML_REFERENCE);
 
 		return filteredItem ? filteredItem.literalValue : '';
