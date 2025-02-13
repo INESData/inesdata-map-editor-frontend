@@ -5,11 +5,12 @@
 			<div class="grid">
 				<!-- Subject-->
 				<div class="col-12">
+					<h1 class="category">
+						<u>{{ "mappings.mapping.subject" | translate }}</u>
+					</h1>
 					<div class="grid mt-0">
 						<div class="col-4"></div>
-						<div class="col-4 flex flex-justify-right pt-0 pb-0">
-							<h1 class="category">{{ "mappings.mapping.subject" | translate }}</h1>
-						</div>
+						<div class="col-4"></div>
 						<div class="col-4 flex flex-justify-right pt-0 pb-0">
 							<p-button class="btn btn__primary" [label]="'labels.new-triplesmap' | translate" (onClick)="newTriplesMap()" />
 						</div>
@@ -175,7 +176,9 @@
 				</div>
 				<!-- Predicate-->
 				<div class="col-12">
-					<h1 class="category">{{ "mappings.mapping.predicate" | translate }}</h1>
+					<h1 class="category">
+						<u>{{ "mappings.mapping.predicate" | translate }}</u>
+					</h1>
 					<div class="grid mt-0">
 						<!-- Predicate ontologies list-->
 						<div class="col-4">
@@ -276,7 +279,9 @@
 				<div class="col-12">
 					<div class="grid">
 						<div class="col-12 flex gap-5">
-							<h1 class="category">{{ "mappings.mapping.object" | translate }}</h1>
+							<h1 class="category">
+								<u>{{ "mappings.mapping.object" | translate }}</u>
+							</h1>
 							<p-selectButton [options]="termType" [(ngModel)]="currentTermType" optionLabel="label" optionValue="value"></p-selectButton>
 							<p-dropdown
 								*ngIf="currentTermType === 'literal'"
