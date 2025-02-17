@@ -28,20 +28,28 @@
 							></p-dropdown>
 						</div>
 						<!-- Database names-->
-						<div *ngIf="selectedSourceFormat && (selectedSourceFormat === 'POSTGRESQL' || selectedSourceFormat === 'MYSQL')" class="col-4">
+						<div
+							*ngIf="
+								selectedSourceFormat &&
+								mappingType === 'DATABASE' &&
+								(selectedSourceFormat === 'POSTGRESQL' || selectedSourceFormat === 'MYSQL')
+							"
+							class="col-4"
+						>
 							<h1 class="category">{{ "labels.data-bases" | translate }}</h1>
 							<p-dropdown
 								[options]="dataBases"
 								(onChange)="getDbTables($event.value)"
 								[(ngModel)]="selectedDb"
 								[placeholder]="'data-sources.data-source.dbList' | translate"
+								[disabled]="blockedSubject"
 							></p-dropdown>
 						</div>
 						<div class="col-4"></div>
 					</div>
 					<div class="grid mt-0">
 						<!-- File sources-->
-						<div class="col-4" *ngIf="selectedSourceFormat && type === 'FILE'">
+						<div class="col-4" *ngIf="selectedSourceFormat && type === 'FILE' && mappingType === 'FILE'">
 							<p class="mt-1 mb-0">{{ "data-sources.data-source.data" | translate }}</p>
 							<div class="mappingCategory">
 								<div class="flex flex-column gap-3">

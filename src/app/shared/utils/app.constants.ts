@@ -43,6 +43,8 @@ export const MESSAGES_DATA_SOURCES_ERRORS_NOFILE: string = translate('messages.d
 export const MESSAGES_MAPPINGS_ERRORS_NONAME: string = translate('messages.mappings.errors.no-name-url');
 export const MESSAGES_MAPPINGS_ERRORS_NODATATYPE: string = translate('messages.mappings.errors.no-data-type');
 export const MESSAGES_MAPPINGS_ERRORS_NOITERATOR: string = translate('messages.mappings.errors.no-iterator');
+export const MESSAGES_MAPPINGS_ERRORS_SELECTEDDB: string = translate('messages.mappings.errors.selected-db');
+export const MESSAGES_MAPPINGS_ERRORS_TYPE: string = translate('messages.mappings.errors.mapping-type');
 
 // Labels
 export const LABELS_YES: string = translate('labels.yes');

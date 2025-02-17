@@ -10,7 +10,7 @@ import { TermType } from 'src/app/shared/models/term-type.model';
 import { TERM_TYPES } from 'src/app/shared/models/term-types';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS_PREDICATE_ALLCLASSES, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_DATATYPE, RML_IRI, RML_LITERAL, RML_REFERENCE, RML_TEMPLATE, RML_TERMTYPE } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS_PREDICATE_ALLCLASSES, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_ERRORS_SELECTEDDB, MESSAGES_MAPPINGS_ERRORS_TYPE, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_DATATYPE, RML_IRI, RML_LITERAL, RML_REFERENCE, RML_TEMPLATE, RML_TERMTYPE } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
 @Component({
@@ -42,7 +42,7 @@ export class MappingsBuilderComponent implements OnInit {
 	subjectClasses: string[];
 	predicateClasses: string[];
 
-	selectedSourceFormat = 'XML';
+	selectedSourceFormat = '';
 	selectedSource: FileSourceDTO | DataBaseSourceDTO = null;
 	selectedSubjectOntology: SearchOntologyDTO = null;
 	selectedSubjectClass: string = null;
@@ -70,6 +70,8 @@ export class MappingsBuilderComponent implements OnInit {
 	inputValue: string;
 	selectedNamespace: NamespaceDTO;
 	blockedSubject = false;
+	databaseConnectionId: number;
+	mappingType = null;
 
 	searchSources = '';
 	searchTableNames = '';
@@ -90,7 +92,6 @@ export class MappingsBuilderComponent implements OnInit {
 	ngOnInit() {
 		this.termType = TERM_TYPES;
 		this.getOntologies();
-		this.getFileData(this.selectedSourceFormat)
 		this.route.paramMap.subscribe((params) => {
 			this.mappingId = +params.get(PARAM_ID);
 		})
@@ -202,11 +203,17 @@ export class MappingsBuilderComponent implements OnInit {
 		this.selectedSource = null;
 		this.dbTableNames = null;
 		this.type = mapToDataSource(format);
+		if (this.mappingDTO != null && this.mappingType !== this.type) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_ERRORS_TYPE + this.mappingType, MESSAGES_ERRORS);
+			return;
+
+		}
 		if (this.type == DataSourceTypeEnum.FILE) {
 			this.getFileData(format);
 		} else if (this.type == DataSourceTypeEnum.DATABASE) {
 			this.getDataBases(format);
 		}
+		this.mappingType = this.type;
 	}
 
 	/**
@@ -298,6 +305,10 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Gets the list of table names for the selected database
 	 */
 	getDbTables(id: number): void {
+		if (this.databaseConnectionId != null && this.databaseConnectionId !== id && this.mappingDTO != null) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_ERRORS_SELECTEDDB, MESSAGES_ERRORS);
+			return;
+		}
 		this.selectedDb = id;
 		this.dataBaseService
 			.getTableNames(id)
@@ -306,6 +317,7 @@ export class MappingsBuilderComponent implements OnInit {
 			).subscribe((data: string[]) => {
 				this.dbTableNames = data ?? [];
 			})
+		this.databaseConnectionId = id;
 	}
 
 	/**
@@ -660,6 +672,13 @@ export class MappingsBuilderComponent implements OnInit {
 		this.selectedPredicateClass = null;
 		this.selectedPredicateProperty = null;
 		this.selectedPredicatePropertyUrl = null;
+		this.searchSources = null;
+		this.searchTableNames = null;
+		this.searchOntologies = null;
+		this.searchSubjectClasses = null;
+		this.searchPredicateClasses = null;
+		this.searchPredicateOntologies = null;
+		this.searchProperties = null;
 	}
 
 	/**
@@ -667,7 +686,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	newTriplesMap(): void {
 		this.blockedSubject = false;
-		this.selectedSourceFormat = DataFileTypeEnum.XML;
+		this.selectedSourceFormat = '';
 		this.selectedSource = null;
 		this.selectedSubjectOntology = null;
 		this.selectedSubjectClass = '';
@@ -681,6 +700,10 @@ export class MappingsBuilderComponent implements OnInit {
 		this.objectMapValue = '';
 		this.currentTermType = 'iri';
 		this.selectedDataType = null;
+		this.selectedDb = null;
+		this.dbTableNames = null;
+		this.selectedTable = null;
+		this.dataSources = null;
 		this.isNewTriplesMap = true;
 	}
 }

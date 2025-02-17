@@ -97,9 +97,11 @@
     },
     "mappings": {
       "errors": {
+        "mapping-type": "Mapping is already of type",
         "no-data-type": "Data type is required for literal term type",
         "no-iterator": "Iterator is required for XML or JSON data source type",
-        "no-name-url": "Mapping must have a name and a base URL"
+        "no-name-url": "Mapping must have a name and a base URL",
+        "selected-db": "A database connection has been already selected"
       },
       "predicate": {
         "incomplete": "The selected property does not have a defined prefix"
