@@ -474,6 +474,37 @@
         "tags": [
           "DataSource"
         ]
+      },
+      "get": {
+        "operationId": "getDataSource",
+        "parameters": [
+          {
+            "description": "Data source identifier",
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataSourceDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets given data source",
+        "tags": [
+          "DataSource"
+        ]
       }
     },
     "/database-sources": {

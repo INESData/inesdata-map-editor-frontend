@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { DataBaseSourceDTO, DataBaseSourceService, FileSourceDTO, FileSourceService, MappingDTO, MappingService, NamespaceDTO, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { DataBaseSourceDTO, DataBaseSourceService, DataSourceDTO, DataSourceService, FileSourceDTO, FileSourceService, MappingDTO, MappingService, NamespaceDTO, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { DataTypeEnum } from 'src/app/shared/enums/data-type.enum';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
@@ -20,7 +20,7 @@ import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 export class MappingsBuilderComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 
-	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private dataBaseService: DataBaseSourceService, private mappingService: MappingService, private notificationService: NotificationService, private languageService: LanguageService, private route: ActivatedRoute) { }
+	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private dataBaseService: DataBaseSourceService, private mappingService: MappingService, private notificationService: NotificationService, private languageService: LanguageService, private route: ActivatedRoute, private dataSourceService: DataSourceService) { }
 
 	formats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	dataTypes: string[] = [...Object.values(DataTypeEnum)];
@@ -204,9 +204,9 @@ export class MappingsBuilderComponent implements OnInit {
 		this.dbTableNames = null;
 		this.type = mapToDataSource(format);
 		if (this.mappingDTO != null && this.mappingType !== this.type) {
-			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_ERRORS_TYPE + this.mappingType, MESSAGES_ERRORS);
+			const errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_TYPE) + ` ${this.mappingType}`;
+			this.notificationService.showErrorMessage(errorMessage, MESSAGES_ERRORS);
 			return;
-
 		}
 		if (this.type == DataSourceTypeEnum.FILE) {
 			this.getFileData(format);
@@ -394,6 +394,8 @@ export class MappingsBuilderComponent implements OnInit {
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: MappingDTO) => {
 				this.mappingDTO = data;
+				this.getSourceById(this.mappingDTO.fields[0].dataSourceId);
+				this.databaseConnectionId = this.mappingDTO.fields[0].dataSourceId;
 			})
 	}
 
@@ -401,7 +403,6 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Create object map DTO
 	 */
 	createObjectMap(objectMapValue: string, currentTermType: string, selectedDataType?: string): ObjectMapDTO[] {
-		console.log(selectedDataType)
 		const objectMap: ObjectMapDTO[] = [
 			{ key: currentTermType === 'literal' ? RML_REFERENCE : RML_TEMPLATE, literalValue: objectMapValue },
 			{ key: RML_TERMTYPE, literalValue: currentTermType === 'literal' ? RML_LITERAL : RML_IRI },
@@ -542,6 +543,20 @@ export class MappingsBuilderComponent implements OnInit {
 			.subscribe((data: Record<string, string>) => {
 				this.namespaceMap = this.cleanNamespaceMap(data);
 			});
+	}
+
+	/**
+	 * Retrieves the data source by id
+	 */
+	getSourceById(id: number): void {
+		this.dataSourceService
+			.getDataSource(id)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe((data: DataSourceDTO) => {
+				this.mappingType = data.type
+			})
 	}
 
 	/**
