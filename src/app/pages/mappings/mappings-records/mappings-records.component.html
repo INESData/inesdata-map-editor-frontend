@@ -2,6 +2,7 @@
 	class="btn btn__primary mb-2"
 	[label]="'mappings.mapping.new-materialisation' | translate"
 	(onClick)="newMaterialisation(mappingId)"
+	[disabled]="blockedMaterialisationButton"
 />
 
 <div class="recordContainer" *ngIf="executionHistory && executionHistory.length > 0">

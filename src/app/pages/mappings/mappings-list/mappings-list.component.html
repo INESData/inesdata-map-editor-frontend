@@ -1,8 +1,8 @@
 <div class="whiteContainer w-full">
 	<h1 class="mb-3">{{ "mappings.mapping.list" | translate }}</h1>
 	<p-button class="btn btn__secondary mr-2" [label]="'mappings.mapping.manual' | translate" routerLink="/mappings/builder" />
-	<p-button class="btn btn__secondary mr-2" [label]="'mappings.mapping.automatic' | translate" (onClick)="showDialogAuto()" />
-	<p-button class="btn btn__secondary" [label]="'mappings.mapping.import' | translate" (onClick)="showDialogImport()" />
+	<p-button class="btn btn__secondary mr-2" [label]="'mappings.mapping.automatic' | translate" (onClick)="showDialog('auto')" />
+	<p-button class="btn btn__secondary" [label]="'mappings.mapping.import' | translate" (onClick)="showDialog('import')" />
 	<p-table class="mt-2 block" [value]="mappings">
 		<ng-template pTemplate="header">
 			<tr>
@@ -20,7 +20,7 @@
 				<td>
 					<div class="flex flex-justify flex-justify-right">
 						<p-button class="btn btn__icon icon-ojo mr-1" />
-						<p-button (onClick)="showDialog(mapping)" class="btn btn__icon icon-play mr-1" />
+						<p-button (onClick)="showDialogMaterialisation(mapping)" class="btn btn__icon icon-play mr-1" />
 						<p-button (onClick)="editMapping(mapping.id)" class="btn btn__icon icon-lapiz mr-1" />
 						<p-button (onClick)="showDialogDelete(mapping)" class="btn btn__icon icon-papelera" />
 					</div>
@@ -41,7 +41,7 @@
 	[style]="{ width: '40rem' }"
 >
 	<p class="mt-0" [innerHTML]="'mappings.mapping.automatic_selection' | translate"></p>
-	<div class="grid">
+	<div class="grid" [class.disabled]="loading">
 		<div class="col-6">
 			<h3 class="mt-1 mb-1">{{ "ontologies.ontologies" | translate }}</h3>
 			<div class="mappingCategory">
@@ -49,8 +49,8 @@
 					<div class="searcherContainer">
 						<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 					</div>
-					<div *ngFor="let category of categories" class="field-checkbox">
-						<p-checkbox [(ngModel)]="selectedCategories" [label]="category.name" name="group" [value]="category" />
+					<div *ngFor="let ontology of ontologies" class="field-checkbox">
+						<p-checkbox [(ngModel)]="selectedOntologies" [label]="ontology.name" name="group" [value]="ontology" />
 					</div>
 				</div>
 			</div>
@@ -62,16 +62,32 @@
 					<div class="searcherContainer">
 						<input class="searcher" [placeholder]="'placeholders.search' | translate" type="text" pInputText />
 					</div>
-					<div *ngFor="let category of categories" class="field-checkbox">
-						<p-checkbox [(ngModel)]="selectedCategories" [label]="category.name" name="group" [value]="category" />
+					<div *ngFor="let dataSource of dataSources" class="field-checkbox">
+						<p-checkbox [(ngModel)]="selectedDataSources" [label]="dataSource.name" name="group" [value]="dataSource" />
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="flex flex-justify-right col-12">
-			<p-button class="btn btn__primary mr-2" [label]="'mappings.mapping.build' | translate" type="button" />
-			<p-button class="btn btn__secondary" [label]="'labels.cancel' | translate" type="button" />
+			<p-button
+				class="btn btn__primary mr-2"
+				[label]="'mappings.mapping.build' | translate"
+				type="button"
+				(onClick)="buildAutomaticMapping()"
+				[disabled]="loading"
+			/>
+			<p-button
+				class="btn btn__secondary"
+				[label]="'labels.cancel' | translate"
+				type="button"
+				(onClick)="cancel('auto')"
+				[disabled]="loading"
+			/>
 		</div>
+	</div>
+	<!-- Spinner -->
+	<div *ngIf="loading" class="overlay">
+		<p-progressSpinner ariaLabel="loading" />
 	</div>
 </p-dialog>
 
@@ -124,7 +140,7 @@
 		</div>
 		<div class="flex flex-justify-right col-12">
 			<p-button class="btn btn__primary mr-2" [label]="'labels.import_mapping' | translate" type="button" />
-			<p-button class="btn btn__secondary" [label]="'labels.cancel' | translate" type="button" (onClick)="cancelImport()" />
+			<p-button class="btn btn__secondary" [label]="'labels.cancel' | translate" type="button" (onClick)="cancel('import')" />
 		</div>
 	</div>
 </p-dialog>
