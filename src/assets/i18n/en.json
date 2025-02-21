@@ -4,6 +4,7 @@
       "add": "Add data source",
       "confirmation": "Are you sure you want to delete this data source?",
       "data": "Data",
+      "dbList": "Select a database",
       "edit": "Edit data source",
       "format": "Select the data source format",
       "list": "Data Sources list",
@@ -16,6 +17,7 @@
     "add-rule": "Add rule",
     "cancel": "Cancel",
     "connection-url": "Connection URL",
+    "data-bases": "Databases",
     "data-source": "Data Source Type",
     "data-source-file": "Select the data source file",
     "data-source-format": "Select the data source type",
@@ -33,6 +35,7 @@
     "ontology-file": "Select ontology file",
     "password": "Password",
     "query": "Query",
+    "tables": "Database tables",
     "title": "Title",
     "type": "Type",
     "url": "Base URL",
@@ -61,7 +64,7 @@
       "predicate": "Predicate",
       "select": "Select the <strong>RML file</strong>, the <strong>ontologies</strong> and <strong>data sources</strong> needed to import a mapping: ",
       "subject": "Subject",
-      "templateUrl": "Template URL"
+      "templateUrl": "IRI del sujeto"
     },
     "predicate": {
       "allclasses": "All classes"
@@ -94,9 +97,11 @@
     },
     "mappings": {
       "errors": {
+        "mapping-type": "Mapping is already of type",
         "no-data-type": "Data type is required for literal term type",
         "no-iterator": "Iterator is required for XML or JSON data source type",
-        "no-name-url": "Mapping must have a name and a base URL"
+        "no-name-url": "Mapping must have a name and a base URL",
+        "selected-db": "A database connection has been already selected"
       },
       "predicate": {
         "incomplete": "The selected property does not have a defined prefix"
@@ -146,7 +151,6 @@
   },
   "properties": {
     "annotation": "Annotation Property",
-    "associated": "Associated to class",
     "data": "Data property",
     "object": "Object Property"
   },
