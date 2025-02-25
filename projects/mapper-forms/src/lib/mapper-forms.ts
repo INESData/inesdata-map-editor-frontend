@@ -59,6 +59,11 @@ export const fileSourceDtoForm = new FormGroup({
   version: new FormControl(null, [])
 });
 
+export const generateMappingRequestDtoForm = new FormGroup({
+  dataSourceIds: new FormControl(null, [Validators.required]),
+  ontologyIds: new FormControl(null, [Validators.required])
+});
+
 export const linkForm = new FormGroup({
   href: new FormControl(null, []),
   templated: new FormControl(null, [])

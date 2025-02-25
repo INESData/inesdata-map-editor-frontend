@@ -325,3 +325,10 @@ h3 {
   align-items: center;
   z-index: 10;
 }
+
+// P-TOOLTIP
+
+.p-tooltip .p-tooltip-text {
+	background-color: $primary !important;
+	color: $white !important;
+	}

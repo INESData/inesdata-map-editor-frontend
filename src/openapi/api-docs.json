@@ -1057,6 +1057,37 @@
         ]
       }
     },
+    "/mappings/generate": {
+      "post": {
+        "operationId": "generate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateMappingRequestDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MappingDTO"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Creates a new mapping using GenAI module",
+        "tags": [
+          "Mapping"
+        ]
+      }
+    },
     "/mappings/{id}": {
       "delete": {
         "operationId": "deleteMapping",
@@ -1670,6 +1701,29 @@
           }
         },
         "description": "The file source to save"
+      },
+      "GenerateMappingRequestDTO": {
+        "required": [
+          "dataSourceIds",
+          "ontologyIds"
+        ],
+        "type": "object",
+        "properties": {
+          "dataSourceIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "ontologyIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        }
       },
       "Link": {
         "type": "object",

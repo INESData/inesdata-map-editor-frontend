@@ -19,10 +19,24 @@
 				<td [title]="mapping.dataSources | join">{{ mapping.dataSources | join }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
-						<p-button class="btn btn__icon icon-ojo mr-1" />
-						<p-button (onClick)="showDialogMaterialisation(mapping)" class="btn btn__icon icon-play mr-1" />
-						<p-button (onClick)="editMapping(mapping.id)" class="btn btn__icon icon-lapiz mr-1" />
-						<p-button (onClick)="showDialogDelete(mapping)" class="btn btn__icon icon-papelera" />
+						<p-button
+							(onClick)="showDialogMaterialisation(mapping)"
+							class="btn btn__icon icon-play mr-1"
+							[pTooltip]="'materialisations.materialisation' | translate"
+							tooltipPosition="top"
+						/>
+						<p-button
+							(onClick)="editMapping(mapping.id)"
+							class="btn btn__icon icon-lapiz mr-1"
+							[pTooltip]="'mappings.mapping.edit' | translate"
+							tooltipPosition="top"
+						/>
+						<p-button
+							(onClick)="showDialogDelete(mapping)"
+							class="btn btn__icon icon-papelera"
+							[pTooltip]="'labels.delete' | translate"
+							tooltipPosition="top"
+						/>
 					</div>
 				</td>
 			</tr>

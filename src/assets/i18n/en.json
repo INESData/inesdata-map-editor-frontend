@@ -73,7 +73,8 @@
   "materialisations": {
     "empty": "There are no materialisations for this mapping",
     "executionDate": "Materialisation executed on",
-    "historic": "Materialisation history of "
+    "historic": "Materialisation history of ",
+    "materialisation": "Materialise"
   },
   "messages": {
     "data-sources": {
