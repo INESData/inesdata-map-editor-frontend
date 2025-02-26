@@ -6,7 +6,7 @@ import { SearchMappingDTO } from 'projects/mapper-api-client/model/searchMapping
 import { finalize } from 'rxjs';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { LABELS_NO_FILE_SELECTED, MAPPINGS_BUILDER_EDIT, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_AUTOMATIC, MESSAGES_MAPPINGS_ERRORS_EMPTY_REQUEST, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
+import { LABELS_NO_FILE_SELECTED, MAPPINGS_BUILDER_EDIT, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_EMPTY_REQUEST, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-mappings-list',
