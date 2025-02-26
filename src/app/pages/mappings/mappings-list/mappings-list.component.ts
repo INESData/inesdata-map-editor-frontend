@@ -1,11 +1,12 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
-import { DataSourceDTO, DataSourceService, ExecutionService, MappingService, OntologyService, PageDataSourceDTO, PageSearchMappingDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { DataSourceDTO, DataSourceService, ExecutionService, GenerateMappingRequestDTO, MappingService, OntologyService, PageDataSourceDTO, PageSearchMappingDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { SearchMappingDTO } from 'projects/mapper-api-client/model/searchMappingDTO';
+import { finalize } from 'rxjs';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { LABELS_NO_FILE_SELECTED, MAPPINGS_BUILDER_EDIT, MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
+import { LABELS_NO_FILE_SELECTED, MAPPINGS_BUILDER_EDIT, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_EMPTY_REQUEST, MESSAGES_MAPPINGS_SUCCESS_CREATED, MESSAGES_MAPPINGS_SUCCESS_DELETED, PAGE, SIZE } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-mappings-list',
@@ -30,6 +31,7 @@ export class MappingsListComponent implements OnInit {
 	deleteDialogVisible = false;
 	autoDialogVisible = false;
 	importDialogVisible = false;
+	loading = false;
 
 	file: File;
 	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
@@ -120,6 +122,40 @@ export class MappingsListComponent implements OnInit {
 	}
 
 	/**
+	 * Creates an automatic mapping
+	 */
+	buildAutomaticMapping(): void {
+		if (!this.selectedDataSources.length || !this.selectedOntologies.length) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_ERRORS_EMPTY_REQUEST, MESSAGES_ERRORS);
+			return;
+		}
+		const mappingRequest: GenerateMappingRequestDTO = {
+			dataSourceIds: this.selectedDataSources.map(sources => sources.id).filter(id => id),
+			ontologyIds: this.selectedOntologies.map(ontologies => ontologies.id).filter(id => id)
+		};
+
+		this.loading = true;
+		this.mappingService
+			.generate(mappingRequest)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef),
+				// On success or error
+				finalize(() => {
+					this.loading = false;
+				})
+			)
+			.subscribe({
+				next: () => {
+					// On succes
+					this.loading = false;
+					this.cancel('auto');
+					this.loadMappings(PAGE, SIZE);
+					this.notificationService.showSuccess(MESSAGES_MAPPINGS_SUCCESS_CREATED);
+				}
+			})
+	}
+
+	/**
 	 * Method that is called when the page number changes.
 	 */
 	onPageChange(newPage: number): void {
@@ -129,7 +165,7 @@ export class MappingsListComponent implements OnInit {
 	/**
 	 * Display materialisation history dialog
 	 */
-	showDialog(mapping: SearchMappingDTO) {
+	showDialogMaterialisation(mapping: SearchMappingDTO) {
 		this.selectedMapping = mapping;
 		this.addHistoryDialog = true;
 	}
@@ -142,26 +178,30 @@ export class MappingsListComponent implements OnInit {
 		this.deleteDialogVisible = true;
 	}
 
-	showDialogAuto() {
-		this.autoDialogVisible = true;
-	}
-
 	/**
-	 * Display import mapping dialog, load data sources and ontologies
+	 * Display import mapping dialog or auto mapping, load data sources and ontologies
 	 */
-	showDialogImport() {
+	showDialog(type: 'auto' | 'import') {
 		this.selectedOntologies = [];
 		this.selectedDataSources = [];
 		this.loadDataSources();
 		this.loadOntologies();
-		this.importDialogVisible = true;
+		if (type === 'auto') {
+			this.autoDialogVisible = true;
+		} else {
+			this.importDialogVisible = true;
+		}
 	}
 
 	/**
-	* Close import dialog
+	* Close import or auto dialog
 	*/
-	cancelImport(): void {
-		this.importDialogVisible = false;
+	cancel(type: 'auto' | 'import'): void {
+		if (type === 'auto') {
+			this.autoDialogVisible = false;
+		} else {
+			this.importDialogVisible = false;
+		}
 	}
 
 	/**

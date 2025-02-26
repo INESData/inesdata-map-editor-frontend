@@ -59,6 +59,11 @@ export const fileSourceDtoForm = new FormGroup({
   version: new FormControl(null, [])
 });
 
+export const generateMappingRequestDtoForm = new FormGroup({
+  dataSourceIds: new FormControl(null, [Validators.required]),
+  ontologyIds: new FormControl(null, [Validators.required])
+});
+
 export const linkForm = new FormGroup({
   href: new FormControl(null, []),
   templated: new FormControl(null, [])
@@ -76,14 +81,7 @@ export const logicalSourceDtoForm = new FormGroup({
     Validators.minLength(1),
     Validators.maxLength(255)
   ]),
-  version: new FormControl(null, [])
-});
-
-export const logicalTableDtoForm = new FormGroup({
-  id: new FormControl(null, []),
-  query: new FormControl(null, []),
   tableName: new FormControl(null, [
-    Validators.required,
     Validators.minLength(1),
     Validators.maxLength(255)
   ]),
@@ -112,7 +110,6 @@ export const mappingFieldDtoForm = new FormGroup({
   dataSourceId: new FormControl(null, [Validators.required]),
   id: new FormControl(null, []),
   logicalSource: new FormControl(null, []),
-  logicalTable: new FormControl(null, []),
   predicates: new FormControl(null, []),
   subject: new FormControl(null, []),
   version: new FormControl(null, [])
@@ -151,7 +148,8 @@ export const ontologyDtoForm = new FormGroup({
   ]),
   uploadDate: new FormControl(null, []),
   url: new FormControl(null, [
-    Validators.minLength(0),
+    Validators.required,
+    Validators.minLength(1),
     Validators.maxLength(255)
   ]),
   version: new FormControl(null, []),
@@ -237,7 +235,6 @@ export const predicateObjectMapDtoForm = new FormGroup({
 });
 
 export const propertyDtoForm = new FormGroup({
-  associated: new FormControl(null, []),
   name: new FormControl(null, [Validators.required]),
   propertyType: new FormControl(null, [Validators.required])
 });
