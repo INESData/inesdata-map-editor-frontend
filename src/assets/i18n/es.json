@@ -73,7 +73,8 @@
   "materialisations": {
     "empty": "No hay materializaciones para este mapeo",
     "executionDate": "Materialización ejecutada el",
-    "historic": "Histórico de materializaciones de "
+    "historic": "Histórico de materializaciones de ",
+    "materialisation": "Materializar"
   },
   "messages": {
     "data-sources": {
@@ -97,6 +98,7 @@
     },
     "mappings": {
       "errors": {
+        "empty-request": "Se debe seleccionar al menos una fuente de datos y una ontología",
         "mapping-type": "El mapeo ya es de tipo",
         "no-data-type": "El tipo de dato es necesario para el tipo de término literal",
         "no-iterator": "El iterador es necesario para las fuentes de datos de tipo XML o JSON",

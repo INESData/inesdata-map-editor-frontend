@@ -73,7 +73,8 @@
   "materialisations": {
     "empty": "There are no materialisations for this mapping",
     "executionDate": "Materialisation executed on",
-    "historic": "Materialisation history of "
+    "historic": "Materialisation history of ",
+    "materialisation": "Materialise"
   },
   "messages": {
     "data-sources": {
@@ -97,6 +98,7 @@
     },
     "mappings": {
       "errors": {
+        "empty-request": "At least one data source and one ontology must be selected",
         "mapping-type": "Mapping is already of type",
         "no-data-type": "Data type is required for literal term type",
         "no-iterator": "Iterator is required for XML or JSON data source type",

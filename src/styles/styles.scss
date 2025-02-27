@@ -301,3 +301,34 @@ h3 {
 .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item.p-highlight {
 	background: $primary;
 }
+
+// PROGRESS SPINNER
+
+.p-progress-spinner-circle {
+  stroke: $primary !important;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+// P-TOOLTIP
+
+.p-tooltip .p-tooltip-text {
+	background-color: $primary !important;
+	color: $white !important;
+	}

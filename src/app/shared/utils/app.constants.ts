@@ -45,6 +45,7 @@ export const MESSAGES_MAPPINGS_ERRORS_NODATATYPE: string = translate('messages.m
 export const MESSAGES_MAPPINGS_ERRORS_NOITERATOR: string = translate('messages.mappings.errors.no-iterator');
 export const MESSAGES_MAPPINGS_ERRORS_SELECTEDDB: string = translate('messages.mappings.errors.selected-db');
 export const MESSAGES_MAPPINGS_ERRORS_TYPE: string = translate('messages.mappings.errors.mapping-type');
+export const MESSAGES_MAPPINGS_ERRORS_EMPTY_REQUEST: string = translate('messages.mappings.errors.empty-request');
 
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
