@@ -928,6 +928,15 @@
               "type": "integer",
               "format": "int64"
             }
+          },
+          {
+            "description": "File iterator",
+            "in": "query",
+            "name": "iterator",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
