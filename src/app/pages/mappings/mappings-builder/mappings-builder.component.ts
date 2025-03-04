@@ -645,27 +645,9 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Filters and trims fields based on the iterator
 	 */
 	filterAndTrimFields(fieldsToSearch: string[]): string[] {
-		let iterator = this.iterator;
-
-		if (this.selectedSourceFormat === DataFileTypeEnum.JSON) {
-			if (iterator.startsWith('$.') && iterator.length > 2) {
-				iterator = iterator.slice(2);
-			} else if (iterator.startsWith('$')) {
-				iterator = iterator.slice(1);
-			}
-		}
-
-		const trimmedFields = fieldsToSearch
-			.filter(field => field.startsWith(iterator))
-			.map(field => {
-				if (field[iterator.length] === '[') {
-					// Do not add +1 if the next character is a "["
-					return field.slice(iterator.length);
-				}
-				return field.slice(iterator.length + 1);
-			});
-
-		return trimmedFields;
+		return fieldsToSearch
+			.filter(field => field.startsWith(this.iterator))
+			.map(field => field.slice(this.iterator.length + 1));
 	}
 
 	/**
