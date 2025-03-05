@@ -78,11 +78,19 @@ export class DataSourcesFormComponent implements OnInit {
 	createFileSource(fileSource: FileSourceDTO): void {
 		this.fileSourceService
 			.createFileSource(fileSource, this.file)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => {
-				this.formSubmitted.emit();
-				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
-			});
+			.pipe(
+				takeUntilDestroyed(this.destroyRef),
+				// On success or error
+				finalize(() => {
+					this.submittingForm = false
+				})
+			)
+			.subscribe({
+				next: () => {
+					this.formSubmitted.emit();
+					this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
+				}
+			})
 	}
 
 	/**
