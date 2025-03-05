@@ -331,4 +331,8 @@ h3 {
 .p-tooltip .p-tooltip-text {
 	background-color: $primary !important;
 	color: $white !important;
-	}
+}
+
+.p-tooltip .p-tooltip-arrow {
+  border-top-color: $primary !important;
+}
