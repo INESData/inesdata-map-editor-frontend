@@ -79,7 +79,14 @@
 							</div>
 							<div *ngIf="selectedSourceFormat && (selectedSourceFormat === 'XML' || selectedSourceFormat === 'JSON')">
 								<p class="mt-1 mb-0">{{ "mappings.mapping.iterator" | translate }}</p>
-								<input class="mb-1" type="text" pInputText [(ngModel)]="iterator" [disabled]="blockedSubject" />
+								<input
+									class="mb-1"
+									type="text"
+									pInputText
+									[(ngModel)]="iterator"
+									[disabled]="blockedSubject"
+									(blur)="onSourceIteratorSelected()"
+								/>
 							</div>
 						</div>
 						<!-- Database tables-->
