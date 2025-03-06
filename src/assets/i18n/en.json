@@ -23,6 +23,7 @@
     "data-source-format": "Select the data source type",
     "date": "Date",
     "delete": "Delete",
+    "delete-query": "Delete query",
     "file-name": "No file selected",
     "home": "Home",
     "import": "Import from local",

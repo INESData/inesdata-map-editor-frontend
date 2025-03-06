@@ -23,6 +23,7 @@
     "data-source-format": "Seleccione el tipo de fuente de datos",
     "date": "Fecha",
     "delete": "Eliminar",
+    "delete-query": "Eliminar query",
     "file-name": "Ningún archivo seleccionado",
     "home": "Inicio",
     "import": "Importar de local",

@@ -101,6 +101,7 @@
 											type="text"
 											pInputText
 											[(ngModel)]="searchTableNames"
+											[disabled]="blockTables"
 										/>
 									</div>
 									<div *ngFor="let dbTableName of dbTableNames | filterList: searchTableNames" class="field-checkbox">
@@ -109,13 +110,17 @@
 											[value]="dbTableName"
 											[(ngModel)]="selectedTable"
 											(ngModelChange)="onTableSelected($event)"
-											[disabled]="blockedSubject"
+											[disabled]="blockedSubject || blockTables"
 										/>
 										<label [for]="dbTableName" class="ml-2">
 											{{ dbTableName }}
 										</label>
 									</div>
-									<p-button (onClick)="showDialogQuery()" class="addButton addButton__query" [label]="'labels.add-query' | translate" />
+									<p-button
+										(onClick)="showDialogQuery()"
+										class="addButton addButton__query"
+										[label]="queryName ? queryName : ('labels.add-query' | translate)"
+									/>
 								</div>
 							</div>
 						</div>
@@ -357,10 +362,17 @@
 	[style]="{ width: '40rem' }"
 >
 	<label for="">{{ "labels.name" | translate }}</label>
-	<input class="mb-2" type="text" pInputText />
+	<input class="mb-2" type="text" pInputText [(ngModel)]="queryName" />
 	<label for="">{{ "labels.query" | translate }}</label>
-	<textarea class="textHighlight mb-4"></textarea>
-	<div class="flex flex-justify-right w-full">
-		<p-button class="btn btn__primary" [label]="'labels.add-query' | translate" type="button" />
+	<textarea class="textHighlight mb-4" [(ngModel)]="query"></textarea>
+	<div class="flex flex-justify-right w-full gap-5">
+		<p-button
+			class="btn btn__primary"
+			[label]="'labels.delete-query' | translate"
+			type="button"
+			(click)="deleteQuery()"
+			onkeydown="deleteQuery()"
+		/>
+		<p-button class="btn btn__primary" [label]="'labels.add-query' | translate" type="button" (click)="addQuery()" onkeydown="addQuery()" />
 	</div>
 </p-dialog>
