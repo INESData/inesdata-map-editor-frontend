@@ -5,6 +5,7 @@ import { DataBaseSourceService, DataSourceDTO, FileSourceService } from 'project
 import { DataBaseSourceDTO } from 'projects/mapper-api-client/model/dataBaseSourceDTO';
 import { FileSourceDTO } from 'projects/mapper-api-client/model/fileSourceDTO';
 import { dataBaseSourceDtoForm, dataSourceDtoForm, fileSourceDtoForm } from 'projects/mapper-forms/src/public-api';
+import { finalize } from 'rxjs';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
@@ -78,11 +79,19 @@ export class DataSourcesFormComponent implements OnInit {
 	createFileSource(fileSource: FileSourceDTO): void {
 		this.fileSourceService
 			.createFileSource(fileSource, this.file)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => {
-				this.formSubmitted.emit();
-				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
-			});
+			.pipe(
+				takeUntilDestroyed(this.destroyRef),
+				// On success or error
+				finalize(() => {
+					this.submittingForm = false
+				})
+			)
+			.subscribe({
+				next: () => {
+					this.formSubmitted.emit();
+					this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
+				}
+			})
 	}
 
 	/**
