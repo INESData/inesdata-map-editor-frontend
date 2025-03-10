@@ -109,6 +109,7 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	addQuery(): void {
+		this.selectedTable = null;
 		this.blockTables = true;
 		this.queryDialogVisible = false;
 		this.getQueryColumnNames(this.query);
@@ -116,6 +117,7 @@ export class MappingsBuilderComponent implements OnInit {
 
 	deleteQuery(): void {
 		this.query = null;
+		this.queryName = null;
 		this.queryDialogVisible = false;
 		this.blockTables = false;
 	}
@@ -364,7 +366,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	addRule(): void {
 
-		const { selectedSource, selectedDb, type, selectedSourceFormat, templateUrl, iterator, selectedTable, query, selectedSubjectClass, selectedPredicatePropertyUrl, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
+		const { selectedSource, selectedDb, type, selectedSourceFormat, templateUrl, iterator, selectedTable, query, queryName, selectedSubjectClass, selectedPredicatePropertyUrl, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
 
 		const sourceId = type === 'FILE' ? selectedSource?.id : selectedDb;
 
@@ -385,7 +387,7 @@ export class MappingsBuilderComponent implements OnInit {
 		if (!mappingDTO?.id) {
 			//If no mapping DTO, create it
 			if (!mappingDTO) {
-				this.createMappingDTO(sourceId, selectedSourceFormat, iterator, selectedTable, query, templateUrl, selectedSubjectClass, predicate);
+				this.createMappingDTO(sourceId, selectedSourceFormat, iterator, selectedTable, query, queryName, templateUrl, selectedSubjectClass, predicate);
 			} else if (mappingDTO.fields) {
 				// Mapping DTO exists, process fields
 				this.processMappingField(isNewTriplesMap, sourceId, selectedSourceFormat, iterator, selectedTable, templateUrl, selectedSubjectClass, predicate);
@@ -466,15 +468,27 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
+	 * Create logical source DTO with all the properties
+	 */
+	createLogicalSource(sourceFormat: string, iterator: string, tableName: string, query: string, queryName: string) {
+		if (sourceFormat === 'XML' || sourceFormat === 'JSON') {
+			return { iterator };
+		}
+		if (sourceFormat === 'MYSQL' || sourceFormat === 'POSTGRESQL') {
+			if (tableName) {
+				return { tableName };
+			}
+			if (query) {
+				return { query, queryName };
+			}
+		}
+		return {};
+	}
+
+	/**
 	 * Create mapping DTO with all collected properties
 	 */
-	createMappingDTO(dataSourceId: number, sourceFormat: string, iterator: string, tableName: string, query: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
-		let logicalSource;
-		if (sourceFormat === 'XML' || sourceFormat === 'JSON') {
-			logicalSource = { iterator };
-		} else if (sourceFormat === 'MYSQL' || sourceFormat === 'POSTGRESQL') {
-			logicalSource = tableName ? { tableName } : { query };
-		}
+	createMappingDTO(dataSourceId: number, sourceFormat: string, iterator: string, tableName: string, query: string, queryName: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
 		this.mappingDTO = {
 			name: this.mappingName,
 			baseUrl: this.mappingBaseUrl,
@@ -482,7 +496,7 @@ export class MappingsBuilderComponent implements OnInit {
 			fields: [
 				{
 					dataSourceId,
-					logicalSource: logicalSource,
+					logicalSource: this.createLogicalSource(sourceFormat, iterator, tableName, query, queryName),
 					subject: {
 						template: templateUrl,
 						className: this.selectedSubjectOntology.url + subjectClass,
