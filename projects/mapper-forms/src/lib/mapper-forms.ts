@@ -76,6 +76,10 @@ export const logicalSourceDtoForm = new FormGroup({
     Validators.minLength(1),
     Validators.maxLength(255)
   ]),
+  queryName: new FormControl(null, [
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
   referenceFormulation: new FormControl(null, []),
   source: new FormControl(null, [
     Validators.minLength(1),
