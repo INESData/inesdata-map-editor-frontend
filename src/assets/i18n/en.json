@@ -107,7 +107,7 @@
         "selected-db": "A database connection has been already selected"
       },
       "predicate": {
-        "incomplete": "The selected property does not have a defined prefix"
+        "incomplete": "The selected property does not have a defined prefix. Please, check the selected ontology and its namespaces."
       },
       "rule": {
         "incomplete": "Incomplete rule. Please check the fields."
