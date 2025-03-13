@@ -23,6 +23,7 @@
     "data-source-format": "Select the data source type",
     "date": "Date",
     "delete": "Delete",
+    "delete-query": "Delete query",
     "file-name": "No file selected",
     "home": "Home",
     "import": "Import from local",
@@ -106,7 +107,7 @@
         "selected-db": "A database connection has been already selected"
       },
       "predicate": {
-        "incomplete": "The selected property does not have a defined prefix"
+        "incomplete": "The selected property does not have a defined prefix. Please, check the selected ontology and its namespaces."
       },
       "rule": {
         "incomplete": "Incomplete rule. Please check the fields."

@@ -100,10 +100,17 @@ export class DataSourcesFormComponent implements OnInit {
 	createDataBaseSource(dbSource: DataBaseSourceDTO): void {
 		this.dbSourceService
 			.createDataBaseSource(dbSource)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => {
-				this.formSubmitted.emit();
-				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
+			.pipe(takeUntilDestroyed(this.destroyRef),
+				// On success or error
+				finalize(() => {
+					this.submittingForm = false
+				})
+			)
+			.subscribe({
+				next: () => {
+					this.formSubmitted.emit();
+					this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
+				}
 			});
 	}
 
@@ -113,10 +120,17 @@ export class DataSourcesFormComponent implements OnInit {
 	updateFileSource(fileSource: FileSourceDTO): void {
 		this.fileSourceService
 			.updateFileSource(fileSource.id, fileSource)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => {
-				this.formSubmitted.emit();
-				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
+			.pipe(takeUntilDestroyed(this.destroyRef),
+				// On success or error
+				finalize(() => {
+					this.submittingForm = false
+				})
+			)
+			.subscribe({
+				next: () => {
+					this.formSubmitted.emit();
+					this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
+				}
 			});
 	}
 
@@ -127,10 +141,17 @@ export class DataSourcesFormComponent implements OnInit {
 		dbSource.password = this.handlePassword(dbSource.password);
 		this.dbSourceService
 			.updateDataBaseSource(dbSource.id, dbSource)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => {
-				this.formSubmitted.emit();
-				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
+			.pipe(takeUntilDestroyed(this.destroyRef),
+				// On success or error
+				finalize(() => {
+					this.submittingForm = false
+				})
+			)
+			.subscribe({
+				next: () => {
+					this.formSubmitted.emit();
+					this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
+				}
 			});
 	}
 

@@ -23,6 +23,7 @@
     "data-source-format": "Seleccione el tipo de fuente de datos",
     "date": "Fecha",
     "delete": "Eliminar",
+    "delete-query": "Eliminar query",
     "file-name": "Ningún archivo seleccionado",
     "home": "Inicio",
     "import": "Importar de local",
@@ -106,7 +107,7 @@
         "selected-db": "Ya se ha seleccionado una conexión a base de datos"
       },
       "predicate": {
-        "incomplete": "La propiedad seleccionada no tiene un prefijo definido"
+        "incomplete": "La propiedad seleccionada no tiene un prefijo definido. Por favor, revisa la ontología seleccionada y sus espacios de nombres."
       },
       "rule": {
         "incomplete": "Regla incompleta. Por favor, revisa los campos."

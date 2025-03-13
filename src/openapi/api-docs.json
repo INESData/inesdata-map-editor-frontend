@@ -571,6 +571,41 @@
         ]
       }
     },
+    "/database-sources/query": {
+      "get": {
+        "operationId": "getQueryColumnNames",
+        "parameters": [
+          {
+            "description": "Query",
+            "in": "query",
+            "name": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Gets all column names from query",
+        "tags": [
+          "DataBaseSource"
+        ]
+      }
+    },
     "/database-sources/{id}": {
       "get": {
         "operationId": "getDataBaseSource",
@@ -1756,6 +1791,11 @@
             "type": "string"
           },
           "query": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "queryName": {
             "maxLength": 255,
             "minLength": 1,
             "type": "string"
