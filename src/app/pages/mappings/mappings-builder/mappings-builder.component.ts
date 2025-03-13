@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DataBaseSourceDTO, FileSourceDTO, FileSourceService, MappingDTO, MappingService, NamespaceDTO, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { ActivatedRoute } from '@angular/router';
+import { DataBaseSourceDTO, DataBaseSourceService, DataSourceDTO, DataSourceService, FileSourceDTO, FileSourceService, MappingDTO, MappingService, NamespaceDTO, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { DataTypeEnum } from 'src/app/shared/enums/data-type.enum';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
@@ -10,7 +10,7 @@ import { TermType } from 'src/app/shared/models/term-type.model';
 import { TERM_TYPES } from 'src/app/shared/models/term-types';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_ASSOCIATED, PROPERTIES_DATA, PROPERTIES_OBJECT, RR_DATATYPE, RR_IRI, RR_LITERAL, RR_TEMPLATE, RR_TERMTYPE } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS_PREDICATE_ALLCLASSES, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_ERRORS_SELECTEDDB, MESSAGES_MAPPINGS_ERRORS_TYPE, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_DATATYPE, RML_IRI, RML_LITERAL, RML_REFERENCE, RML_TEMPLATE, RML_TERMTYPE } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
 @Component({
@@ -20,11 +20,11 @@ import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 export class MappingsBuilderComponent implements OnInit {
 	destroyRef = inject(DestroyRef);
 
-	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private mappingService: MappingService, private notificationService: NotificationService,
-		private router: Router, private languageService: LanguageService, private route: ActivatedRoute) { }
+	constructor(private ontologyService: OntologyService, private fileSourceService: FileSourceService, private dataBaseService: DataBaseSourceService, private mappingService: MappingService, private notificationService: NotificationService, private languageService: LanguageService, private route: ActivatedRoute, private dataSourceService: DataSourceService) { }
 
 	formats: string[] = [...Object.values(DataBaseTypeEnum), ...Object.values(DataFileTypeEnum)];
 	dataTypes: string[] = [...Object.values(DataTypeEnum)];
+	type = 'FILE';
 
 	queryDialogVisible = false;
 	elementDialogVisible = false;
@@ -32,12 +32,17 @@ export class MappingsBuilderComponent implements OnInit {
 	mappingId: number;
 
 	ontologies: SearchOntologyDTO[];
-	dataSources: FileSourceDTO[] | DataBaseSourceDTO[];
+	dataSources: FileSourceDTO[];
+	dataBasesList: DataBaseSourceDTO[] = [];
+	dataBases = [];
+	dbTableNames: string[];
+	selectedDb: number;
+	selectedTable: string;
 	properties: PropertyDTO[];
 	subjectClasses: string[];
 	predicateClasses: string[];
 
-	selectedSourceFormat = DataFileTypeEnum.XML;
+	selectedSourceFormat = '';
 	selectedSource: FileSourceDTO | DataBaseSourceDTO = null;
 	selectedSubjectOntology: SearchOntologyDTO = null;
 	selectedSubjectClass: string = null;
@@ -53,7 +58,7 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedDataType: string;
 
 	source: string;
-	fileFields: string[];
+	sourceFields: string[];
 	selectedField: string;
 	errorMessage: string;
 	termType: TermType[];
@@ -65,6 +70,23 @@ export class MappingsBuilderComponent implements OnInit {
 	inputValue: string;
 	selectedNamespace: NamespaceDTO;
 	blockedSubject = false;
+	databaseConnectionId: number;
+	mappingType = null;
+
+	searchSources = '';
+	searchTableNames = '';
+	searchOntologies = '';
+	searchSubjectClasses = '';
+	searchPredicateOntologies = '';
+	searchPredicateClasses = '';
+	searchProperties = '';
+
+	queryName = '';
+	query = '';
+	blockTables = false;
+
+	mappingName = '';
+	mappingBaseUrl = '';
 
 	/**
 	 * Initializes the component and subscribe to route parameter to get the ID
@@ -74,7 +96,6 @@ export class MappingsBuilderComponent implements OnInit {
 	ngOnInit() {
 		this.termType = TERM_TYPES;
 		this.getOntologies();
-		this.getFileData(this.selectedSourceFormat)
 		this.route.paramMap.subscribe((params) => {
 			this.mappingId = +params.get(PARAM_ID);
 		})
@@ -87,8 +108,36 @@ export class MappingsBuilderComponent implements OnInit {
 		this.queryDialogVisible = true;
 	}
 
+	addQuery(): void {
+		this.selectedTable = null;
+		this.blockTables = true;
+		this.queryDialogVisible = false;
+		this.getQueryColumnNames(this.query);
+	}
+
+	deleteQuery(): void {
+		this.query = null;
+		this.queryName = null;
+		this.queryDialogVisible = false;
+		this.blockTables = false;
+	}
+
 	showDialogElement() {
 		this.elementDialogVisible = true;
+	}
+
+	/**
+	 * Updates the mapping name with the value from child
+	 */
+	onMappingNameUpdate(name: string): void {
+		this.mappingName = name;
+	}
+
+	/**
+	 * Updates the mapping base url with the value from child
+	 */
+	onMappingBaseUrlUpdate(url: string): void {
+		this.mappingBaseUrl = url;
 	}
 
 	/**
@@ -112,15 +161,16 @@ export class MappingsBuilderComponent implements OnInit {
 		this.ontologyService
 			.getOntologyClasses(id)
 			.pipe(
-				takeUntilDestroyed(this.destroyRef)
+				takeUntilDestroyed(this.destroyRef),
 			).subscribe((data: string[]) => {
 				if (this.source === 'subject') {
 					this.subjectClasses = data ?? [];
 				} else if (this.source === 'predicate') {
-					this.predicateClasses = data ?? [];
-					this.getNamespaceMap();
+					this.predicateClasses = [this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES), ...(data ?? [])];
+					this.selectedPredicateClass = this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES);
+					this.onClassSelect('');
 				}
-			})
+			});
 	}
 
 	/**
@@ -148,6 +198,7 @@ export class MappingsBuilderComponent implements OnInit {
 			this.properties = null;
 			this.predicateClasses = null;
 			this.selectedPredicateClass = null;
+			this.getNamespaceMap();
 		}
 		this.getClasses(ontology.id);
 	}
@@ -157,6 +208,9 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	onClassSelect(className: string): void {
 		this.selectedPredicateProperty = null;
+		if (className === this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES)) {
+			className = '';
+		}
 		this.getProperties(this.selectedPredicateOntology.id, className);
 	}
 
@@ -165,10 +219,19 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	getDataFromFormat(format: string): void {
 		this.selectedSource = null;
-		const type = mapToDataSource(format);
-		if (type == DataSourceTypeEnum.FILE) {
-			this.getFileData(format);
+		this.dbTableNames = null;
+		this.type = mapToDataSource(format);
+		if (this.mappingDTO != null && this.mappingType !== this.type) {
+			const errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_TYPE) + ` ${this.mappingType}`;
+			this.notificationService.showErrorMessage(errorMessage, MESSAGES_ERRORS);
+			return;
 		}
+		if (this.type == DataSourceTypeEnum.FILE) {
+			this.getFileData(format);
+		} else if (this.type == DataSourceTypeEnum.DATABASE) {
+			this.getDataBases(format);
+		}
+		this.mappingType = this.type;
 	}
 
 	/**
@@ -195,9 +258,31 @@ export class MappingsBuilderComponent implements OnInit {
 				this.getFields(source.id);
 				break;
 			case DataFileTypeEnum.XML:
-				this.getXMLAttributes(source.id);
+				this.getFileAttributes(source.id, this.iterator);
 				break;
 		}
+	}
+
+	/**
+	 * Handles the selection of a source and iterator and retrieves file attributes
+	 */
+	onSourceIteratorSelected(): void {
+		if (this.selectedSourceFormat === DataFileTypeEnum.JSON && this.selectedSource != null && this.iterator && this.iterator.length > 0) {
+			this.getFileAttributes(this.selectedSource.id, this.iterator);
+		}
+	}
+
+	/**
+	 * Retrieves the column names for the selected table from the database
+	 */
+	onTableSelected(name: string) {
+		this.dataBaseService
+			.getColumnNames(this.selectedDb, name)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: string[]) => {
+				this.sourceFields = data ?? [];
+			})
 	}
 
 	/**
@@ -209,21 +294,70 @@ export class MappingsBuilderComponent implements OnInit {
 			.pipe(
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: string[]) => {
-				this.fileFields = data ?? [];
+				this.sourceFields = data ?? [];
 			})
 	}
 
 	/**
-	 * Retrieves the XML attributes for a given file source ID
+	 * Retrieves the XML and JSON attributes for a given file source ID
 	 */
-	getXMLAttributes(id: number): void {
+	getFileAttributes(id: number, iterator: string): void {
 		this.fileSourceService
-			.getFileAttributes(id)
+			.getFileAttributes(id, iterator)
 			.pipe(
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: string[]) => {
-				this.fileFields = data ?? [];
+				this.sourceFields = data ?? [];
 			})
+	}
+
+	/**
+	 * Gets the list of databases based on the specified format
+	 */
+	getDataBases(format: string): void {
+		this.dataBaseService
+			.getDataBaseSourceByType(format)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: DataBaseSourceDTO[]) => {
+				this.dataBasesList = data ?? [];
+				this.dataBases = this.dataBasesList.map(db => ({
+					label: db.name,
+					value: db.id
+				}));
+			});
+	}
+
+	/**
+	 * Gets the list of table names for the selected database
+	 */
+	getDbTables(id: number): void {
+		if (this.databaseConnectionId != null && this.databaseConnectionId !== id && this.mappingDTO != null) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_ERRORS_SELECTEDDB, MESSAGES_ERRORS);
+			return;
+		}
+		this.selectedDb = id;
+		this.dataBaseService
+			.getTableNames(id)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: string[]) => {
+				this.dbTableNames = data ?? [];
+			})
+		this.databaseConnectionId = id;
+	}
+
+	/**
+	 * Gets all column names from query
+	 */
+	getQueryColumnNames(query: string): void {
+		this.dataBaseService
+			.getQueryColumnNames(query)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			).subscribe((data: string[]) => {
+				this.sourceFields = data ?? [];
+			});
 	}
 
 	/**
@@ -232,10 +366,12 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	addRule(): void {
 
-		const { selectedSource, selectedSourceFormat, templateUrl, iterator, selectedSubjectClass, selectedPredicatePropertyUrl, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
+		const { selectedSource, selectedDb, type, selectedSourceFormat, templateUrl, iterator, selectedTable, query, queryName, selectedSubjectClass, selectedPredicatePropertyUrl, objectMapValue, currentTermType, selectedDataType, mappingDTO, isNewTriplesMap, isFirstEdition } = this;
+
+		const sourceId = type === 'FILE' ? selectedSource?.id : selectedDb;
 
 		// Rule must be completed
-		if (!(selectedSource?.id && selectedSourceFormat && selectedSubjectClass && templateUrl && selectedSubjectClass && selectedPredicatePropertyUrl && objectMapValue && currentTermType)) {
+		if (!(sourceId && selectedSourceFormat && selectedSubjectClass && templateUrl && selectedSubjectClass && selectedPredicatePropertyUrl && objectMapValue && currentTermType)) {
 			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_RULE_INCOMPLETE, MESSAGES_ERRORS);
 			return;
 		}
@@ -251,21 +387,21 @@ export class MappingsBuilderComponent implements OnInit {
 		if (!mappingDTO?.id) {
 			//If no mapping DTO, create it
 			if (!mappingDTO) {
-				this.createMappingDTO(selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+				this.createMappingDTO(sourceId, selectedSourceFormat, iterator, selectedTable, query, queryName, templateUrl, selectedSubjectClass, predicate);
 			} else if (mappingDTO.fields) {
 				// Mapping DTO exists, process fields
-				this.processMappingField(isNewTriplesMap, selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+				this.processMappingField(isNewTriplesMap, sourceId, selectedSourceFormat, iterator, selectedTable, templateUrl, selectedSubjectClass, predicate);
 			}
 			// On update
 		} else {
 			if (isFirstEdition) {
 				// On first rule of edition (is first edition true)
-				this.addNewFieldToMapping(selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+				this.addNewFieldToMapping(sourceId, selectedSourceFormat, iterator, selectedTable, templateUrl, selectedSubjectClass, predicate);
 				this.isNewTriplesMap = false;
 				this.isFirstEdition = false;
 			} else {
 				// On next rules of edition
-				this.processMappingField(isNewTriplesMap, selectedSource.id, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+				this.processMappingField(isNewTriplesMap, sourceId, selectedSourceFormat, iterator, selectedTable, templateUrl, selectedSubjectClass, predicate);
 			}
 		}
 		this.addNamespaceToMapping(this.selectedNamespace);
@@ -275,10 +411,10 @@ export class MappingsBuilderComponent implements OnInit {
 	/**
 	 * Processes a mapping field based on creating a new triples map or update an existing one
 	 */
-	processMappingField(isNewTriplesMap: boolean, selectedSourceId: number, selectedSourceFormat: string, iterator: string, templateUrl: string, selectedSubjectClass: string, predicate: PredicateObjectMapDTO[]): void {
+	processMappingField(isNewTriplesMap: boolean, selectedSourceId: number, selectedSourceFormat: string, iterator: string, selectedTable: string, templateUrl: string, selectedSubjectClass: string, predicate: PredicateObjectMapDTO[]): void {
 		if (isNewTriplesMap) {
 			// Add field
-			this.addNewFieldToMapping(selectedSourceId, selectedSourceFormat, iterator, templateUrl, selectedSubjectClass, predicate);
+			this.addNewFieldToMapping(selectedSourceId, selectedSourceFormat, iterator, selectedTable, templateUrl, selectedSubjectClass, predicate);
 			this.isNewTriplesMap = false;
 			this.blockedSubject = true;
 		} else {
@@ -298,6 +434,8 @@ export class MappingsBuilderComponent implements OnInit {
 				takeUntilDestroyed(this.destroyRef)
 			).subscribe((data: MappingDTO) => {
 				this.mappingDTO = data;
+				this.getSourceById(this.mappingDTO.fields[0].dataSourceId);
+				this.databaseConnectionId = this.mappingDTO.fields[0].dataSourceId;
 			})
 	}
 
@@ -306,12 +444,12 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	createObjectMap(objectMapValue: string, currentTermType: string, selectedDataType?: string): ObjectMapDTO[] {
 		const objectMap: ObjectMapDTO[] = [
-			{ key: RR_TEMPLATE, literalValue: objectMapValue },
-			{ key: RR_TERMTYPE, literalValue: currentTermType === 'literal' ? RR_LITERAL : RR_IRI },
+			{ key: currentTermType === 'literal' ? RML_REFERENCE : RML_TEMPLATE, literalValue: objectMapValue },
+			{ key: RML_TERMTYPE, literalValue: currentTermType === 'literal' ? RML_LITERAL : RML_IRI },
 		];
 
 		if (currentTermType === 'literal') {
-			objectMap.push({ key: RR_DATATYPE, literalValue: "xsd:" + selectedDataType });
+			objectMap.push({ key: RML_DATATYPE, literalValue: "xsd:" + selectedDataType });
 		}
 
 		return objectMap;
@@ -330,18 +468,35 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
+	 * Create logical source DTO with all the properties
+	 */
+	createLogicalSource(sourceFormat: string, iterator: string, tableName: string, query: string, queryName: string) {
+		if (sourceFormat === 'XML' || sourceFormat === 'JSON') {
+			return { iterator };
+		}
+		if (sourceFormat === 'MYSQL' || sourceFormat === 'POSTGRESQL') {
+			if (tableName) {
+				return { tableName };
+			}
+			if (query) {
+				return { query, queryName };
+			}
+		}
+		return {};
+	}
+
+	/**
 	 * Create mapping DTO with all collected properties
 	 */
-	createMappingDTO(dataSourceId: number, sourceFormat: string, iterator: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
+	createMappingDTO(dataSourceId: number, sourceFormat: string, iterator: string, tableName: string, query: string, queryName: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
 		this.mappingDTO = {
-			name: '',
-			baseUrl: '',
+			name: this.mappingName,
+			baseUrl: this.mappingBaseUrl,
 			ontologyIds: [this.selectedSubjectOntology.id, this.selectedPredicateOntology.id],
 			fields: [
 				{
 					dataSourceId,
-					logicalSource: sourceFormat === 'XML' || sourceFormat === 'JSON' ? { iterator } : null,
-					logicalTable: null,
+					logicalSource: this.createLogicalSource(sourceFormat, iterator, tableName, query, queryName),
 					subject: {
 						template: templateUrl,
 						className: this.selectedSubjectOntology.url + subjectClass,
@@ -367,11 +522,10 @@ export class MappingsBuilderComponent implements OnInit {
 	/**
 	 * Add new field to mapping DTO
 	 */
-	addNewFieldToMapping(dataSourceId: number, sourceFormat: string, iterator: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
+	addNewFieldToMapping(dataSourceId: number, sourceFormat: string, iterator: string, tableName: string, templateUrl: string, subjectClass: string, predicates: PredicateObjectMapDTO[]): void {
 		this.mappingDTO.fields.push({
 			dataSourceId,
-			logicalSource: sourceFormat === 'XML' || sourceFormat === 'JSON' ? { iterator } : null,
-			logicalTable: null,
+			logicalSource: sourceFormat === 'XML' || sourceFormat === 'JSON' ? { iterator } : { tableName },
 			subject: {
 				template: templateUrl,
 				className: this.selectedSubjectOntology.url + subjectClass,
@@ -432,11 +586,6 @@ export class MappingsBuilderComponent implements OnInit {
 			default:
 				break;
 		}
-		if (property.associated) {
-			iconClasses.push('pi pi-link');
-			titles.push(this.languageService.translateValue(PROPERTIES_ASSOCIATED));
-		}
-
 		return { iconClasses, titles };
 	}
 
@@ -452,6 +601,20 @@ export class MappingsBuilderComponent implements OnInit {
 			.subscribe((data: Record<string, string>) => {
 				this.namespaceMap = this.cleanNamespaceMap(data);
 			});
+	}
+
+	/**
+	 * Retrieves the data source by id
+	 */
+	getSourceById(id: number): void {
+		this.dataSourceService
+			.getDataSource(id)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe((data: DataSourceDTO) => {
+				this.mappingType = data.type
+			})
 	}
 
 	/**
@@ -505,9 +668,9 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Process query based on the term type
 	 */
 	search(event) {
-		const fieldsToSearch = (this.selectedSourceFormat === DataFileTypeEnum.XML || this.selectedSourceFormat === DataFileTypeEnum.JSON)
-			? this.filterAndTrimFields(this.fileFields)
-			: this.fileFields;
+		const fieldsToSearch = (this.selectedSourceFormat === DataFileTypeEnum.XML)
+			? this.filterAndTrimFields(this.sourceFields)
+			: this.sourceFields;
 
 		const query = event.query;
 		if (this.currentTermType === 'literal') {
@@ -554,6 +717,23 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
+	 * Enable or disable object input
+	 */
+	isButtonDisabled(): boolean {
+
+		if (this.type === 'FILE' &&
+			(!this.selectedSource ||
+				(this.selectedSourceFormat !== 'CSV' && !this.iterator))) {
+			return true;
+		}
+
+		if (this.type === 'DATABASE' && (!this.selectedTable && !this.query)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Clear all selected properties from object and predicate
 	 */
 	clearObjectPredicate(): void {
@@ -565,6 +745,13 @@ export class MappingsBuilderComponent implements OnInit {
 		this.selectedPredicateClass = null;
 		this.selectedPredicateProperty = null;
 		this.selectedPredicatePropertyUrl = null;
+		this.searchSources = null;
+		this.searchTableNames = null;
+		this.searchOntologies = null;
+		this.searchSubjectClasses = null;
+		this.searchPredicateClasses = null;
+		this.searchPredicateOntologies = null;
+		this.searchProperties = null;
 	}
 
 	/**
@@ -572,7 +759,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	newTriplesMap(): void {
 		this.blockedSubject = false;
-		this.selectedSourceFormat = DataFileTypeEnum.XML;
+		this.selectedSourceFormat = '';
 		this.selectedSource = null;
 		this.selectedSubjectOntology = null;
 		this.selectedSubjectClass = '';
@@ -586,6 +773,10 @@ export class MappingsBuilderComponent implements OnInit {
 		this.objectMapValue = '';
 		this.currentTermType = 'iri';
 		this.selectedDataType = null;
+		this.selectedDb = null;
+		this.dbTableNames = null;
+		this.selectedTable = null;
+		this.dataSources = null;
 		this.isNewTriplesMap = true;
 	}
 }

@@ -22,6 +22,8 @@ export class MappingsRecordsComponent implements OnInit {
 	@Input() mappingId: number;
 	executionHistory: ExecutionDTO[];
 
+	blockedMaterialisationButton = false;
+
 	/**
 	 * Loads the execution history when the component is initialized
 	 */
@@ -47,6 +49,7 @@ export class MappingsRecordsComponent implements OnInit {
 	 * Execute new materialisation
 	 */
 	newMaterialisation(id: number) {
+		this.blockedMaterialisationButton = true;
 		this.mappingService
 			.materializeMapping(id)
 			.pipe(
@@ -54,6 +57,7 @@ export class MappingsRecordsComponent implements OnInit {
 				// Refresh the execution history on operation success or error
 				finalize(() => {
 					this.loadExecutionsHistory();
+					this.blockedMaterialisationButton = false;
 				})
 			)
 			.subscribe({

@@ -5,6 +5,7 @@ import { DataBaseSourceService, DataSourceDTO, FileSourceService } from 'project
 import { DataBaseSourceDTO } from 'projects/mapper-api-client/model/dataBaseSourceDTO';
 import { FileSourceDTO } from 'projects/mapper-api-client/model/fileSourceDTO';
 import { dataBaseSourceDtoForm, dataSourceDtoForm, fileSourceDtoForm } from 'projects/mapper-forms/src/public-api';
+import { finalize } from 'rxjs';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
@@ -43,6 +44,7 @@ export class DataSourcesFormComponent implements OnInit {
 	file: File;
 	fileSource: FileSourceDTO;
 	dbSource: DataBaseSourceDTO;
+	submittingForm = false;
 
 	@Output() formSubmitted = new EventEmitter<void>();
 	@Input() isEditMode = false;
@@ -77,11 +79,19 @@ export class DataSourcesFormComponent implements OnInit {
 	createFileSource(fileSource: FileSourceDTO): void {
 		this.fileSourceService
 			.createFileSource(fileSource, this.file)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => {
-				this.formSubmitted.emit();
-				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
-			});
+			.pipe(
+				takeUntilDestroyed(this.destroyRef),
+				// On success or error
+				finalize(() => {
+					this.submittingForm = false
+				})
+			)
+			.subscribe({
+				next: () => {
+					this.formSubmitted.emit();
+					this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
+				}
+			})
 	}
 
 	/**
@@ -90,10 +100,17 @@ export class DataSourcesFormComponent implements OnInit {
 	createDataBaseSource(dbSource: DataBaseSourceDTO): void {
 		this.dbSourceService
 			.createDataBaseSource(dbSource)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => {
-				this.formSubmitted.emit();
-				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
+			.pipe(takeUntilDestroyed(this.destroyRef),
+				// On success or error
+				finalize(() => {
+					this.submittingForm = false
+				})
+			)
+			.subscribe({
+				next: () => {
+					this.formSubmitted.emit();
+					this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_CREATED);
+				}
 			});
 	}
 
@@ -103,10 +120,17 @@ export class DataSourcesFormComponent implements OnInit {
 	updateFileSource(fileSource: FileSourceDTO): void {
 		this.fileSourceService
 			.updateFileSource(fileSource.id, fileSource)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => {
-				this.formSubmitted.emit();
-				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
+			.pipe(takeUntilDestroyed(this.destroyRef),
+				// On success or error
+				finalize(() => {
+					this.submittingForm = false
+				})
+			)
+			.subscribe({
+				next: () => {
+					this.formSubmitted.emit();
+					this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
+				}
 			});
 	}
 
@@ -117,10 +141,17 @@ export class DataSourcesFormComponent implements OnInit {
 		dbSource.password = this.handlePassword(dbSource.password);
 		this.dbSourceService
 			.updateDataBaseSource(dbSource.id, dbSource)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(() => {
-				this.formSubmitted.emit();
-				this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
+			.pipe(takeUntilDestroyed(this.destroyRef),
+				// On success or error
+				finalize(() => {
+					this.submittingForm = false
+				})
+			)
+			.subscribe({
+				next: () => {
+					this.formSubmitted.emit();
+					this.notificationService.showSuccess(MESSAGES_DATA_SOURCES_SUCCESS_UPDATED);
+				}
 			});
 	}
 
@@ -212,6 +243,9 @@ export class DataSourcesFormComponent implements OnInit {
 		if (this.dataSourceForm.invalid) {
 			return;
 		}
+
+		// If form is valid, disable submit button
+		this.submittingForm = true;
 
 		// Check if file is valid
 		const isFileSource = this.selectedDataSourceType === DataSourceTypeEnum.FILE;

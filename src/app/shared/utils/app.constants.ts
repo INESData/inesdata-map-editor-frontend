@@ -43,6 +43,9 @@ export const MESSAGES_DATA_SOURCES_ERRORS_NOFILE: string = translate('messages.d
 export const MESSAGES_MAPPINGS_ERRORS_NONAME: string = translate('messages.mappings.errors.no-name-url');
 export const MESSAGES_MAPPINGS_ERRORS_NODATATYPE: string = translate('messages.mappings.errors.no-data-type');
 export const MESSAGES_MAPPINGS_ERRORS_NOITERATOR: string = translate('messages.mappings.errors.no-iterator');
+export const MESSAGES_MAPPINGS_ERRORS_SELECTEDDB: string = translate('messages.mappings.errors.selected-db');
+export const MESSAGES_MAPPINGS_ERRORS_TYPE: string = translate('messages.mappings.errors.mapping-type');
+export const MESSAGES_MAPPINGS_ERRORS_EMPTY_REQUEST: string = translate('messages.mappings.errors.empty-request');
 
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
@@ -83,11 +86,12 @@ export const URL_DELIMITER = '/';
 export const PARAM_ID = 'id';
 
 //RML
-export const RR_TEMPLATE = "rr:template";
-export const RR_TERMTYPE = "rr:termType";
-export const RR_LITERAL = "rr:Literal";
-export const RR_IRI = "rr:IRI";
-export const RR_DATATYPE = "rr:datatype";
+export const RML_TEMPLATE = "rml:template";
+export const RML_TERMTYPE = "rml:termType";
+export const RML_LITERAL = "rml:Literal";
+export const RML_IRI = "rml:IRI";
+export const RML_DATATYPE = "rml:datatype";
+export const RML_REFERENCE = "rml:reference";
 
 // Sidebar
 export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontologies');
@@ -100,4 +104,6 @@ export const SIDEBAR_LABELS_EDIT: string = translate('sidebar.labels.edit');
 export const PROPERTIES_DATA: string = translate('properties.data');
 export const PROPERTIES_OBJECT: string = translate('properties.object');
 export const PROPERTIES_ANNOTATION: string = translate('properties.annotation');
-export const PROPERTIES_ASSOCIATED: string = translate('properties.associated');
+
+//Mappings
+export const MAPPINGS_PREDICATE_ALLCLASSES: string = translate('mappings.predicate.allclasses');
