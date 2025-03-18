@@ -32,6 +32,8 @@ export class MappingsListComponent implements OnInit {
 	autoDialogVisible = false;
 	importDialogVisible = false;
 	loading = false;
+	searchOntologies = '';
+	searchSources = '';
 
 	file: File;
 	fileName: string = this.languageService.translateValue(LABELS_NO_FILE_SELECTED);
@@ -114,7 +116,7 @@ export class MappingsListComponent implements OnInit {
 	 */
 	loadDataSources(): void {
 		this.dataSourceService
-			.listDataSources(PAGE, SIZE)
+			.listDataSources()
 			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe((data: PageDataSourceDTO) => {
 				this.dataSources = data.content ?? [];
