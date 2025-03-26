@@ -336,3 +336,12 @@ h3 {
 .p-tooltip .p-tooltip-arrow {
   border-top-color: $primary !important;
 }
+
+// TRUNCATE TEXT
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: block;
+}
