@@ -12,7 +12,8 @@
     }
   },
   "labels": {
-    "add-element": "Add element",
+    "add-class": "Add class",
+    "add-property": "Add property",
     "add-query": "Add query",
     "add-rule": "Add rule",
     "cancel": "Cancel",
@@ -109,6 +110,9 @@
       "predicate": {
         "incomplete": "The selected property does not have a defined prefix. Please, check the selected ontology and its namespaces."
       },
+      "property": {
+        "incomplete": "Incomplete property"
+      },
       "rule": {
         "incomplete": "Incomplete rule. Please check the fields."
       },
@@ -150,6 +154,7 @@
   "placeholders": {
     "dataType": "Select the data type",
     "fields": "Search fields...",
+    "propertyType": "Select the property type",
     "search": "Search by..."
   },
   "properties": {

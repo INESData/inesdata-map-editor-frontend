@@ -12,7 +12,8 @@
     }
   },
   "labels": {
-    "add-element": "Añadir elemento",
+    "add-class": "Añadir clase",
+    "add-property": "Añadir propiedad",
     "add-query": "Añadir query",
     "add-rule": "Añadir regla",
     "cancel": "Cancelar",
@@ -109,6 +110,9 @@
       "predicate": {
         "incomplete": "La propiedad seleccionada no tiene un prefijo definido. Por favor, revisa la ontología seleccionada y sus espacios de nombres."
       },
+      "property": {
+        "incomplete": "Propiedad incompleta"
+      },
       "rule": {
         "incomplete": "Regla incompleta. Por favor, revisa los campos."
       },
@@ -150,6 +154,7 @@
   "placeholders": {
     "dataType": "Selecciona el tipo de dato",
     "fields": "Buscar campos...",
+    "propertyType": "Selecciona el tipo de propiedad",
     "search": "Buscar por..."
   },
   "properties": {

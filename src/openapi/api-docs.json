@@ -1371,6 +1371,68 @@
         ]
       }
     },
+    "/ontologies/customClass": {
+      "post": {
+        "operationId": "saveCustomClass",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomClassDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomClassDTO"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "summary": "Saves given custom class",
+        "tags": [
+          "Ontology"
+        ]
+      }
+    },
+    "/ontologies/customProperty": {
+      "post": {
+        "operationId": "saveCustomProperty",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomPropertyDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomPropertyDTO"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "summary": "Saves given custom property",
+        "tags": [
+          "Ontology"
+        ]
+      }
+    },
     "/ontologies/paged": {
       "get": {
         "operationId": "listOntologies",
@@ -1597,6 +1659,67 @@
   },
   "components": {
     "schemas": {
+      "CustomClassDTO": {
+        "required": [
+          "name",
+          "ontologyId"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "ontologyId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "CustomPropertyDTO": {
+        "required": [
+          "name",
+          "ontologyId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "type": "string"
+          },
+          "ontologyId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "DATA",
+              "OBJECT",
+              "ANNOTATION"
+            ]
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
       "DataBaseSourceDTO": {
         "required": [
           "connectionString",
