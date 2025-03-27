@@ -196,6 +196,15 @@ export class MappingsBuilderComponent implements OnInit {
 	}
 
 	/**
+	 * Clear mapping, mapping type and database connection if no predicate-object in fields
+	 */
+	clearMapping(): void {
+		this.mappingDTO = null;
+		this.mappingType = null;
+		this.databaseConnectionId = null;
+	}
+
+	/**
 	 * Saves the added custom class
 	 */
 	saveClass(): void {
@@ -313,7 +322,7 @@ export class MappingsBuilderComponent implements OnInit {
 		this.selectedSource = null;
 		this.dbTableNames = null;
 		this.type = mapToDataSource(format);
-		if (this.mappingDTO != null && this.mappingType !== this.type) {
+		if (this.mappingDTO != null && this.mappingType !== null && this.mappingType !== this.type) {
 			const errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_TYPE) + ` ${this.mappingType}`;
 			this.notificationService.showErrorMessage(errorMessage, MESSAGES_ERRORS);
 			return;
