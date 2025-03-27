@@ -11,7 +11,7 @@ import { TermType } from 'src/app/shared/models/term-type.model';
 import { TERM_TYPES } from 'src/app/shared/models/term-types';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS_PREDICATE_ALLCLASSES, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_ERRORS_SELECTEDDB, MESSAGES_MAPPINGS_ERRORS_TYPE, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_PROPERTY_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_DATATYPE, RML_IRI, RML_LITERAL, RML_REFERENCE, RML_TEMPLATE, RML_TERMTYPE } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS_PREDICATE_ALLCLASSES, MESSAGES_ERRORS, MESSAGES_MAPPINGS_CLASS_EXISTS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_ERRORS_SELECTEDDB, MESSAGES_MAPPINGS_ERRORS_TYPE, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_PROPERTY_EXISTS, MESSAGES_MAPPINGS_PROPERTY_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_DATATYPE, RML_IRI, RML_LITERAL, RML_REFERENCE, RML_TEMPLATE, RML_TERMTYPE } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
 @Component({
@@ -140,13 +140,17 @@ export class MappingsBuilderComponent implements OnInit {
 	 * Adds custom class to subject or predicate class list
 	 */
 	addClass(): void {
+		if (!this.customClass) return;
 		const targetClasses = this.addClassTo === 'subject' ? this.subjectClasses : this.predicateClasses;
 
-		if (this.customClass && !targetClasses.includes(this.customClass)) {
-			targetClasses.unshift(this.customClass);
-			this.customClasses.push(this.customClass);
-			this.saveClass();
+		if (targetClasses.includes(this.customClass)) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_CLASS_EXISTS, MESSAGES_ERRORS);
+			return;
 		}
+
+		targetClasses.unshift(this.customClass);
+		this.customClasses.push(this.customClass);
+		this.saveClass();
 		this.classDialogVisible = false;
 		this.customClass = null;
 	}
@@ -160,15 +164,21 @@ export class MappingsBuilderComponent implements OnInit {
 			return;
 		}
 
-		this.propertyDialogVisible = false;
 		const propertyPrefix = Object.keys(this.namespaceMap).find(key => this.namespaceMap[key] === this.selectedPredicateOntology.url);
-		const property = propertyPrefix + ':' + this.customProperty;
+		const propertyName = propertyPrefix + ':' + this.customProperty;
+		if (this.properties.some(p => p.name === propertyName && p.propertyType === this.selectedPropertyType)) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PROPERTY_EXISTS, MESSAGES_ERRORS);
+			return;
+		}
+
 		this.properties.unshift({
-			name: property,
-			propertyType: PropertyDTO.PropertyTypeEnum.Data
+			name: propertyName,
+			propertyType: this.selectedPropertyType as PropertyTypeEnum
 		});
-		this.saveProperty(property);
+		this.saveProperty(propertyName);
+		this.propertyDialogVisible = false;
 		this.customProperty = null;
+		this.selectedPropertyType = null;
 	}
 
 	/**
@@ -217,9 +227,7 @@ export class MappingsBuilderComponent implements OnInit {
 			.pipe(
 				takeUntilDestroyed(this.destroyRef)
 			)
-			.subscribe((data: CustomClassDTO) => {
-				console.log(data)
-			});
+			.subscribe();
 	}
 
 	/**
@@ -236,9 +244,7 @@ export class MappingsBuilderComponent implements OnInit {
 			.pipe(
 				takeUntilDestroyed(this.destroyRef)
 			)
-			.subscribe((data: CustomPropertyDTO) => {
-				console.log(data)
-			});
+			.subscribe();
 	}
 
 	/**

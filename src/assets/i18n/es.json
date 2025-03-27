@@ -99,6 +99,9 @@
       "title": "Error"
     },
     "mappings": {
+      "class": {
+        "exists": "Esta clase ya existe para esta ontología"
+      },
       "errors": {
         "empty-request": "Se debe seleccionar al menos una fuente de datos y una ontología",
         "mapping-type": "El mapeo ya es de tipo",
@@ -111,6 +114,7 @@
         "incomplete": "La propiedad seleccionada no tiene un prefijo definido. Por favor, revisa la ontología seleccionada y sus espacios de nombres."
       },
       "property": {
+        "exists": "Ya existe una propiedad con este nombre y tipo para esta ontología",
         "incomplete": "Propiedad incompleta"
       },
       "rule": {

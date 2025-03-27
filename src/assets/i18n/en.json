@@ -99,6 +99,9 @@
       "title": "Error"
     },
     "mappings": {
+      "class": {
+        "exists": "This class already exists for this ontology"
+      },
       "errors": {
         "empty-request": "At least one data source and one ontology must be selected",
         "mapping-type": "Mapping is already of type",
@@ -111,6 +114,7 @@
         "incomplete": "The selected property does not have a defined prefix. Please, check the selected ontology and its namespaces."
       },
       "property": {
+        "exists": "A property with this name and type already exists for this ontology",
         "incomplete": "Incomplete property"
       },
       "rule": {
