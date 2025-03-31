@@ -1,16 +1,17 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { DataBaseSourceDTO, DataBaseSourceService, DataSourceDTO, DataSourceService, FileSourceDTO, FileSourceService, MappingDTO, MappingService, NamespaceDTO, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
+import { CustomClassDTO, CustomPropertyDTO, DataBaseSourceDTO, DataBaseSourceService, DataSourceDTO, DataSourceService, FileSourceDTO, FileSourceService, MappingDTO, MappingService, NamespaceDTO, ObjectMapDTO, OntologyService, PredicateObjectMapDTO, PropertyDTO, SearchOntologyDTO } from 'projects/mapper-api-client';
 import { DataTypeEnum } from 'src/app/shared/enums/data-type.enum';
 import { DataBaseTypeEnum } from 'src/app/shared/enums/database-type.enum';
 import { DataFileTypeEnum } from 'src/app/shared/enums/datafile-type.enum';
 import { DataSourceTypeEnum } from 'src/app/shared/enums/datasource-type.enum';
+import { PropertyTypeEnum } from 'src/app/shared/enums/property-type.enum';
 import { TermType } from 'src/app/shared/models/term-type.model';
 import { TERM_TYPES } from 'src/app/shared/models/term-types';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { MAPPINGS_PREDICATE_ALLCLASSES, MESSAGES_ERRORS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_ERRORS_SELECTEDDB, MESSAGES_MAPPINGS_ERRORS_TYPE, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_DATATYPE, RML_IRI, RML_LITERAL, RML_REFERENCE, RML_TEMPLATE, RML_TERMTYPE } from 'src/app/shared/utils/app.constants';
+import { MAPPINGS_PREDICATE_ALLCLASSES, MESSAGES_ERRORS, MESSAGES_MAPPINGS_CLASS_EXISTS, MESSAGES_MAPPINGS_ERRORS_NODATATYPE, MESSAGES_MAPPINGS_ERRORS_NOITERATOR, MESSAGES_MAPPINGS_ERRORS_SELECTEDDB, MESSAGES_MAPPINGS_ERRORS_TYPE, MESSAGES_MAPPINGS_PREDICATE_INCOMPLETE, MESSAGES_MAPPINGS_PROPERTY_EXISTS, MESSAGES_MAPPINGS_PROPERTY_INCOMPLETE, MESSAGES_MAPPINGS_RULE_INCOMPLETE, PARAM_ID, PROPERTIES_ANNOTATION, PROPERTIES_DATA, PROPERTIES_OBJECT, RML_DATATYPE, RML_IRI, RML_LITERAL, RML_REFERENCE, RML_TEMPLATE, RML_TERMTYPE } from 'src/app/shared/utils/app.constants';
 import { mapToDataSource } from 'src/app/shared/utils/types.utils';
 
 @Component({
@@ -27,7 +28,8 @@ export class MappingsBuilderComponent implements OnInit {
 	type = 'FILE';
 
 	queryDialogVisible = false;
-	elementDialogVisible = false;
+	classDialogVisible = false;
+	propertyDialogVisible = false;
 	mappingDTO: MappingDTO;
 	mappingId: number;
 
@@ -39,6 +41,7 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedDb: number;
 	selectedTable: string;
 	properties: PropertyDTO[];
+	propertyTypes: string[] = [...Object.values(PropertyTypeEnum)];
 	subjectClasses: string[];
 	predicateClasses: string[];
 
@@ -84,6 +87,12 @@ export class MappingsBuilderComponent implements OnInit {
 	queryName = '';
 	query = '';
 	blockTables = false;
+	blockQuery = false;
+	customClass = '';
+	addClassTo: 'subject' | 'predicate';
+	customProperty = '';
+	selectedPropertyType: string;
+	customClasses: string[] = [];
 
 	mappingName = '';
 	mappingBaseUrl = '';
@@ -108,6 +117,18 @@ export class MappingsBuilderComponent implements OnInit {
 		this.queryDialogVisible = true;
 	}
 
+	showDialogClass(target: 'subject' | 'predicate') {
+		this.addClassTo = target;
+		this.classDialogVisible = true;
+	}
+
+	showDialogProperty() {
+		this.propertyDialogVisible = true;
+	}
+
+	/**
+	 * Adds query and get column names
+	 */
 	addQuery(): void {
 		this.selectedTable = null;
 		this.blockTables = true;
@@ -115,15 +136,59 @@ export class MappingsBuilderComponent implements OnInit {
 		this.getQueryColumnNames(this.query);
 	}
 
+	/**
+	 * Adds custom class to subject or predicate class list
+	 */
+	addClass(): void {
+		if (!this.customClass) return;
+		const targetClasses = this.addClassTo === 'subject' ? this.subjectClasses : this.predicateClasses;
+
+		if (targetClasses.includes(this.customClass)) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_CLASS_EXISTS, MESSAGES_ERRORS);
+			return;
+		}
+
+		targetClasses.unshift(this.customClass);
+		this.customClasses.push(this.customClass);
+		this.saveClass();
+		this.classDialogVisible = false;
+		this.customClass = null;
+	}
+
+	/**
+	 * Adds custom property to the properties list
+	 */
+	addProperty(): void {
+		if (!this.customProperty || !this.selectedPropertyType) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PROPERTY_INCOMPLETE, MESSAGES_ERRORS);
+			return;
+		}
+
+		const propertyPrefix = Object.keys(this.namespaceMap).find(key => this.namespaceMap[key] === this.selectedPredicateOntology.url);
+		const propertyName = propertyPrefix + ':' + this.customProperty;
+		if (this.properties.some(p => p.name === propertyName && p.propertyType === this.selectedPropertyType)) {
+			this.notificationService.showErrorMessage(MESSAGES_MAPPINGS_PROPERTY_EXISTS, MESSAGES_ERRORS);
+			return;
+		}
+
+		this.properties.unshift({
+			name: propertyName,
+			propertyType: this.selectedPropertyType as PropertyTypeEnum
+		});
+		this.saveProperty(propertyName);
+		this.propertyDialogVisible = false;
+		this.customProperty = null;
+		this.selectedPropertyType = null;
+	}
+
+	/**
+	 * Deletes the query
+	 */
 	deleteQuery(): void {
 		this.query = null;
 		this.queryName = null;
 		this.queryDialogVisible = false;
 		this.blockTables = false;
-	}
-
-	showDialogElement() {
-		this.elementDialogVisible = true;
 	}
 
 	/**
@@ -138,6 +203,48 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	onMappingBaseUrlUpdate(url: string): void {
 		this.mappingBaseUrl = url;
+	}
+
+	/**
+	 * Clear mapping, mapping type and database connection if no predicate-object in fields
+	 */
+	clearMapping(): void {
+		this.mappingDTO = null;
+		this.mappingType = null;
+		this.databaseConnectionId = null;
+	}
+
+	/**
+	 * Saves the added custom class
+	 */
+	saveClass(): void {
+		const customClassDTO: CustomClassDTO = {
+			ontologyId: this.addClassTo === 'subject' ? this.selectedSubjectOntology.id : this.selectedPredicateOntology.id,
+			name: this.customClass
+		}
+		this.ontologyService
+			.saveCustomClass(customClassDTO)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe();
+	}
+
+	/**
+	 * Saves the added custom property
+	 */
+	saveProperty(property: string): void {
+		const customPropertyDTO: CustomPropertyDTO = {
+			ontologyId: this.selectedPredicateOntology.id,
+			name: property,
+			type: this.selectedPropertyType as CustomPropertyDTO.TypeEnum
+		}
+		this.ontologyService
+			.saveCustomProperty(customPropertyDTO)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef)
+			)
+			.subscribe();
 	}
 
 	/**
@@ -208,7 +315,7 @@ export class MappingsBuilderComponent implements OnInit {
 	 */
 	onClassSelect(className: string): void {
 		this.selectedPredicateProperty = null;
-		if (className === this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES)) {
+		if (className === this.languageService.translateValue(MAPPINGS_PREDICATE_ALLCLASSES) || (this.customClasses.length > 0 && this.customClasses.includes(className))) {
 			className = '';
 		}
 		this.getProperties(this.selectedPredicateOntology.id, className);
@@ -221,7 +328,7 @@ export class MappingsBuilderComponent implements OnInit {
 		this.selectedSource = null;
 		this.dbTableNames = null;
 		this.type = mapToDataSource(format);
-		if (this.mappingDTO != null && this.mappingType !== this.type) {
+		if (this.mappingDTO != null && this.mappingType !== null && this.mappingType !== this.type) {
 			const errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_TYPE) + ` ${this.mappingType}`;
 			this.notificationService.showErrorMessage(errorMessage, MESSAGES_ERRORS);
 			return;
@@ -506,6 +613,9 @@ export class MappingsBuilderComponent implements OnInit {
 			],
 		};
 		this.blockedSubject = true;
+		if (this.query != null && this.queryName != null) {
+			this.blockQuery = true;
+		}
 	}
 
 	/**
@@ -777,6 +887,12 @@ export class MappingsBuilderComponent implements OnInit {
 		this.dbTableNames = null;
 		this.selectedTable = null;
 		this.dataSources = null;
+		this.query = null;
+		this.queryName = null;
+		this.blockTables = null;
+		this.blockQuery = false;
+		this.sourceFields = null;
+		this.suggestions = null;
 		this.isNewTriplesMap = true;
 	}
 }

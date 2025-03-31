@@ -12,7 +12,8 @@
     }
   },
   "labels": {
-    "add-element": "Añadir elemento",
+    "add-class": "Añadir clase",
+    "add-property": "Añadir propiedad",
     "add-query": "Añadir query",
     "add-rule": "Añadir regla",
     "cancel": "Cancelar",
@@ -98,6 +99,9 @@
       "title": "Error"
     },
     "mappings": {
+      "class": {
+        "exists": "Esta clase ya existe para esta ontología"
+      },
       "errors": {
         "empty-request": "Se debe seleccionar al menos una fuente de datos y una ontología",
         "mapping-type": "El mapeo ya es de tipo",
@@ -108,6 +112,10 @@
       },
       "predicate": {
         "incomplete": "La propiedad seleccionada no tiene un prefijo definido. Por favor, revisa la ontología seleccionada y sus espacios de nombres."
+      },
+      "property": {
+        "exists": "Ya existe una propiedad con este nombre y tipo para esta ontología",
+        "incomplete": "Propiedad incompleta"
       },
       "rule": {
         "incomplete": "Regla incompleta. Por favor, revisa los campos."
@@ -150,6 +158,7 @@
   "placeholders": {
     "dataType": "Selecciona el tipo de dato",
     "fields": "Buscar campos...",
+    "propertyType": "Selecciona el tipo de propiedad",
     "search": "Buscar por..."
   },
   "properties": {

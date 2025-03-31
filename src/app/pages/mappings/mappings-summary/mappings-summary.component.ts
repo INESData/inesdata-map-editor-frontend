@@ -25,6 +25,7 @@ export class MappingsSummaryComponent implements OnChanges {
 	@Input() mappingDTO: MappingDTO;
 	@Output() mappingNameChange: EventEmitter<string> = new EventEmitter<string>();
 	@Output() mappingBaseUrlChange: EventEmitter<string> = new EventEmitter<string>();
+	@Output() clearMapping: EventEmitter<string> = new EventEmitter<string>();
 
 	/**
 	 * Update mapping name and base url when the input mappingDTO changes
@@ -68,6 +69,11 @@ export class MappingsSummaryComponent implements OnChanges {
 
 		if (field.predicates.length === 0) {
 			this.mappingDTO.fields.splice(fieldIndex, 1);
+		}
+
+		// Clear mapping if no fields in mappingDTO
+		if (this.mappingDTO.fields.length === 0) {
+			this.clearMapping.emit();
 		}
 	}
 
