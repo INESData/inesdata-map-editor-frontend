@@ -40,6 +40,11 @@ export class SideBarComponent implements OnInit {
 				label: this.languageService.translateValue('sidebar.labels.mappings'),
 				icon: 'pi pi-list',
 				routerLink: '/mappings'
+			},
+			{
+				label: this.languageService.translateValue('sidebar.labels.export-import'),
+				icon: 'pi pi-file-export',
+				routerLink: '/export-import'
 			}
 		];
 	}

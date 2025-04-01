@@ -50,6 +50,8 @@ export const MESSAGES_MAPPINGS_ERRORS_SELECTEDDB: string = translate('messages.m
 export const MESSAGES_MAPPINGS_ERRORS_TYPE: string = translate('messages.mappings.errors.mapping-type');
 export const MESSAGES_MAPPINGS_ERRORS_EMPTY_REQUEST: string = translate('messages.mappings.errors.empty-request');
 
+export const MESSAGES_EXPORT_ERROR: string = translate('messages.export.error');
+
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
 export const LABELS_NO: string = translate('labels.no');
@@ -100,6 +102,7 @@ export const RML_REFERENCE = "rml:reference";
 export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontologies');
 export const SIDEBAR_LABELS_DATASOURCES: string = translate('sidebar.labels.data-sources');
 export const SIDEBAR_LABELS_MAPPINGS: string = translate('sidebar.labels.mappings');
+export const SIDEBAR_LABELS_EXPORTIMPORT: string = translate('sidebar.labels.export-import');
 export const SIDEBAR_LABELS_BUILDER: string = translate('sidebar.labels.builder');
 export const SIDEBAR_LABELS_EDIT: string = translate('sidebar.labels.edit');
 

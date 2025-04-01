@@ -11,6 +11,18 @@
       "sources": "Fuentes de datos"
     }
   },
+  "export-import": {
+    "export-import": "Exportación e importación de fuentes de datos de tipo base de datos",
+    "export": {
+      "confirmation": "¿Seguro que quieres exportar todas las fuentes de datos de tipo base de datos?",
+      "export": "Exportar"
+    },
+    "import": {
+      "add-file": "Añadir archivo JSON",
+      "import": "Importar",
+      "select-file": "Selecciona un archivo"
+    }
+  },
   "labels": {
     "add-class": "Añadir clase",
     "add-property": "Añadir propiedad",
@@ -25,10 +37,12 @@
     "date": "Fecha",
     "delete": "Eliminar",
     "delete-query": "Eliminar query",
+    "export": "Exportar",
     "file-name": "Ningún archivo seleccionado",
     "home": "Inicio",
     "import": "Importar de local",
     "import_mapping": "Importar mapeo",
+    "import-file": "Importar archivo",
     "importRML": "Seleccionar archivo RML",
     "name": "Nombre",
     "new-triplesmap": "Nueva tripleta",
@@ -171,6 +185,7 @@
       "builder": "Generador de mapeo manual",
       "data-sources": "Fuentes de datos",
       "edit": "Editar mapeo",
+      "export-import": "Exportar/Importar",
       "mappings": "Mapeos",
       "ontologies": "Ontologías"
     }

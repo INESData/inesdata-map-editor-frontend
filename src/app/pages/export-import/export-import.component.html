@@ -1,0 +1,84 @@
+<div class="whiteContainer">
+	<h1 class="mb-3">{{ "export-import.export-import" | translate }}</h1>
+	<p-button
+		class="btn btn__secondary mr-4"
+		[label]="'export-import.export.export' | translate"
+		(click)="showConfirmationDialog()"
+		(keydown.enter)="showConfirmationDialog()"
+	/>
+	<p-button
+		class="btn btn__secondary"
+		[label]="'export-import.import.import' | translate"
+		(click)="showImportDialog()"
+		(keydown.enter)="showImportDialog()"
+	/>
+</div>
+
+<!-- Confirmation dialog-->
+<p-dialog
+	[header]="'export-import.export.confirmation' | translate"
+	[modal]="true"
+	[draggable]="false"
+	[(visible)]="confirmDialogVisible"
+	[style]="{ width: '50rem' }"
+>
+	<div class="flex flex-justify-right w-full">
+		<p-button
+			class="btn btn__primary mr-2"
+			[label]="'labels.export' | translate"
+			type="button"
+			(click)="export()"
+			(keydown.enter)="export()"
+			[disabled]="submittingForm"
+		/>
+		<p-button
+			class="btn btn__secondary"
+			[label]="'labels.cancel' | translate"
+			type="button"
+			(click)="confirmDialogVisible = false"
+			(keydown.enter)="confirmDialogVisible = false"
+		/>
+	</div>
+</p-dialog>
+
+<!-- Import dialog -->
+<p-dialog
+	[header]="'export-import.import.add-file' | translate"
+	[modal]="true"
+	[draggable]="false"
+	[(visible)]="importDialogVisible"
+	[style]="{ width: '50rem' }"
+>
+	<p class="mb-0">{{ "export-import.import.select-file" | translate }}</p>
+	<div class="grid mt-1">
+		<div class="col-12">
+			<div class="flex">
+				<label class="customfileUpload">
+					{{ "labels.import" | translate }}
+					<input class="fileUploader" type="file" pInputText (change)="onFileSelected($event)" />
+				</label>
+				<span class="fileName" [class.selected]="fileSelected">{{ fileName }}</span>
+			</div>
+			<div *ngIf="fileRequired && !fileSelected" class="error">
+				{{ "messages.errors.required" | translate }}
+			</div>
+		</div>
+	</div>
+	<div class="flex flex-justify-right w-full">
+		<p-button
+			class="btn btn__primary mr-2"
+			[label]="'labels.import-file' | translate"
+			type="button"
+			(click)="import()"
+			(keydown.enter)="import()"
+			[disabled]="submittingForm"
+		/>
+		<p-button
+			class="btn btn__secondary"
+			[label]="'labels.cancel' | translate"
+			type="button"
+			(click)="importDialogVisible = false; resetFile()"
+			(keydown.enter)="importDialogVisible = false; resetFile()"
+		/>
+	</div>
+</p-dialog>
