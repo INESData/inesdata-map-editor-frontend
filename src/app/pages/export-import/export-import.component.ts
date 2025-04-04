@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ExportImporService } from 'projects/mapper-api-client';
+import { ExportService, ImportService } from 'projects/mapper-api-client';
+import { finalize } from 'rxjs';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { LABELS_NO_FILE_SELECTED, MESSAGES_ERRORS, MESSAGES_EXPORT_ERROR } from 'src/app/shared/utils/app.constants';
@@ -12,7 +13,7 @@ import { LABELS_NO_FILE_SELECTED, MESSAGES_ERRORS, MESSAGES_EXPORT_ERROR } from 
 export class ExportImportComponent {
 	destroyRef = inject(DestroyRef);
 
-	constructor(private exportImportService: ExportImporService, private notificationService: NotificationService, private languageService: LanguageService) { }
+	constructor(private exportService: ExportService, private importService: ImportService, private notificationService: NotificationService, private languageService: LanguageService) { }
 
 	confirmDialogVisible = false;
 	importDialogVisible = false;
@@ -43,35 +44,64 @@ export class ExportImportComponent {
 	 */
 	export(): void {
 		this.submittingForm = true;
-		this.exportImportService.exportMapping()
+		this.exportService.exportMapping()
 			.pipe(
-				takeUntilDestroyed(this.destroyRef))
+				takeUntilDestroyed(this.destroyRef),
+				finalize(() => this.submittingForm = false)
+			)
 			.subscribe({
 				next: (value) => {
-					const blob = new Blob([value]);
+					const blob = new Blob([value], { type: 'application/json' });
 					const data = window.URL.createObjectURL(blob);
 					const link = document.createElement('a');
-					const currentDate = new Date();
-					const date = currentDate.getFullYear().toString() +
-						(currentDate.getMonth() + 1).toString().padStart(2, '0') +
-						currentDate.getDate().toString().padStart(2, '0');
+
 					link.href = data;
-					link.download = "data" + date;
+					link.download = `data${this.getCurrentDate()}`;
 					link.click();
 					this.confirmDialogVisible = false;
-					this.submittingForm = false;
 				},
 				error: (error) => {
 					if (error.status === 404) {
 						this.notificationService.showErrorMessage(MESSAGES_EXPORT_ERROR, MESSAGES_ERRORS);
-						this.submittingForm = false;
 					}
 				},
 			});
 	}
 
+
+	/**
+	 * Imports mapping as a file
+	 */
 	import(): void {
+		if (!this.file) {
+			this.fileRequired = true;
+			return;
+		}
 		this.submittingForm = true;
+		this.importService.importMapping(this.file)
+			.pipe(
+				takeUntilDestroyed(this.destroyRef),
+				// On success or error
+				finalize(() => {
+					this.submittingForm = false
+				})
+			)
+			.subscribe({
+				next: () => {
+					this.notificationService.showSuccess("exito");
+					this.importDialogVisible = false;
+				}
+			});
+	}
+
+	/**
+	 * Generates the current date in YYYYMMDD format
+	 */
+	getCurrentDate(): string {
+		const currentDate = new Date();
+		return currentDate.getFullYear().toString() +
+			(currentDate.getMonth() + 1).toString().padStart(2, '0') +
+			currentDate.getDate().toString().padStart(2, '0');
 	}
 
 	/**
