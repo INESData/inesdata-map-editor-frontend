@@ -112,6 +112,16 @@
       "required": "El campo es requerido",
       "title": "Error"
     },
+    "export-import": {
+      "export": {
+        "error": "Ha ocurrido un error exportando los datos",
+        "success": "Exportación realizada correctamente"
+      },
+      "import": {
+        "error": "Ha ocurrido un error importando los datos",
+        "success": "Importación realizada correctamente"
+      }
+    },
     "mappings": {
       "class": {
         "exists": "Esta clase ya existe para esta ontología"

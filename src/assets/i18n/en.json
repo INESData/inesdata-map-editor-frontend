@@ -12,7 +12,7 @@
     }
   },
   "export-import": {
-    "export-import": "Exporting and importing database type data sources",
+    "export-import": "Export and import database type data sources",
     "export": {
       "confirmation": "Are you sure you want to export all database type data sources?",
       "export": "Export"
@@ -111,6 +111,16 @@
       "login": "Login error",
       "required": "The field is required",
       "title": "Error"
+    },
+    "export-import": {
+      "export": {
+        "error": "An error occurred while exporting data",
+        "success": ""
+      },
+      "import": {
+        "error": "An error occurred while importing data",
+        "success": "Importación realizada correctamente"
+      }
     },
     "mappings": {
       "class": {

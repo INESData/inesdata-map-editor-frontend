@@ -50,7 +50,12 @@ export const MESSAGES_MAPPINGS_ERRORS_SELECTEDDB: string = translate('messages.m
 export const MESSAGES_MAPPINGS_ERRORS_TYPE: string = translate('messages.mappings.errors.mapping-type');
 export const MESSAGES_MAPPINGS_ERRORS_EMPTY_REQUEST: string = translate('messages.mappings.errors.empty-request');
 
-export const MESSAGES_EXPORT_ERROR: string = translate('messages.export.error');
+// Export-Import
+export const MESSAGES_EXPORT_SUCCESS: string = translate('messages.export-import.export.success');
+export const MESSAGES_IMPORT_SUCCESS: string = translate('messages.export-import.import.success');
+export const MESSAGES_EXPORT_ERROR: string = translate('messages.export-import.export.error');
+export const MESSAGES_IMPORT_ERROR: string = translate('messages.export-import.import.error');
+
 
 // Labels
 export const LABELS_YES: string = translate('labels.yes');

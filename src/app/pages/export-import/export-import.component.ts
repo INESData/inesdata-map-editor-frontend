@@ -1,10 +1,11 @@
 import { Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import { ExportService, ImportService } from 'projects/mapper-api-client';
 import { finalize } from 'rxjs';
 import { LanguageService } from 'src/app/shared/services/language.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { LABELS_NO_FILE_SELECTED, MESSAGES_ERRORS, MESSAGES_EXPORT_ERROR } from 'src/app/shared/utils/app.constants';
+import { LABELS_NO_FILE_SELECTED, MAPPINGS, MESSAGES_ERRORS, MESSAGES_EXPORT_ERROR, MESSAGES_IMPORT_SUCCESS } from 'src/app/shared/utils/app.constants';
 
 @Component({
 	selector: 'app-export-import',
@@ -13,7 +14,7 @@ import { LABELS_NO_FILE_SELECTED, MESSAGES_ERRORS, MESSAGES_EXPORT_ERROR } from 
 export class ExportImportComponent {
 	destroyRef = inject(DestroyRef);
 
-	constructor(private exportService: ExportService, private importService: ImportService, private notificationService: NotificationService, private languageService: LanguageService) { }
+	constructor(private exportService: ExportService, private importService: ImportService, private notificationService: NotificationService, private languageService: LanguageService, private router: Router) { }
 
 	confirmDialogVisible = false;
 	importDialogVisible = false;
@@ -47,6 +48,7 @@ export class ExportImportComponent {
 		this.exportService.exportMapping()
 			.pipe(
 				takeUntilDestroyed(this.destroyRef),
+				// On success or error
 				finalize(() => this.submittingForm = false)
 			)
 			.subscribe({
@@ -88,8 +90,9 @@ export class ExportImportComponent {
 			)
 			.subscribe({
 				next: () => {
-					this.notificationService.showSuccess("exito");
 					this.importDialogVisible = false;
+					this.router.navigate([MAPPINGS]);
+					this.notificationService.showSuccess(MESSAGES_IMPORT_SUCCESS);
 				}
 			});
 	}

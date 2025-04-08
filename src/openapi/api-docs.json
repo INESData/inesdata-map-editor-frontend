@@ -16,6 +16,10 @@
       "name": "DataSource"
     },
     {
+      "description": "Manage import data",
+      "name": "Import"
+    },
+    {
       "description": "Manage ontologies",
       "name": "Ontology"
     },
@@ -38,6 +42,10 @@
     {
       "description": "Manage executions",
       "name": "Execution"
+    },
+    {
+      "description": "Manage export data",
+      "name": "Export"
     },
     {
       "description": "Manage file sources",
@@ -801,6 +809,28 @@
         ]
       }
     },
+    "/export/export": {
+      "get": {
+        "operationId": "exportMapping",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Export mappings data and download it into JSON file",
+        "tags": [
+          "Export"
+        ]
+      }
+    },
     "/file-sources": {
       "get": {
         "operationId": "getFileSourceByType",
@@ -1028,6 +1058,45 @@
         "summary": "Gets all CSV file fields",
         "tags": [
           "FileSource"
+        ]
+      }
+    },
+    "/import": {
+      "post": {
+        "operationId": "importMapping",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportImportDTO"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "summary": "Import mappings data and save it",
+        "tags": [
+          "Import"
         ]
       }
     },
@@ -1824,6 +1893,42 @@
           },
           "mappingFileName": {
             "type": "string"
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ExportImportDTO": {
+        "required": [
+          "dataBaseSource",
+          "mapping",
+          "ontology"
+        ],
+        "type": "object",
+        "properties": {
+          "dataBaseSource": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataBaseSourceDTO"
+            }
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mapping": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MappingDTO"
+            }
+          },
+          "ontology": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OntologyDTO"
+            }
           },
           "version": {
             "type": "integer",
