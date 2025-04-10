@@ -120,6 +120,7 @@
 										(onClick)="showDialogQuery()"
 										class="addButton addButton__query"
 										[label]="queryName ? queryName : ('labels.add-query' | translate)"
+										[disabled]="blockQuery"
 									/>
 								</div>
 							</div>
@@ -185,7 +186,11 @@
 										</label>
 									</div>
 								</div>
-								<p-button (onClick)="showDialogElement()" class="addButton addButton__plus" [label]="'labels.add-element' | translate" />
+								<p-button
+									(onClick)="showDialogClass('subject')"
+									class="addButton addButton__plus"
+									[label]="'labels.add-class' | translate"
+								/>
 							</div>
 						</div>
 					</div>
@@ -256,7 +261,11 @@
 										</label>
 									</div>
 								</div>
-								<p-button (onClick)="showDialogElement()" class="addButton addButton__plus" [label]="'labels.add-element' | translate" />
+								<p-button
+									(onClick)="showDialogClass('predicate')"
+									class="addButton addButton__plus"
+									[label]="'labels.add-class' | translate"
+								/>
 							</div>
 						</div>
 						<!-- Predicate ontologies properties-->
@@ -289,7 +298,7 @@
 										</label>
 									</div>
 								</div>
-								<p-button (onClick)="showDialogElement()" class="addButton addButton__plus" [label]="'labels.add-element' | translate" />
+								<p-button class="addButton addButton__plus" [label]="'labels.add-property' | translate" (onClick)="showDialogProperty()" />
 							</div>
 						</div>
 					</div>
@@ -334,22 +343,47 @@
 			[mappingDTO]="mappingDTO"
 			(mappingNameChange)="onMappingNameUpdate($event)"
 			(mappingBaseUrlChange)="onMappingBaseUrlUpdate($event)"
+			(clearSource)="clearMapping()"
 		></app-mappings-summary>
 	</div>
 </div>
 
-<!--Add element dialog-->
+<!--Add class dialog-->
 <p-dialog
-	[header]="'labels.add-element' | translate"
+	[header]="'labels.add-class' | translate"
 	[modal]="true"
 	[draggable]="false"
-	[(visible)]="elementDialogVisible"
+	[(visible)]="classDialogVisible"
 	[style]="{ width: '40rem' }"
 >
 	<label for="">{{ "labels.name" | translate }}</label>
-	<input class="mb-4" type="text" pInputText />
+	<input class="mb-4" type="text" pInputText [(ngModel)]="customClass" />
 	<div class="flex flex-justify-right w-full">
-		<p-button class="btn btn__primary" [label]="'labels.add-element' | translate" type="button" />
+		<p-button class="btn btn__primary" [label]="'labels.add-class' | translate" type="button" (onClick)="addClass()" />
+	</div>
+</p-dialog>
+
+<!--Add property dialog-->
+<p-dialog
+	[header]="'labels.add-property' | translate"
+	[modal]="true"
+	[draggable]="false"
+	[(visible)]="propertyDialogVisible"
+	[style]="{ width: '40rem' }"
+>
+	<label for="">{{ "labels.name" | translate }}</label>
+	<input class="mb-4" type="text" pInputText [(ngModel)]="customProperty" />
+	<div class="flex flex-column">
+		<label for="">{{ "labels.type" | translate }}</label>
+		<p-dropdown
+			[options]="propertyTypes"
+			[placeholder]="'placeholders.propertyType' | translate"
+			[(ngModel)]="selectedPropertyType"
+		></p-dropdown>
+	</div>
+
+	<div class="flex flex-justify-right w-full">
+		<p-button class="btn btn__primary" [label]="'labels.add-property' | translate" type="button" (onClick)="addProperty()" />
 	</div>
 </p-dialog>
 

@@ -75,6 +75,7 @@ export class OntologiesFormComponent implements OnInit {
 			.subscribe(() => {
 				this.formSubmitted.emit();
 				this.notificationService.showSuccess(MESSAGES_ONTOLOGIES_SUCCESS_CREATED);
+				this.submittingForm = false;
 			});
 	}
 

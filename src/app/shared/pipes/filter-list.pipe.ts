@@ -17,10 +17,13 @@ export class FilterListPipe implements PipeTransform {
 		return list.filter(item => {
 			if (typeof item === 'string') {
 				// If the list contains strings
-				return item.toLowerCase().includes(searchText);
+				return item.toLowerCase().startsWith(searchText);
 			} else if (key && item[key]) {
 				// If the list contains objects
-				return String(item[key]).toLowerCase().includes(searchText);
+				const value = String(item[key]).toLowerCase();
+				//In case of properties with prefix, filter by the value after the prefix
+				const filteredValue = value.includes(':') ? value.split(':')[1] : value;
+				return value.startsWith(searchText) || filteredValue.startsWith(searchText);
 			}
 			return false;
 		});
