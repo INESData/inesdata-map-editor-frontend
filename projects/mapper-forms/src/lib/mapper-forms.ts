@@ -1,5 +1,28 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+export const customClassDtoForm = new FormGroup({
+  id: new FormControl(null, []),
+  name: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  ontologyId: new FormControl(null, [Validators.required]),
+  version: new FormControl(null, [])
+});
+
+export const customPropertyDtoForm = new FormGroup({
+  id: new FormControl(null, []),
+  name: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  ontologyId: new FormControl(null, [Validators.required]),
+  type: new FormControl(null, [Validators.required]),
+  version: new FormControl(null, [])
+});
+
 export const dataBaseSourceDtoForm = new FormGroup({
   connectionString: new FormControl(null, [
     Validators.required,
