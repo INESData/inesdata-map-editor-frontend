@@ -115,11 +115,11 @@
     "export-import": {
       "export": {
         "error": "An error occurred while exporting data",
-        "success": ""
+        "success": "Export successfully completed"
       },
       "import": {
         "error": "An error occurred while importing data",
-        "success": "Importación realizada correctamente"
+        "success": "Import successfully completed"
       }
     },
     "mappings": {

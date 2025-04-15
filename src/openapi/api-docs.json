@@ -3,7 +3,7 @@
   "info": {
     "description": "Service responsible for saving a data source mapping and generating the corresponding R2RML / RML mapping file",
     "title": "com.inesdata-map:mapper-backend",
-    "version": "1.3.0-SNAPSHOT"
+    "version": "1.4.0-SNAPSHOT"
   },
   "servers": [
     {
@@ -16,7 +16,7 @@
       "name": "DataSource"
     },
     {
-      "description": "Manage import data",
+      "description": "Manage data import",
       "name": "Import"
     },
     {
@@ -44,7 +44,7 @@
       "name": "Execution"
     },
     {
-      "description": "Manage export data",
+      "description": "Manage data export",
       "name": "Export"
     },
     {
