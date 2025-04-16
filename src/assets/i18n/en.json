@@ -12,7 +12,7 @@
     }
   },
   "export-import": {
-    "export-import": "Export and import database type data sources",
+    "export-import": "Exporting and importing mappings with database type data sources",
     "export": {
       "confirmation": "Are you sure you want to export all database type data sources?",
       "export": "Export"
