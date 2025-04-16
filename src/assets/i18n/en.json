@@ -78,6 +78,7 @@
       "new-materialisation": "New materialisation",
       "object": "Object",
       "predicate": "Predicate",
+      "save": "Save mapping",
       "select": "Select the <strong>RML file</strong>, the <strong>ontologies</strong> and <strong>data sources</strong> needed to import a mapping: ",
       "subject": "Subject",
       "templateUrl": "IRI del sujeto"
@@ -194,7 +195,6 @@
     "labels": {
       "builder": "Manual mapping builder",
       "data-sources": "Data sources",
-      "edit": "Edit mapping",
       "export-import": "Export/Import",
       "mappings": "Mappings",
       "ontologies": "Ontologies"

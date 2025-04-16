@@ -78,6 +78,7 @@
       "new-materialisation": "Nueva materialización",
       "object": "Objeto",
       "predicate": "Predicado",
+      "save": "Guardar mapeo",
       "select": "Seleccione el <strong>archivo RML</strong>, las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para importar un mapeo: ",
       "subject": "Sujeto",
       "templateUrl": "IRI del sujeto"
@@ -194,7 +195,6 @@
     "labels": {
       "builder": "Generador de mapeo manual",
       "data-sources": "Fuentes de datos",
-      "edit": "Editar mapeo",
       "export-import": "Exportar/ Importar",
       "mappings": "Mapeos",
       "ontologies": "Ontologías"
