@@ -11,6 +11,18 @@
       "sources": "Data sources"
     }
   },
+  "export-import": {
+    "export-import": "Exporting and importing mappings with database type data sources",
+    "export": {
+      "confirmation": "Are you sure you want to export all mappings?",
+      "export": "Export"
+    },
+    "import": {
+      "add-file": "Add JSON file",
+      "import": "Import",
+      "select-file": "Select a file"
+    }
+  },
   "labels": {
     "add-class": "Add class",
     "add-property": "Add property",
@@ -25,10 +37,12 @@
     "date": "Date",
     "delete": "Delete",
     "delete-query": "Delete query",
+    "export": "Export",
     "file-name": "No file selected",
     "home": "Home",
     "import": "Import from local",
     "import_mapping": "Import mapping",
+    "import-file": "Import file",
     "importRML": "Select RML file",
     "name": "Name",
     "new-triplesmap": "New triples map",
@@ -97,6 +111,16 @@
       "login": "Login error",
       "required": "The field is required",
       "title": "Error"
+    },
+    "export-import": {
+      "export": {
+        "error": "An error occurred while exporting data",
+        "success": "Export successfully completed"
+      },
+      "import": {
+        "error": "An error occurred while importing data",
+        "success": "Import successfully completed"
+      }
     },
     "mappings": {
       "class": {
@@ -171,6 +195,7 @@
       "builder": "Manual mapping builder",
       "data-sources": "Data sources",
       "edit": "Edit mapping",
+      "export-import": "Export/Import",
       "mappings": "Mappings",
       "ontologies": "Ontologies"
     }

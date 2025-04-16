@@ -70,6 +70,16 @@ export const executionDtoForm = new FormGroup({
   version: new FormControl(null, [])
 });
 
+export const exportImportDtoForm = new FormGroup({
+  customClass: new FormControl(null, [Validators.required]),
+  customProperty: new FormControl(null, [Validators.required]),
+  dataSource: new FormControl(null, [Validators.required]),
+  id: new FormControl(null, []),
+  mapping: new FormControl(null, [Validators.required]),
+  ontology: new FormControl(null, [Validators.required]),
+  version: new FormControl(null, [])
+});
+
 export const fileSourceDtoForm = new FormGroup({
   fileType: new FormControl(null, [Validators.required]),
   id: new FormControl(null, []),

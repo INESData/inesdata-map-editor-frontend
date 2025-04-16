@@ -25,6 +25,10 @@ const routes: Routes = [
 		loadChildren: () => import('./pages/mappings/mappings.module').then(m => m.MappingsModule)
 	},
 	{
+		path: 'export-import',
+		loadChildren: () => import('./pages/export-import/export-import.module').then(m => m.ExportImportModule)
+	},
+	{
 		path: '403',
 		loadChildren: () => import('./pages/error/error403/error403.module').then((m) => m.Error403Module)
 	},
