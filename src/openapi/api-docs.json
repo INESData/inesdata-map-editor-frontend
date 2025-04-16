@@ -809,7 +809,7 @@
         ]
       }
     },
-    "/export/export": {
+    "/export": {
       "get": {
         "operationId": "exportMapping",
         "responses": {
@@ -1902,13 +1902,27 @@
       },
       "ExportImportDTO": {
         "required": [
-          "dataBaseSource",
+          "customClass",
+          "customProperty",
+          "dataSource",
           "mapping",
           "ontology"
         ],
         "type": "object",
         "properties": {
-          "dataBaseSource": {
+          "customClass": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomClassDTO"
+            }
+          },
+          "customProperty": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomPropertyDTO"
+            }
+          },
+          "dataSource": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/DataBaseSourceDTO"

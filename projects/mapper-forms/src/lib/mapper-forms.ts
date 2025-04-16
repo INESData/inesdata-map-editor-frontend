@@ -71,7 +71,9 @@ export const executionDtoForm = new FormGroup({
 });
 
 export const exportImportDtoForm = new FormGroup({
-  dataBaseSource: new FormControl(null, [Validators.required]),
+  customClass: new FormControl(null, [Validators.required]),
+  customProperty: new FormControl(null, [Validators.required]),
+  dataSource: new FormControl(null, [Validators.required]),
   id: new FormControl(null, []),
   mapping: new FormControl(null, [Validators.required]),
   ontology: new FormControl(null, [Validators.required]),
