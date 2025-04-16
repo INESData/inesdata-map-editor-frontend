@@ -14,7 +14,7 @@
   "export-import": {
     "export-import": "Exportación e importación de mapeos con fuentes de datos de tipo base de datos",
     "export": {
-      "confirmation": "¿Seguro que quieres exportar todas las fuentes de datos de tipo base de datos?",
+      "confirmation": "¿Seguro que quieres exportar todos los mapeos?",
       "export": "Exportar"
     },
     "import": {
