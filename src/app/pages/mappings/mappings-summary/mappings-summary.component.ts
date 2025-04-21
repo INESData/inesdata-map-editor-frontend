@@ -137,7 +137,7 @@ export class MappingsSummaryComponent implements OnChanges {
 	 * Validate and assign mapping name
 	 */
 	validateAndAssignMappingName(): boolean {
-		if (this.mappingName.trim() === '' || this.mappingBaseUrl.trim() === '') {
+		if (this.mappingName.trim() === '') {
 			this.errorMessage = this.languageService.translateValue(MESSAGES_MAPPINGS_ERRORS_NONAME);
 			return false;
 		}

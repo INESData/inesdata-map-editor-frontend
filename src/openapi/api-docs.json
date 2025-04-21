@@ -2063,7 +2063,6 @@
       },
       "MappingDTO": {
         "required": [
-          "baseUrl",
           "fields",
           "name",
           "ontologyIds"
@@ -2072,7 +2071,7 @@
         "properties": {
           "baseUrl": {
             "maxLength": 255,
-            "minLength": 1,
+            "minLength": 0,
             "type": "string"
           },
           "fields": {

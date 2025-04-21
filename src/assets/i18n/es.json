@@ -132,7 +132,7 @@
         "mapping-type": "El mapeo ya es de tipo",
         "no-data-type": "El tipo de dato es necesario para el tipo de término literal",
         "no-iterator": "El iterador es necesario para las fuentes de datos de tipo XML o JSON",
-        "no-name-url": "El mapeo debe tener un nombre y una URL base",
+        "no-name": "El mapeo debe tener un nombre",
         "selected-db": "Ya se ha seleccionado una conexión a base de datos"
       },
       "predicate": {
