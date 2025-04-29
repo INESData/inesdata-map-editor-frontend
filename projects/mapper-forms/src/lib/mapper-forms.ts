@@ -127,8 +127,7 @@ export const logicalSourceDtoForm = new FormGroup({
 
 export const mappingDtoForm = new FormGroup({
   baseUrl: new FormControl(null, [
-    Validators.required,
-    Validators.minLength(1),
+    Validators.minLength(0),
     Validators.maxLength(255)
   ]),
   fields: new FormControl(null, [Validators.required]),

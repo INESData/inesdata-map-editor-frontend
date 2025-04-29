@@ -1,4 +1,4 @@
-<div class="whiteContainer w-500">
+<div class="whiteContainer w-700">
 	<h1 class="mb-3">{{ "data-sources.data-source.list" | translate }}</h1>
 	<p-button (onClick)="showDialog()" class="btn btn__secondary" [label]="'data-sources.data-source.add' | translate" />
 	<p-table class="mt-2 block" [value]="dataSources">
@@ -6,6 +6,7 @@
 			<tr>
 				<th scope="col">{{ "labels.name" | translate }}</th>
 				<th scope="col">{{ "labels.type" | translate }}</th>
+				<th scope="col">{{ "labels.subtype" | translate }}</th>
 				<th scope="col"></th>
 			</tr>
 		</ng-template>
@@ -13,6 +14,7 @@
 			<tr>
 				<td [title]="datasource.name">{{ datasource.name }}</td>
 				<td>{{ datasource.type }}</td>
+				<td>{{ datasource.type === "DATABASE" ? datasource.databaseType : datasource.fileType }}</td>
 				<td>
 					<div class="flex flex-justify flex-justify-right">
 						<p-button class="btn btn__icon icon-lapiz mr-1" (onClick)="showDialog(datasource)" />
