@@ -58,7 +58,7 @@ export class MappingsBuilderComponent implements OnInit {
 	selectedPredicatePropertyUrl: string = null;
 
 	objectMapValue: string;
-	selectedDataType: string;
+	selectedDataType: string = DataTypeEnum.STRING;
 
 	source: string;
 	sourceFields: string[];
