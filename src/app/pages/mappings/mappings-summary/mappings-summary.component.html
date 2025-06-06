@@ -11,8 +11,9 @@
 	<div *ngIf="mappingDTO && mappingDTO.fields?.length > 0">
 		<div *ngFor="let field of mappingDTO.fields; let fieldIndex = index" class="field-container mb-2">
 			<h3 class="truncate-text" [title]="field.subject.template">
-				<strong>{{ "mappings.mapping.subject" | translate }}: {{ field.subject.template }}</strong>
+				<strong>{{ "mappings.mapping.subject" | translate }}</strong>
 			</h3>
+			<input class="mb-2" type="text" pInputText [(ngModel)]="field.subject.template" [title]="field.subject.template" />
 			<p-table *ngIf="field.predicates?.length > 0" class="mappingTable" [value]="field.predicates">
 				<ng-template pTemplate="header">
 					<tr>
