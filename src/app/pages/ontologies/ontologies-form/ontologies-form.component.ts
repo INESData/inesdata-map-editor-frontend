@@ -89,6 +89,7 @@ export class OntologiesFormComponent implements OnInit {
 			.subscribe(() => {
 				this.formSubmitted.emit();
 				this.notificationService.showSuccess(MESSAGES_ONTOLOGIES_SUCCESS_UPDATED);
+				this.submittingForm = false;
 			});
 	}
 
@@ -145,7 +146,7 @@ export class OntologiesFormComponent implements OnInit {
 		this.ontologyForm.markAllAsTouched();
 
 		//File is required
-		if (!this.file) {
+		if (!this.file && !this.isEditMode) {
 			this.fileRequired = true;
 			return;
 		}
