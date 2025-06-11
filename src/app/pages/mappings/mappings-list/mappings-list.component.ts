@@ -30,7 +30,6 @@ export class MappingsListComponent implements OnInit {
 	addHistoryDialog = false;
 	deleteDialogVisible = false;
 	autoDialogVisible = false;
-	importDialogVisible = false;
 	loading = false;
 	searchOntologies = '';
 	searchSources = '';
@@ -150,11 +149,11 @@ export class MappingsListComponent implements OnInit {
 				next: () => {
 					// On succes
 					this.loading = false;
-					this.cancel('auto');
+					this.cancel();
 					this.loadMappings(PAGE, SIZE);
 					this.notificationService.showSuccess(MESSAGES_MAPPINGS_SUCCESS_CREATED);
 				}
-			})
+			});
 	}
 
 	/**
@@ -183,32 +182,24 @@ export class MappingsListComponent implements OnInit {
 	/**
 	 * Display import mapping dialog or auto mapping, load data sources and ontologies
 	 */
-	showDialog(type: 'auto' | 'import') {
+	showDialog(): void {
 		this.selectedOntologies = [];
 		this.selectedDataSources = [];
 		this.loadDataSources();
 		this.loadOntologies();
-		if (type === 'auto') {
-			this.autoDialogVisible = true;
-		} else {
-			this.importDialogVisible = true;
-		}
+		this.autoDialogVisible = true;
 	}
 
 	/**
-	* Close import or auto dialog
-	*/
-	cancel(type: 'auto' | 'import'): void {
-		if (type === 'auto') {
-			this.autoDialogVisible = false;
-		} else {
-			this.importDialogVisible = false;
-		}
+	 * Close import or auto dialog
+	 */
+	cancel(): void {
+		this.autoDialogVisible = false;
 	}
 
 	/**
-	* Close delete dialog
-	*/
+	 * Close delete dialog
+	 */
 	cancelDelete(): void {
 		this.deleteDialogVisible = false;
 	}
