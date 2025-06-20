@@ -25,5 +25,19 @@
 				}
 			}
 		}
+		li {
+	.p-menuitem-link {
+		.p-menuitem-text {
+			font-size: 18px;
+			color: $white;
+		}
+	}
+
+	&.active-breadcrumb {
+		a .p-menuitem-text {
+			font-weight: 800 !important;
+		}
+	}
+}
 	}
 }
