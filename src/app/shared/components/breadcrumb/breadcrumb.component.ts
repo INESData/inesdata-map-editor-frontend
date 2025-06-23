@@ -60,6 +60,13 @@ export class BreadcrumbComponent implements OnInit {
 		const children: ActivatedRoute[] = route.children;
 
 		if (children.length === 0) {
+			if (breadcrumbs.length > 0) {
+				const lastIndex = breadcrumbs.length - 1;
+				breadcrumbs[lastIndex] = {
+					...breadcrumbs[lastIndex],
+					styleClass: 'active-breadcrumb'
+				};
+			}
 			return breadcrumbs;
 		}
 

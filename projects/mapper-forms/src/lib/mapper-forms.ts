@@ -1,5 +1,28 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+export const customClassDtoForm = new FormGroup({
+  id: new FormControl(null, []),
+  name: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  ontologyId: new FormControl(null, [Validators.required]),
+  version: new FormControl(null, [])
+});
+
+export const customPropertyDtoForm = new FormGroup({
+  id: new FormControl(null, []),
+  name: new FormControl(null, [
+    Validators.required,
+    Validators.minLength(1),
+    Validators.maxLength(255)
+  ]),
+  ontologyId: new FormControl(null, [Validators.required]),
+  type: new FormControl(null, [Validators.required]),
+  version: new FormControl(null, [])
+});
+
 export const dataBaseSourceDtoForm = new FormGroup({
   connectionString: new FormControl(null, [
     Validators.required,
@@ -44,6 +67,16 @@ export const executionDtoForm = new FormGroup({
   knowledgeGraphFileName: new FormControl(null, []),
   logFileName: new FormControl(null, []),
   mappingFileName: new FormControl(null, []),
+  version: new FormControl(null, [])
+});
+
+export const exportImportDtoForm = new FormGroup({
+  customClass: new FormControl(null, [Validators.required]),
+  customProperty: new FormControl(null, [Validators.required]),
+  dataSource: new FormControl(null, [Validators.required]),
+  id: new FormControl(null, []),
+  mapping: new FormControl(null, [Validators.required]),
+  ontology: new FormControl(null, [Validators.required]),
   version: new FormControl(null, [])
 });
 
@@ -94,8 +127,7 @@ export const logicalSourceDtoForm = new FormGroup({
 
 export const mappingDtoForm = new FormGroup({
   baseUrl: new FormControl(null, [
-    Validators.required,
-    Validators.minLength(1),
+    Validators.minLength(0),
     Validators.maxLength(255)
   ]),
   fields: new FormControl(null, [Validators.required]),

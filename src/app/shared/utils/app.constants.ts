@@ -43,12 +43,19 @@ export const MESSAGES_MATERIALISATIONS_ERRORS_NOTFOUND: string = translate('mess
 
 export const MESSAGES_DATA_SOURCES_ERRORS_NOFILE: string = translate('messages.data-sources.errors.no-file');
 
-export const MESSAGES_MAPPINGS_ERRORS_NONAME: string = translate('messages.mappings.errors.no-name-url');
+export const MESSAGES_MAPPINGS_ERRORS_NONAME: string = translate('messages.mappings.errors.no-name');
 export const MESSAGES_MAPPINGS_ERRORS_NODATATYPE: string = translate('messages.mappings.errors.no-data-type');
 export const MESSAGES_MAPPINGS_ERRORS_NOITERATOR: string = translate('messages.mappings.errors.no-iterator');
 export const MESSAGES_MAPPINGS_ERRORS_SELECTEDDB: string = translate('messages.mappings.errors.selected-db');
 export const MESSAGES_MAPPINGS_ERRORS_TYPE: string = translate('messages.mappings.errors.mapping-type');
 export const MESSAGES_MAPPINGS_ERRORS_EMPTY_REQUEST: string = translate('messages.mappings.errors.empty-request');
+
+// Export-Import
+export const MESSAGES_EXPORT_SUCCESS: string = translate('messages.export-import.export.success');
+export const MESSAGES_IMPORT_SUCCESS: string = translate('messages.export-import.import.success');
+export const MESSAGES_EXPORT_ERROR: string = translate('messages.export-import.export.error');
+export const MESSAGES_IMPORT_ERROR: string = translate('messages.export-import.import.error');
+
 
 // Labels
 export const LABELS_YES: string = translate('labels.yes');
@@ -100,6 +107,7 @@ export const RML_REFERENCE = "rml:reference";
 export const SIDEBAR_LABELS_ONTOLOGIES: string = translate('sidebar.labels.ontologies');
 export const SIDEBAR_LABELS_DATASOURCES: string = translate('sidebar.labels.data-sources');
 export const SIDEBAR_LABELS_MAPPINGS: string = translate('sidebar.labels.mappings');
+export const SIDEBAR_LABELS_EXPORTIMPORT: string = translate('sidebar.labels.export-import');
 export const SIDEBAR_LABELS_BUILDER: string = translate('sidebar.labels.builder');
 export const SIDEBAR_LABELS_EDIT: string = translate('sidebar.labels.edit');
 

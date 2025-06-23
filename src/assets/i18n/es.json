@@ -11,6 +11,18 @@
       "sources": "Fuentes de datos"
     }
   },
+  "export-import": {
+    "export-import": "Exportación e importación de mapeos con fuentes de datos de tipo base de datos",
+    "export": {
+      "confirmation": "¿Seguro que quieres exportar todos los mapeos?",
+      "export": "Exportar"
+    },
+    "import": {
+      "add-file": "Añadir archivo JSON",
+      "import": "Importar",
+      "select-file": "Selecciona un archivo"
+    }
+  },
   "labels": {
     "add-class": "Añadir clase",
     "add-property": "Añadir propiedad",
@@ -19,24 +31,25 @@
     "cancel": "Cancelar",
     "connection-url": "URL de conexión",
     "data-bases": "Bases de datos",
-    "data-source": "Tipo de fuente de datos",
+    "data-source": "Fuentes de datos",
     "data-source-file": "Seleccione el fichero de fuente de datos",
     "data-source-format": "Seleccione el tipo de fuente de datos",
     "date": "Fecha",
     "delete": "Eliminar",
     "delete-query": "Eliminar query",
+    "export": "Exportar",
     "file-name": "Ningún archivo seleccionado",
     "home": "Inicio",
     "import": "Importar de local",
-    "import_mapping": "Importar mapeo",
-    "importRML": "Seleccionar archivo RML",
+    "import-file": "Importar archivo",
     "name": "Nombre",
     "new-triplesmap": "Nueva tripleta",
     "no": "No",
-    "ontology": "Ontología",
+    "ontology": "Ontologías",
     "ontology-file": "Seleccione el archivo de ontología",
     "password": "Contraseña",
     "query": "Query",
+    "subtype": "Subtipo",
     "tables": "Tablas de base de datos",
     "title": "Título",
     "type": "Tipo",
@@ -52,8 +65,6 @@
       "build": "Generar mapeo",
       "confirmation": "¿Seguro que quieres eliminar este mapeo?",
       "edit": "Editar mapeo",
-      "import": "Importar mapeo",
-      "import_mapping": "Importación de mapeo",
       "iterator": "Iterador",
       "list": "Lista de Mapeos",
       "manual": "Generar mapeo manual",
@@ -64,7 +75,7 @@
       "new-materialisation": "Nueva materialización",
       "object": "Objeto",
       "predicate": "Predicado",
-      "select": "Seleccione el <strong>archivo RML</strong>, las <strong>ontologías</strong> y las <strong>fuentes de datos</strong> necesarias para importar un mapeo: ",
+      "save": "Guardar mapeo",
       "subject": "Sujeto",
       "templateUrl": "IRI del sujeto"
     },
@@ -98,6 +109,16 @@
       "required": "El campo es requerido",
       "title": "Error"
     },
+    "export-import": {
+      "export": {
+        "error": "Ha ocurrido un error exportando los datos",
+        "success": "Exportación realizada correctamente"
+      },
+      "import": {
+        "error": "Ha ocurrido un error importando los datos",
+        "success": "Importación realizada correctamente"
+      }
+    },
     "mappings": {
       "class": {
         "exists": "Esta clase ya existe para esta ontología"
@@ -107,7 +128,7 @@
         "mapping-type": "El mapeo ya es de tipo",
         "no-data-type": "El tipo de dato es necesario para el tipo de término literal",
         "no-iterator": "El iterador es necesario para las fuentes de datos de tipo XML o JSON",
-        "no-name-url": "El mapeo debe tener un nombre y una URL base",
+        "no-name": "El mapeo debe tener un nombre",
         "selected-db": "Ya se ha seleccionado una conexión a base de datos"
       },
       "predicate": {
@@ -171,6 +192,7 @@
       "builder": "Generador de mapeo manual",
       "data-sources": "Fuentes de datos",
       "edit": "Editar mapeo",
+      "export-import": "Exportar/ Importar",
       "mappings": "Mapeos",
       "ontologies": "Ontologías"
     }

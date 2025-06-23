@@ -11,6 +11,18 @@
       "sources": "Data sources"
     }
   },
+  "export-import": {
+    "export-import": "Exporting and importing mappings with database type data sources",
+    "export": {
+      "confirmation": "Are you sure you want to export all mappings?",
+      "export": "Export"
+    },
+    "import": {
+      "add-file": "Add JSON file",
+      "import": "Import",
+      "select-file": "Select a file"
+    }
+  },
   "labels": {
     "add-class": "Add class",
     "add-property": "Add property",
@@ -19,24 +31,25 @@
     "cancel": "Cancel",
     "connection-url": "Connection URL",
     "data-bases": "Databases",
-    "data-source": "Data Source Type",
+    "data-source": "Data Sources",
     "data-source-file": "Select the data source file",
     "data-source-format": "Select the data source type",
     "date": "Date",
     "delete": "Delete",
     "delete-query": "Delete query",
+    "export": "Export",
     "file-name": "No file selected",
     "home": "Home",
     "import": "Import from local",
-    "import_mapping": "Import mapping",
-    "importRML": "Select RML file",
+    "import-file": "Import file",
     "name": "Name",
     "new-triplesmap": "New triples map",
     "no": "No",
-    "ontology": "Ontology",
+    "ontology": "Ontologies",
     "ontology-file": "Select ontology file",
     "password": "Password",
     "query": "Query",
+    "subtype": "Subtype",
     "tables": "Database tables",
     "title": "Title",
     "type": "Type",
@@ -52,8 +65,6 @@
       "build": "Build mapping",
       "confirmation": "Are you sure you want to delete this mapping?",
       "edit": "Edit mapping",
-      "import": "Import mapping",
-      "import_mapping": "Import mapping",
       "iterator": "Iterator",
       "list": "Mappings List",
       "manual": "Generate manual mapping",
@@ -64,7 +75,7 @@
       "new-materialisation": "New materialisation",
       "object": "Object",
       "predicate": "Predicate",
-      "select": "Select the <strong>RML file</strong>, the <strong>ontologies</strong> and <strong>data sources</strong> needed to import a mapping: ",
+      "save": "Save mapping",
       "subject": "Subject",
       "templateUrl": "IRI del sujeto"
     },
@@ -98,6 +109,16 @@
       "required": "The field is required",
       "title": "Error"
     },
+    "export-import": {
+      "export": {
+        "error": "An error occurred while exporting data",
+        "success": "Export successfully completed"
+      },
+      "import": {
+        "error": "An error occurred while importing data",
+        "success": "Import successfully completed"
+      }
+    },
     "mappings": {
       "class": {
         "exists": "This class already exists for this ontology"
@@ -107,7 +128,7 @@
         "mapping-type": "Mapping is already of type",
         "no-data-type": "Data type is required for literal term type",
         "no-iterator": "Iterator is required for XML or JSON data source type",
-        "no-name-url": "Mapping must have a name and a base URL",
+        "no-name": "Mapping must have a name",
         "selected-db": "A database connection has been already selected"
       },
       "predicate": {
@@ -171,6 +192,7 @@
       "builder": "Manual mapping builder",
       "data-sources": "Data sources",
       "edit": "Edit mapping",
+      "export-import": "Export/Import",
       "mappings": "Mappings",
       "ontologies": "Ontologies"
     }

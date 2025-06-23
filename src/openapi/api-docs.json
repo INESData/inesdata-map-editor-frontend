@@ -3,7 +3,7 @@
   "info": {
     "description": "Service responsible for saving a data source mapping and generating the corresponding R2RML / RML mapping file",
     "title": "com.inesdata-map:mapper-backend",
-    "version": "1.3.0-SNAPSHOT"
+    "version": "1.4.0-SNAPSHOT"
   },
   "servers": [
     {
@@ -14,6 +14,10 @@
     {
       "description": "Manage data sources",
       "name": "DataSource"
+    },
+    {
+      "description": "Manage data import",
+      "name": "Import"
     },
     {
       "description": "Manage ontologies",
@@ -38,6 +42,10 @@
     {
       "description": "Manage executions",
       "name": "Execution"
+    },
+    {
+      "description": "Manage data export",
+      "name": "Export"
     },
     {
       "description": "Manage file sources",
@@ -801,6 +809,28 @@
         ]
       }
     },
+    "/export": {
+      "get": {
+        "operationId": "exportMapping",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "summary": "Export mappings data and download it into JSON file",
+        "tags": [
+          "Export"
+        ]
+      }
+    },
     "/file-sources": {
       "get": {
         "operationId": "getFileSourceByType",
@@ -1028,6 +1058,45 @@
         "summary": "Gets all CSV file fields",
         "tags": [
           "FileSource"
+        ]
+      }
+    },
+    "/import": {
+      "post": {
+        "operationId": "importMapping",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportImportDTO"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "summary": "Import mappings data and save it",
+        "tags": [
+          "Import"
         ]
       }
     },
@@ -1831,6 +1900,56 @@
           }
         }
       },
+      "ExportImportDTO": {
+        "required": [
+          "customClass",
+          "customProperty",
+          "dataSource",
+          "mapping",
+          "ontology"
+        ],
+        "type": "object",
+        "properties": {
+          "customClass": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomClassDTO"
+            }
+          },
+          "customProperty": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomPropertyDTO"
+            }
+          },
+          "dataSource": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DataBaseSourceDTO"
+            }
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "mapping": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MappingDTO"
+            }
+          },
+          "ontology": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OntologyDTO"
+            }
+          },
+          "version": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
       "FileSourceDTO": {
         "required": [
           "fileType",
@@ -1944,7 +2063,6 @@
       },
       "MappingDTO": {
         "required": [
-          "baseUrl",
           "fields",
           "name",
           "ontologyIds"
@@ -1953,7 +2071,7 @@
         "properties": {
           "baseUrl": {
             "maxLength": 255,
-            "minLength": 1,
+            "minLength": 0,
             "type": "string"
           },
           "fields": {
